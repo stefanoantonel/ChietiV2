@@ -9,12 +9,6 @@ def index(request):
 	#if p is not None:
 	#    return HttpResponse(p)
 	#else:
-	#    return HttpResponse("No hay p ")
-	
-	#from django.template import Context, Template
-	#t = Template("Mi nombre es {{ nombre }}.")
-	#c = Context({"nombre": p})
-	#return HttpResponse(t.render(c))
 
 	from django.template import Context, Template
 	t = Template("Mi nombre es {{ nombre }}.")
