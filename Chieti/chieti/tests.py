@@ -15,8 +15,8 @@ def index(request):
 	#html = open("/1.html")
 	#return HttpResponse(html)
 	
-	#fp = open('D:\Programas Facultad\Diego G\workspace\github\ChiettiRepo\Chieti\proj2\templates\proj2\1.html')
-	fp = open('./proj2/templates/proj2/1.html')
+	#fp = open('D:\Programas Facultad\Diego G\workspace\github\ChiettiRepo\Chieti\chieti\templates\chieti\1.html')
+	fp = open('./chieti/templates/chieti/1.html')
 	t = Template(fp.read())
 	fp.close()
 	html = t.render(Context())
