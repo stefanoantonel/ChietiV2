@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import Context, Template
 
 # Create your views here.
-def head(request):
+def index(request):
     fp = open('./chieti/templates/chieti/mainHead.html')
     t = Template(fp.read())
     fp.close()
