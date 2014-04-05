@@ -3,5 +3,69 @@ li a {
 }
 
 .imageLogo {
-    background: white url("../images/fruit.png") no-repeat right top;
+   no-repeat right top;
+   width:10em;
+   display: block;
+   margin-left: auto;
+   margin-right: auto; 
+}
+
+.title{
+	text-align: center;
+}
+
+
+.btnInicio{
+	background-image: url('../images/madera-blanca.jpg');
+	background-attachment: 
+}
+
+.quienes{
+	position: relative;
+	margin-top:10%;	
+	margin-left:10%;
+}
+.promos{
+	position: relative;
+	margin-top:14%;	
+	left:15%;
+}
+.verduras{
+	position: relative;
+	top:15%;	
+	left:-10%;
+}
+.frutas{
+	position: relative;
+	margin-left:-10%;
+	margin-top:30%;	
+}
+.bebidas{
+	position: relative;
+	margin-top:5%;	
+	left:10%;
+}
+.otros{
+	position: relative;
+	margin-top:23%;	
+	margin-left:10%;
+}
+
+.borderInicio{
+	margin-left:40%;
+	margin-right:40%;
+	border-style: double;
+}
+
+
+.divImgCambia 
+{
+height:104px;
+width:140px;
+}
+
+.imgCambia{
+	background-image:url('../images/madera-blanca.jpg');
+	max-width:100%; 
+	max-height:100%;
 }

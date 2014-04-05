@@ -2,13 +2,48 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	{% load staticfiles %}
+
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+	<script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}" ></script>
+	<script type="text/javascript" src="{% static 'chieti/js/bootstrap.min.js' %}" ></script>
+	<link rel="stylesheet" href="{% static 'chieti/css/bootstrap.min.css' %}" ></link>
+	
+	
+	
+	<script type="text/javascript">
+	var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
+	var i = 0;
+	function changeBackground() {
+		console.log( "i: "+i ); 
+		a=i+1;
+		$('#imgCambia').attr('src', images[i]).fadeOut('slow');
+		i++
+		if(i>images.length)
+			{i=0;}
+		$('#imgCambia').attr('src', images[i]).fadeIn('slow');	
+		
+	  };
+	        
+	 
+	  $( document ).ready(function() {
+	    $('#imgCambia').mouseover(function(){
+	    	changeBackground(); 
+	    });
+	  });
+	</script>	
+		
 <title>Chieti</title>
 </head>
 <body>
-<div name="titulo">
-	<h1>Chieti</h1>
-	<IMG src="../images/fruit.png"> 
+<div name="titulo" align="center">
+	<h3 class="title">Chieti</h3>
+	<img src="{% static 'chieti/images/fruit.png' %}"  onmouseover="this.src='{% static 'chieti/images/manzana.jpg' %}'"
+		onmouseout="this.src='{% static 'chieti/images/fruit.png' %}'"  class="imageLogo"/>
+	<div class="borderInicio">Not just a grocery store</div>			 
 </div>
+
+    <img id="imgCambia" src="{% static 'chieti/images/fruit.png' %}" alt="Image Full" />
 
 
 </body>
