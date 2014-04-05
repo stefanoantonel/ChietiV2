@@ -10,8 +10,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     #url(r'^admin/', include(admin.site.urls)),
-    url('d/','chieti.tests.index',name='pro'),
+    #url('d/','chieti.tests.index',name='pro'),
     #url(r'$','chieti.tests.index'),
-    url('index/',include(chieti.urls)),
+    url('chieti/',include('chieti.urls')),
     
 )
