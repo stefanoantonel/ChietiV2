@@ -23,4 +23,4 @@ def index(request):
 	html = t.render(Context())
 	return HttpResponse(html)
 	
-	
+

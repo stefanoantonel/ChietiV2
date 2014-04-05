@@ -12,6 +12,6 @@ urlpatterns = patterns('',
     #url(r'^admin/', include(admin.site.urls)),
     url('d/','proj2.tests.index',name='pro'),
     #url(r'$','proj2.tests.index'),
-    
+    url('index/','proj2.home.index',name='main'),
     
 )
