@@ -11,8 +11,7 @@ def index(request):
 	#else:
 
 	from django.template import Context, Template
-	t = Template("Mi nombre es {{ nombre }}.")
-	c = Context({"nombre": p})
+
 	#html = open("/1.html")
 	#return HttpResponse(html)
 	
