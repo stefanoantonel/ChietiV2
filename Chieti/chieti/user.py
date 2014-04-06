@@ -1,11 +1,5 @@
-'''
-Created on Apr 5, 2014
-
-@author: - Tefo -
-'''
 
 class user:
-
     id=None
     name=None
     lastName=None
