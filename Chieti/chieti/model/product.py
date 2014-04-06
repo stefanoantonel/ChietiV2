@@ -1,13 +1,3 @@
-'''
-Created on Apr 5, 2014
-
-@author: - Tefo -
-'''
-'''
-Created on Apr 5, 2014
-
-@author: - Tefo -
-'''
 
 class product():
     id=None
@@ -17,9 +7,13 @@ class product():
     
     
     def getPrice(self):
-        pass
-    def __init__(self,saleP,nam):
+        return self.salePrice
+        
+    def __init__(self,saleP,nam,meas):
+        self.measureUnit=meas
         self.salePrice=saleP
         self.name=nam
         
+if __name__ == '__main__':
+    pass
         
