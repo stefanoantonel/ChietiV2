@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'ChietiDj.views.home', name='home'),
-    url(r'home/', 'chieti.views.index', name='home'),
+    url(r'home/', 'chieti.views.home', name='home'),
     url(r'head/', 'chieti.mainHead.index', name='head'),
     url(r'addProduct/', 'chieti.views.addProd', name='addProd'),
     url(r'hom/ad/', 'chieti.views.addProd2', name='addProd2'),

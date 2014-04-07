@@ -47,8 +47,8 @@ if __name__ == '__main__':
 # u=product.objects.get(id=22)
 # print u.name
 #===========================================================================
-	pr=product.objects.filter(name='pera')
-	for i in pr:
-		print i.salePrice
-		print i.getp()
+	
+	todo=product.objects.all()
+	for i in todo:
+		print i.name, i.salePrice, i.measureUnit
 	pass
