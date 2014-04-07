@@ -1,13 +1,14 @@
 from django.db import models
 
-from chieti.user import user
+#from chieti.user import user
+#from chieti.user import user
 # Create your models here.
 class product(models.Model):
     measureUnit = models.CharField(max_length=22)
-    pub_date = models.DateTimeField('date published')
+    #pub_date = models.DateTimeField('date published')
     salePrice=models.DecimalField(max_digits=7, decimal_places=2)
     name=models.CharField(max_length=50)
-    u=models.user
+ 
 
 #===============================================================================
 #     class Poll(models.Model):
