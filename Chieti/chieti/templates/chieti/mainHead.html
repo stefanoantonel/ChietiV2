@@ -12,15 +12,17 @@
 	
 	
 	<script type="text/javascript">
-	var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
+	var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/madera-blanca.jpg' %}"];
 	var i = 0;
 	function changeBackground() {
+		
 		console.log( "i: "+i ); 
 		a=i+1;
-		$('#imgCambia').attr('src', images[i]).fadeOut('slow');
-		i++
+		$('#imgCambia').attr('src', images[i]).fadeOut('slow').delay(1000);
+		i++;
 		if(i>images.length)
-			{i=0;}
+			{i=0;
+			console.log( "inicia lista en 0" );}
 		$('#imgCambia').attr('src', images[i]).fadeIn('slow');	
 		
 	  };
@@ -28,6 +30,7 @@
 	 
 	  $( document ).ready(function() {
 	    $('#imgCambia').mouseover(function(){
+	    	console.log( "llamo a la funcion" ); 
 	    	changeBackground(); 
 	    });
 	  });
