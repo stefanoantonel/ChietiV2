@@ -3,43 +3,16 @@
 <html>
 <head>
 	<title>AJAX</title>
-	
-	{% load staticfiles %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}"/>
+<script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}"/>
 
-	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
-	
-	<script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}" ></script>
-
-
+<script type="text/javascript" > <!-- me pone un error pero si saco esto se queda trabado-->
+</script>
 
 
-	<script type="text/javascript">
-		$( document ).ready(function() {
-    		console.log( "ready!" ); 
-    		$.ajax({
-			    url: 'd/',
-			    type: 'get', 
-			    data: {p:13},
-			    success: function(data) {
-			        console.log("todo ok! AJAX")
-			    }
-			});
-			$(".pe").click(function(){
-				$("body").append("<button class='pe' >pp</button>")
-			});
-		});
-		 
-		
-	</script>
-	
-	<script type="text/javascript">
-		$(document).ready(function(){
-			
-		});
-	</script>
 </head>
 <body>
-	<button class="pe"> op </button>
-	Hola!!
+	
 </body>
 </html>
