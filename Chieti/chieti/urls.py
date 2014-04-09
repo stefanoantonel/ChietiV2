@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     #url('d/','chieti.tests.index',name='pro'),
     #url(r'$','chieti.tests.index'),
     #url('index/',include('chieti.urls')),
+    url(r'product/','chieti.views.showProduct'),
     
 )
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
-from django.template import RequestContext, loader
+from django.template import RequestContext, loader,Template,Context
 from chieti.models import *
 # Create your tests here.
 
@@ -48,9 +48,9 @@ if __name__ == '__main__':
 # print u.name
 #===========================================================================
 	
-	todo=item.objects.all()
-	#for i in todo:
-		#print i.name, i.salePrice, i.measureUnit
+	todo=product.objects.all()
+	for i in todo:
+		print i.name, i.salePrice, i.measureUnit
 	
 	om=orderManager()
 	#om.save()
@@ -72,3 +72,7 @@ if __name__ == '__main__':
 	for i in w:
 		print i.quantity,i.productFK.salePrice, i.productFK.name,i.productFK.measureUnit,i.orderFK.orderManagerFK.id,i.orderFK.userFK.type
 	pass
+
+	t = Template("My name is {{ my_name }}.")
+	c = Context({"my_name": "Adrian"})
+	t.render(c)
