@@ -1,0 +1,1 @@
+from chieti.models.product import product

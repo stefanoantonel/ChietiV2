@@ -27,15 +27,12 @@ def addProd(request):
     return HttpResponse(html)
 
 
-from django.views.decorators.csrf import csrf_protect
 
+from chieti.models import product
 def addProd2(request):
     nam=request.POST.get('name')
     pri=request.POST.get('sellPrice','')
-    from chieti.models import product
     pr=product(measureUnit ='kg',salePrice=pri,name=nam)
-    
-    
     pr.save()
     return HttpResponse(nam)
 

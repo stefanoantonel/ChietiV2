@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
-from chieti.models import product
+from chieti.models import *
 # Create your tests here.
 
 def index(request):
@@ -48,7 +48,27 @@ if __name__ == '__main__':
 # print u.name
 #===========================================================================
 	
-	todo=product.objects.all()
-	for i in todo:
-		print i.name, i.salePrice, i.measureUnit
+	todo=item.objects.all()
+	#for i in todo:
+		#print i.name, i.salePrice, i.measureUnit
+	
+	om=orderManager()
+	#om.save()
+	
+	us=user(name='federico',lastName='sar',adress='poeta 122',phone='1223344',email='f@g.com',password=123)
+	#us.save()
+	
+	orde=order(userFK=us,orderManagerFK=om)
+	#orde.save()
+	
+	sin=singleProduct(measureUnit='Kg',salePrice=22,name='Zapallito',buyPrice=19)
+	#sin.save()
+	
+	it=item(productFK=sin,quantity=2,orderFK=orde)
+	#it.save()
+	
+	w=item.objects.filter(productFK=singleProduct.objects.all())
+	
+	for i in w:
+		print i.quantity,i.productFK.salePrice, i.productFK.name,i.productFK.measureUnit,i.orderFK.orderManagerFK.id,i.orderFK.userFK.type
 	pass
