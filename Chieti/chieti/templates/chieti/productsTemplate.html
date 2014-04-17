@@ -12,36 +12,23 @@
 {% endfor %}
  -->
 <link href="{% include 'chieti/1.html' %}">
-
+    
 <script type="text/javascript">
 	$(document).ready(function() {
-	  	console.log( "ready prod!" ) 
-	
-	/* $.ajax({
-    url: 'd/',
-    type: 'get', 
-    data: {p:13},
-    success: function(data) {
-        console.log("todo ok! AJAX")
-    }
-	});
-	$(".pe").click(function(){
-		$("body").append("<button class='pe' >pp</button>")
-	}); */
-		var ant=$('#precio').text()
-		$('#quantity').change(function(){
-			console.log('cambio')
-			
-			var cant=$('#quantity').val()
+	  	console.log( "ready prod!" ) 		
+		$('input[name=quantity]').change(function(){
+            var ant=$(this).siblings("label[name=price]").attr("title")
+			var cant=$(this).val()            
 			var dsp=ant*cant
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
-			$('#price').text(dsp)
+			$(this).siblings('label[name=price]').html(dsp)
+            
 		})
         $('.add').click(function(){
-            var button=$(this).clone()
-            ids=button.prev("#ids").text()
-            quant=button.prev("#quant").text()
-            console.log("ids:",button.prev().attr("id"))
+            //ids=$(this).siblings(".ids").text()
+            var ids= $(this).siblings("label[name=ids]").html()
+            var quant= $(this).siblings('input[name=quantity]').val()
+            console.log("ids:",ids,quant)
             $.ajax({
                 url: '/chieti/addToOrder/',
                 type: 'post', 
@@ -53,27 +40,35 @@
                     console.log("todo ok! AJAX")
                     console.log(data)
                 }
-            });
+            });    
         })
+        
+        
+
 	});
 
 </script>
+
 	
 
 </head>
 <body>
 <div>
 {% for prod in todos %}
-	<img alt="" src="">
-    <label id='ids' hidden="hidden">{{ prod.id }}</label><br/>
-    <label id='name' class="product">{{ prod.name }}</label><br/>
-    <label for='quantity'>Cant:</label>
-    <input id='quantity' type="text" value="" >
-    <br/>
-    <label >Precio: <label id='price'>{{prod.salePrice}}</label></label>
-    <button class="add">Agregar</button>
-    <br/><br/>
-    
+    <div>
+        <img alt="" src="">
+        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
+        <br/>
+        <label name='name' class="product" >{{ prod.name }}</label>
+        <br/>
+        <label for='quantity'>Cant:</label>
+        <input name='quantity' type="text" value="" >
+        <br/>
+        <label>Precio:</label>
+        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label>
+        <button class="add">Agregar</button>
+        <br/><br/>
+    </div>
 {% endfor %}
     
 </div>

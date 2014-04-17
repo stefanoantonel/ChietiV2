@@ -1,22 +1,22 @@
 from django.test import TestCase
 from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
-from django.template import RequestContext, loader,Template,Context
-from chieti.models import *
+from django.template import RequestContext, loader, Template, Context
+from chieti.models import item,product,order,singleProduct,user,orderManager,promo
 # Create your tests here.
 
 def index(request):
 	p = request.GET.get('p')
-	#if p is not None:
+	# if p is not None:
 	#    return HttpResponse(p)
-	#else:
+	# else:
 	
 	from django.template import Context, Template
 	
-	#html = open("/1.html")
-	#return HttpResponse(html)
+	# html = open("/1.html")
+	# return HttpResponse(html)
 	
-	#fp = open('D:\Programas Facultad\Diego G\workspace\github\ChiettiRepo\Chieti\chieti\templates\chieti\1.html')
+	# fp = open('D:\Programas Facultad\Diego G\workspace\github\ChiettiRepo\Chieti\chieti\templates\chieti\1.html')
 	fp = open('./chieti/templates/chieti/1.html')
 	t = Template(fp.read())
 	fp.close()
@@ -48,31 +48,36 @@ if __name__ == '__main__':
 # print u.name
 #===========================================================================
 	
-	todo=product.objects.all()
+	todo = product.objects.all()
 	for i in todo:
 		print i.name, i.salePrice, i.measureUnit
 	
-	om=orderManager()
-	#om.save()
+	om = orderManager()
+	# om.save()
 	
-	us=user(name='federico',lastName='sar',adress='poeta 122',phone='1223344',email='f@g.com',password=123)
-	#us.save()
+	us = user(name='federico', lastName='sar', adress='poeta 122', phone='1223344', email='f@g.com', password=123)
+	# us.save()
 	
-	orde=order(userFK=us,orderManagerFK=om)
-	#orde.save()
+	orde = order(userFK=us, orderManagerFK=om)
+	# orde.save()
 	
-	sin=singleProduct(measureUnit='Kg',salePrice=22,name='Zapallito',buyPrice=19)
-	#sin.save()
+	sin = singleProduct(measureUnit='Kg', salePrice=22, name='Zapallito', buyPrice=19)
+	# sin.save()
 	
-	it=item(productFK=sin,quantity=2,orderFK=orde)
-	#it.save()
+	it = item(productFK=sin, quantity=2, orderFK=orde)
+	# it.save()
 	
-	w=item.objects.filter(productFK=singleProduct.objects.all())
+	w = item.objects.filter(productFK=singleProduct.objects.all())
 	
 	for i in w:
-		print i.quantity,i.productFK.salePrice, i.productFK.name,i.productFK.measureUnit,i.orderFK.orderManagerFK.id,i.orderFK.userFK.type
+		print i.quantity, i.productFK.salePrice, i.productFK.name, i.productFK.measureUnit, i.orderFK.orderManagerFK.id, i.orderFK.userFK.type
 	pass
-
+	
+	i=item(productFK=product.objects.get(id=1), 
+		quantity=4,
+		orderFK=order.objects.get(id=1))
+	i.save()
+		
 	t = Template("My name is {{ my_name }}.")
 	c = Context({"my_name": "Adrian"})
 	t.render(c)

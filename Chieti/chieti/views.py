@@ -9,24 +9,26 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from django.template import Context, Template
 
-from chieti.models import product,orderManager,order,user
+from chieti.models import product,orderManager,order,user,item
 # Create your tests here.
 def home(request):
-    fp = open('./chieti/templates/chieti/homePage.html')
-    t = Template(fp.read())
-    fp.close()
-    c=Context()
-    html = t.render(c)
-    #om=orderManager()
-    #om.save()
-    #u=user(name="Stefano",lastName="An",adress="Roma 133",phone="3133312212",email="122@hotmail.com",password="12")
-    #u.save()
-    om=orderManager.objects.get(id=1)
-    u=user.objects.get(id=2)
-    #o=order(userFK=u,orderManagerFK=om)
-    #o.save()
-    #oro=model
-    return HttpResponse(html)
+	fp = open('./chieti/templates/chieti/homePage.html')
+	t = Template(fp.read())
+	fp.close()
+	c=Context()
+	html = t.render(c)
+	#om=orderManager()
+	#om.save()
+	#u=user(name="Stefano",lastName="An",adress="Roma 133",phone="3133312212",email="122@hotmail.com",password="12")
+	#u.save()
+	om=orderManager.objects.get(id=1)
+	u=user.objects.get(id=2)
+	#o=order(userFK=u,orderManagerFK=om)
+	request.session["orderManager"] = om.id
+	request.session["user"] = u.id
+	#o.save()
+	#oro=model
+	return HttpResponse(html)
 
 ##todo es de prueba... 
 def addProd(request):
@@ -68,30 +70,31 @@ def changePrice(request):
 	return HttpResponse(html)
 
 def changePrice2(request):
-    #ids=request['ids']
-    ids=request.POST.getlist("ids")
-    new=request.POST.getlist("newPrice")
-    #pri=request.POST.get('product11')
-    #pr=product(measureUnit ='kg',salePrice=pri,name=nam)
-    #pr.save()
-    i=0
-    for each in ids:
-        product.objects.filter(id=each).update(salePrice=new[i])
-        i=i+1
-    c=(ids,new)
-    return HttpResponse(c)
+	#ids=request['ids']
+	ids=request.POST.getlist("ids")
+	new=request.POST.getlist("newPrice")
+	#pri=request.POST.get('product11')
+	#pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+	#pr.save()
+	i=0
+	for each in ids:
+		product.objects.filter(id=each).update(salePrice=new[i])
+		i=i+1
+	c=(ids,new)
+	return HttpResponse(c)
 
 def addToOrder(request):
-    ids=request.POST.get('ids')
-    quant=request.POST.get('quantity')
-    
-    #p=product.object.get(id=ids) 
-    #q=quant
-    #o=order.objects.filter(id=1)
-    
-    
-    #i=item(productFK=product.object.get(id=ids), 
-    #       quantity=quant,
-    #       orderFK=order.objects.filter(id=1))
-    c=(ids,quant)
-    return HttpResponse(c)
+	ids=request.POST.get('ids')
+	quant=request.POST.get('quantity')
+	
+	#p=product.object.get(id=ids) 
+	#q=quant
+	#o=order.objects.filter(id=1)
+	
+	
+	i=item(productFK=product.objects.get(id=ids), 
+		quantity=quant,
+		orderFK=order.objects.get(id=request.session["orderManager"]) )
+	i.save()
+	c=(ids,quant)
+	return HttpResponse(c)
