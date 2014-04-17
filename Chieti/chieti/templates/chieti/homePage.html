@@ -7,6 +7,19 @@
 <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
 
 	<title></title>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	  $.ajaxSetup({ cache: true });
+	  $.getScript('//connect.facebook.net/es_ES/all.js', function(){
+	    FB.init({
+	      appId: '1423912961192227',
+	    });     
+	    $('#loginbutton,#feedbutton').removeAttr('disabled');
+	    FB.getLoginStatus(updateStatusCallback);
+	  });
+	});
+	</script>
+	
 </head>
 <body>
 	

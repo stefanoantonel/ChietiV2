@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     #url('d/','chieti.tests.index',name='pro'),
     #url(r'$','chieti.tests.index'),
     url('chieti/',include('chieti.urls')),
+    url(r'^accounts/', include('allauth.urls')),
     
 )

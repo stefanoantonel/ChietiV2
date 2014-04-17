@@ -3,51 +3,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	{% load staticfiles %}
-
 	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
-	<script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}" ></script>
+	<!-- script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}" ></script>
 	<script type="text/javascript" src="{% static 'chieti/js/bootstrap.min.js' %}" ></script>
-	<link rel="stylesheet" href="{% static 'chieti/css/bootstrap.min.css' %}" ></link>
+	<link rel="stylesheet" href="{% static 'chieti/css/bootstrap.min.css' %}" ></link> -->
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	
-	
-	
-	<script type="text/javascript">
-	var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/madera-blanca.jpg' %}"];
-	var i = 0;
-	function changeBackground() {
-		
-		console.log( "i: "+i ); 
-		a=i+1;
-		$('#imgCambia').attr('src', images[i]).fadeOut('slow').delay(1000);
-		i++;
-		if(i>images.length)
-			{i=0;
-			console.log( "inicia lista en 0" );}
-		$('#imgCambia').attr('src', images[i]).fadeIn('slow');	
-		
-	  };
-	        
-	 
-	  $( document ).ready(function() {
-	    $('#imgCambia').mouseover(function(){
-	    	console.log( "llamo a la funcion" ); 
-	    	changeBackground(); 
-	    });
-	  });
-	</script>	
+	<script type="text/javascript"></script>
+
 		
 <title>Chieti</title>
 </head>
 <body>
 <div name="titulo" align="center">
 	<h3 class="title">Chieti</h3>
-	<img src="{% static 'chieti/images/fruit.png' %}"  onmouseover="this.src='{% static 'chieti/images/manzana.jpg' %}'"
-		onmouseout="this.src='{% static 'chieti/images/fruit.png' %}'"  class="imageLogo"/>
+		<img id="swap" src="{% static 'chieti/images/fruit.png' %}"  alt=""/>
 	<div class="borderInicio">Not just a grocery store</div>			 
 </div>
 
-    <img id="imgCambia" src="{% static 'chieti/images/fruit.png' %}" alt="Image Full" />
 
+<script>
+var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
+i = 0,
+// $swap = $("#swap");
+swapper=0;
+	console.log("mouse in");
+function swapImg(){
+  i = i % images.length;
+  $("#swap").attr("src",images[i]);        
+  i++;
+}
 
+$("#swap").hover(function(){
+	console.log("in!");
+	swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
+	},function(){
+	    clearInterval(swapper);
+		});
+ 
+</script>
 </body>
 </html>

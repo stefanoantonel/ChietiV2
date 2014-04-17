@@ -12,5 +12,6 @@ def index(request):
     fp.close()
     html = t.render(Context())
     return HttpResponse(html)
+
     
     
