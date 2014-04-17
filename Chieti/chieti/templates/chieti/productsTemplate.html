@@ -29,14 +29,32 @@
 		$("body").append("<button class='pe' >pp</button>")
 	}); */
 		var ant=$('#precio').text()
-		$('#cantidad').change(function(){
+		$('#quantity').change(function(){
 			console.log('cambio')
 			
-			var cant=$('#cantidad').val()
+			var cant=$('#quantity').val()
 			var dsp=ant*cant
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
-			$('#precio').text(dsp)
+			$('#price').text(dsp)
 		})
+        $('.add').click(function(){
+            var button=$(this).clone()
+            ids=button.prev("#ids").text()
+            quant=button.prev("#quant").text()
+            console.log("ids:",button.prev().attr("id"))
+            $.ajax({
+                url: '/chieti/addToOrder/',
+                type: 'post', 
+                data: {
+                    'ids':ids,
+                    'quantity':quant,
+                },
+                success: function(data) {
+                    console.log("todo ok! AJAX")
+                    console.log(data)
+                }
+            });
+        })
 	});
 
 </script>
@@ -47,13 +65,17 @@
 <div>
 {% for prod in todos %}
 	<img alt="" src="">
-    <li id='name' class="product">{{ prod.name }}</li>
-    <label for='cantidad'>Cantidad</label>
-    <input id='cantidad' type="text" value="">
-    <div></div>
-    <label >Precio: <label id='precio'>{{prod.salePrice}}</label></label>
-    <button>Agregar</button>
+    <label id='ids' hidden="hidden">{{ prod.id }}</label><br/>
+    <label id='name' class="product">{{ prod.name }}</label><br/>
+    <label for='quantity'>Cant:</label>
+    <input id='quantity' type="text" value="" >
+    <br/>
+    <label >Precio: <label id='price'>{{prod.salePrice}}</label></label>
+    <button class="add">Agregar</button>
+    <br/><br/>
+    
 {% endfor %}
+    
 </div>
 
 </body>

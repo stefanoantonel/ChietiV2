@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<!-- 
+{% for o in some_list %}
+    <tr class="{% cycle 'row1' rowvalue2 'row3' %}">
+        ...
+    </tr>
+{% endfor %}
+ -->
+<link href="{% include 'chieti/1.html' %}">
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	  	console.log( "ready prod!" ) 
+	
+	/* $.ajax({
+    url: 'd/',
+    type: 'get', 
+    data: {p:13},
+    success: function(data) {
+        console.log("todo ok! AJAX")
+    }
+	});
+	$(".pe").click(function(){
+		$("body").append("<button class='pe' >pp</button>")
+	}); */
+		var ant=$('#precio').text()
+		$('#cantidad').change(function(){
+			console.log('cambio')
+			
+			var cant=$('#cantidad').val()
+			var dsp=ant*cant
+			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
+			$('#precio').text(dsp)
+		})
+	});
+
+</script>
+	
+
+</head>
+<body>
+<div>
+{% for prod in todos %}
+	<img alt="" src="">
+    <li id='name' class="product">{{ prod.name }}</li>
+    <label for='cantidad'>Cantidad</label>
+    <input id='cantidad' type="text" value="">
+    <div></div>
+    <label >Precio: <label id='precio'>{{prod.salePrice}}</label></label>
+    <button>Agregar</button>
+{% endfor %}
+</div>
+
+</body>
+</html>
