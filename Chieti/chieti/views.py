@@ -17,19 +17,24 @@ def home(request):
 	fp.close()
 	c=Context()
 	html = t.render(c)
+	
 	#om=orderManager()
 	#om.save()
-	#u=user(name="Stefano",lastName="An",adress="Roma 133",phone="3133312212",email="122@hotmail.com",password="12")
-	#u.save()
-	om=orderManager.objects.get(id=1)
-	u=user.objects.get(id=3)
-	#o=order(userFK=u,orderManagerFK=om)
-	#o.save()
 	
-	request.session["orderManager"] = om.id
+	#u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
+	#u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
+	#u.save()
+	
+	om=orderManager.objects.get(id=1)
+	#u=user.objects.get(name="Stefano")
+	u=user.objects.get(name="Florencia")
+	o=order(userFK=u,orderManagerFK=om)
+	o.save()
+	
+	#request.session["orderManager"] = om.id
 	request.session["user"] = u.id
 	
-	o=order.objects.get(orderManagerFK=request.session["orderManager"])
+	o=order.objects.get(userFK=request.session["user"],orderManagerFK=request.session["orderManager"])
 	request.session["order"]=o.id
 	
 	#oro=model
@@ -100,7 +105,7 @@ def addToOrder(request):
 	
 	i=item(productFK=product.objects.get(id=ids), 
 		quantity=quant,
-		orderFK=order.objects.get(id=request.session["orderManager"]) )
+		orderFK=order.objects.get(id=request.session["order"]) )
 	i.save()
 	c=(ids,quant)
 	return HttpResponse(c)
@@ -113,7 +118,7 @@ def changeOrder(request):
 	c=Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
-
+	#return HttpResponse(request.session["order"])
 def changeOrder2(request):
 	#ids=request['ids']
 	itemId=request.POST.getlist("itemId")
@@ -134,4 +139,20 @@ def removeItem(request):
 	ord=request.session["order"]
 	item.objects.filter(id=itemId,orderFK=ord).delete()
 	return HttpResponse(ord)
+
+def summaryBuy(request):
+	summary=orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	#Te da JSON array
+	#a={"product":prod,"quantity":quant, "measureUnit":mu}
+	html=''
+	for i in summary:
+		html=html+"<div>"
+		html=html+str(i['product'])
+		html=html+str("---")
+		html=html+str(i['quantity'])
+		html=html+str("---")
+		html=html+str(i['measureUnit'])
+		html=html+"</div>"
+	return HttpResponse(html)
+	
 	

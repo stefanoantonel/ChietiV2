@@ -15,25 +15,6 @@ class product(models.Model):
 		pass
 
 
-
-
-
-		
-class orderManager(models.Model):
-	#orders=None #lista de ordenes
-	def getSummaryBuy(self):
-		pass #matrix
-	
-	def cancelProduct(self):
-		pass
-	
-	def __printSummary(self,matrix):# elemento y cantidad 
-		pass
-	
-	def __printOrders(self):
-		pass
-
-
 class user (models.Model):
 	name=models.CharField(max_length=50)
 	lastName=models.CharField(max_length=50)
@@ -54,6 +35,35 @@ class user (models.Model):
 	# 	self.password=passw
 	#===========================================================================
 
+
+
+		
+
+
+		
+class orderManager(models.Model):
+	#orders=None #lista de ordenes
+	def getSummaryBuy(self):
+		it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
+		vector=[]
+		for i in it:
+			prod=product.objects.get(id=i["productFK"]).name
+			quant=i["quantity"]
+			mu=product.objects.get(id=i["productFK"]).measureUnit
+			a={"product":prod,"quantity":quant, "measureUnit":mu}
+			vector.append(a)
+		
+		return vector
+		pass #JSON array
+	
+	def cancelProduct(self):
+		pass
+	
+	def __printSummary(self,matrix):# elemento y cantidad 
+		pass
+	
+	def __printOrders(self):
+		pass
 
 class order(models.Model):
 	userFK=models.ForeignKey(user)
@@ -78,7 +88,18 @@ class order(models.Model):
 	def __print(self):
 		pass
 	
+class item(models.Model):
+	productFK=models.ForeignKey(product)
+	#promoFK=models.ForeignKey(promo)
 	
+	quantity=models.IntegerField()
+	orderFK=models.ForeignKey(order)
+	def getSubtotal(self):
+		return self.product.getPrice()*self.quantity
+		pass
+	
+
+
 
 class promo(product):
 	#items=None #list
@@ -98,16 +119,6 @@ class singleProduct(product):
 		self.buyPrice=price	 
 	
 
-class item(models.Model):
-	productFK=models.ForeignKey(product)
-	#promoFK=models.ForeignKey(promo)
-	
-	quantity=models.IntegerField()
-	orderFK=models.ForeignKey(order)
-	def getSubtotal(self):
-		return self.product.getPrice()*self.quantity
-		pass
-	
-	
+
 	
 

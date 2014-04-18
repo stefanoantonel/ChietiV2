@@ -3,6 +3,7 @@ from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader, Template, Context
 from chieti.models import item,product,order,singleProduct,user,orderManager,promo
+from django.db import models
 # Create your tests here.
 
 def index(request):
@@ -74,8 +75,5 @@ if __name__ == '__main__':
 	pass
 		
 	
-	
-	a=item.objects.filter(id=2,orderFK=1).delete()
-	
-	
+
 	
