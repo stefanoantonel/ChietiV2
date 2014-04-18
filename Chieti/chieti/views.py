@@ -49,7 +49,8 @@ def addProd(request):
 def addProd2(request):
 	nam=request.POST.get('name')
 	pri=request.POST.get('sellPrice','')
-	pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+	meas=request.POST.get('mu','')
+	pr=product(measureUnit = meas,salePrice=pri,name=nam)
 	pr.save()
 	return HttpResponse(nam)
 
