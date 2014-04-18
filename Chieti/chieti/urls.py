@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'addToOrder/','chieti.views.addToOrder'),
     url(r'changeOrder/','chieti.views.changeOrder'),
     url(r'changeOrder2/','chieti.views.changeOrder2'),
+    url(r'removeItem/','chieti.views.removeItem'),
 
     
 )

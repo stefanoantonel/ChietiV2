@@ -74,6 +74,8 @@ if __name__ == '__main__':
 	pass
 		
 	
-	todo=item.objects.filter(orderFK=request.session["order"])
+	
+	a=item.objects.filter(id=2,orderFK=1).delete()
+	
 	
 	

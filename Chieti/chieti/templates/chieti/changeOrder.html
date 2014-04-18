@@ -24,6 +24,22 @@
 	  		qu=$(this).siblings("input[name=quantity]").val()
 	  		$(this).html(pr*qu)
 		});
+		$("label.remove").click(function(){
+			item=$(this).siblings("input[name=itemId]").val()
+			console.log("item",item)
+			$.ajax({
+                url: '/chieti/removeItem/',
+                type: 'post', 
+                data: {
+                    "itemId":item,
+                },
+                success: function(data) {
+                    console.log("todo ok! AJAX")
+                    console.log(data)
+                }
+            });
+			$(this).parent("div").remove()
+		})
 	  	
 	});
 
@@ -47,7 +63,8 @@
         -----
         <label>Precio:</label>
         <label name='price' title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label>
-        <button name="remove">Remove</button>
+  
+        <label class="remove">Eliminar</label>
         <br/><br/>
     </div>
 {% endfor %}

@@ -129,3 +129,9 @@ def changeOrder2(request):
 	c=(itemId,productId)
 	return HttpResponse(c)
 
+def removeItem(request):
+	itemId=request.POST.get("itemId")	
+	ord=request.session["order"]
+	item.objects.filter(id=itemId,orderFK=ord).delete()
+	return HttpResponse(ord)
+	
