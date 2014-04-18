@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cambiar Orden</title>
+<link href="{% include 'chieti/1.html' %}">
+    
+<script type="text/javascript">
+	
+
+	$(document).ready(function() {
+	  	console.log( "ready prod!" ) 		
+		$('input[name=quantity]').change(function(){
+			//recalc the price
+            var ant=$(this).siblings("label[name=price]").attr("title")
+			var cant=$(this).val()            
+			var dsp=ant*cant
+			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
+			$(this).siblings('label[name=price]').html(dsp)
+            
+		});
+		$('label[name=price]').each(function(){
+			pr=$(this).attr("title")
+	  		qu=$(this).siblings("input[name=quantity]").val()
+	  		$(this).html(pr*qu)
+		});
+	  	
+	});
+
+</script>
+
+	
+
+</head>
+<body>
+<div>
+<form action="/chieti/changeOrder2/" method="post">
+{% for item in todos %} <!-- OJO is a vector of jsons -->
+    <div>
+        <img alt="" src="">
+        <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
+        <input name="productId" hidden="hidden" value="{{ item.productFK.id }}"/>
+        <label name='name' class="product" >{{ item.productFK.name }}</label>
+        -----
+        <label for='quantity'>Cant:</label>
+        <input name='quantity' type="text" value="{{item.quantity}}"></input>
+        -----
+        <label>Precio:</label>
+        <label name='price' title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label>
+        <button name="remove">Remove</button>
+        <br/><br/>
+    </div>
+{% endfor %}
+<input type="submit" class="change" value="Cambiar"></input>
+</form>
+</div>
+
+</body>
+</html>

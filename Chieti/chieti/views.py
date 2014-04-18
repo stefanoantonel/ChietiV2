@@ -22,11 +22,16 @@ def home(request):
 	#u=user(name="Stefano",lastName="An",adress="Roma 133",phone="3133312212",email="122@hotmail.com",password="12")
 	#u.save()
 	om=orderManager.objects.get(id=1)
-	u=user.objects.get(id=2)
+	u=user.objects.get(id=3)
 	#o=order(userFK=u,orderManagerFK=om)
+	#o.save()
+	
 	request.session["orderManager"] = om.id
 	request.session["user"] = u.id
-	#o.save()
+	
+	o=order.objects.get(orderManagerFK=request.session["orderManager"])
+	request.session["order"]=o.id
+	
 	#oro=model
 	return HttpResponse(html)
 
@@ -98,3 +103,28 @@ def addToOrder(request):
 	i.save()
 	c=(ids,quant)
 	return HttpResponse(c)
+
+def changeOrder(request):
+	fp = open('./chieti/templates/chieti/changeOrder.html')
+	t = Template(fp.read())
+	fp.close()
+	todo=item.objects.filter(orderFK=request.session["order"])
+	c=Context({'todos':todo})
+	html = t.render(c)
+	return HttpResponse(html)
+
+def changeOrder2(request):
+	#ids=request['ids']
+	itemId=request.POST.getlist("itemId")
+	productId=request.POST.getlist("productId")
+	quant=request.POST.getlist("quantity")
+	#pri=request.POST.get('product11')
+	#pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+	#pr.save()
+	
+
+	for i in range(0,len(itemId)):
+		item.objects.filter(id=itemId[i]).update(quantity=quant[i])
+	c=(itemId,productId)
+	return HttpResponse(c)
+

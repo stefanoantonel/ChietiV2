@@ -72,12 +72,8 @@ if __name__ == '__main__':
 	for i in w:
 		print i.quantity, i.productFK.salePrice, i.productFK.name, i.productFK.measureUnit, i.orderFK.orderManagerFK.id, i.orderFK.userFK.type
 	pass
-	
-	i=item(productFK=product.objects.get(id=1), 
-		quantity=4,
-		orderFK=order.objects.get(id=1))
-	i.save()
 		
-	t = Template("My name is {{ my_name }}.")
-	c = Context({"my_name": "Adrian"})
-	t.render(c)
+	
+	todo=item.objects.filter(orderFK=request.session["order"])
+	
+	
