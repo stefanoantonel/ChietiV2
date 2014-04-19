@@ -98,27 +98,44 @@ if __name__ == '__main__':
 	# 	orderArray.append({'total':ords.getTotal()})
 	# 	orderManagerArray.append(orderArray)
 	#===========================================================================
-	orders=order.objects.filter(orderManagerFK=1)
-
-	orderManagerArray=[]
-	for ords in orders:
-		
-		
-		items=item.objects.filter(orderFK=ords)
-		
-		productArray=[]
-		for it in items:
-			print it.productFK.name
-			prod={'productName':it.productFK.name,
-				'quantity':it.quantity,
-				'salePrice':it.productFK.salePrice, 
-				'subTotal':it.getSubtotal(),}
-			productArray.append(prod)
-		orde={'userName':ords.userFK.name,
-			'orderNumber':ords.id,
-			'products':productArray,
-			'total':ords.getTotal(),
-			'products':productArray,}
-		orderManagerArray.append(orde)	
-
 	
+#===============================================================================
+# 	orders=order.objects.filter(orderManagerFK=1)
+# 
+# 	orderManagerArray=[]
+# 	for ords in orders:
+# 		
+# 		
+# 		items=item.objects.filter(orderFK=ords)
+# 		
+# 		productArray=[]
+# 		for it in items:
+# 			print it.productFK.name
+# 			prod={'productName':it.productFK.name,
+# 				'quantity':it.quantity,
+# 				'salePrice':it.productFK.salePrice, 
+# 				'subTotal':it.getSubtotal(),}
+# 			productArray.append(prod)
+# 		orde={'userName':ords.userFK.name,
+# 			'orderNumber':ords.id,
+# 			'products':productArray,
+# 			'total':ords.getTotal(),
+# 			'products':productArray,}
+# 		orderManagerArray.append(orde)	
+#===============================================================================
+
+	from django.core.mail import EmailMultiAlternatives
+	subject, from_email, to = 'Welcome Chieti Online', 'chietionline@gmail.com', 'chietionline@gmail.com'
+	text_content = 'This is an important message.'
+	html_content = '<p>This is an <strong>important</strong> message.</p>'
+	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	msg.attach_alternative(html_content, "text/html")
+	msg.send()
+	print 'send!'
+
+	#===========================================================================
+	# from django.core.mail import send_mail
+	# a="<input type='text'>"
+	# send_mail('Bienvenido a Chieti Online',a , 'chietionline@gmail.com',['chietionline@gmail.com'], fail_silently=False)
+	# print 'listo send'
+	#===========================================================================
