@@ -60,10 +60,11 @@
         -----
         <label for='quantity'>Cant:</label>
         <input name='quantity' type="text" value="{{item.quantity}}"></input>
+        <label >{{ item.productFK.measureUnit }}</label>
         -----
         <label>Precio:</label>
         <label name='price' title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label>
-  
+  		-----
         <label class="remove">Eliminar</label>
         <br/><br/>
     </div>

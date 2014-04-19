@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link href="{% include 'chieti/1.html' %}" >
+
+<title>Resumen de Ordenes</title>
+</head>
+<body>
+
+
+<!-- orders=order.objects.filter(orderManagerFK=1)
+	for ords in orders:
+		print ords.userFK.name, " Numero de Orden:",ords.id
+		
+		items=item.objects.filter(orderFK=ords)
+		for it in items:
+		
+			print it.productFK.name, it.quantity, it.productFK.salePrice, it.getSubtotal()
+		print ords.getTotal()
+	 -->
+<br/>
+{% for ords in orderManagerArray %}
+	<div>
+    <label title="user">{{ords.userName}}</label>
+    <label>Numero de orden</label>
+    <label title="orderNumber">{{ords.orderNumber}}</label>
+    <br/>
+    Producto - Cantidad - PrecUnit - Subtotal
+    <br/>
+    {% for prods in ords.products %}
+    	<label name="productName">{{prods.productName}}</label>
+    	------
+    	<label name="quantity">{{prods.quantity}}</label>
+    	--------
+    	<label name="salePrice">{{prods.salePrice}}</label>
+    	---------
+    	<label name="subTotal">{{prods.subTotal}}</label>
+    	<br/>
+	{% endfor %}
+	------------------------------Total:
+	<label title="totalPrice">{{ords.totalPrice}}</label>
+    <br/><br/>
+    
+    </div>	
+{% endfor %}
+
+
+</body>
+</html>

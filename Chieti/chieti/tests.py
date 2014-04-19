@@ -50,8 +50,6 @@ if __name__ == '__main__':
 #===========================================================================
 	
 	todo = product.objects.all()
-	for i in todo:
-		print i.name, i.salePrice, i.measureUnit
 	
 	om = orderManager()
 	# om.save()
@@ -70,10 +68,61 @@ if __name__ == '__main__':
 	
 	w = item.objects.filter(productFK=singleProduct.objects.all())
 	
-	for i in w:
-		print i.quantity, i.productFK.salePrice, i.productFK.name, i.productFK.measureUnit, i.orderFK.orderManagerFK.id, i.orderFK.userFK.type
-	pass
-		
+	#===========================================================================
+	# orders=order.objects.filter(orderManagerFK=1)
+	# for ords in orders:
+	# 	#print ords.userFK.name, " Numero de Orden:",ords.id
+	# 	items=item.objects.filter(orderFK=ords)
+	# 	for it in items:
+	# 		#print it.productFK.name, it.quantity, it.productFK.salePrice, it.getSubtotal()
+	# 		pass
+	# 	#print ords.getTotal()
+	#===========================================================================
 	
+	
+	#===========================================================================
+	# orders=order.objects.filter(orderManagerFK=1)
+	# orderManagerArray=[]
+	# for ords in orders:
+	# 	orderArray=[]
+	# 	orderArray.append({'userName':ords.userFK.name},)
+	# 	orderArray.append({'orderNumber':ords.id})
+	# 	items=item.objects.filter(orderFK=ords)
+	# 	productArray=[]
+	# 	for it in items:
+	# 		productArray.append({'productName':it.productFK.name},) 
+	# 		productArray.append({'quantity':it.quantity})
+	# 		productArray.append({'salePrice':it.productFK.salePrice}) 
+	# 		productArray.append({'subTotal':it.getSubtotal()})
+	# 	orderArray.append({'products':productArray})
+	# 	orderArray.append({'total':ords.getTotal()})
+	# 	orderManagerArray.append(orderArray)
+	#===========================================================================
+	
+	
+	
+	orders=order.objects.filter(orderManagerFK=1)
+	orderManagerArray=[]
+	for ords in orders:
+		items=item.objects.filter(orderFK=ords)
+		productArray=[]
+		for it in items:
+			prod={'productName':it.productFK.name, 
+				'quantity':it.quantity,
+				'salePrice':it.productFK.salePrice, 
+				'subTotal':it.getSubtotal(),}
+			productArray.append(prod)
+		orde={'userName':ords.userFK.name,
+			'orderNumber':ords.id,
+			'products':productArray,
+			'total':ords.getTotal(),
+			'products':productArray,}
+		orderManagerArray.append(orde)
+	pass
 
+	
+	
+	
+	for orderArray in orderManagerArray:
+		print orderArray['userName']
 	

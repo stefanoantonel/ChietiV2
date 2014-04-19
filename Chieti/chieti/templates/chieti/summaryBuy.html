@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link href="{% include 'chieti/1.html' %}" >
+
+<title>Resumen de Compras</title>
+</head>
+<body>
+
+{% for item in todos %}
+	<br/>
+	<label title="productName">{{item.product}}</label>
+	
+	<label title="quantity">{{item.quantity}}</label>
+	
+	<label title="measureUnit">{{item.measureUnit}}</label>						
+{% endfor %}
+
+</body>
+</html>

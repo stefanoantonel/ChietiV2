@@ -5,7 +5,7 @@ from django.http import request, HttpResponse
 
 from django.test import TestCase
 from django.http import request, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response,redirect
 from django.template import RequestContext, loader
 from django.template import Context, Template
 
@@ -127,32 +127,70 @@ def changeOrder2(request):
 	#pri=request.POST.get('product11')
 	#pr=product(measureUnit ='kg',salePrice=pri,name=nam)
 	#pr.save()
-	
-
 	for i in range(0,len(itemId)):
 		item.objects.filter(id=itemId[i]).update(quantity=quant[i])
-	c=(itemId,productId)
-	return HttpResponse(c)
+	
+	#c=(itemId,productId)
+	#return HttpResponse(c)
+	return redirect(showProduct)
 
 def removeItem(request):
 	itemId=request.POST.get("itemId")	
-	ord=request.session["order"]
-	item.objects.filter(id=itemId,orderFK=ord).delete()
-	return HttpResponse(ord)
+	ordId=request.session["order"]
+	c=order.objects.get(id=ordId).removeItem(itemId)
+	
+	
+	return HttpResponse(c)
 
 def summaryBuy(request):
-	summary=orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	
 	#Te da JSON array
 	#a={"product":prod,"quantity":quant, "measureUnit":mu}
-	html=''
-	for i in summary:
-		html=html+"<div>"
-		html=html+str(i['product'])
-		html=html+str("---")
-		html=html+str(i['quantity'])
-		html=html+str("---")
-		html=html+str(i['measureUnit'])
-		html=html+"</div>"
+	fp = open('./chieti/templates/chieti/summaryBuy.html')
+	t = Template(fp.read())
+	fp.close()
+	summary=orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	c=Context({'todos':summary})
+	html = t.render(c)
 	return HttpResponse(html)
 	
+	
+
+def printOrders(request):
+	
+	fp = open('./chieti/templates/chieti/printOrders.html')
+	t = Template(fp.read())
+	fp.close()
+	#===========================================================================
+	# 
+	# orders=order.objects.filter(orderManagerFK=1)
+	# for ords in orders:
+	# 	print ords.userFK.name, " Numero de Orden:",ords.id
+	# 	items=item.objects.filter(orderFK=ords)
+	# 	for it in items:
+	# 		print it.productFK.name, it.quantity, it.productFK.salePrice, it.getSubtotal()
+	# 	print ords.getTotal()
+	# 
+	#===========================================================================
+	
+	orders=order.objects.filter(orderManagerFK=1)
+	orderManagerArray=[]
+	for ords in orders:
+		items=item.objects.filter(orderFK=ords)
+		productArray=[]
+		for it in items:
+			prod={'productName':it.productFK.name, 
+				'quantity':it.quantity,
+				'salePrice':it.productFK.salePrice, 
+				'subTotal':it.getSubtotal(),}
+			productArray.append(prod)
+		orde={'userName':ords.userFK.name,
+			'orderNumber':ords.id,
+			'products':productArray,
+			'totalPrice':ords.getTotal(),}
+		orderManagerArray.append(orde)
+	pass
+	c=Context({'orderManagerArray':orderManagerArray})
+	html = t.render(c)
+	return HttpResponse(html)
 	

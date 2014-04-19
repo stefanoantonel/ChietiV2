@@ -59,10 +59,10 @@ class orderManager(models.Model):
 	def cancelProduct(self):
 		pass
 	
-	def __printSummary(self,matrix):# elemento y cantidad 
+	def __printSummary(self,summary):# elemento y cantidad
 		pass
-	
-	def __printOrders(self):
+	def printOrders(self):
+		order.objects.filter
 		pass
 
 class order(models.Model):
@@ -72,20 +72,27 @@ class order(models.Model):
 	# items 
 	
 	def getTotal(self):
+		## for each item get subtotal
+		it=item.objects.filter(orderFK=self)
+		sumTotal=0
+		for i in it:
+			sumTotal=sumTotal+i.getSubtotal()
+		return sumTotal
 		pass
 		
-	def addItem(self,newItem):
+	def addItem(self,newItem): ## no va mas porque la FK esta del otro lado
 		self.items.append(newItem)
 		pass
 	
-	def removeItem(self,item): #le paso el objeto item
-	
-		pass
+	def removeItem(self,itemId): #le paso el objeto item
+		item.objects.filter(id=itemId).delete() 
+		return "ok delete"
 		
 	def cancelProduct(self,product): #clase product
 		pass
 	
-	def __print(self):
+	def printOrder(self):
+		
 		pass
 	
 class item(models.Model):
@@ -95,9 +102,10 @@ class item(models.Model):
 	quantity=models.IntegerField()
 	orderFK=models.ForeignKey(order)
 	def getSubtotal(self):
-		return self.product.getPrice()*self.quantity
+		return self.productFK.salePrice*self.quantity
 		pass
 	
+
 
 
 
