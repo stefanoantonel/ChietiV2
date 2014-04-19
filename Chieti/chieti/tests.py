@@ -98,16 +98,18 @@ if __name__ == '__main__':
 	# 	orderArray.append({'total':ords.getTotal()})
 	# 	orderManagerArray.append(orderArray)
 	#===========================================================================
-	
-	
-	
 	orders=order.objects.filter(orderManagerFK=1)
+
 	orderManagerArray=[]
 	for ords in orders:
+		
+		
 		items=item.objects.filter(orderFK=ords)
+		
 		productArray=[]
 		for it in items:
-			prod={'productName':it.productFK.name, 
+			print it.productFK.name
+			prod={'productName':it.productFK.name,
 				'quantity':it.quantity,
 				'salePrice':it.productFK.salePrice, 
 				'subTotal':it.getSubtotal(),}
@@ -117,12 +119,6 @@ if __name__ == '__main__':
 			'products':productArray,
 			'total':ords.getTotal(),
 			'products':productArray,}
-		orderManagerArray.append(orde)
-	pass
+		orderManagerArray.append(orde)	
 
-	
-	
-	
-	for orderArray in orderManagerArray:
-		print orderArray['userName']
 	

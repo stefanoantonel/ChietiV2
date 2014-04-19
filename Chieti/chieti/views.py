@@ -28,14 +28,14 @@ def home(request):
 	om=orderManager.objects.get(id=1)
 	#u=user.objects.get(name="Stefano")
 	u=user.objects.get(name="Florencia")
-	o=order(userFK=u,orderManagerFK=om)
-	o.save()
+	#o=order(userFK=u,orderManagerFK=om)
+	#o.save()
 	
 	#request.session["orderManager"] = om.id
-	request.session["user"] = u.id
+	#request.session["user"] = u.id
 	
-	o=order.objects.get(userFK=request.session["user"],orderManagerFK=request.session["orderManager"])
-	request.session["order"]=o.id
+	#o=order.objects.get(userFK=request.session["user"],orderManagerFK=request.session["orderManager"])
+	#request.session["order"]=o.id
 	
 	#oro=model
 	return HttpResponse(html)
@@ -57,7 +57,7 @@ def addProd2(request):
 	meas=request.POST.get('mu','')
 	pr=product(measureUnit = meas,salePrice=pri,name=nam)
 	pr.save()
-	return HttpResponse(nam)
+	return redirect(addProd)
 
 
 
@@ -172,7 +172,6 @@ def printOrders(request):
 	# 	print ords.getTotal()
 	# 
 	#===========================================================================
-	
 	orders=order.objects.filter(orderManagerFK=1)
 	orderManagerArray=[]
 	for ords in orders:
@@ -193,4 +192,22 @@ def printOrders(request):
 	c=Context({'orderManagerArray':orderManagerArray})
 	html = t.render(c)
 	return HttpResponse(html)
+
+
+def cancelProduct(request):
+	fp = open('./chieti/templates/chieti/cancelProduct.html')
+	t = Template(fp.read())
+	fp.close()
+	products=product.objects.all()
+	c=Context({'todos':products})
+	html = t.render(c)
+	return HttpResponse(html)
+	
+
+def cancelProduct2(request):
+	productId=request.POST.get('productId')
+	checked=request.POST.get('checked')
+
+	product.objects.filter(id=productId).update(canceled=checked)
+	return HttpResponse(checked)
 	

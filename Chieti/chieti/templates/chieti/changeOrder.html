@@ -8,24 +8,27 @@
 <script type="text/javascript">
 	
 
-	$(document).ready(function() {
+	$(document).ready(function() { 
 	  	console.log( "ready prod!" ) 		
 		$('input[name=quantity]').change(function(){
-			//recalc the price
+			//recalc the price when change quantity
             var ant=$(this).siblings("label[name=price]").attr("title")
 			var cant=$(this).val()            
 			var dsp=ant*cant
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
 			$(this).siblings('label[name=price]').html(dsp)
+			calTotalPrice()
             
 		});
 		$('label[name=price]').each(function(){
+			//calc the subTotal price
 			pr=$(this).attr("title")
 	  		qu=$(this).siblings("input[name=quantity]").val()
 	  		$(this).html(pr*qu)
 		});
 		$("label.remove").click(function(){
-			item=$(this).siblings("input[name=itemId]").val()
+			//remove the item from de DB and DOM
+			item=$(this).siblings("input[title=itemId]").val()
 			console.log("item",item)
 			$.ajax({
                 url: '/chieti/removeItem/',
@@ -40,8 +43,19 @@
             });
 			$(this).parent("div").remove()
 		})
-	  	
+		
+		
+		calTotalPrice()  	
 	});
+	function calTotalPrice(){
+		var sumTotal=0
+		$('label[name=price]').each(function(){
+			//calc the total price
+			sumTotal=sumTotal+parseInt($(this).text())
+			console.log(sumTotal)	
+		})
+		$('label[title=total]').html(sumTotal)
+	}
 
 </script>
 
@@ -51,25 +65,27 @@
 <body>
 <div>
 <form action="/chieti/changeOrder2/" method="post">
-{% for item in todos %} <!-- OJO is a vector of jsons -->
-    <div>
-        <img alt="" src="">
-        <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
-        <input name="productId" hidden="hidden" value="{{ item.productFK.id }}"/>
-        <label name='name' class="product" >{{ item.productFK.name }}</label>
-        -----
-        <label for='quantity'>Cant:</label>
-        <input name='quantity' type="text" value="{{item.quantity}}"></input>
-        <label >{{ item.productFK.measureUnit }}</label>
-        -----
-        <label>Precio:</label>
-        <label name='price' title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label>
-  		-----
-        <label class="remove">Eliminar</label>
-        <br/><br/>
-    </div>
-{% endfor %}
-<input type="submit" class="change" value="Cambiar"></input>
+	{% for item in todos %} <!-- OJO is a vector of jsons -->
+	    <div>
+	        <img alt="" src="">
+	        <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
+	        <input name="productId" hidden="hidden" value="{{ item.productFK.id }}"/>
+	        <label title='name' class="product" >{{ item.productFK.name }}</label>
+	        -----
+	        <label for='quantity'>Cant:</label>
+	        <input name='quantity' type="text" value="{{item.quantity}}"></input>
+	        <label >{{ item.productFK.measureUnit }}</label>
+	        -----
+	        <label>Precio:</label>
+	        <label name='price' title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label>
+	  		-----
+	        <label class="remove">Eliminar</label>
+	        <br/><br/>
+	    </div>
+	{% endfor %}
+	Total: $ <label title='total'></label>
+	<br/><br>
+	<input type="submit" class="change" value="Cambiar"></input>
 </form>
 </div>
 

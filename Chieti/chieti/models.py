@@ -8,6 +8,7 @@ class product(models.Model):
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
+	canceled=models.BinaryField(default='false')
 	def getPrice(self):
 		return self.salePrice
 	class Meta:
@@ -23,6 +24,7 @@ class user (models.Model):
 	email=models.EmailField(max_length=50)
 	password=models.CharField(max_length=10)
 	type= "client" #por defecto 
+	
 	
 	#===========================================================================
 	# def __init__(self,nam,last,addr,pho,emai,passw):	
@@ -98,7 +100,6 @@ class order(models.Model):
 class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
-	
 	quantity=models.IntegerField()
 	orderFK=models.ForeignKey(order)
 	def getSubtotal(self):

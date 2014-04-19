@@ -8,17 +8,6 @@
 </head>
 <body>
 
-
-<!-- orders=order.objects.filter(orderManagerFK=1)
-	for ords in orders:
-		print ords.userFK.name, " Numero de Orden:",ords.id
-		
-		items=item.objects.filter(orderFK=ords)
-		for it in items:
-		
-			print it.productFK.name, it.quantity, it.productFK.salePrice, it.getSubtotal()
-		print ords.getTotal()
-	 -->
 <br/>
 {% for ords in orderManagerArray %}
 	<div>
@@ -29,14 +18,17 @@
     Producto - Cantidad - PrecUnit - Subtotal
     <br/>
     {% for prods in ords.products %}
-    	<label name="productName">{{prods.productName}}</label>
+    	
+    	<label title="productName">{{prods.productName}}</label>
     	------
-    	<label name="quantity">{{prods.quantity}}</label>
+    	<label title="quantity">{{prods.quantity}}</label>
     	--------
-    	<label name="salePrice">{{prods.salePrice}}</label>
+    	<label title="salePrice">{{prods.salePrice}}</label>
     	---------
-    	<label name="subTotal">{{prods.subTotal}}</label>
+    	<label title="subTotal">{{prods.subTotal}}</label>
     	<br/>
+    	<label title="canceled">{{prods.canceled}}</label>
+    	
 	{% endfor %}
 	------------------------------Total:
 	<label title="totalPrice">{{ords.totalPrice}}</label>
