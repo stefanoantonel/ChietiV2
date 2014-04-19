@@ -5,7 +5,30 @@
 <link href="{% include 'chieti/1.html' %}" >
 
 <title>Resumen de Ordenes</title>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('input[title=canceled]').each(function(){
+            //if is true 'tacha' the product
+            if($(this).val()=='true'){
+                ant=$(this).parent('div')
+                $(this).parent('div').replaceWith("<del>"+$(ant).html()+"</del>")
+                
+                
+                total=parseInt($('label[title=totalPrice]').html(),10)
+                prevPrice=parseInt($(this).siblings('label[title="subTotal"]').html(),10)
+                total=total-prevPrice
+                console.log(total)
+                $('label[title="totalPrice"]').html(total)
+                
+            }
+        })
+    })
+</script>
+
 </head>
+
 <body>
 
 <br/>
@@ -18,17 +41,18 @@
     Producto - Cantidad - PrecUnit - Subtotal
     <br/>
     {% for prods in ords.products %}
-    	
-    	<label title="productName">{{prods.productName}}</label>
-    	------
-    	<label title="quantity">{{prods.quantity}}</label>
-    	--------
-    	<label title="salePrice">{{prods.salePrice}}</label>
-    	---------
-    	<label title="subTotal">{{prods.subTotal}}</label>
-    	<br/>
-    	<label title="canceled">{{prods.canceled}}</label>
-    	
+    	<div>
+            <label title="productName">{{prods.productName}}</label>
+            ------
+            <label title="quantity">{{prods.quantity}}</label>
+            --------
+            <label title="salePrice">{{prods.salePrice}}</label>
+            ---------
+            <label title="subTotal">{{prods.subTotal}}</label>
+
+            <input title="canceled" value="{{prods.canceled}}" hidden="hidden">
+            <br>
+        </div>
 	{% endfor %}
 	------------------------------Total:
 	<label title="totalPrice">{{ords.totalPrice}}</label>

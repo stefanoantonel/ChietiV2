@@ -181,7 +181,8 @@ def printOrders(request):
 			prod={'productName':it.productFK.name, 
 				'quantity':it.quantity,
 				'salePrice':it.productFK.salePrice, 
-				'subTotal':it.getSubtotal(),}
+				'subTotal':it.getSubtotal(),
+				'canceled':it.productFK.canceled,}
 			productArray.append(prod)
 		orde={'userName':ords.userFK.name,
 			'orderNumber':ords.id,
