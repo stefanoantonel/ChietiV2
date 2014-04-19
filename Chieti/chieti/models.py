@@ -11,9 +11,7 @@ class product(models.Model):
 	canceled=models.BinaryField(default='false')
 	def getPrice(self):
 		return self.salePrice
-	class Meta:
-		#abstract = True
-		pass
+	
 
 
 class user (models.Model):
@@ -61,10 +59,30 @@ class orderManager(models.Model):
 	def cancelProduct(self):
 		pass
 	
-	def __printSummary(self,summary):# elemento y cantidad
+	def printSummary(self,summary):# elemento y cantidad
 		pass
+	def getSummarySell(self):# elemento y cantidad
+		orders=order.objects.filter(orderManagerFK=1)
+		orderManagerArray=[]
+		for ords in orders:
+			items=item.objects.filter(orderFK=ords)
+			productArray=[]
+			for it in items:
+				prod={'productName':it.productFK.name, 
+					'quantity':it.quantity,
+					'salePrice':it.productFK.salePrice, 
+					'subTotal':it.getSubtotal(),
+					'canceled':it.productFK.canceled,}
+				productArray.append(prod)
+			orde={'userName':ords.userFK.name,
+				'orderNumber':ords.id,
+				'products':productArray,
+				'totalPrice':ords.getTotal(),}
+			orderManagerArray.append(orde)
+		return orderManagerArray
+		pass
+	
 	def printOrders(self):
-		order.objects.filter
 		pass
 
 class order(models.Model):
@@ -90,7 +108,10 @@ class order(models.Model):
 		item.objects.filter(id=itemId).delete() 
 		return "ok delete"
 		
-	def cancelProduct(self,product): #clase product
+	def cancelProduct(self,productId,checked): 
+		#le paso el prodId y el estaso (true, false) porque es con ajax
+		#y me lo hace cada vez que cambio el checkbox
+		product.objects.filter(id=productId).update(canceled=checked)
 		pass
 	
 	def printOrder(self):

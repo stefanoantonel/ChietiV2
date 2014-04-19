@@ -172,25 +172,33 @@ def printOrders(request):
 	# 	print ords.getTotal()
 	# 
 	#===========================================================================
-	orders=order.objects.filter(orderManagerFK=1)
-	orderManagerArray=[]
-	for ords in orders:
-		items=item.objects.filter(orderFK=ords)
-		productArray=[]
-		for it in items:
-			prod={'productName':it.productFK.name, 
-				'quantity':it.quantity,
-				'salePrice':it.productFK.salePrice, 
-				'subTotal':it.getSubtotal(),
-				'canceled':it.productFK.canceled,}
-			productArray.append(prod)
-		orde={'userName':ords.userFK.name,
-			'orderNumber':ords.id,
-			'products':productArray,
-			'totalPrice':ords.getTotal(),}
-		orderManagerArray.append(orde)
-	pass
-	c=Context({'orderManagerArray':orderManagerArray})
+	
+	#===========================================================================
+	# orders=order.objects.filter(orderManagerFK=1)
+	# orderManagerArray=[]
+	# for ords in orders:
+	# 	items=item.objects.filter(orderFK=ords)
+	# 	productArray=[]
+	# 	for it in items:
+	# 		prod={'productName':it.productFK.name, 
+	# 			'quantity':it.quantity,
+	# 			'salePrice':it.productFK.salePrice, 
+	# 			'subTotal':it.getSubtotal(),
+	# 			'canceled':it.productFK.canceled,}
+	# 		productArray.append(prod)
+	# 	orde={'userName':ords.userFK.name,
+	# 		'orderNumber':ords.id,
+	# 		'products':productArray,
+	# 		'totalPrice':ords.getTotal(),}
+	# 	orderManagerArray.append(orde)
+	# pass
+	#===========================================================================
+	
+	orderMan=orderManager.objects.get(id=request.session['orderManager'])
+	
+	summary=orderMan.getSummarySell()
+	
+	c=Context({'orderManagerArray':summary})
 	html = t.render(c)
 	return HttpResponse(html)
 
@@ -208,7 +216,7 @@ def cancelProduct(request):
 def cancelProduct2(request):
 	productId=request.POST.get('productId')
 	checked=request.POST.get('checked')
-
-	product.objects.filter(id=productId).update(canceled=checked)
+	order.objects.get(id=request.session['order']).cancelProduct(productId,checked)
+	
 	return HttpResponse(checked)
 	
