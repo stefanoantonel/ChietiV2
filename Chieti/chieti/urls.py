@@ -22,6 +22,11 @@ urlpatterns = patterns('',
     url(r'printOrders/','chieti.views.printOrders'),
     url(r'cancelProduct/','chieti.views.cancelProduct'),
     url(r'cancelProduct2/','chieti.views.cancelProduct2'),
+    url(r'singUp/','chieti.views.singUp'),
+    url(r'sendMail/','chieti.views.sendMail'),
+    url(r'singUp2/','chieti.views.singUp2'),
+    url(r'singUp3/','chieti.views.singUp3'),
+   
 
     
 )

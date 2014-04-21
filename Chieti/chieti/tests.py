@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext, loader, Template, Context
 from chieti.models import item,product,order,singleProduct,user,orderManager,promo
 from django.db import models
+import views
 # Create your tests here.
 
 def index(request):
@@ -124,18 +125,35 @@ if __name__ == '__main__':
 # 		orderManagerArray.append(orde)	
 #===============================================================================
 
-	from django.core.mail import EmailMultiAlternatives
-	subject, from_email, to = 'Welcome Chieti Online', 'chietionline@gmail.com', 'chietionline@gmail.com'
-	text_content = 'This is an important message.'
-	html_content = '<p>This is an <strong>important</strong> message.</p>'
-	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-	msg.attach_alternative(html_content, "text/html")
-	msg.send()
-	print 'send!'
-
+	#===========================================================================
+	# from django.core.mail import EmailMultiAlternatives
+	# subject, from_email, to = 'Welcome Chieti Online', 'chietionline@gmail.com', 'chietionline@gmail.com'
+	# text_content = 'This is an important message.'
+	# html_content = ' <p>This is an <strong>important</strong> message. {{user}}</p>'
+	# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	# msg.attach_alternative(html_content, "text/html")
+	# msg.send()
+	# print 'send!'
+	#===========================================================================
+	#views.sendMail()
+	
+	
 	#===========================================================================
 	# from django.core.mail import send_mail
 	# a="<input type='text'>"
 	# send_mail('Bienvenido a Chieti Online',a , 'chietionline@gmail.com',['chietionline@gmail.com'], fail_silently=False)
 	# print 'listo send'
 	#===========================================================================
+
+	
+	mailT2="chietionline@gmail.com"
+	nameT2="Federico"
+	
+	temp = user.objects.get(email=mailT2, name=nameT2)
+	#om=orderManager()
+	#om.save()
+	om = orderManager.objects.get(id=1)
+	orderT1=order(userFK=temp, orderManagerFK=om)
+	orderT1.save()
+	orderT2=orderT1.id
+	print orderT2

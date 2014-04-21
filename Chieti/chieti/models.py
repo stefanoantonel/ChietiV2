@@ -21,7 +21,8 @@ class user (models.Model):
 	phone=models.CharField(max_length=50)
 	email=models.EmailField(max_length=50)
 	password=models.CharField(max_length=10)
-	type= "client" #por defecto 
+	type= models.CharField(max_length=10, default="client") #por defecto 
+	activated=models.BinaryField(default='false')
 	
 	
 	#===========================================================================

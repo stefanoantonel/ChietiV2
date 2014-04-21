@@ -5,42 +5,48 @@ from django.http import request, HttpResponse
 
 from django.test import TestCase
 from django.http import request, HttpResponse
-from django.shortcuts import render_to_response,redirect
+from django.shortcuts import render_to_response, redirect
+from django.template.loader import render_to_string
 from django.template import RequestContext, loader
 from django.template import Context, Template
+from django.core.mail import EmailMultiAlternatives
 
-from chieti.models import product,orderManager,order,user,item
+from chieti.models import product, orderManager, order, user, item
 # Create your tests here.
 def home(request):
 	fp = open('./chieti/templates/chieti/homePage.html')
 	t = Template(fp.read())
 	fp.close()
-	c=Context()
+	c = Context()
 	html = t.render(c)
 	
-	#om=orderManager()
-	#om.save()
+	# om=orderManager()
+	# om.save()
 	
-	#u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	#u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
-	#u.save()
+	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
+	# u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
+	# u.save()
 	
-	om=orderManager.objects.get(id=1)
-	#u=user.objects.get(name="Stefano")
-	u=user.objects.get(name="Florencia")
-	#o=order(userFK=u,orderManagerFK=om)
-	#o.save()
+	om = orderManager.objects.get(id=1)
+	# u=user.objects.get(name="Stefano")
+	u = user.objects.get(id=request.session['user'])
+	#===========================================================================
+	# if not order.objects.filter(userFK=request.session['user']):
+	# 	o=order(userFK=u,orderManagerFK=om)
+	# 	o.save()
+	#===========================================================================
 	
-	#request.session["orderManager"] = om.id
-	#request.session["user"] = u.id
+	# request.session["orderManager"] = om.id
+	# request.session["user"] = u.id
 	
-	#o=order.objects.get(userFK=request.session["user"],orderManagerFK=request.session["orderManager"])
-	#request.session["order"]=o.id
+	# o=order.objects.get(userFK=request.session["user"],orderManagerFK=request.session["orderManager"])
+	# request.session["order"]=o.id
 	
-	#oro=model
+	# oro=model
 	return HttpResponse(html)
+	
 
-##todo es de prueba... 
+# #todo es de prueba... 
 def addProd(request):
 	fp = open('./chieti/templates/chieti/addProduct.html')
 	t = Template(fp.read())
@@ -48,109 +54,104 @@ def addProd(request):
 	html = t.render(Context())
 	return HttpResponse(html)
 
-
-
-
 def addProd2(request):
-	nam=request.POST.get('name')
-	pri=request.POST.get('sellPrice','')
-	meas=request.POST.get('mu','')
-	pr=product(measureUnit = meas,salePrice=pri,name=nam)
+	nam = request.POST.get('name')
+	pri = request.POST.get('sellPrice', '')
+	meas = request.POST.get('mu', '')
+	pr = product(measureUnit=meas, salePrice=pri, name=nam)
 	pr.save()
 	return redirect(addProd)
-
-
 
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
 	t = Template(fp.read())
 	fp.close()
-	todo=product.objects.all()
-	c=Context({'todos':todo})
+	todo = product.objects.all()
+	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
-	#return render_to_response(fp,{'todos',todo})
+	# return render_to_response(fp,{'todos',todo})
 
 def changePrice(request):
 	fp = open('./chieti/templates/chieti/changePrice.html')
 	t = Template(fp.read())
 	fp.close()
-	todo=product.objects.all()
-	c=Context({'todos':todo})
+	todo = product.objects.all()
+	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
 
 def changePrice2(request):
-	#ids=request['ids']
-	ids=request.POST.getlist("ids")
-	new=request.POST.getlist("newPrice")
-	#pri=request.POST.get('product11')
-	#pr=product(measureUnit ='kg',salePrice=pri,name=nam)
-	#pr.save()
-	i=0
+	# ids=request['ids']
+	ids = request.POST.getlist("ids")
+	new = request.POST.getlist("newPrice")
+	# pri=request.POST.get('product11')
+	# pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+	# pr.save()
+	i = 0
 	for each in ids:
 		product.objects.filter(id=each).update(salePrice=new[i])
-		i=i+1
-	c=(ids,new)
+		i = i + 1
+	c = (ids, new)
 	return HttpResponse(c)
 
 def addToOrder(request):
-	ids=request.POST.get('ids')
-	quant=request.POST.get('quantity')
+	ids = request.POST.get('ids')
+	quant = request.POST.get('quantity')
 	
-	#p=product.object.get(id=ids) 
-	#q=quant
-	#o=order.objects.filter(id=1)
+	# p=product.object.get(id=ids) 
+	# q=quant
+	# o=order.objects.filter(id=1)
 	
 	
-	i=item(productFK=product.objects.get(id=ids), 
+	i = item(productFK=product.objects.get(id=ids),
 		quantity=quant,
-		orderFK=order.objects.get(id=request.session["order"]) )
+		orderFK=order.objects.get(id=request.session["order"]))
 	i.save()
-	c=(ids,quant)
+	c = (ids, quant)
 	return HttpResponse(c)
 
 def changeOrder(request):
 	fp = open('./chieti/templates/chieti/changeOrder.html')
 	t = Template(fp.read())
 	fp.close()
-	todo=item.objects.filter(orderFK=request.session["order"])
-	c=Context({'todos':todo})
+	todo = item.objects.filter(orderFK=request.session["order"])
+	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
-	#return HttpResponse(request.session["order"])
+	# return HttpResponse(request.session["order"])
 def changeOrder2(request):
-	#ids=request['ids']
-	itemId=request.POST.getlist("itemId")
-	productId=request.POST.getlist("productId")
-	quant=request.POST.getlist("quantity")
-	#pri=request.POST.get('product11')
-	#pr=product(measureUnit ='kg',salePrice=pri,name=nam)
-	#pr.save()
-	for i in range(0,len(itemId)):
+	# ids=request['ids']
+	itemId = request.POST.getlist("itemId")
+	productId = request.POST.getlist("productId")
+	quant = request.POST.getlist("quantity")
+	# pri=request.POST.get('product11')
+	# pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+	# pr.save()
+	for i in range(0, len(itemId)):
 		item.objects.filter(id=itemId[i]).update(quantity=quant[i])
 	
-	#c=(itemId,productId)
-	#return HttpResponse(c)
+	# c=(itemId,productId)
+	# return HttpResponse(c)
 	return redirect(showProduct)
 
 def removeItem(request):
-	itemId=request.POST.get("itemId")	
-	ordId=request.session["order"]
-	c=order.objects.get(id=ordId).removeItem(itemId)
+	itemId = request.POST.get("itemId")	
+	ordId = request.session["order"]
+	c = order.objects.get(id=ordId).removeItem(itemId)
 	
 	
 	return HttpResponse(c)
 
 def summaryBuy(request):
 	
-	#Te da JSON array
-	#a={"product":prod,"quantity":quant, "measureUnit":mu}
+	# Te da JSON array
+	# a={"product":prod,"quantity":quant, "measureUnit":mu}
 	fp = open('./chieti/templates/chieti/summaryBuy.html')
 	t = Template(fp.read())
 	fp.close()
-	summary=orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
-	c=Context({'todos':summary})
+	summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	c = Context({'todos':summary})
 	html = t.render(c)
 	return HttpResponse(html)
 	
@@ -194,11 +195,11 @@ def printOrders(request):
 	# pass
 	#===========================================================================
 	
-	orderMan=orderManager.objects.get(id=request.session['orderManager'])
+	orderMan = orderManager.objects.get(id=request.session['orderManager'])
 	
-	summary=orderMan.getSummarySell()
+	summary = orderMan.getSummarySell()
 	
-	c=Context({'orderManagerArray':summary})
+	c = Context({'orderManagerArray':summary})
 	html = t.render(c)
 	return HttpResponse(html)
 
@@ -207,16 +208,118 @@ def cancelProduct(request):
 	fp = open('./chieti/templates/chieti/cancelProduct.html')
 	t = Template(fp.read())
 	fp.close()
-	products=product.objects.all()
-	c=Context({'todos':products})
+	products = product.objects.all()
+	c = Context({'todos':products})
 	html = t.render(c)
 	return HttpResponse(html)
 	
 
 def cancelProduct2(request):
-	productId=request.POST.get('productId')
-	checked=request.POST.get('checked')
-	order.objects.get(id=request.session['order']).cancelProduct(productId,checked)
+	productId = request.POST.get('productId')
+	checked = request.POST.get('checked')
+	order.objects.get(id=request.session['order']).cancelProduct(productId, checked)
 	
 	return HttpResponse(checked)
+
+def sendMail(request):
+	
+	
+	#===========================================================================
+	# name=request.POST.get('name')
+	# lastName=request.POST.get('lastName')
+	# email=request.POST.get('email')
+	# address=request.POST.get('address')
+	#===========================================================================
+	
+	
+	subject, from_email, to = 'Welcome Chieti Online' , 'chietionline@gmail.com', request.session['emailTemp']
+	text_content = 'This is an important message.'
+	
+	# html_content='<a href="localhost:8000/chieti/singUp3/?email='+request.session['emailTemp']+'>Presione aqui para confirmar su registracion</a>'
+	
+	html_content = render_to_string('chieti/email.html', {'mail': request.session['emailTemp'], 'name':request.session['userNameTemp']})
+	#===========================================================================
+	# html_content =html_content + ' <p>This is an <strong>important</strong> message.'
+	# html_content=html_content + str(name)
+	# html_content=html_content +'</p>'
+	#===========================================================================
+	
+	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	msg.attach_alternative(html_content, "text/html")
+	msg.send()
+	return HttpResponse('Se le envio un mail para su confirmacion')
+
+def singUp(request):
+	fp = open('./chieti/templates/chieti/singUp.html')
+	t = Template(fp.read())
+	fp.close()
+	
+	c = Context({'error':''})
+	html = t.render(c)
+	return HttpResponse(html)
+	
+def singUp2(request):
+	pass1 = request.POST.get('password1')
+	pass2 = request.POST.get('password2')
+	if pass1 == pass2:
+		nameT = request.POST.get('name')
+		lastNameT = request.POST.get('lastName')
+		emailT = request.POST.get('email')
+		addressT = request.POST.get('address')
+		
+		request.session['userNameTemp']=nameT 
+		request.session['emailTemp']=emailT
+		
+		u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
+		u.save()
+		
+		return redirect(sendMail)
+	else:
+		fp = open('./chieti/templates/chieti/singUp.html')
+		t = Template(fp.read())
+		fp.close()
+		
+		c = Context({'error':'Claves son distintas'})
+		html = t.render(c)
+		return HttpResponse(html)
+
+def singUp3(request):
+	
+	mailT2 = str(request.GET.get('email'))
+	nameT2 = str(request.GET.get('name'))
+	
+
+	temp = user.objects.get(email=mailT2, name=nameT2)
+	mailT1=temp.email
+	nameT1=temp.name
+	
+	if mailT1 == mailT2 and nameT1 == nameT2:
+		#=======================================================================
+		# nameT = request.session['userNameTemp']
+		# lastNameT = request.session['lastNameTemp']
+		# emailT = request.session['emailTemp']
+		# addressT = request.session['addressTemp']
+		# passwordT = request.session['password']
+		# 
+		# u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=passwordT)
+		# u.save()
+		#=======================================================================
+		
+		
+		user.objects.filter(id=temp.id).update(activated='true')
+		#om=orderManager()
+		#om.save()
+		om = orderManager.objects.get(id=1)
+		orderT1=order(userFK=temp, orderManagerFK=om)
+		orderT1.save()
+		
+		orderT2=orderT1.id
+		request.session["order"]= orderT2
+		request.session['user'] = temp.id
+		request.session['orderManager'] = om.id
+		
+		return redirect(home)
+	else:
+		return HttpResponse("Error de confirmacion")
+
 	
