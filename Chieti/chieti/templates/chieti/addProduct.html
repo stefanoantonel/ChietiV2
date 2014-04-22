@@ -6,7 +6,8 @@
 <title>Insert title here</title>
 <link href="{% include 'chieti/1.html' %}">
 <script type="text/javascript">
-$(document).ready(function(){	
+$(document).ready(function(){
+	
 });
 
 </script>
@@ -17,11 +18,11 @@ $(document).ready(function(){
 		Ingrese el nombre del producto <input type="text" name="name"><div></div>
 		Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
 		Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
-        Ingrese la imagen<input type="file" name="image" />
+		Ingrese la imagen<input type="file" name="image" />
+        Seleccion Unidad de Medida: 
+        <input type="radio" name="mu" value="Kg">Kg
+        <input type="radio" name="mu" value="Unidad">Unidad
 		<input type="submit"/>
-
 	</form>
-
-	
 </body>
 </html>

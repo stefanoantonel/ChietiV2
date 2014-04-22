@@ -11,8 +11,10 @@
     </tr>
 {% endfor %}
  -->
+<!-- <link href="{% include 'chieti/1.html' %}"> -->
 {% include 'chieti/1.html' %}
 {% include 'chieti/mainHead.html' %}
+    
 <script type="text/javascript">
 
 function Popup(status, id) {
@@ -30,21 +32,20 @@ function Popup(status, id) {
 }
 
 	$(document).ready(function() {
-	  	console.log( "ready prod!" ) 
-		var ant=$('#precio').text()
-		$('#quantity').change(function(){
-			console.log('cambio')
-			
-			var cant=$('#quantity').val()
+	  	console.log( "ready prod!" ) 		
+		$('input[name=quantity]').change(function(){
+            var ant=$(this).siblings("label[name=price]").attr("title")
+			var cant=$(this).val()            
 			var dsp=ant*cant
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
-			$('#price').text(dsp)
+			$(this).siblings('label[name=price]').html(dsp)
+            
 		})
         $('.add').click(function(){
-            var button=$(this).clone()
-            ids=button.prev("#ids").text()
-            quant=button.prev("#quant").text()
-            console.log("ids:",button.prev().attr("id"))
+            //ids=$(this).siblings(".ids").text()
+            var ids= $(this).siblings("label[name=ids]").html()
+            var quant= $(this).siblings('input[name=quantity]').val()
+            console.log("ids:",ids,quant)
             $.ajax({
                 url: '/chieti/addToOrder/',
                 type: 'post', 
@@ -56,40 +57,48 @@ function Popup(status, id) {
                     console.log("todo ok! AJAX")
                     console.log(data)
                 }
-            });
+            });    
         })
+        
+        
+
 	});
-	
 
 </script>
+
 	
 
 </head>
 <body>
+<div>
+
 <div class="allProducts">
 {% for prod in todos %}
 	<img alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,0)">
+{% endfor %}    
+</div>
+
+{% for prod in todos %}
+    <div id="divProdCentral" class="centralProd" style="display:none;">
+    	<section >
+        <img id="centralImg" src="/static/chieti/productImages/1.jpg" alt="" style="width:250px; height:250px;">
+        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
+        <br/>
+        <label name='name' class="product" >{{ prod.name }}</label>
+        <br/>
+        <label for='quantity'>Cant:</label>
+        <input name='quantity' type="text" value="" >
+        {{prod.measureUnit}}
+        <br/>
+        <label>Precio:</label>
+        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label>
+        <button class="add">Agregar</button>
+        <br/><br/>
+        </section>
+    </div>
 {% endfor %}
     
 </div>
-
-
-<!-- style="display:none;" -->
-<div id="divProdCentral" class="centralProd" style="display:none;">
-	<section >
-	<img id="centralImg" src="/static/chieti/productImages/1.jpg" alt="" style="width:250px; height:250px;">
-    <label id='ids' hidden="hidden">{{ prod.id }}</label><br/>
-    <label id='name' class="product">{{ prod.name }}</label><br/>
-    <label for='quantity'>Cant:</label>
-    <input id='quantity' type="text" value="" >
-    <br/>
-    <label >Precio: <label id='price'>{{prod.salePrice}}</label></label>
-    <button class="add">Agregar</button>
-    <br/><br/>
-    </section>    
-</div>
-
-
 
 </body>
 </html>
