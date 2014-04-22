@@ -39,23 +39,24 @@ def home(request):
 	# om.save()
 	
 	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	# u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
-	# u.save()
+	#u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
+	#u.save()
 	
 	om = orderManager.objects.get(id=1)
-	# u=user.objects.get(name="Stefano")
+	u=user.objects.get(name="Stefano")
+	
 	u = user.objects.get(id=request.session['user'])
 	#===========================================================================
 	# if not order.objects.filter(userFK=request.session['user']):
-	# 	o=order(userFK=u,orderManagerFK=om)
-	# 	o.save()
+ 	#o=order(userFK=u,orderManagerFK=om)
+ 	#o.save()
 	#===========================================================================
 	
 	# request.session["orderManager"] = om.id
-	# request.session["user"] = u.id
 	
-	# o=order.objects.get(userFK=request.session["user"],orderManagerFK=request.session["orderManager"])
-	# request.session["order"]=o.id
+	
+	o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
+	request.session["order"]=o.id
 	
 	# oro=model
 	return HttpResponse(html)
@@ -176,7 +177,8 @@ def summaryBuy(request):
 	fp = open('./chieti/templates/chieti/summaryBuy.html')
 	t = Template(fp.read())
 	fp.close()
-	summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	#summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	summary = orderManager.objects.get(id=1).getSummaryBuy()
 	c = Context({'todos':summary})
 	html = t.render(c)
 	return HttpResponse(html)
@@ -221,7 +223,7 @@ def printOrders(request):
 	# pass
 	#===========================================================================
 	
-	orderMan = orderManager.objects.get(id=request.session['orderManager'])
+	orderMan = orderManager.objects.get(id=1)
 	
 	summary = orderMan.getSummarySell()
 	
@@ -243,7 +245,8 @@ def cancelProduct(request):
 def cancelProduct2(request):
 	productId = request.POST.get('productId')
 	checked = request.POST.get('checked')
-	ordMan=orderManager.objects.get(id=request.session['orderManger'])
+	ordMan=orderManager.objects.get(id=1)
+	
 	ordMan.cancelProduct(productId,checked)
 	order.objects.get(id=request.session['order']).cancelProduct(productId, checked)
 	

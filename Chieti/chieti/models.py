@@ -46,6 +46,7 @@ class user (models.Model):
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
 	def getSummaryBuy(self):
+		#filter(orderFK.deliver='false').
 		it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		vector=[]
 		for i in it:
@@ -58,14 +59,12 @@ class orderManager(models.Model):
 		return vector
 		pass #JSON array
 	
-	#===========================================================================
-	# def cancelProduct(self,productId,checked):
-	# 	orders=order.objects.filter(orderManagerFK=self)
-	# 	for oo in orders:
-	# 		oo.cancelProduct(productId,checked) 
-	# 	pass
-	# 
-	#===========================================================================
+	def cancelProduct(self,productId,checked):
+		orders=order.objects.filter(orderManagerFK=self)
+		for oo in orders:
+			oo.cancelProduct(productId,checked) 
+		pass
+	
 	
 	def getSummarySell(self):# elemento y cantidad
 		orders=order.objects.filter(orderManagerFK=1)
