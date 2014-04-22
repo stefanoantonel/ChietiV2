@@ -19,7 +19,6 @@ from django.conf import settings
 
 # Create your views here.
 def testSwap(request):
-    
     fp = open('./chieti/templates/chieti/testSwap.html')
     t = Template(fp.read())
     fp.close()
