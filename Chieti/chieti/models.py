@@ -8,17 +8,10 @@ class product(models.Model):
     pub_date = models.DateTimeField(auto_now=True)
     salePrice=models.DecimalField(max_digits=7, decimal_places=2)
     name=models.CharField(max_length=50)
-    #img=models.ImageField(upload_to = 'chieti/static/chieti/images')
     def getPrice(self):
         return self.salePrice
-    class Meta:
-        #abstract = True
-        pass
 
 
-
-
-        
 class orderManager(models.Model):
     #orders=None #lista de ordenes
     def getSummaryBuy(self):

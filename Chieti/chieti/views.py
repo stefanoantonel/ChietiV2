@@ -17,13 +17,6 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 
-# Create your views here.
-def testSwap(request):
-    fp = open('./chieti/templates/chieti/testSwap.html')
-    t = Template(fp.read())
-    fp.close()
-    html = t.render(Context())
-    return HttpResponse(html)
 
 # Create your tests here.
 def home(request):
@@ -46,6 +39,13 @@ def home(request):
 ##todo es de prueba... 
 def addProd(request):
     fp = open('./chieti/templates/chieti/addProduct.html')
+    t = Template(fp.read())
+    fp.close()
+    html = t.render(Context())
+    return HttpResponse(html)
+
+def mainHead(request):
+    fp = open('./chieti/templates/chieti/mainHead.html')
     t = Template(fp.read())
     fp.close()
     html = t.render(Context())

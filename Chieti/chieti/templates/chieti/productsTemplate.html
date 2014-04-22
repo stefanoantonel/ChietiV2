@@ -11,23 +11,27 @@
     </tr>
 {% endfor %}
  -->
-<!-- <link href="{% include 'chieti/1.html' %}"> -->
-{% include 'chieti/1.html' %}
+
+
 {% include 'chieti/mainHead.html' %}
     
 <script type="text/javascript">
 
 function Popup(status, id) {
+	//console.log("prod: "+producto);
+	//{{prodCentral}}=producto;
+	console.log($(this))
     if (status == 1) {
         	console.log("id: "+id);
-        	$("#divProdCentral").css("display", "block");      	
-        	$("#centralImg").attr("src","/static/chieti/productImages/"+id+".jpg");
+        	$("#div"+id).css("display", "block");      	
+        	$("#img"+id).attr("src","/static/chieti/productImages/"+id+".jpg");
     }
     else{
-    	setTimeout(function(){
-    		if (!$('#divProdCentral').is(':hover'))
-        		$("#divProdCentral").css("display", "none");
-    	}, 1000);
+    	//setTimeout(function(){
+    		//if (!$("#div"+id).is(':hover'))
+    			console.log("id salida: "+id);
+        		$("#div"+id).css("display", "none");
+    	//}, 1000);
     }
 }
 
@@ -74,14 +78,10 @@ function Popup(status, id) {
 
 <div class="allProducts">
 {% for prod in todos %}
-	<img alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,0)">
-{% endfor %}    
-</div>
-
-{% for prod in todos %}
-    <div id="divProdCentral" class="centralProd" style="display:none;">
+	<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
+	 <div id="div{{ prod.id }}" class="productImg" >  <!-- style="display:none;" -->
     	<section >
-        <img id="centralImg" src="/static/chieti/productImages/1.jpg" alt="" style="width:250px; height:250px;">
+        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" style="width:250px; height:250px;">
         <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
         <br/>
         <label name='name' class="product" >{{ prod.name }}</label>
@@ -96,7 +96,13 @@ function Popup(status, id) {
         <br/><br/>
         </section>
     </div>
-{% endfor %}
+	
+	
+{% endfor %}    
+</div>
+
+
+   
     
 </div>
 
