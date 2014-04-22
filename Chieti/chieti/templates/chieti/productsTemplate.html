@@ -18,20 +18,25 @@
 <script type="text/javascript">
 
 function Popup(status, id) {
-	//console.log("prod: "+producto);
-	//{{prodCentral}}=producto;
-	console.log($(this))
-    if (status == 1) {
+	//Get
+	var p = $("#img"+id);
+	var offset = p.offset();
+
+	//set
+	$("#div"+id).offset({ top: offset.top, left: offset.left})
+	console.log(document.getElementById("img"+id).offsetLeft);
+     if (status == 1) {
         	console.log("id: "+id);
-        	$("#div"+id).css("display", "block");      	
-        	$("#img"+id).attr("src","/static/chieti/productImages/"+id+".jpg");
+        	//$("#div"+id).removeAttr("display");
+        	$("#div"+id).css("display","");
+        	//$("#img"+id).attr("src","/static/chieti/productImages/"+id+".jpg");
     }
     else{
     	//setTimeout(function(){
     		//if (!$("#div"+id).is(':hover'))
     			console.log("id salida: "+id);
         		$("#div"+id).css("display", "none");
-    	//}, 1000);
+    	//}, 1000); 
     }
 }
 
@@ -76,12 +81,14 @@ function Popup(status, id) {
 <body>
 <div>
 
+
+<!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}
 	<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
-	 <div id="div{{ prod.id }}" class="productImg" >  <!-- style="display:none;" -->
+	 <div id="div{{ prod.id }}" style="position:absolute; width:150px;height:150px;">  <!-- style="position: absolute; display:none;" -->
     	<section >
-        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" style="width:250px; height:250px;">
+        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg">
         <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
         <br/>
         <label name='name' class="product" >{{ prod.name }}</label>
