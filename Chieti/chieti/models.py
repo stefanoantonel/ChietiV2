@@ -2,6 +2,7 @@ from django.db import models
 
 
 class product(models.Model):
+
 	#UNIT_CHOICES = (('k','Kg'),('u','Unit'),)
 	#measureUnit = models.CharField(max_length=3 ,choices=UNIT_CHOICES,)
 	measureUnit = models.CharField(max_length=3)

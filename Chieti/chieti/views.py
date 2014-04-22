@@ -17,8 +17,6 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 
-# Create your views here.
-
 
 from django.test import TestCase
 from django.http import request, HttpResponse
@@ -71,11 +69,17 @@ def mainHead(request):
 
 # #todo es de prueba... 
 def addProd(request):
+
 	fp = open('./chieti/templates/chieti/addProduct.html')
 	t = Template(fp.read())
 	fp.close()
 	html = t.render(Context())
 	return HttpResponse(html)
+
+
+
+
+
 
 def addProd2(request):
 	nam = request.POST.get('name')
