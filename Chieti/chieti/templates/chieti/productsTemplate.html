@@ -11,32 +11,23 @@
     </tr>
 {% endfor %}
  -->
-
+<!-- <link href="{% include 'chieti/1.html' %}"> -->
 
 {% include 'chieti/mainHead.html' %}
     
 <script type="text/javascript">
 
 function Popup(status, id) {
-	//Get
-	var p = $("#img"+id);
-	var offset = p.offset();
-
-	//set
-	$("#div"+id).offset({ top: offset.top, left: offset.left})
-	console.log(document.getElementById("img"+id).offsetLeft);
-     if (status == 1) {
+    if (status == 1) {
         	console.log("id: "+id);
-        	//$("#div"+id).removeAttr("display");
-        	$("#div"+id).css("display","");
-        	//$("#img"+id).attr("src","/static/chieti/productImages/"+id+".jpg");
+        	$("#divProdCentral").css("display", "block");      	
+        	$("#centralImg").attr("src","/static/chieti/productImages/"+id+".jpg");
     }
     else{
-    	//setTimeout(function(){
-    		//if (!$("#div"+id).is(':hover'))
-    			console.log("id salida: "+id);
-        		$("#div"+id).css("display", "none");
-    	//}, 1000); 
+    	setTimeout(function(){
+    		if (!$('#divProdCentral').is(':hover'))
+        		$("#divProdCentral").css("display", "none");
+    	}, 1000);
     }
 }
 
@@ -81,14 +72,16 @@ function Popup(status, id) {
 <body>
 <div>
 
-
-<!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}
-	<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
-	 <div id="div{{ prod.id }}" style="position:absolute; width:150px;height:150px;">  <!-- style="position: absolute; display:none;" -->
+	<img alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,0)">
+{% endfor %}    
+</div>
+
+{% for prod in todos %}
+    <div id="divProdCentral" class="centralProd" style="display:none;">
     	<section >
-        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg">
+        <img id="centralImg" src="/static/chieti/productImages/1.jpg" alt="" style="width:250px; height:250px;">
         <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
         <br/>
         <label name='name' class="product" >{{ prod.name }}</label>
@@ -103,13 +96,7 @@ function Popup(status, id) {
         <br/><br/>
         </section>
     </div>
-	
-	
-{% endfor %}    
-</div>
-
-
-   
+{% endfor %}
     
 </div>
 
