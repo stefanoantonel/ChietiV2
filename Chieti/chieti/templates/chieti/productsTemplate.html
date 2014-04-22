@@ -11,23 +11,26 @@
     </tr>
 {% endfor %}
  -->
-<link href="{% include 'chieti/1.html' %}">
-
+{% include 'chieti/1.html' %}
+{% include 'chieti/mainHead.html' %}
 <script type="text/javascript">
+
+function Popup(status, id) {
+    if (status == 1) {
+        	console.log("id: "+id);
+        	$("#divProdCentral").css("display", "block");      	
+        	$("#centralImg").attr("src","/static/chieti/productImages/"+id+".jpg");
+    }
+    else{
+    	setTimeout(function(){
+    		if (!$('#divProdCentral').is(':hover'))
+        		$("#divProdCentral").css("display", "none");
+    	}, 1000);
+    }
+}
+
 	$(document).ready(function() {
 	  	console.log( "ready prod!" ) 
-	
-	/* $.ajax({
-    url: 'd/',
-    type: 'get', 
-    data: {p:13},
-    success: function(data) {
-        console.log("todo ok! AJAX")
-    }
-	});
-	$(".pe").click(function(){
-		$("body").append("<button class='pe' >pp</button>")
-	}); */
 		var ant=$('#precio').text()
 		$('#quantity').change(function(){
 			console.log('cambio')
@@ -56,15 +59,25 @@
             });
         })
 	});
+	
 
 </script>
 	
 
 </head>
 <body>
-<div>
+<div class="allProducts">
 {% for prod in todos %}
-	<img alt="" src="">
+	<img alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,0)">
+{% endfor %}
+    
+</div>
+
+
+<!-- style="display:none;" -->
+<div id="divProdCentral" class="centralProd" style="display:none;">
+	<section >
+	<img id="centralImg" src="/static/chieti/productImages/1.jpg" alt="" style="width:250px; height:250px;">
     <label id='ids' hidden="hidden">{{ prod.id }}</label><br/>
     <label id='name' class="product">{{ prod.name }}</label><br/>
     <label for='quantity'>Cant:</label>
@@ -73,10 +86,10 @@
     <label >Precio: <label id='price'>{{prod.salePrice}}</label></label>
     <button class="add">Agregar</button>
     <br/><br/>
-    
-{% endfor %}
-    
+    </section>    
 </div>
+
+
 
 </body>
 </html>

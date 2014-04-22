@@ -1,17 +1,23 @@
+from django.contrib.messages.storage import default_storage
+from django.core.files.base import ContentFile
+from django.http import request, HttpResponse
+from django.http import request, HttpResponse
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
-from django.http import request, HttpResponse
-
-# Create your views here.
-
-from django.test import TestCase
-from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
-from django.template import RequestContext, loader
 from django.template import Context, Template
-
-
+from django.template import RequestContext, loader
+from django.test import TestCase
 from django.views.decorators.csrf import csrf_protect
 
+from chieti.forms import DocumentForm
+from chieti.models import product, orderManager, order, user, Document
+import os
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
+
+# Create your views here.
 def testSwap(request):
     
     fp = open('./chieti/templates/chieti/testSwap.html')
@@ -20,7 +26,6 @@ def testSwap(request):
     html = t.render(Context())
     return HttpResponse(html)
 
-from chieti.models import product,orderManager,order,user
 # Create your tests here.
 def home(request):
     fp = open('./chieti/templates/chieti/homePage.html')
@@ -51,11 +56,16 @@ def addProd(request):
 
 
 def addProd2(request):
-	nam=request.POST.get('name')
-	pri=request.POST.get('sellPrice','')
-	pr=product(measureUnit ='kg',salePrice=pri,name=nam)
-	pr.save()
-	return HttpResponse(nam)
+    nam=request.POST.get('name')
+    pri=request.POST.get('sellPrice','')
+    im= request.FILES['image'] 
+    pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+    pr.save()
+    ids=pr.id
+    path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
+    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+    path2='/static/chieti/productImages/'+ str(ids)+ '.jpg'
+    return HttpResponse('<html><img src='+path2+'></html>')
 
 
 
@@ -106,4 +116,6 @@ def addToOrder(request):
     #       orderFK=order.objects.filter(id=1))
     c=(ids,quant)
     return HttpResponse(c)
->>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
+
+
+

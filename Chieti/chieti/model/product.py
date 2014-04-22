@@ -5,14 +5,30 @@ Created on Apr 8, 2014
 
 '''
 
+from django import forms
+from django.core.files.base import File
 from django.db import models
+
+
 class product(models.Model):
-    measureUnit = models.CharField(max_length=22)
-    #pub_date = models.DateTimeField('date published')
-    salePrice=models.DecimalField(max_digits=7, decimal_places=2)
-    name=models.CharField(max_length=50)
-    def getp(self):
-        return self.salePrice*4
+    #===========================================================================
+    # measureUnit = models.CharField(max_length=22)
+    # #pub_date = models.DateTimeField('date published')
+    # salePrice=models.DecimalField(max_digits=7, decimal_places=2)
+    # name=models.CharField(max_length=50)
+    # img=models.ImageField(upload_to = '/static/chieti/images')
+    # def getp(self):
+    #     return self.salePrice*4
+    #===========================================================================
+    
+ 
+#===============================================================================
+# class ImageUploadForm(forms.Form):
+#     """Image upload form."""
+#     image = forms.ImageField()   
+#===============================================================================
+    
+
  #===============================================================================
 #     class Poll(models.Model):
 #     question = models.CharField(max_length=200)
@@ -43,5 +59,6 @@ class product(models.Model):
 #         self.name=nam
 #         
 # if __name__ == '__main__':
-#     pass
 #===============================================================================
+     pass
+

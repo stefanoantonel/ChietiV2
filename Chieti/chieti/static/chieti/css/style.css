@@ -5,3 +5,24 @@ li a {
 .imageLogo {
     background: white url("../images/fruit.png") no-repeat right top;
 }
+
+
+.productImg{
+	float:left;
+	width:150px;
+	height:150px;
+}
+
+.centralProd{
+	position:absolute;  
+	top:30%;  
+	left:45%;
+	width:250px;
+	height:400px;  
+	border:thick;
+}
+
+.allProducts{
+	position:absolute;
+	left:20%;
+}

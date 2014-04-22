@@ -8,9 +8,6 @@ urlpatterns = patterns('',
     url(r'addProduct/', 'chieti.views.addProd', name='addProd'),
     url(r'hom/ad/', 'chieti.views.addProd2', name='addProd2'),
     
-    
-    
-    url(r'testSwap/', 'chieti.views.testSwap', name='home'),
     url(r'addProduct2/', 'chieti.views.addProd2', name='addProd2'),
 
     #url(r'^admin/', include(admin.site.urls)),
@@ -22,6 +19,5 @@ urlpatterns = patterns('',
     url(r'changePrice2/','chieti.views.changePrice2'),
     url(r'addToOrder/','chieti.views.addToOrder'),
 
-    
 )
 

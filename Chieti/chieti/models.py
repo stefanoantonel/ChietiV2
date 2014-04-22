@@ -1,5 +1,5 @@
 from django.db import models
-
+#from django.core.files.base import File
 
 class product(models.Model):
 	#UNIT_CHOICES = (('k','Kg'),('u','Unit'),)
@@ -8,12 +8,12 @@ class product(models.Model):
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
+	#img=models.ImageField(upload_to = 'chieti/static/chieti/images')
 	def getPrice(self):
 		return self.salePrice
 	class Meta:
 		#abstract = True
 		pass
-
 
 
 
@@ -110,3 +110,5 @@ class item(models.Model):
 	
 
 
+class Document(models.Model):
+	docfile = models.FileField(upload_to='documents/%Y/%m/%d')
