@@ -11,9 +11,26 @@
     </tr>
 {% endfor %}
  -->
-<link href="{% include 'chieti/1.html' %}">
+<!-- <link href="{% include 'chieti/1.html' %}"> -->
+{% include 'chieti/1.html' %}
+{% include 'chieti/mainHead.html' %}
     
 <script type="text/javascript">
+
+function Popup(status, id) {
+    if (status == 1) {
+        	console.log("id: "+id);
+        	$("#divProdCentral").css("display", "block");      	
+        	$("#centralImg").attr("src","/static/chieti/productImages/"+id+".jpg");
+    }
+    else{
+    	setTimeout(function(){
+    		if (!$('#divProdCentral').is(':hover'))
+        		$("#divProdCentral").css("display", "none");
+    	}, 1000);
+    }
+}
+
 	$(document).ready(function() {
 	  	console.log( "ready prod!" ) 		
 		$('input[name=quantity]').change(function(){
@@ -54,9 +71,17 @@
 </head>
 <body>
 <div>
+
+<div class="allProducts">
 {% for prod in todos %}
-    <div>
-        <img alt="" src="">
+	<img alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,0)">
+{% endfor %}    
+</div>
+
+{% for prod in todos %}
+    <div id="divProdCentral" class="centralProd" style="display:none;">
+    	<section >
+        <img id="centralImg" src="/static/chieti/productImages/1.jpg" alt="" style="width:250px; height:250px;">
         <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
         <br/>
         <label name='name' class="product" >{{ prod.name }}</label>
@@ -69,6 +94,7 @@
         <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label>
         <button class="add">Agregar</button>
         <br/><br/>
+        </section>
     </div>
 {% endfor %}
     

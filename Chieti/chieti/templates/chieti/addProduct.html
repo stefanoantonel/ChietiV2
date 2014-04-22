@@ -14,10 +14,11 @@ $(document).ready(function(){
 </head>
 <body>
 
-	<form action="/chieti/addProduct2/" method="post">
+	<form action="/chieti/addProduct2/" method="post" enctype="multipart/form-data">
 		Ingrese el nombre del producto <input type="text" name="name"><div></div>
 		Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
 		Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
+		Ingrese la imagen<input type="file" name="image" />
         Seleccion Unidad de Medida: 
         <input type="radio" name="mu" value="Kg">Kg
         <input type="radio" name="mu" value="Unidad">Unidad

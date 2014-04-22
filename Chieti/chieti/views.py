@@ -13,6 +13,14 @@ from django.core.mail import EmailMultiAlternatives
 
 from chieti.models import product, orderManager, order, user, item
 # Create your tests here.
+def testSwap(request):
+    
+    fp = open('./chieti/templates/chieti/testSwap.html')
+    t = Template(fp.read())
+    fp.close()
+    html = t.render(Context())
+    return HttpResponse(html)
+
 def home(request):
 	fp = open('./chieti/templates/chieti/homePage.html')
 	t = Template(fp.read())
@@ -58,9 +66,18 @@ def addProd2(request):
 	nam = request.POST.get('name')
 	pri = request.POST.get('sellPrice', '')
 	meas = request.POST.get('mu', '')
+	im= request.FILES['image'] 
 	pr = product(measureUnit=meas, salePrice=pri, name=nam)
 	pr.save()
+	ids=pr.id
+	path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
+    #tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+    #path2='/static/chieti/productImages/'+ str(ids)+ '.jpg'
+    #return HttpResponse('<html><img src='+path2+'></html>')
+
 	return redirect(addProd)
+
+
 
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')

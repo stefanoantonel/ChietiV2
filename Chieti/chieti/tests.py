@@ -1,17 +1,31 @@
 from django.test import TestCase
 from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
+<<<<<<< HEAD
 from django.template import RequestContext, loader, Template, Context
 from chieti.models import item,product,order,singleProduct,user,orderManager,promo
 from django.db import models
 import views
+=======
+from django.template import RequestContext, loader,Template,Context
+from chieti.models import *
+>>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
 # Create your tests here.
 
 def index(request):
 	p = request.GET.get('p')
 	# if p is not None:
 	#    return HttpResponse(p)
+<<<<<<< HEAD
 	# else:
+=======
+	#else:
+	
+	from django.template import Context, Template
+	
+	#html = open("/1.html")
+	#return HttpResponse(html)
+>>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
 	
 	from django.template import Context, Template
 	
@@ -24,6 +38,63 @@ def index(request):
 	fp.close()
 	html = t.render(Context())
 	return HttpResponse(html)
+<<<<<<< HEAD
+=======
+
+
+if __name__ == '__main__':
+#===========================================================================
+# prod=product(measureUnit="Kg",pub_date=timezone.now(),salePrice=12,name="manzana")
+# prod.save()
+# prod=product(measureUnit="Kg",pub_date=timezone.now(),salePrice=10,name="peras")
+# prod.save()
+# prod=product(measureUnit="Kg",pub_date=timezone.now(),salePrice=9,name="zanahoria")
+# prod.save()
+# prod=product(measureUnit="Kg",pub_date=timezone.now(),salePrice=4,name="zanahoria")
+# prod.save()
+# iw=user(1,2,3,4,'pepe',2)
+# prod.um=iw
+# prod.save()
+# r=product.objects.filter(um=iw)
+# 
+# print product.clean(prod)
+# 
+# u=product.objects.filter(salePrice=4)
+# for i in u:
+#     print i.name
+# u=product.objects.get(id=22)
+# print u.name
+#===========================================================================
+	
+	todo=product.objects.all()
+	for i in todo:
+		print i.name, i.salePrice, i.measureUnit
+	
+	om=orderManager()
+	#om.save()
+	
+	us=user(name='federico',lastName='sar',adress='poeta 122',phone='1223344',email='f@g.com',password=123)
+	#us.save()
+	
+	orde=order(userFK=us,orderManagerFK=om)
+	#orde.save()
+	
+	sin=singleProduct(measureUnit='Kg',salePrice=22,name='Zapallito',buyPrice=19)
+	#sin.save()
+	
+	it=item(productFK=sin,quantity=2,orderFK=orde)
+	#it.save()
+	
+	w=item.objects.filter(productFK=singleProduct.objects.all())
+	
+	for i in w:
+		print i.quantity,i.productFK.salePrice, i.productFK.name,i.productFK.measureUnit,i.orderFK.orderManagerFK.id,i.orderFK.userFK.type
+	pass
+
+	t = Template("My name is {{ my_name }}.")
+	c = Context({"my_name": "Adrian"})
+	t.render(c)
+>>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
 
 
 if __name__ == '__main__':
