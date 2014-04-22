@@ -10,7 +10,7 @@ from django.template import RequestContext, loader
 from django.test import TestCase
 from django.views.decorators.csrf import csrf_protect
 
-from chieti.forms import DocumentForm
+
 from chieti.models import product, orderManager, order, user, Document
 import os
 from django.core.files.storage import default_storage
@@ -46,11 +46,11 @@ def home(request):
 
 ##todo es de prueba... 
 def addProd(request):
-	fp = open('./chieti/templates/chieti/addProduct.html')
-	t = Template(fp.read())
-	fp.close()
-	html = t.render(Context())
-	return HttpResponse(html)
+    fp = open('./chieti/templates/chieti/addProduct.html')
+    t = Template(fp.read())
+    fp.close()
+    html = t.render(Context())
+    return HttpResponse(html)
 
 
 
@@ -70,23 +70,23 @@ def addProd2(request):
 
 
 def showProduct(request):
-	fp = open('./chieti/templates/chieti/productsTemplate.html')
-	t = Template(fp.read())
-	fp.close()
-	todo=product.objects.all()
-	c=Context({'todos':todo})
-	html = t.render(c)
-	return HttpResponse(html)
-	#return render_to_response(fp,{'todos',todo})
+    fp = open('./chieti/templates/chieti/productsTemplate.html')
+    t = Template(fp.read())
+    fp.close()
+    todo=product.objects.all()
+    c=Context({'todos':todo})
+    html = t.render(c)
+    return HttpResponse(html)
+    #return render_to_response(fp,{'todos',todo})
 
 def changePrice(request):
-	fp = open('./chieti/templates/chieti/changePrice.html')
-	t = Template(fp.read())
-	fp.close()
-	todo=product.objects.all()
-	c=Context({'todos':todo})
-	html = t.render(c)
-	return HttpResponse(html)
+    fp = open('./chieti/templates/chieti/changePrice.html')
+    t = Template(fp.read())
+    fp.close()
+    todo=product.objects.all()
+    c=Context({'todos':todo})
+    html = t.render(c)
+    return HttpResponse(html)
 
 def changePrice2(request):
     #ids=request['ids']
@@ -116,6 +116,5 @@ def addToOrder(request):
     #       orderFK=order.objects.filter(id=1))
     c=(ids,quant)
     return HttpResponse(c)
-
 
 
