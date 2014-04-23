@@ -12,6 +12,12 @@ li a {
 	width:150px;
 	height:150px;
 }
+.productImg2{
+	float:left;
+	width:200px;
+	height:200px;
+}
+
 
 .centralProd{
 	position:absolute;  
