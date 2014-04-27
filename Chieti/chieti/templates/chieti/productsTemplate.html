@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Chieti</title>
 
 
 {% include 'chieti/mainHead.html' %}
@@ -14,20 +14,11 @@ function Popup(status, id) {
 	$( "#div"+id ).css({ position: "absolute",
          marginLeft: 0, marginTop: 0,
          top: pos.top, left: pos.left });
-		
-	//console.log("posicion:"+document.getElementById("img"+id).offsetLeft);
-	
+
      if (status == 1) {
         	console.log("id status1: "+id);
         	$("#div"+id).css("display","");
     }
-    /* else{
-    	setTimeout(function(){
-    		if (!$("#div"+id).is(':hover'))
-    			{console.log("id salida: "+id);
-        		$("#div"+id).css("display", "none");}
-    	}, 1000); 
-    } */
 }
 
 function Aparecer(id){$("#div"+id).css('display', '');}
@@ -71,15 +62,18 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
 	
 
 </head>
-<body style='background:url(/static/chieti/productImages/1.jpg)'>
+<body class="prodBody">
 <div>
-
-
+<a style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold ">frutas</a>
+<a style="float:left;margin-left: 25%;display:block; color:gray;font-weight: bold ">verduras</a>
+<a style="float:left;margin-left: 27%;display:block; color:gray;font-weight: bold ">otros</a>
+</div>
+<div>
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}
 	<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
-	 <div id="div{{ prod.id }}" style="position:absolute; display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})">
+	 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})">
     	<section >
         <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
         <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
@@ -87,11 +81,11 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
         <label name='name' class="product" >{{ prod.name }}</label>
         <br/>
         <label for='quantity'>Cant:</label>
-        <input name='quantity' type="text" value="" >
+        <input name='quantity' type="text" value="" style="width:50%">
         {{prod.measureUnit}}
         <br/>
         <label>Precio:</label>
-        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label>
+        <label name='price' title="{{prod.salePrice}}">${{prod.salePrice}}</label>
         <button class="add">Agregar</button>
         <br/><br/>
         </section>
