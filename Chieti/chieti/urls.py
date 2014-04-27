@@ -35,7 +35,7 @@ urlpatterns = patterns('',
     url(r'singUp2/','chieti.views.singUp2'),
     url(r'singUp3/','chieti.views.singUp3'),
    
-	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+	
 	url(r'init/','chieti.views.init'),
 
 )
