@@ -8,6 +8,7 @@ class product(models.Model):
     pub_date = models.DateTimeField(auto_now=True)
     salePrice=models.DecimalField(max_digits=7, decimal_places=2)
     name=models.CharField(max_length=50)
+    isPromo=models.BooleanField()
     def getPrice(self):
         return self.salePrice
 
@@ -73,23 +74,25 @@ class order(models.Model):
     
     
 
-class promo(product):
-    #items=None #list
-    items=[]
-    discountPercent=models.FloatField()
-
-    def addDiscountPercent(self,mount):
-        self.discountPercent=mount
-
-    def addItem(self,item):
-        self.items.append(item)
-        
-        
-class singleProduct(product):
-    buyPrice=models.FloatField()
-    def addBuyPrice(self,price):
-        self.buyPrice=price     
-    
+#===============================================================================
+# class promo(product):
+#     #items=None #list
+#     items=[]
+#     discountPercent=models.FloatField()
+# 
+#     def addDiscountPercent(self,mount):
+#         self.discountPercent=mount
+# 
+#     def addItem(self,item):
+#         self.items.append(item)
+#         
+#         
+# class singleProduct(product):
+#     buyPrice=models.FloatField()
+#     def addBuyPrice(self,price):
+#         self.buyPrice=price     
+#     
+#===============================================================================
 
 class item(models.Model):
     productFK=models.ForeignKey(product)
@@ -100,6 +103,12 @@ class item(models.Model):
     def getSubtotal(self):
         return self.product.getPrice()*self.quantity
         pass
+
+
+class itemPromo(models.Model):
+    productFK=models.ForeignKey(product)
+    promoFK=models.ForeignKey(product)
+    promoQuantity=models.IntegerField()
     
 
 

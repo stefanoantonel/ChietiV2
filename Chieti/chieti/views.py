@@ -29,8 +29,8 @@ def home(request):
     #om.save()
     #u=user(name="Stefano",lastName="An",adress="Roma 133",phone="3133312212",email="122@hotmail.com",password="12")
     #u.save()
-    om=orderManager.objects.get(id=1)
-    u=user.objects.get(id=2)
+    #om=orderManager.objects.get(id=1)
+    #u=user.objects.get(id=2)
     #o=order(userFK=u,orderManagerFK=om)
     #o.save()
     #oro=model
@@ -78,6 +78,16 @@ def showProduct(request):
     return HttpResponse(html)
     #return render_to_response(fp,{'todos',todo})
 
+def showSales(request):
+    fp = open('./chieti/templates/chieti/sales.html')
+    t = Template(fp.read())
+    fp.close()
+    todo=product.objects.all()
+    c=Context({'todos':todo})
+    html = t.render(c)
+    return HttpResponse(html)
+
+
 def changePrice(request):
     fp = open('./chieti/templates/chieti/changePrice.html')
     t = Template(fp.read())
@@ -117,3 +127,17 @@ def addToOrder(request):
     return HttpResponse(c)
 
 
+def singUp(request):
+    ids=request.POST.get('ids')
+    quant=request.POST.get('quantity')
+    c=(ids,quant)
+    return HttpResponse(c)
+
+
+def sales(request):
+    fp = open('./chieti/templates/chieti/sales.html')
+    t = Template(fp.read())
+    fp.close()
+    c=Context()
+    html = t.render(c)
+    return HttpResponse(html)

@@ -71,25 +71,26 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}
-	<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
-	 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})">
-    	<section >
-        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
-        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
-        <br/>
-        <label name='name' class="product" >{{ prod.name }}</label>
-        <br/>
-        <label for='quantity'>Cant:</label>
-        <input name='quantity' type="text" value="" style="width:50%">
-        {{prod.measureUnit}}
-        <br/>
-        <label>Precio:</label>
-        <label name='price' title="{{prod.salePrice}}">${{prod.salePrice}}</label>
-        <button class="add">Agregar</button>
-        <br/><br/>
-        </section>
-    </div>
-	
+	<div class="divImg">
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
+		 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})">
+	    	<section >
+	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
+	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
+	        <br/>
+	        <label name='name' class="product" >{{ prod.name }}</label>
+	        <br/>
+	        <label for='quantity'>Cant:</label>
+	        <input name='quantity' type="text" value="" style="width:50%">
+	        {{prod.measureUnit}}
+	        <br/>
+	        <label>Precio:</label>
+	        <label name='price' title="{{prod.salePrice}}">${{prod.salePrice}}</label>
+	        <button class="add">Agregar</button>
+	        <br/><br/>
+	        </section>
+	    </div>
+	</div>
 	
 {% endfor %}    
 </div>
