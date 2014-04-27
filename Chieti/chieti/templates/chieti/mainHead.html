@@ -5,10 +5,6 @@
 	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
 	<script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}"/>
-	<!-- script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}" ></script>
-	<script type="text/javascript" src="{% static 'chieti/js/bootstrap.min.js' %}" ></script>
-	<link rel="stylesheet" href="{% static 'chieti/css/bootstrap.min.css' %}" ></link> -->
-	
 	<script type="text/javascript"></script>
 
 		
@@ -16,9 +12,7 @@
 </head>
 <body>
 <div name="titulo" align="center">
-	<h3 class="title">Chieti</h3>
-		<img id="swap" src="{% static 'chieti/images/fruit.png' %}" style="width:150px;height:100px;" alt=""/>
-	<div class="borderInicio">Not just a grocery store</div>			 
+		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:150px;height:150px;" alt=""/>			 
 </div>
 
 
@@ -39,6 +33,10 @@ $("#swap").hover(function(){
 	swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
 	},function(){
 	    clearInterval(swapper);
+		});
+		
+$('#swap').bind('mouseleave', function(e) {
+	$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
 		});
  
 </script>
