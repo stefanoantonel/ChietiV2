@@ -109,7 +109,12 @@ def addProd2(request):
 	meas = request.POST.get('mu', '')
 	pr = product(measureUnit=meas, salePrice=pri, name=nam)
 	pr.save()
+	im= request.FILES['image'] 
+	ids=pr.id
+	path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
+	tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 	return redirect(addProd)
+
 
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
@@ -125,8 +130,9 @@ def showSales(request):
     fp = open('./chieti/templates/chieti/sales.html')
     t = Template(fp.read())
     fp.close()
-    todo=product.objects.all()
-    c=Context({'todos':todo})
+    todo = product.objects.filter(isPromo='false') #REVISAAAR!!
+    #todo = product.objects.all()
+    c = Context({'todasPromos':todo})
     html = t.render(c)
     return HttpResponse(html)
 
@@ -262,13 +268,6 @@ def printOrders(request):
 	html = t.render(c)
 	return HttpResponse(html)
 
-def sales(request):
-    fp = open('./chieti/templates/chieti/sales.html')
-    t = Template(fp.read())
-    fp.close()
-    c=Context()
-    html = t.render(c)
-    return HttpResponse(html)
 
 def cancelProduct(request):
 	fp = open('./chieti/templates/chieti/cancelProduct.html')

@@ -2,13 +2,12 @@ from django.db import models
 
 
 class product(models.Model):
-        #UNIT_CHOICES = (('k','Kg'),('u','Unit'),)
-    #measureUnit = models.CharField(max_length=3 ,choices=UNIT_CHOICES,)
     measureUnit = models.CharField(max_length=3)
     pub_date = models.DateTimeField(auto_now=True)
     salePrice=models.DecimalField(max_digits=7, decimal_places=2)
     name=models.CharField(max_length=50)
     canceled=models.BinaryField(default='false')
+    isPromo=models.BinaryField(default='false')
     def getPrice(self):
         return self.salePrice
 
@@ -32,13 +31,7 @@ class user (models.Model):
 	# 	self.email=emai
 	# 	self.password=passw
 	#===========================================================================
-
-
-
-		
-
-
-		
+	
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
 	def getSummaryBuy(self):
@@ -113,7 +106,6 @@ class order(models.Model):
 		pass
 	
 	def printOrder(self):
-		
 		pass
 	
 class item(models.Model):
@@ -121,14 +113,16 @@ class item(models.Model):
 	#promoFK=models.ForeignKey(promo)
 	quantity=models.IntegerField()
 	orderFK=models.ForeignKey(order)
-	def getSubtotal(self):
-		return self.productFK.salePrice*self.quantity
-		pass
+    #def getSubtotal(self):
+	#	return self.productFK.salePrice*self.quantity
+	#	pass
 
 class itemPromo(models.Model):
     productFK=models.ForeignKey(product)
-    promoFK=models.ForeignKey(product)
+    promoFK=models.ForeignKey(product, related_name='promoItem')
     promoQuantity=models.IntegerField()
+    def getPromo(self):
+        return self.promoFK.primary_key;
 	
 
 #===============================================================================
@@ -150,9 +144,6 @@ class itemPromo(models.Model):
 #         self.buyPrice=price     
 #     
 #===============================================================================
-
-
-    
 
 	
 
