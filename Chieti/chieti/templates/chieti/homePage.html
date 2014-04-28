@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- DSP NO DEBERIA ESTAR EL bootstrap.min -->
 {% load staticfiles %}
+<meta charset="ISO-8859-1">
 <link rel="stylesheet" href="{% static 'chieti/css/bootstrap.min.css' %}" ></link>
 <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
 
-	<title></title>
+{% include 'chieti/mainHead.html' %}
+	<title>Chieti</title>
 	<script type="text/javascript">
 	$(document).ready(function() {
 	  $.ajaxSetup({ cache: true });
@@ -24,12 +25,16 @@
 <body>
 	
 	<div class="contenedorBotones">
-		<button id="quienesSomos" class="btnInicio quienes btn btn-default btn-lg" type="button"><label for="quienesSomos">Quienes Somos</label></button>
-		<button id="promos" class="btnInicio promos btn btn-default btn-lg"><label for="promos">Promociones</label></button>
-		<button id="verdura" class="btnInicio verduras btn btn-default btn-lg"><label for="verduras">Verduras</label></button>
-		<button id="frutas" class="btnInicio frutas btn btn-default btn-lg"><label for="frutas">Frutas</label></button>
-		<button id="bebidas" class="btnInicio bebidas btn btn-default btn-lg"><label for="frutas">Bebidas</label></button>
-		<button id="otros" class="btnInicio otros btn btn-default btn-lg"><label for="frutas">Otros</label></button>
+		<div>
+			<a style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold ">Quienes Somo</a>
+			<a style="float:left;margin-left: 18%;display:block; color:gray;font-weight: bold ">Que ofrecemos</a>
+			<a style="float:left;margin-left: 15%;display:block; color:gray;font-weight: bold ">Como realizar tus compras</a>
+		</div>
+		<div>	
+			<a class="prod botonMenu" ></a>
+			<a class="botonMenu sale"></a>
+			<a class="botonMenu order" ></a>
+		</div>	
 	</div>
 
 </body>

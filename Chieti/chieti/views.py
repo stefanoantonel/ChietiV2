@@ -72,6 +72,7 @@ def init(request):
 def test(request):
 	return HttpResponse(request.session["order"])
 	
+
 def mainHead(request):
 	fp = open('./chieti/templates/chieti/mainHead.html')
 	t = Template(fp.read())
@@ -88,18 +89,18 @@ def addProd(request):
 	html = t.render(Context())
 	return HttpResponse(html)
 
-
-
-
-
-
 def addProd2(request):
 	nam = request.POST.get('name')
 	pri = request.POST.get('sellPrice', '')
 	meas = request.POST.get('mu', '')
 	pr = product(measureUnit=meas, salePrice=pri, name=nam)
 	pr.save()
+	im= request.FILES['image'] 
+	ids=pr.id
+	path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
+	tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 	return redirect(addProd)
+
 
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
@@ -110,6 +111,17 @@ def showProduct(request):
 	html = t.render(c)
 	return HttpResponse(html)
 	# return render_to_response(fp,{'todos',todo})
+
+def showSales(request):
+    fp = open('./chieti/templates/chieti/sales.html')
+    t = Template(fp.read())
+    fp.close()
+    todo = product.objects.filter(isPromo='false') #REVISAAAR!!
+    #todo = product.objects.all()
+    c = Context({'todasPromos':todo})
+    html = t.render(c)
+    return HttpResponse(html)
+
 
 def changePrice(request):
 	fp = open('./chieti/templates/chieti/changePrice.html')
