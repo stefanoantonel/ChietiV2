@@ -46,7 +46,7 @@ def home(request):
 	
 	
 	
-	print a.userDj.id
+	#print a.userDj.id
 	
 	om = orderManager.objects.get(id=1)
 	a=User.objects.get(username='Stefano Ant')
@@ -57,7 +57,7 @@ def home(request):
 	#===========================================================================
 	# if not order.objects.filter(userFK=request.session['user']):
 	o=order(userFK=u,orderManagerFK=om)
-	#o.save()
+	o.save()
 	#===========================================================================
 	request.session['user']=u.id
 	u = user.objects.get(id=request.session['user'])
@@ -347,7 +347,7 @@ def singUp2(request):
 		request.session['emailTemp']=emailT
 		
 		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
-		u=user(userDj=u1,adress=addressT, phone='',)
+		u=user(userDj=u1,address=addressT, phone='',)
 		u.save()
 		
 		return redirect(sendMail)
@@ -371,7 +371,8 @@ def singUp2Fake(request):
 		
 		
 		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
-		u=user(userDj=u1,adress=addressT, phone='',)
+		u1.save()
+		u=user(userDj=u1,address=addressT, phone='',)
 		
 		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()

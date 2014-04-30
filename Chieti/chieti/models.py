@@ -15,7 +15,8 @@ class product(models.Model):
 
 class user (models.Model):
 	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
-	adress=models.CharField(max_length=50)
+	address=models.CharField(max_length=50)
+	#adress
 	phone=models.CharField(max_length=50)
 	activated=models.BinaryField(default='false')
 	
@@ -29,7 +30,7 @@ class Employee(models.Model):
 	# 	self.id #deberia ir a buscar 
 	# 	self.name=nam
 	# 	self.lastName=last
-	# 	self.adress=addr
+	# 	self.address=addr
 	# 	self.phone=pho
 	# 	self.email=emai
 	# 	self.password=passw
@@ -68,7 +69,8 @@ class orderManager(models.Model):
 					'subTotal':it.getSubtotal(),
 					'canceled':it.productFK.canceled,}
 				productArray.append(prod)
-			orde={'userName':ords.userFK.name,
+			orde={'userName':ords.userFK.userDj.username,
+				'address':ords.userFK.address,
 				'orderNumber':ords.id,
 				'products':productArray,
 				'totalPrice':ords.getTotal(),}
