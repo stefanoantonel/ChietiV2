@@ -130,3 +130,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 #FIN LOGIN FACEBOOK
+
+
+#-------------------Para envio de mail 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'chietionline@gmail.com'
+EMAIL_HOST_PASSWORD = 'wuoleazgkzdvupaf'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+#-------------------Fin envio mail

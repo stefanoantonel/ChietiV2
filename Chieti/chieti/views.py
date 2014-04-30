@@ -34,39 +34,41 @@ def home(request):
 	fp.close()
 	c = Context()
 	html = t.render(c)
-	
-	om=orderManager()
-	#om.save()
-	
-	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	u1=User(username="Stefano Ant",email="122@hotmail.com",password="12")
-	u1.save()
-	u=user(userDj=u1,adress="Roma 33",phone="3133312212")
-	u.save()
-	
-	
-	
-	#print a.userDj.id
-	
-	om = orderManager.objects.get(id=1)
-	a=User.objects.get(username='Stefano Ant')
-	u=user.objects.get(userDj=a)
-	
-	
-	
 	#===========================================================================
-	# if not order.objects.filter(userFK=request.session['user']):
-	o=order(userFK=u,orderManagerFK=om)
-	o.save()
+	# 
+	# om=orderManager()
+	# #om.save()
+	# 
+	# # u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
+	# u1=User(username="Stefano Ant",email="122@hotmail.com",password="12")
+	# u1.save()
+	# u=user(userDj=u1,address="Roma 33",phone="3133312212")
+	# u.save()
+	# 
+	# 
+	# 
+	# #print a.userDj.id
+	# 
+	# om = orderManager.objects.get(id=1)
+	# a=User.objects.get(username='Stefano Ant')
+	# u=user.objects.get(userDj=a)
+	# 
+	# 
+	# 
+	# #===========================================================================
+	# # if not order.objects.filter(userFK=request.session['user']):
+	# o=order(userFK=u,orderManagerFK=om)
+	# o.save()
+	# #===========================================================================
+	# request.session['user']=u.id
+	# u = user.objects.get(id=request.session['user'])
+	# 
+	# 
+	# o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
+	# request.session["order"]=o.id
+	# 
+	# # oro=model
 	#===========================================================================
-	request.session['user']=u.id
-	u = user.objects.get(id=request.session['user'])
-	
-	
-	o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
-	request.session["order"]=o.id
-	
-	# oro=model
 	return HttpResponse(html)
 	
 def init(request):
@@ -343,10 +345,11 @@ def singUp2(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		request.session['userNameTemp']=nameT 
+		request.session['userNameTemp']=nameT+" "+lastNameT
 		request.session['emailTemp']=emailT
 		
 		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u1.save()
 		u=user(userDj=u1,address=addressT, phone='',)
 		u.save()
 		
@@ -410,8 +413,8 @@ def singUp3(request):
 	temp=user.objects.get(userDj=u)
 	
 	#temp = user.objects.get(userNameDj=nameT2)
-	mailT1=temp.email
-	nameT1=temp.name
+	mailT1=temp.userDj.email
+	nameT1=temp.userDj.username
 	
 	if mailT1 == mailT2 and nameT1 == nameT2:
 		#=======================================================================
