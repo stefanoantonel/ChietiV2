@@ -433,3 +433,11 @@ def changeUser(request):
 	return HttpResponse(html)
 	# return render_to_response(fp,{'todos',todo})
 
+
+def changeUser2(request):
+	personId = request.POST.get('idPer')
+	us=user.objects.get(id=personId)
+	request.session["order"]= order.objects.get(userFK=us.id).id
+	request.session['user'] = us.id
+	return redirect(showProduct)
+	# return render_to_response(fp,{'todos',todo})

@@ -11,6 +11,7 @@ def index(request):
 	#	return HttpResponse(p)
 	#else:
 	
+	
 	from django.template import Context, Template
 	
 	#html = open("/1.html")
@@ -47,30 +48,39 @@ if __name__ == '__main__':
 # u=product.objects.get(id=22)
 # print u.name
 #===========================================================================
+	#===========================================================================
+	# 
+	# todo=product.objects.all()
+	# for i in todo:
+	# 	print i.name, i.salePrice, i.measureUnit
+	# 
+	# om=orderManager()
+	# #om.save()
+	# 
+	# us=user(name='federico',lastName='sar',adress='poeta 122',phone='1223344',email='f@g.com',password=123)
+	# #us.save()
+	# 
+	# orde=order(userFK=us,orderManagerFK=om)
+	# #orde.save()
+	# 
+	# sin=singleProduct(measureUnit='Kg',salePrice=22,name='Zapallito',buyPrice=19)
+	# #sin.save()
+	# 
+	# it=item(productFK=sin,quantity=2,orderFK=orde)
+	# #it.save()
+	# 
+	# w=item.objects.filter(productFK=singleProduct.objects.all())
+	# 
+	# from django.contrib.auth.models import User
+	# user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+	# user.is_staff = True
+	# user.save()
+	# print user.id
+	# 
+	#===========================================================================
 	
-	todo=product.objects.all()
-	for i in todo:
-		print i.name, i.salePrice, i.measureUnit
+	user1 = User.objects.create_user(username='br', email='me@mobileme.com', password='12')
+	user1 = Employee.objects.create(user=user1,department='sells')
+	print user1.department
 	
-	om=orderManager()
-	#om.save()
 	
-	us=user(name='federico',lastName='sar',adress='poeta 122',phone='1223344',email='f@g.com',password=123)
-	#us.save()
-	
-	orde=order(userFK=us,orderManagerFK=om)
-	#orde.save()
-	
-	sin=singleProduct(measureUnit='Kg',salePrice=22,name='Zapallito',buyPrice=19)
-	#sin.save()
-	
-	it=item(productFK=sin,quantity=2,orderFK=orde)
-	#it.save()
-	
-	w=item.objects.filter(productFK=singleProduct.objects.all())
-	
-	from django.contrib.auth.models import User
-	user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-	user.is_staff = True
-	user.save()
-	print user.id

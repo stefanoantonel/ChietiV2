@@ -18,8 +18,15 @@ class user (models.Model):
 	phone=models.CharField(max_length=50)
 	email=models.EmailField(max_length=50)
 	password=models.CharField(max_length=10)
-	type= "client" #por defecto 
+	type= "client" #por defecto
 	
+
+from django.contrib.auth.models import User
+
+
+class Employee(models.Model):
+	user = models.OneToOneField(User)
+	department = models.CharField(max_length=100)
 	
 	#===========================================================================
 	# def __init__(self,nam,last,addr,pho,emai,passw):	
@@ -79,6 +86,7 @@ class orderManager(models.Model):
 class order(models.Model):
 	userFK=models.ForeignKey(user)
 	orderManagerFK=models.ForeignKey(orderManager)
+	#deliver=models.BinaryField(default='false')
 	#oro=models.ManyToOneRel(orderManager)
 	# items 
 	
@@ -113,9 +121,9 @@ class item(models.Model):
 	#promoFK=models.ForeignKey(promo)
 	quantity=models.IntegerField()
 	orderFK=models.ForeignKey(order)
-	#def getSubtotal(self):
-	#	return self.productFK.salePrice*self.quantity
-	#	pass
+	def getSubtotal(self):
+		return self.productFK.salePrice*self.quantity
+		pass
 
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product')

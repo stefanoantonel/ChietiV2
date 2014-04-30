@@ -5,37 +5,34 @@
 <title>Cambio de usuario</title>
 {% include 'chieti/mainHead.html' %}
 <script type="application/javascript">
+/*
 	$(document).ready(function(){
 		$("button").click(function(){
-			var id=$(this).siblings("label[name=idPer]")
-			id2=$(id).text()
-			console.log(id2)
-		});	
+			var id=$(this).siblings("input[name=idPer]").val()
+			$.post("/chieti/changeUser2/", { idPer: id},function(data){
+				$('body').html(data);
+				
+			});
+			
+		});
 	});
-	
+	*/
 </script>
 </head>
 <body>
-
-<div>
-<!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
-<div >
-{% for per in todos %}
-<div>
-	<label name="idPer" value="{{per.id}}" hidden="hidden">{{per.id}}</label>
-	<label value=name>{{per.name}}</label>
-	<label>{{per.lastName}}</label>
-	<button>Cambiar</button>
-	<br>
-</div>
-{% endfor %}    
-</div>
-
-
-   
-    
-</div>
-
+	<div>
+		{% for per in todos %}
+		<form action="/chieti/changeUser2/" method="post">
+			<div>
+				<input name="idPer" hidden="hidden" value="{{per.id}}"/>
+				<label>{{per.name}}</label>
+				<label>{{per.lastName}}</label>
+				<button>Cambiar</button>
+				<br>
+			</div>
+		</form>
+		{% endfor %}    
+	</div>
 </body>
 
 </html>
