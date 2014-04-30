@@ -2,14 +2,14 @@ from django.db import models
 
 
 class product(models.Model):
-    measureUnit = models.CharField(max_length=3)
-    pub_date = models.DateTimeField(auto_now=True)
-    salePrice=models.DecimalField(max_digits=7, decimal_places=2)
-    name=models.CharField(max_length=50)
-    canceled=models.BinaryField(default='false')
-    isPromo=models.BinaryField(default='false')
-    def getPrice(self):
-        return self.salePrice
+	measureUnit = models.CharField(max_length=3)
+	pub_date = models.DateTimeField(auto_now=True)
+	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
+	name=models.CharField(max_length=50)
+	canceled=models.BinaryField(default='false')
+	isPromo=models.BinaryField(default='false')
+	def getPrice(self):
+		return self.salePrice
 
 class user (models.Model):
 	name=models.CharField(max_length=50)
@@ -113,37 +113,36 @@ class item(models.Model):
 	#promoFK=models.ForeignKey(promo)
 	quantity=models.IntegerField()
 	orderFK=models.ForeignKey(order)
-    #def getSubtotal(self):
+	#def getSubtotal(self):
 	#	return self.productFK.salePrice*self.quantity
 	#	pass
 
 class itemPromo(models.Model):
-    productFK=models.ForeignKey(product)
-    promoFK=models.ForeignKey(product, related_name='promoItem')
-    promoQuantity=models.IntegerField()
-    def getPromo(self):
-        return self.promoFK.primary_key;
+	productFK=models.ForeignKey(product, related_name='product')
+	promoFK=models.ForeignKey(product, related_name='promoItem')
+	promoQuantity=models.IntegerField()
+	def getPromo(self):
+		return self.promoFK.primary_key;
 	
 
 #===============================================================================
 # class promo(product):
-#     #items=None #list
-#     items=[]
-#     discountPercent=models.FloatField()
+#	 #items=None #list
+#	 items=[]
+#	 discountPercent=models.FloatField()
 # 
-#     def addDiscountPercent(self,mount):
-#         self.discountPercent=mount
+#	 def addDiscountPercent(self,mount):
+#		 self.discountPercent=mount
 # 
-#     def addItem(self,item):
-#         self.items.append(item)
-#         
-#         
+#	 def addItem(self,item):
+#		 self.items.append(item)
+#		 
+#		 
 # class singleProduct(product):
-#     buyPrice=models.FloatField()
-#     def addBuyPrice(self,price):
-#         self.buyPrice=price     
-#     
+#	 buyPrice=models.FloatField()
+#	 def addBuyPrice(self,price):
+#		 self.buyPrice=price	 
+#	 
 #===============================================================================
 
 	
-
