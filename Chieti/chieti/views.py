@@ -67,24 +67,10 @@ def init(request):
 	om.save()
 	
 	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
-	u.save()
 	
-	om = orderManager.objects.get(id=1)
-	u=user.objects.get(name="Stefano")
-	
-	
-	#===========================================================================
-	# if not order.objects.filter(userFK=request.session['user']):
-	o=order(userFK=u,orderManagerFK=om)
-	o.save()
-	#===========================================================================
-	request.session['user']=u.id
-	u = user.objects.get(id=request.session['user'])
-	o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
-	request.session["order"]=o.id
-	
-	return HttpResponse('OK')
+	return HttpResponse('Order Manager OK')
+def test(request):
+	return HttpResponse(request.session["order"])
 	
 
 def mainHead(request):
@@ -331,6 +317,15 @@ def singUp(request):
 	html = t.render(c)
 	return HttpResponse(html)
 	
+def singUpFake(request):
+	fp = open('./chieti/templates/chieti/singUpFake.html')
+	t = Template(fp.read())
+	fp.close()
+	
+	c = Context({'error':''})
+	html = t.render(c)
+	return HttpResponse(html)
+
 def singUp2(request):
 	pass1 = request.POST.get('password1')
 	pass2 = request.POST.get('password2')
@@ -355,6 +350,39 @@ def singUp2(request):
 		c = Context({'error':'Claves son distintas'})
 		html = t.render(c)
 		return HttpResponse(html)
+
+def singUp2Fake(request):
+	pass1 = request.POST.get('password1')
+	pass2 = request.POST.get('password2')
+	if pass1 == pass2:
+		nameT = request.POST.get('name')
+		lastNameT = request.POST.get('lastName')
+		emailT = request.POST.get('email')
+		addressT = request.POST.get('address')
+		
+		u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
+		u.save()
+		om = orderManager.objects.get(id=1)
+		orderT1=order(userFK=u, orderManagerFK=om)
+		orderT1.save()
+		
+		request.session["order"]= orderT1.id
+		
+		request.session['user'] = u.id
+		request.session['orderManager'] = om.id
+		
+		
+		
+		return redirect(showProduct)
+	else:
+		fp = open('./chieti/templates/chieti/singUpFake.html')
+		t = Template(fp.read())
+		fp.close()
+		
+		c = Context({'error':'Claves son distintas'})
+		html = t.render(c)
+		return HttpResponse(html)
+
 
 def singUp3(request):
 	
