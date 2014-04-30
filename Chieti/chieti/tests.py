@@ -3,6 +3,7 @@ from django.http import request, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader,Template,Context
 from chieti.models import *
+from django.contrib.auth.models import User
 # Create your tests here.
 
 def index(request):
@@ -79,8 +80,14 @@ if __name__ == '__main__':
 	# 
 	#===========================================================================
 	
-	user1 = User.objects.create_user(username='br', email='me@mobileme.com', password='12')
-	user1 = Employee.objects.create(user=user1,department='sells')
-	print user1.department
+	#u1=User.objects.create_user(username="Stefano ant",email="12212@hotmail.com",password="12")
+	
+	#u=user(userDj=u1,adress="Roma 33",phone="3133312212")
+	#u.save()
+	nameT2="StefanoA"
+	userNameDj=user.objects.filter(user.userDj.username)
+	temp = user.objects.get(userNameDj=nameT2)
+	print u.id
+	
 	
 	

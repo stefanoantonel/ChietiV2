@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 
 class product(models.Model):
@@ -12,17 +14,10 @@ class product(models.Model):
 		return self.salePrice
 
 class user (models.Model):
-	name=models.CharField(max_length=50)
-	lastName=models.CharField(max_length=50)
+	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
 	adress=models.CharField(max_length=50)
 	phone=models.CharField(max_length=50)
-	email=models.EmailField(max_length=50)
-	password=models.CharField(max_length=10)
-	type= "client" #por defecto
 	
-
-from django.contrib.auth.models import User
-
 
 class Employee(models.Model):
 	user = models.OneToOneField(User)

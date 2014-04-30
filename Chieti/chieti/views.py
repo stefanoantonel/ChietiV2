@@ -25,7 +25,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext, loader
 from django.template import Context, Template
 from django.core.mail import EmailMultiAlternatives
-
+from django.contrib.auth.models import User
 from chieti.models import product, orderManager, order, user, item
 # Create your tests here.
 def home(request):
@@ -39,11 +39,12 @@ def home(request):
 	#om.save()
 	
 	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
+	u1=User(username="Stefano Ant",email="122@hotmail.com",password="12")
+	u=user(userDj=u1,adress="Roma 33",phone="3133312212")
 	#u.save()
 	
 	om = orderManager.objects.get(id=1)
-	u=user.objects.get(name="Stefano")
+	u=user.objects.get(name="Stefano Ant")
 	
 	
 	#===========================================================================
@@ -338,7 +339,8 @@ def singUp2(request):
 		request.session['userNameTemp']=nameT 
 		request.session['emailTemp']=emailT
 		
-		u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
+		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u=user(userDj=u1,adress=addressT, phone='',)
 		u.save()
 		
 		return redirect(sendMail)
@@ -360,7 +362,11 @@ def singUp2Fake(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
+		
+		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u=user(userDj=u1,adress=addressT, phone='',)
+		
+		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()
 		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=u, orderManagerFK=om)
@@ -389,8 +395,8 @@ def singUp3(request):
 	mailT2 = str(request.GET.get('email'))
 	nameT2 = str(request.GET.get('name'))
 	
-
-	temp = user.objects.get(email=mailT2, name=nameT2)
+	userNameDj=user.objects.filter(userDj.username)
+	temp = user.objects.get(userNameDj=nameT2)
 	mailT1=temp.email
 	nameT1=temp.name
 	
