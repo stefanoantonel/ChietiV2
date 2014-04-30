@@ -40,11 +40,18 @@ def home(request):
 	
 	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
 	u1=User(username="Stefano Ant",email="122@hotmail.com",password="12")
+	u1.save()
 	u=user(userDj=u1,adress="Roma 33",phone="3133312212")
-	#u.save()
+	u.save()
+	
+	
+	
+	print a.userDj.id
 	
 	om = orderManager.objects.get(id=1)
-	u=user.objects.get(name="Stefano Ant")
+	a=User.objects.get(username='Stefano Ant')
+	u=user.objects.get(userDj=a)
+	
 	
 	
 	#===========================================================================
@@ -395,8 +402,13 @@ def singUp3(request):
 	mailT2 = str(request.GET.get('email'))
 	nameT2 = str(request.GET.get('name'))
 	
-	userNameDj=user.objects.filter(userDj.username)
-	temp = user.objects.get(userNameDj=nameT2)
+	
+	
+	
+	u=User.objects.get(username=nameT2)
+	temp=user.objects.get(userDj=u)
+	
+	#temp = user.objects.get(userNameDj=nameT2)
 	mailT1=temp.email
 	nameT1=temp.name
 	

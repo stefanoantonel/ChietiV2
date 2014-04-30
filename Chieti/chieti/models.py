@@ -17,6 +17,7 @@ class user (models.Model):
 	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
 	adress=models.CharField(max_length=50)
 	phone=models.CharField(max_length=50)
+	activated=models.BinaryField(default='false')
 	
 
 class Employee(models.Model):
