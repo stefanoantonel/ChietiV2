@@ -11,9 +11,8 @@
 		<img id="headSale" src="{% static 'chieti/images/bigSale.png' %}" style="width:150px;height:150px;" alt=""/>			 
 </div>
 
+
 {% for promo in todasPromos %}
-
-
 <div id="div{{ promo.id }}">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ promo.id }}.jpg" alt="" class="productImg2">
@@ -21,6 +20,9 @@
 	        <br/>
 	        <label name='name' class="product" >{{ promo.name }}</label>
 	        <br/>
+	        {% for i in items %}
+	        <label>Producto cuyo id es:{{ i.id }}</label><br/>
+			{% endfor %} 	        
 	        <label for='quantity'>Cant:</label>
 	        <input name='quantity' type="text" value="" style="width:10%">
 	        {{promo.measureUnit}}

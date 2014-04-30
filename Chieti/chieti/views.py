@@ -11,7 +11,7 @@ from django.test import TestCase
 from django.views.decorators.csrf import csrf_protect
 
 
-from chieti.models import product, orderManager, order, user
+from chieti.models import product, orderManager, order, user, itemPromo
 import os
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -107,7 +107,8 @@ def addProd2(request):
 	nam = request.POST.get('name')
 	pri = request.POST.get('sellPrice', '')
 	meas = request.POST.get('mu', '')
-	pr = product(measureUnit=meas, salePrice=pri, name=nam)
+	isP = request.POST.get('promo', '')
+	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP)
 	pr.save()
 	im= request.FILES['image'] 
 	ids=pr.id
@@ -127,14 +128,18 @@ def showProduct(request):
 	# return render_to_response(fp,{'todos',todo})
 
 def showSales(request):
-    fp = open('./chieti/templates/chieti/sales.html')
-    t = Template(fp.read())
-    fp.close()
-    todo = product.objects.filter(isPromo='false') #REVISAAAR!!
-    #todo = product.objects.all()
-    c = Context({'todasPromos':todo})
-    html = t.render(c)
-    return HttpResponse(html)
+	fp = open('./chieti/templates/chieti/sales.html')
+	t = Template(fp.read())
+	fp.close()
+	todo = product.objects.filter(isPromo='true')
+	itemsXPromo=dict()
+	for promo in todo:
+		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
+		x=itemsXPromo[promo.id]
+		print promo.id
+	c = Context({'todasPromos':todo,'items':itemsXPromo})
+	html = t.render(c)
+	return HttpResponse(html)
 
 
 def changePrice(request):
