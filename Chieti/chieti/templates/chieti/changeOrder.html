@@ -28,7 +28,7 @@
 		});
 		$("label.remove").click(function(){
 			//remove the item from de DB and DOM
-			item=$(this).siblings("input[title=itemId]").val()
+			item=$(this).siblings("input[name=itemId]").val()
 			console.log("item",item)
 			$.ajax({
                 url: '/chieti/removeItem/',
@@ -42,6 +42,7 @@
                 }
             });
 			$(this).parent("div").remove()
+			calTotalPrice();
 		})
 		
 		
