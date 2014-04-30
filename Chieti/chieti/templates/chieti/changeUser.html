@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cambio de usuario</title>
+{% include 'chieti/mainHead.html' %}
+<script type="application/javascript">
+	$(document).ready(function(){
+		$("button").click(function(){
+			var id=$(this).siblings("label[name=idPer]")
+			id2=$(id).text()
+			console.log(id2)
+		});	
+	});
+	
+</script>
+</head>
+<body>
+
+<div>
+<!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
+<div >
+{% for per in todos %}
+<div>
+	<label name="idPer" value="{{per.id}}" hidden="hidden">{{per.id}}</label>
+	<label value=name>{{per.name}}</label>
+	<label>{{per.lastName}}</label>
+	<button>Cambiar</button>
+	<br>
+</div>
+{% endfor %}    
+</div>
+
+
+   
+    
+</div>
+
+</body>
+
+</html>

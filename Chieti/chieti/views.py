@@ -418,4 +418,13 @@ def singUp3(request):
 	else:
 		return HttpResponse("Error de confirmacion")
 
-	
+def changeUser(request):
+	fp = open('./chieti/templates/chieti/changeUser.html')
+	t = Template(fp.read())
+	fp.close()
+	todo = user.objects.all()
+	c = Context({'todos':todo})
+	html = t.render(c)
+	return HttpResponse(html)
+	# return render_to_response(fp,{'todos',todo})
+
