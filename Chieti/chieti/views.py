@@ -25,7 +25,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext, loader
 from django.template import Context, Template
 from django.core.mail import EmailMultiAlternatives
-
+from django.contrib.auth.models import User
 from chieti.models import product, orderManager, order, user, item
 # Create your tests here.
 def home(request):
@@ -34,31 +34,41 @@ def home(request):
 	fp.close()
 	c = Context()
 	html = t.render(c)
-	
-	om=orderManager()
-	#om.save()
-	
-	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	u=user(name="Stefano",lastName="Ant",adress="Roma 33",phone="3133312212",email="122@hotmail.com",password="12")
-	#u.save()
-	
-	om = orderManager.objects.get(id=1)
-	u=user.objects.get(name="Stefano")
-	
-	
 	#===========================================================================
-	# if not order.objects.filter(userFK=request.session['user']):
-	o=order(userFK=u,orderManagerFK=om)
-	#o.save()
+	# 
+	# om=orderManager()
+	# #om.save()
+	# 
+	# # u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
+	# u1=User(username="Stefano Ant",email="122@hotmail.com",password="12")
+	# u1.save()
+	# u=user(userDj=u1,address="Roma 33",phone="3133312212")
+	# u.save()
+	# 
+	# 
+	# 
+	# #print a.userDj.id
+	# 
+	# om = orderManager.objects.get(id=1)
+	# a=User.objects.get(username='Stefano Ant')
+	# u=user.objects.get(userDj=a)
+	# 
+	# 
+	# 
+	# #===========================================================================
+	# # if not order.objects.filter(userFK=request.session['user']):
+	# o=order(userFK=u,orderManagerFK=om)
+	# o.save()
+	# #===========================================================================
+	# request.session['user']=u.id
+	# u = user.objects.get(id=request.session['user'])
+	# 
+	# 
+	# o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
+	# request.session["order"]=o.id
+	# 
+	# # oro=model
 	#===========================================================================
-	request.session['user']=u.id
-	u = user.objects.get(id=request.session['user'])
-	
-	
-	o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
-	request.session["order"]=o.id
-	
-	# oro=model
 	return HttpResponse(html)
 	
 def init(request):
@@ -346,10 +356,12 @@ def singUp2(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		request.session['userNameTemp']=nameT 
+		request.session['userNameTemp']=nameT+" "+lastNameT
 		request.session['emailTemp']=emailT
 		
-		u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
+		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u1.save()
+		u=user(userDj=u1,address=addressT, phone='',)
 		u.save()
 		
 		return redirect(sendMail)
@@ -371,7 +383,12 @@ def singUp2Fake(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
+		
+		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u1.save()
+		u=user(userDj=u1,address=addressT, phone='',)
+		
+		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()
 		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=u, orderManagerFK=om)
@@ -400,10 +417,15 @@ def singUp3(request):
 	mailT2 = str(request.GET.get('email'))
 	nameT2 = str(request.GET.get('name'))
 	
-
-	temp = user.objects.get(email=mailT2, name=nameT2)
-	mailT1=temp.email
-	nameT1=temp.name
+	
+	
+	
+	u=User.objects.get(username=nameT2)
+	temp=user.objects.get(userDj=u)
+	
+	#temp = user.objects.get(userNameDj=nameT2)
+	mailT1=temp.userDj.email
+	nameT1=temp.userDj.username
 	
 	if mailT1 == mailT2 and nameT1 == nameT2:
 		#=======================================================================
@@ -434,4 +456,21 @@ def singUp3(request):
 	else:
 		return HttpResponse("Error de confirmacion")
 
-	
+def changeUser(request):
+	fp = open('./chieti/templates/chieti/changeUser.html')
+	t = Template(fp.read())
+	fp.close()
+	todo = user.objects.all()
+	c = Context({'todos':todo})
+	html = t.render(c)
+	return HttpResponse(html)
+	# return render_to_response(fp,{'todos',todo})
+
+
+def changeUser2(request):
+	personId = request.POST.get('idPer')
+	us=user.objects.get(id=personId)
+	request.session["order"]= order.objects.get(userFK=us.id).id
+	request.session['user'] = us.id
+	return redirect(showProduct)
+	# return render_to_response(fp,{'todos',todo})

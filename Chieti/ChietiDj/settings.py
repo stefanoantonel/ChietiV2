@@ -66,25 +66,25 @@ WSGI_APPLICATION = 'ChietiDj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
- 
 #===============================================================================
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql', 
-#         'NAME': 'chietidb',
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-#         'PORT': '3306',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
 #===============================================================================
+ 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'chietidb',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -130,3 +130,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 #FIN LOGIN FACEBOOK
+
+
+#-------------------Para envio de mail 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'chietionline@gmail.com'
+EMAIL_HOST_PASSWORD = 'wuoleazgkzdvupaf'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+#-------------------Fin envio mail

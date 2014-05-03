@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 
 class product(models.Model):
@@ -12,21 +14,23 @@ class product(models.Model):
 		return self.salePrice
 
 class user (models.Model):
-	name=models.CharField(max_length=50)
-	lastName=models.CharField(max_length=50)
-	adress=models.CharField(max_length=50)
+	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
+	address=models.CharField(max_length=50)
+	#adress
 	phone=models.CharField(max_length=50)
-	email=models.EmailField(max_length=50)
-	password=models.CharField(max_length=10)
-	type= "client" #por defecto 
+	activated=models.BinaryField(default='false')
 	
+
+class Employee(models.Model):
+	user = models.OneToOneField(User)
+	department = models.CharField(max_length=100)
 	
 	#===========================================================================
 	# def __init__(self,nam,last,addr,pho,emai,passw):	
 	# 	self.id #deberia ir a buscar 
 	# 	self.name=nam
 	# 	self.lastName=last
-	# 	self.adress=addr
+	# 	self.address=addr
 	# 	self.phone=pho
 	# 	self.email=emai
 	# 	self.password=passw
@@ -65,7 +69,8 @@ class orderManager(models.Model):
 					'subTotal':it.getSubtotal(),
 					'canceled':it.productFK.canceled,}
 				productArray.append(prod)
-			orde={'userName':ords.userFK.name,
+			orde={'userName':ords.userFK.userDj.username,
+				'address':ords.userFK.address,
 				'orderNumber':ords.id,
 				'products':productArray,
 				'totalPrice':ords.getTotal(),}
@@ -79,6 +84,7 @@ class orderManager(models.Model):
 class order(models.Model):
 	userFK=models.ForeignKey(user)
 	orderManagerFK=models.ForeignKey(orderManager)
+	#deliver=models.BinaryField(default='false')
 	#oro=models.ManyToOneRel(orderManager)
 	# items 
 	
@@ -113,9 +119,9 @@ class item(models.Model):
 	#promoFK=models.ForeignKey(promo)
 	quantity=models.IntegerField()
 	orderFK=models.ForeignKey(order)
-	#def getSubtotal(self):
-	#	return self.productFK.salePrice*self.quantity
-	#	pass
+	def getSubtotal(self):
+		return self.productFK.salePrice*self.quantity
+		pass
 
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product')
