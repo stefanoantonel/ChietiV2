@@ -80,12 +80,23 @@ def mainHead(request):
 	html = t.render(Context())
 	return HttpResponse(html)
 
+def auto(request):
+	fp = open('./chieti/templates/chieti/autocomplete.html')
+	t = Template(fp.read())
+	fp.close()
+	html = t.render(Context())
+	return HttpResponse(html)
+
 # #todo es de prueba... 
 def addProd(request):
 
 	fp = open('./chieti/templates/chieti/addProduct.html')
 	t = Template(fp.read())
 	fp.close()
+	prod = product.objects.all()
+	print "prod"
+	print prod
+	c = Context({'todosLosProd':prod})
 	html = t.render(Context())
 	return HttpResponse(html)
 

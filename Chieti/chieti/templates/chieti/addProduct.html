@@ -2,31 +2,69 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-  
 <title>Insert title here</title>
 {% include 'chieti/mainHead.html' %}
 <script type="text/javascript">
-$(document).ready(function(){
-	
-});
+
+$(function() {
+    var productNames = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++"
+    ];
+    $( "#tags" ).autocomplete({
+      source: productNames
+    });
+  });
+
 
 </script>
 </head>
 <body>
 
 	<form action="/chieti/addProduct2/" method="post" enctype="multipart/form-data">
-		Ingrese el nombre del producto <input type="text" name="name"><div></div>
-		Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
-		Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
-		Ingrese la imagen<input type="file" name="image" />
-        Seleccion Unidad de Medida: 
-        <input type="radio" name="mu" value="Kg">Kg
-        <input type="radio" name="mu" value="Unidad">Unidad
-        Es una promocion: 
-        <input type="radio" name="promo" value="true">Si
-        <input type="radio" name="promo" value="false">No
-		<input type="submit"/>
+			Ingrese el nombre del producto <input type="text" name="name"><div></div>
+			Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
+			Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
+			Ingrese la imagen<input type="file" name="image" />
+			<br/>
+	        Seleccion Unidad de Medida: 
+	        <input type="radio" name="mu" value="Kg">Kg
+	        <input type="radio" name="mu" value="Unidad">Unidad
+	        <br/>
+	        Es una promocion: 
+	        <input type="radio" name="promo" value="true">Si
+	        <input type="radio" name="promo" value="false">No
+			<input type="submit"/>
+			
+			<div class="ui-widget">
+			  <label for="tags">Tags: </label>
+		    <input id="tags">
+		    {% for prod in todosLosProd %}
 		
+					 <div id="div{{ prod.id }}">
+				    	<section >
+				        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
+				        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
+				        <br/>
+				        <label name='name' class="product" >{{ prod.name }}</label>
+				        <br/>
+				        <label for='quantity'>Cant:</label>
+				        <input name='quantity' type="text" value="" style="width:50%">
+				        {{prod.measureUnit}}
+				        <br/>
+				        <button class="add">Agregar</button>
+				        <br/><br/>
+				        </section>
+				    </div>
+			{% endfor %}
+		    	
+		    </div>
+</div>
 	</form>
+	
 </body>
 </html>

@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 
     url(r'hom/ad/', 'chieti.views.addProd2', name='addProd2'),
     
-   
+    url(r'auto', 'chieti.views.auto', name='addProd2'),
 
 
     #url(r'^admin/', include(admin.site.urls)),
