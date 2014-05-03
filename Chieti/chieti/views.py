@@ -81,7 +81,13 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 def test(request):
 	return HttpResponse(request.session["order"])
-	
+def test1(request):
+	fp = open('./chieti/templates/chieti/test1.html')
+	t = Template(fp.read())
+	fp.close()
+	html = t.render(Context())
+	return HttpResponse(html)
+		
 
 def mainHead(request):
 	fp = open('./chieti/templates/chieti/mainHead.html')
