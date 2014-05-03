@@ -294,10 +294,7 @@ def cancelProduct(request):
 def cancelProduct2(request):
 	productId = request.POST.get('productId')
 	checked = request.POST.get('checked')
-	ordMan=orderManager.objects.get(id=1)
-	print ordMan
-	ordMan.cancelProduct(productId,checked)
-	order.objects.get(id=request.session['order']).cancelProduct(productId, checked)
+	product.objects.filter(id=productId).update(canceled=checked)
 	
 	return HttpResponse(checked)
 

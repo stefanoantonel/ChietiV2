@@ -8,9 +8,8 @@ from django.contrib.auth.models import User
 
 if __name__ == '__main__':
 	print 'start'
-	todo = product.objects.filter(isPromo='true')
-	itemsXPromo=dict()
-	for promo in todo:
-		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
-		x=itemsXPromo[promo.id]
-		print promo.id
+	productId = 1
+	checked = 'true'
+	product.objects.filter(id=productId).update(canceled=checked)
+	#order.objects.get(id=request.session['order']).cancelProduct(productId, checked)
+	

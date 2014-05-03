@@ -51,9 +51,6 @@ class orderManager(models.Model):
 		return vector
 		pass #JSON array
 	
-	def cancelProduct(self):
-		pass
-	
 	def printSummary(self,summary):# elemento y cantidad
 		pass
 	def getSummarySell(self):# elemento y cantidad
@@ -84,6 +81,7 @@ class orderManager(models.Model):
 class order(models.Model):
 	userFK=models.ForeignKey(user)
 	orderManagerFK=models.ForeignKey(orderManager)
+	delivered=models.CharField(default='false',max_length=5)
 	#deliver=models.BinaryField(default='false')
 	#oro=models.ManyToOneRel(orderManager)
 	# items 
@@ -104,12 +102,6 @@ class order(models.Model):
 	def removeItem(self,itemId): #le paso el objeto item
 		item.objects.filter(id=itemId).delete() 
 		return "ok delete"
-		
-	def cancelProduct(self,productId,checked): 
-		#le paso el prodId y el estaso (true, false) porque es con ajax
-		#y me lo hace cada vez que cambio el checkbox
-		product.objects.filter(id=productId).update(canceled=checked)
-		pass
 	
 	def printOrder(self):
 		pass
