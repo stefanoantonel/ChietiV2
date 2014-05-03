@@ -1,4 +1,8 @@
 *.pyc
+
 *.sqlite3
+
 settings.py
+
 db.sqlite3
+*.metadata
