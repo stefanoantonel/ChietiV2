@@ -20,9 +20,10 @@
 	        <br/>
 	        <label name='name' class="product" >{{ promo.name }}</label>
 	        <br/>
-	        {% for i in items %}
-	        <label>Producto cuyo id es:{{ i.id }}</label><br/>
-			{% endfor %} 	        
+	        {% for i in promo.items.all %}
+	        	{{i.id}}
+			{% endfor %}		        
+			 	        
 	        <label for='quantity'>Cant:</label>
 	        <input name='quantity' type="text" value="" style="width:10%">
 	        {{promo.measureUnit}}
@@ -33,10 +34,6 @@
 	        <br/><br/>
 	        </section>
 	    </div>
-
-
-
-
 {% endfor %} 
 </body>
 </html>

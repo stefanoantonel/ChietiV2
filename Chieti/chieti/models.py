@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class product(models.Model):
-	measureUnit = models.CharField(max_length=3)
+	measureUnit = models.CharField(max_length=10)
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
@@ -12,6 +12,8 @@ class product(models.Model):
 	isPromo=models.BinaryField(default='false')
 	def getPrice(self):
 		return self.salePrice
+
+
 
 class user (models.Model):
 	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
@@ -125,7 +127,7 @@ class item(models.Model):
 
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product')
-	promoFK=models.ForeignKey(product, related_name='promoItem')
+	promoFK=models.ForeignKey(product, related_name='items')
 	promoQuantity=models.IntegerField()
 	def getPromo(self):
 		return self.promoFK.primary_key;

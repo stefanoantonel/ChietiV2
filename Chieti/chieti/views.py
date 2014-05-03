@@ -139,12 +139,7 @@ def showSales(request):
 	t = Template(fp.read())
 	fp.close()
 	todo = product.objects.filter(isPromo='true')
-	itemsXPromo=dict()
-	for promo in todo:
-		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
-		x=itemsXPromo[promo.id]
-		print promo.id
-	c = Context({'todasPromos':todo,'items':itemsXPromo})
+	c = Context({'todasPromos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
 
