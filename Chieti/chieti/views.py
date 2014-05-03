@@ -456,6 +456,7 @@ def changeUser(request):
 	t = Template(fp.read())
 	fp.close()
 	todo = user.objects.all()
+	todo
 	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)

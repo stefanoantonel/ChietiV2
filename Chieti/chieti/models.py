@@ -8,8 +8,8 @@ class product(models.Model):
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
-	canceled=models.BinaryField(default='false')
-	isPromo=models.BinaryField(default='false')
+	canceled=models.CharField(default='false',max_length=5)
+	isPromo=models.CharField(default='false',max_length=5)
 	def getPrice(self):
 		return self.salePrice
 
@@ -20,7 +20,7 @@ class user (models.Model):
 	address=models.CharField(max_length=50)
 	#adress
 	phone=models.CharField(max_length=50)
-	activated=models.BinaryField(default='false')
+	activated=models.CharField(default='false',max_length=5)
 	
 
 class Employee(models.Model):
