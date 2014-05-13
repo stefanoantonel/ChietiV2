@@ -11,5 +11,7 @@ if __name__ == '__main__':
 	productId = 1
 	checked = 'true'
 	product.objects.filter(id=productId).update(canceled=checked)
+	c=round(1.2345,2)
+	print c
 	#order.objects.get(id=request.session['order']).cancelProduct(productId, checked)
 	

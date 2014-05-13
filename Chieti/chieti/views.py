@@ -181,14 +181,13 @@ def changePrice2(request):
 def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
-	
+	print ('quantity:',quant)
+	print ('prod:',ids)
 	# p=product.object.get(id=ids) 
 	# q=quant
 	# o=order.objects.filter(id=1)
 	
-	i = item(productFK=product.objects.get(id=ids),
-		quantity=quant,
-		orderFK=order.objects.get(id=request.session["order"]))
+	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
 	i.save()
 	c = (ids, quant)
 	return HttpResponse(c)
