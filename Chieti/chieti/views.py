@@ -498,11 +498,13 @@ def changeUser(request):
 def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
-	us2=us.userDj
-	authenticate()
+	
+	#print 'person',us.userDj.username,us.userDj.password
+	#us2=us.userDj
 	#authenticate(username=us2.username, password=us2.password)
+	
 	#login(request, us2)
-	print "login",us2.id
+	
 	request.session["order"]= order.objects.get(userFK=us.id).id
 	request.session['user'] = us.id
 	return redirect(showProduct)
