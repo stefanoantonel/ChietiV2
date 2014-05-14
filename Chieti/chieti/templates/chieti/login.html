@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% include 'chieti/mainHead.html' %}
+<html>
+	<head>
+	<meta charset="ISO-8859-1">
+    	<title>Ingresar </title>
+	</head>
+	<body>
+	{{error}}
+		<form action="/chieti/login2/" method="post">
+			<input type="text" name='username' placeholder="Username" >
+			<input type="text" name='password' placeholder="Password">
+			<input type="submit" value="Ingresar">
+		</form>
+		
+	</body>
+</html>

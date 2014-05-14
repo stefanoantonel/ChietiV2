@@ -87,11 +87,16 @@ class orderManager(models.Model):
 	
 	def printOrders(self):
 		pass
+	def markDelivered(self):
+		ordersNoDelivered=order.objects.filter(orderManagerFK=self,delivered='false')
+		ordersNoDelivered.update(delivered='true')
+		print 'todo ok Delivered'
+		
 
 class order(models.Model):
 	userFK=models.ForeignKey(user)
-	orderManagerFK=models.ForeignKey(orderManager)
-	#delivered=models.CharField(default='false',max_length=5)
+	orderManagerFK=models.ForeignKey(orderManager,related_name='getOrder')
+	delivered=models.CharField(default='false',max_length=5)
 	#deliver=models.BinaryField(default='false')
 	#oro=models.ManyToOneRel(orderManager)
 	# items 
