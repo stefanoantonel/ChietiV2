@@ -145,7 +145,12 @@ def showSales(request):
 	t = Template(fp.read())
 	fp.close()
 	todo = product.objects.filter(isPromo='true')
-	c = Context({'todasPromos':todo})
+	itemsXPromo=dict()
+	for promo in todo:
+		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
+		x=itemsXPromo[promo.id]
+		print promo.id
+	c = Context({'todasPromos':todo,'items':itemsXPromo})
 	html = t.render(c)
 	return HttpResponse(html)
 
@@ -353,14 +358,16 @@ def singUp2(request):
 	if pass1 == pass2:
 		nameT = request.POST.get('name')
 		lastNameT = request.POST.get('lastName')
-		#emailT = request.POST.get('email')
+		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		request.session['userNameTemp']=nameT+" "+lastNameT
-		#request.session['emailTemp']=emailT
+		request.session['userNameTemp']=nameT
+		request.session['emailTemp']=emailT
 		
 		#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
-		u1 = User(username=nameT+" "+lastNameT, password=pass1)
+		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
+		u1.last_name=lastNameT
+		u1.is_active=0
 		u1.save()
 		u=user(userDj=u1,address=addressT, phone='',)
 		u.save()
@@ -376,23 +383,25 @@ def singUp2(request):
 		return HttpResponse(html)
 
 def singUp2Fake(request):
-	#pass1 = request.POST.get('password1')
-	#pass2 = request.POST.get('password2')
-	#if pass1 == pass2:
+	pass1 = request.POST.get('password1')
+	pass2 = request.POST.get('password2')
+	if pass1 == pass2:
 		nameT = request.POST.get('name')
 		lastNameT = request.POST.get('lastName')
-		#emailT = request.POST.get('email')
+		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
 		
-		#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
-		u1 = User(username=nameT+" "+lastNameT)
+		
+		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
+		u1.last_name=lastNameT
+		u1.is_active=1 # default because don't have email 
 		u1.save()
 		u=user(userDj=u1,address=addressT, phone='')
 		
 		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()
-		om = orderManager.objects.get(id=2)
+		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
 		
@@ -404,14 +413,14 @@ def singUp2Fake(request):
 		
 		
 		return redirect(showProduct)
-	#else:
-	#	fp = open('./chieti/templates/chieti/singUpFake.html')
-	#	t = Template(fp.read())
-#		fp.close()
-#		
-#		c = Context({'error':'Claves son distintas'})
-#		html = t.render(c)
-#		return HttpResponse(html)
+	else:
+		fp = open('./chieti/templates/chieti/singUpFake.html')
+		t = Template(fp.read())
+		fp.close()
+		
+		c = Context({'error':'Claves son distintas'})
+		html = t.render(c)
+		return HttpResponse(html)
 
 
 def singUp3(request):
@@ -442,9 +451,12 @@ def singUp3(request):
 		#=======================================================================
 		
 		
-		user.objects.filter(id=temp.id).update(activated='true')
+		#user.objects.filter(id=temp.id).update(activated='true')
 		#om=orderManager()
 		#om.save()
+		#u1=authenticate(username='john', password='johnpassword')
+		u.is_active=1
+		u.save()
 		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=temp, orderManagerFK=om)
 		orderT1.save()
@@ -463,7 +475,7 @@ def changeUser(request):
 	t = Template(fp.read())
 	fp.close()
 	todo = user.objects.all()
-	todo
+	
 	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
@@ -474,8 +486,54 @@ def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
 	request.session["order"]= order.objects.get(userFK=us.id).id
-	print us.id
-	print order.objects.get(userFK=us.id).id
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})
+def login(request):
+	fp = open('./chieti/templates/chieti/login.html')
+	t = Template(fp.read())
+	fp.close()
+	todo = user.objects.all()
+	todo
+	c = Context({'todos':todo})
+	html = t.render(c)
+	return HttpResponse(html)
+
+def login2(request):
+	username = request.POST['username']
+	password = request.POST['password']
+	user1 = authenticate(username=username, password=password)
+	if user1 is not None:
+		if user1.is_active:
+			userParent=user.objects.get(userDj=user1)
+			user2=userParent.id
+			request.session["order"]= order.objects.get(userFK=user2).id
+			request.session['user'] = user2
+			return redirect(showProduct)
+			# Redirect to a success page.
+		else:
+			# Return a 'disabled account' error message
+			fp = open('./chieti/templates/chieti/login.html')
+			t = Template(fp.read())
+			fp.close()
+			
+			c = Context({'error':'No activado. Revise su email'})
+			html = t.render(c)
+			return HttpResponse(html)
+			
+	else:
+		# Return an 'invalid login' error message
+		fp = open('./chieti/templates/chieti/login.html')
+		t = Template(fp.read())
+		fp.close()
+		
+		c = Context({'error':'Usuario o clave incorrecta'})
+		html = t.render(c)
+		return HttpResponse(html)
+
+def markDelivered(request):
+	om=request.session["orderManager"]
+	om=orderManager.objects.get(id=om)
+	om.markDelivered()
+	return redirect(showProduct)
+	pass
