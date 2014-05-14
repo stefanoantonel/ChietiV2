@@ -1,32 +1,32 @@
+import os
+
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.contrib.messages.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.mail import EmailMultiAlternatives
+from django.http import request, HttpResponse
 from django.http import request, HttpResponse
 from django.http import request, HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
+from django.template import Context, Template
 from django.template import Context, Template
 from django.template import RequestContext, loader
+from django.template import RequestContext, loader
+from django.template.loader import render_to_string
+from django.test import TestCase
 from django.test import TestCase
 from django.views.decorators.csrf import csrf_protect
 
-
-from chieti.models import product, orderManager, order, user, itemPromo
-import os
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-from django.conf import settings
-
-
-from django.test import TestCase
-from django.http import request, HttpResponse
-from django.shortcuts import render_to_response, redirect
-from django.template.loader import render_to_string
-from django.template import RequestContext, loader
-from django.template import Context, Template
-from django.core.mail import EmailMultiAlternatives
-from django.contrib.auth.models import User
 from chieti.models import product, orderManager, order, user, item
+from chieti.models import product, orderManager, order, user, itemPromo, item
+
+
 # Create your tests here.
 def home(request):
 	fp = open('./chieti/templates/chieti/homePage.html')
@@ -117,10 +117,10 @@ def addProd2(request):
 	isP = request.POST.get('promo', '')
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP)
 	pr.save()
-	im= request.FILES['image'] 
-	ids=pr.id
-	path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
-	tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+	#im= request.FILES['image'] 
+	#ids=pr.id
+	#path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
+	#tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 	return redirect(addProd)
 
 
@@ -222,6 +222,9 @@ def summaryBuy(request):
 	t = Template(fp.read())
 	fp.close()
 	#summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
+	x=item.objects.all()
+	
+	item.objects.filter(orderFK=x.id)
 	summary = orderManager.objects.get(id=1).getSummaryBuy()
 	c = Context({'todos':summary})
 	html = t.render(c)
@@ -348,13 +351,14 @@ def singUp2(request):
 	if pass1 == pass2:
 		nameT = request.POST.get('name')
 		lastNameT = request.POST.get('lastName')
-		emailT = request.POST.get('email')
+		#emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
 		request.session['userNameTemp']=nameT+" "+lastNameT
-		request.session['emailTemp']=emailT
+		#request.session['emailTemp']=emailT
 		
-		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u1 = User(username=nameT+" "+lastNameT, password=pass1)
 		u1.save()
 		u=user(userDj=u1,address=addressT, phone='',)
 		u.save()
@@ -370,22 +374,23 @@ def singUp2(request):
 		return HttpResponse(html)
 
 def singUp2Fake(request):
-	pass1 = request.POST.get('password1')
-	pass2 = request.POST.get('password2')
-	if pass1 == pass2:
+	#pass1 = request.POST.get('password1')
+	#pass2 = request.POST.get('password2')
+	#if pass1 == pass2:
 		nameT = request.POST.get('name')
 		lastNameT = request.POST.get('lastName')
-		emailT = request.POST.get('email')
+		#emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
 		
-		u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+		u1 = User(username=nameT+" "+lastNameT)
 		u1.save()
-		u=user(userDj=u1,address=addressT, phone='',)
+		u=user(userDj=u1,address=addressT, phone='')
 		
 		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()
-		om = orderManager.objects.get(id=1)
+		om = orderManager.objects.get(id=2)
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
 		
@@ -397,14 +402,14 @@ def singUp2Fake(request):
 		
 		
 		return redirect(showProduct)
-	else:
-		fp = open('./chieti/templates/chieti/singUpFake.html')
-		t = Template(fp.read())
-		fp.close()
-		
-		c = Context({'error':'Claves son distintas'})
-		html = t.render(c)
-		return HttpResponse(html)
+	#else:
+	#	fp = open('./chieti/templates/chieti/singUpFake.html')
+	#	t = Template(fp.read())
+#		fp.close()
+#		
+#		c = Context({'error':'Claves son distintas'})
+#		html = t.render(c)
+#		return HttpResponse(html)
 
 
 def singUp3(request):
@@ -467,6 +472,8 @@ def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
 	request.session["order"]= order.objects.get(userFK=us.id).id
+	print us.id
+	print order.objects.get(userFK=us.id).id
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})

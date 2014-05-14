@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<link href="{% include 'chieti/mainHead.html' %}" >
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+	<!-- script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}"/> -->
+	<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
+  	<script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
+	<script type="text/javascript"></script>
 
 <title>Resumen de Ordenes</title>
 
@@ -27,42 +32,58 @@
     })
 </script>
 
+<style>
+table																
+{
+border:1px solid black;
+}
+</style>
+
 </head>
 
 <body>
-
 <br/>
-{% for ords in orderManagerArray %}
-	<div>
-    <label title="user">{{ords.userName}}</label>
-    <label>Numero de orden</label>
-    <label title="orderNumber">{{ords.orderNumber}}</label> 
-    <br>
-    <label>Direccion: {{ords.address}}</label>
-    <br/>
-    Producto - Cantidad - PrecUnit - Subtotal
-    <br/>
-    {% for prods in ords.products %}
-    	<div>
-            <label title="productName">{{prods.productName}}</label>
-            ------
-            <label title="quantity">{{prods.quantity}}</label>
-            --------
-            <label title="salePrice">{{prods.salePrice}}</label>
-            ---------
-            <label title="subTotal">{{prods.subTotal}}</label>
 
-            <input title="canceled" value="{{prods.canceled}}" hidden="hidden">
-            <br>
-        </div>
+
+
+
+{% for ords in orderManagerArray %}
+	<div class="remBoreder">
+	<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:100px;height:100px;display:block; margin-left: auto; margin-right: auto" alt=""/>
+    <label title="user" class="remTitle remFont">{{ords.userName}}</label>
+    <label class="remTitle remFont"> N:</label>
+    <label title="orderNumber" class="remTitle remFont">{{ords.orderNumber}}</label> 
+    <br>
+    <label class="remFont">Direccion: {{ords.address}}</label>
+    <br/>
+   <table  >
+		<tr>
+		  <td>Producto</td>
+		  <td>Cantidad</td>  
+		  <td>PrecUnit</td>
+		  <td>Subtotal</td>
+		</tr>
+
+    {% for prods in ords.products %}
+    	<tr>
+		  <td title="productName">{{prods.productName}}</td>
+		  <td title="quantity" >{{prods.quantity}}</td> 
+		  <td title="salePrice">{{prods.salePrice}}</td>
+		  <td title="subTotal">{{prods.subTotal}}
+		  	<input title="canceled" value="{{prods.canceled}}" hidden="hidden">
+		  </td>
+		</tr>                        
 	{% endfor %}
-	------------------------------Total:
-	<label title="totalPrice">{{ords.totalPrice}}</label>
-    <br/><br/>
-    
+		  <td></td> 
+		  <td></td>
+		  <td>Total:</td>
+		  <td title="totalPrice">{{ords.totalPrice}}</td>
+	</table>
+	<label class="remTel">Comunicate a: Diego Giron: 3513646306</label>
+	<br/>
+	<label class="remTel">              Paulo Graglia: 3515523537</label>
     </div>	
 {% endfor %}
-
 
 </body>
 </html>

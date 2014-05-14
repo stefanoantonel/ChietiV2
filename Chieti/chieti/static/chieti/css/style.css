@@ -77,3 +77,32 @@ background-repeat:no-repeat;
 background-attachment:fixed;
 background-position:center; 
 }
+
+
+
+.imgTop {
+  position: fixed;
+  top:3px;
+  right:3px; 
+  }
+
+table, th, td
+{
+border: 1px solid black;
+}
+
+.remBoreder{
+	border: solid;
+	display:inline-block;
+}
+
+.remTitle{
+	font-family: "Verdana";
+	font-weight: bold;
+}
+
+.remTel{
+	font-family: "Verdana";
+	font-weight: bold;
+	font-size: x-small;
+}

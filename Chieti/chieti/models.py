@@ -59,7 +59,14 @@ class orderManager(models.Model):
 	def printSummary(self,summary):# elemento y cantidad
 		pass
 	def getSummarySell(self):# elemento y cantidad
-		orders=order.objects.filter(orderManagerFK=1)
+		
+		#orders=order.objects.filter(orderManagerFK=1)
+		orders=order.objects.all()
+		#------------
+		#i = item.objects.all()
+		#orders=order.objects.filter(id__in=i)
+		#print ("orders",orders)
+		#-------------
 		orderManagerArray=[]
 		for ords in orders:
 			items=item.objects.filter(orderFK=ords)
@@ -119,10 +126,10 @@ class order(models.Model):
 class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
-	quantity=models.IntegerField()
+	quantity=models.DecimalField(max_digits=7, decimal_places=2)
 	orderFK=models.ForeignKey(order)
 	def getSubtotal(self):
-		return self.productFK.salePrice*self.quantity
+		return round(self.productFK.salePrice*self.quantity,2)
 		pass
 
 class itemPromo(models.Model):
