@@ -59,7 +59,10 @@ class orderManager(models.Model):
 	def getSummarySell(self):# elemento y cantidad
 		
 		#orders=order.objects.filter(orderManagerFK=1)
-		orders=order.objects.all()
+		#orders=order.objects.all()
+		items=item.objects.all()
+		orders=order.objects.filter(getItem=items,delivered='false') #if item is in order, order is not empty
+		
 		#------------
 		#i = item.objects.all()
 		#orders=order.objects.filter(id__in=i)
@@ -95,7 +98,7 @@ class orderManager(models.Model):
 
 class order(models.Model):
 	userFK=models.ForeignKey(user)
-	orderManagerFK=models.ForeignKey(orderManager,related_name='getOrder')
+	orderManagerFK=models.ForeignKey(orderManager,related_name='getOrderManager')
 	delivered=models.CharField(default='false',max_length=5)
 	#deliver=models.BinaryField(default='false')
 	#oro=models.ManyToOneRel(orderManager)
@@ -125,7 +128,7 @@ class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
 	quantity=models.DecimalField(max_digits=7, decimal_places=2)
-	orderFK=models.ForeignKey(order)
+	orderFK=models.ForeignKey(order,related_name='getItem')
 	def getSubtotal(self):
 		return round(self.productFK.salePrice*self.quantity,2)
 		pass
