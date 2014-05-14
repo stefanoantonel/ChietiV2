@@ -1,6 +1,10 @@
 import os
 
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, permission_required, \
+	user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.messages.storage import default_storage
 from django.core.files.base import ContentFile
@@ -28,6 +32,7 @@ from chieti.models import product, orderManager, order, user, itemPromo, item
 
 
 # Create your tests here.
+
 def home(request):
 	fp = open('./chieti/templates/chieti/homePage.html')
 	t = Template(fp.read())
@@ -80,7 +85,7 @@ def init(request):
 	
 	return HttpResponse('Order Manager OK')
 def test(request):
-	return HttpResponse(request.session["order"])
+	return HttpResponse(request.user.username)
 def test1(request):
 	fp = open('./chieti/templates/chieti/test1.html')
 	t = Template(fp.read())
@@ -130,6 +135,7 @@ def addProd2(request):
 	return redirect(addProd)
 
 
+
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
 	t = Template(fp.read())
@@ -140,6 +146,8 @@ def showProduct(request):
 	return HttpResponse(html)
 	# return render_to_response(fp,{'todos',todo})
 
+
+@staff_member_required
 def showSales(request):
 	fp = open('./chieti/templates/chieti/sales.html')
 	t = Template(fp.read())
@@ -154,7 +162,7 @@ def showSales(request):
 	html = t.render(c)
 	return HttpResponse(html)
 
-
+@staff_member_required
 def changePrice(request):
 	fp = open('./chieti/templates/chieti/changePrice.html')
 	t = Template(fp.read())
@@ -164,6 +172,7 @@ def changePrice(request):
 	html = t.render(c)
 	return HttpResponse(html)
 
+@staff_member_required
 def changePrice2(request):
 	# ids=request['ids']
 	ids = request.POST.getlist("ids")
@@ -216,6 +225,7 @@ def changeOrder2(request):
 	# return HttpResponse(c)
 	return redirect(showProduct)
 
+
 def removeItem(request):
 	itemId = request.POST.get("itemId")	
 	ordId = request.session["order"]
@@ -224,6 +234,7 @@ def removeItem(request):
 	
 	return HttpResponse(c)
 
+@staff_member_required
 def summaryBuy(request):
 	
 	# Te da JSON array
@@ -239,9 +250,8 @@ def summaryBuy(request):
 	c = Context({'todos':summary})
 	html = t.render(c)
 	return HttpResponse(html)
-	
-	
 
+@staff_member_required
 def printOrders(request):
 	
 	fp = open('./chieti/templates/chieti/printOrders.html')
@@ -288,7 +298,7 @@ def printOrders(request):
 	html = t.render(c)
 	return HttpResponse(html)
 
-
+@staff_member_required
 def cancelProduct(request):
 	fp = open('./chieti/templates/chieti/cancelProduct.html')
 	t = Template(fp.read())
@@ -298,7 +308,7 @@ def cancelProduct(request):
 	html = t.render(c)
 	return HttpResponse(html)
 	
-
+@staff_member_required
 def cancelProduct2(request):
 	productId = request.POST.get('productId')
 	checked = request.POST.get('checked')
@@ -333,6 +343,7 @@ def sendMail(request):
 	msg.attach_alternative(html_content, "text/html")
 	msg.send()
 	return HttpResponse('Se le envio un mail para su confirmacion')
+
 
 def singUp(request):
 	fp = open('./chieti/templates/chieti/singUp.html')
@@ -405,6 +416,7 @@ def singUp2Fake(request):
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
 		
+		login (request, u)
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
@@ -470,6 +482,7 @@ def singUp3(request):
 	else:
 		return HttpResponse("Error de confirmacion")
 
+@staff_member_required
 def changeUser(request):
 	fp = open('./chieti/templates/chieti/changeUser.html')
 	t = Template(fp.read())
@@ -479,18 +492,23 @@ def changeUser(request):
 	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
-	# return render_to_response(fp,{'todos',todo})
+	# return render_to_response(fp,{'todos',todo
 
-
+@staff_member_required
 def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
+	us2=us.userDj
+	authenticate()
+	#authenticate(username=us2.username, password=us2.password)
+	#login(request, us2)
+	print "login",us2.id
 	request.session["order"]= order.objects.get(userFK=us.id).id
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})
-def login(request):
-	fp = open('./chieti/templates/chieti/login.html')
+def singIn(request):
+	fp = open('./chieti/templates/chieti/singIn.html')
 	t = Template(fp.read())
 	fp.close()
 	todo = user.objects.all()
@@ -499,12 +517,14 @@ def login(request):
 	html = t.render(c)
 	return HttpResponse(html)
 
-def login2(request):
+def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	user1 = authenticate(username=username, password=password)
+	
 	if user1 is not None:
 		if user1.is_active:
+			login(request, user1)
 			userParent=user.objects.get(userDj=user1)
 			user2=userParent.id
 			request.session["order"]= order.objects.get(userFK=user2).id
@@ -513,7 +533,7 @@ def login2(request):
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
-			fp = open('./chieti/templates/chieti/login.html')
+			fp = open('./chieti/templates/chieti/singIn.html')
 			t = Template(fp.read())
 			fp.close()
 			
@@ -523,7 +543,7 @@ def login2(request):
 			
 	else:
 		# Return an 'invalid login' error message
-		fp = open('./chieti/templates/chieti/login.html')
+		fp = open('./chieti/templates/chieti/singIn.html')
 		t = Template(fp.read())
 		fp.close()
 		
@@ -531,9 +551,13 @@ def login2(request):
 		html = t.render(c)
 		return HttpResponse(html)
 
+@staff_member_required
 def markDelivered(request):
 	om=request.session["orderManager"]
 	om=orderManager.objects.get(id=om)
 	om.markDelivered()
 	return redirect(showProduct)
 	pass
+
+def logOut(request):
+	logout(request)
