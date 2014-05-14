@@ -3,20 +3,18 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Cancelacion de productos </title>
-<link href="{% include 'chieti/mainHead.html' %}">
+{% include 'chieti/mainHead.html' %}
 <br>
 Seleccione para CANCELAR de las ordenes
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		
+	$(document).ready(function(){	
 		$('input[type=checkbox]').each(function (){
 			//put checked if is canceled from DB
 			canceled=$(this).attr('value')
 			if(canceled =='true'){
 				$(this).prop('checked', true)
 			}
-			
 		})
 		
 		$('input[type=checkbox]').change(function (){

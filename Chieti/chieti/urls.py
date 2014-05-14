@@ -45,7 +45,7 @@ urlpatterns = patterns('',
 	url(r'changeUser/','chieti.views.changeUser'),
 	url(r'changeUser2/','chieti.views.changeUser2'),
 	
-	
+	url(r'test1','chieti.views.test1'),
 
 
 )

@@ -83,11 +83,11 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
 	        <label name='name' class="product" >{{ prod.name }}</label>
 	        <br/>
 	        <label for='quantity'>Cant:</label>
-	        <input name='quantity' type="text" value="" style="width:50%">
+	        <input name='quantity' type="number" min=1 value="" style="width:50%">
 	        {{prod.measureUnit}}
 	        <br/>
-	        <label>Precio:$</label>
-	        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label>
+	        <label>Precio: $</label>
+	        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
 	        <button class="add">Agregar</button>
 	        <br/><br/>
 	        </section>

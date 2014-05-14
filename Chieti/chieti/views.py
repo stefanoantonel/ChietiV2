@@ -81,7 +81,13 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 def test(request):
 	return HttpResponse(request.session["order"])
-	
+def test1(request):
+	fp = open('./chieti/templates/chieti/test1.html')
+	t = Template(fp.read())
+	fp.close()
+	html = t.render(Context())
+	return HttpResponse(html)
+		
 
 def mainHead(request):
 	fp = open('./chieti/templates/chieti/mainHead.html')
@@ -170,14 +176,13 @@ def changePrice2(request):
 def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
-	
+	print ('quantity:',quant)
+	print ('prod:',ids)
 	# p=product.object.get(id=ids) 
 	# q=quant
 	# o=order.objects.filter(id=1)
 	
-	i = item(productFK=product.objects.get(id=ids),
-		quantity=quant,
-		orderFK=order.objects.get(id=request.session["order"]))
+	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
 	i.save()
 	c = (ids, quant)
 	return HttpResponse(c)
@@ -292,10 +297,7 @@ def cancelProduct(request):
 def cancelProduct2(request):
 	productId = request.POST.get('productId')
 	checked = request.POST.get('checked')
-	ordMan=orderManager.objects.get(id=1)
-	print ordMan
-	ordMan.cancelProduct(productId,checked)
-	order.objects.get(id=request.session['order']).cancelProduct(productId, checked)
+	product.objects.filter(id=productId).update(canceled=checked)
 	
 	return HttpResponse(checked)
 
