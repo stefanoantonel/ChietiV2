@@ -56,20 +56,20 @@ border:1px solid black;
     <br>
     <label class="remFont">Direccion: {{ords.address}}</label>
     <br/>
-   <table  >
+   <table class="tableOrders">
 		<tr>
-		  <td>Producto</td>
-		  <td>Cantidad</td>  
-		  <td>PrecUnit</td>
-		  <td>Subtotal</td>
+		  <td class="tableOrders">Producto</td>
+		  <td class="tableOrders">Cantidad</td>  
+		  <td class="tableOrders">PrecUnit</td>
+		  <td class="tableOrders">Subtotal</td>
 		</tr>
 
     {% for prods in ords.products %}
     	<tr>
-		  <td title="productName">{{prods.productName}}</td>
-		  <td title="quantity" >{{prods.quantity}}</td> 
-		  <td title="salePrice">{{prods.salePrice}}</td>
-		  <td title="subTotal">{{prods.subTotal}}
+		  <td title="productName" class="tableOrders">{{prods.productName}}</td>
+		  <td title="quantity" class="tableOrders">{{prods.quantity}}</td> 
+		  <td title="salePrice" class="tableOrders">{{prods.salePrice}}</td>
+		  <td title="subTotal" class="tableOrders">{{prods.subTotal}}
 		  	<input title="canceled" value="{{prods.canceled}}" hidden="hidden">
 		  </td>
 		</tr>                        
@@ -77,7 +77,7 @@ border:1px solid black;
 		  <td></td> 
 		  <td></td>
 		  <td>Total:</td>
-		  <td title="totalPrice">{{ords.totalPrice}}</td>
+		  <td title="totalPrice" class="tableOrders">{{ords.totalPrice}}</td>
 	</table>
 	<label class="remTel">Comunicate a: Diego Giron: 3513646306</label>
 	<br/>

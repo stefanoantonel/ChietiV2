@@ -75,7 +75,7 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
 	<div class="divImg">
 	<label name='name' class="product" >{{ prod.name }}</label>
 		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
-		 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})">
+		 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})" class="divInvisible">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
 	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>

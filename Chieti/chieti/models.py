@@ -91,7 +91,7 @@ class orderManager(models.Model):
 class order(models.Model):
 	userFK=models.ForeignKey(user)
 	orderManagerFK=models.ForeignKey(orderManager)
-	delivered=models.CharField(default='false',max_length=5)
+	#delivered=models.CharField(default='false',max_length=5)
 	#deliver=models.BinaryField(default='false')
 	#oro=models.ManyToOneRel(orderManager)
 	# items 
