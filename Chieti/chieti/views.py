@@ -161,7 +161,9 @@ def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
 	t = Template(fp.read())
 	fp.close()
-	todo = product.objects.all()
+	#todo = product.objects.all()
+	todo = product.objects.filter(category=1)
+	print todo.query
 	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
