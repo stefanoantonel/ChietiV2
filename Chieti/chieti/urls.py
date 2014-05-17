@@ -12,8 +12,9 @@ urlpatterns = patterns('',
     url(r'hom/ad/', 'chieti.views.addProd2', name='addProd2'),
     
     url(r'auto', 'chieti.views.auto', name='addProd2'),
-
-
+    url(r'complete', 'chieti.views.complete', name='addProd2'),
+    
+    
     #url(r'^admin/', include(admin.site.urls)),
     #url('d/','chieti.tests.index',name='pro'),
     #url(r'$','chieti.tests.index'),

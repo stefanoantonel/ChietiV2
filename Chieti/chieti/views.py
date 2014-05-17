@@ -100,8 +100,28 @@ def auto(request):
 	fp = open('./chieti/templates/chieti/autocomplete.html')
 	t = Template(fp.read())
 	fp.close()
-	html = t.render(Context())
+	html = t.render(Context())	
 	return HttpResponse(html)
+
+def complete(request):
+	print "autooooo"
+	term=request.GET.get('term')
+	print (term)
+	prod = product.objects.filter(name__contains=term)
+	print (prod.query)
+	print ("resultado: ",prod)
+	
+	productArray=[]
+ 	for p in prod:
+ 		pp={'productName':p.productFK.name, 
+ 			'quantity':p.productFK.id,
+ 			'salePrice':p.productFK.salePrice,}
+ 		productArray.append(pp)
+	
+		
+	return HttpResponse(prod)
+	
+	
 
 # #todo es de prueba... 
 def addProd(request):
@@ -121,7 +141,8 @@ def addProd2(request):
 	pri = request.POST.get('sellPrice', '')
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
-	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP)
+	t=request.POST.get('type', '')
+	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
 	pr.save()
 	#im= request.FILES['image'] 
 	#ids=pr.id
@@ -479,3 +500,5 @@ def changeUser2(request):
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})
+
+

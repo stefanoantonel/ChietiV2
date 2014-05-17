@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from decimal import *
 
 
+class category(models.Model):
+	number=models.IntegerField()
+	description= models.CharField(max_length=10)
 
 class product(models.Model):
 	measureUnit = models.CharField(max_length=10)
@@ -11,6 +14,7 @@ class product(models.Model):
 	name=models.CharField(max_length=50)
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
+	category=models.ForeignKey(category, related_name='category')
 	def getPrice(self):
 		return self.salePrice
 
@@ -132,6 +136,9 @@ class itemPromo(models.Model):
 	def getPromo(self):
 		return self.promoFK.primary_key;
 	
+
+
+
 
 #===============================================================================
 # class promo(product):

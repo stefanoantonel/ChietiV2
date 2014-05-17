@@ -8,32 +8,45 @@
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
    -->
    {% load staticfiles %}
-   <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="{% static 'chieti/js/jquery.js' %}"></script>
   <script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
+  
   <script>
-  $(function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
-    });
-  });
+  $(document).ready(function() {
+	  
+		$("#clientes").autocomplete({
+		      source: "/chieti/complete/",
+		      minLength: 2,
+		      select: function( event, data ) {
+		    	  $("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+		      }
+		});
+		$("#btnAgregaCliente").click(function(){
+			$("#agregaCliente").attr("src","agregarCliente.jsp");
+			$("#form").dialog({
+				height: 300,
+				width: 550,
+				modal: true
+			});
+		});
+
+	});
   </script>
 </head>
 <body>
- 
-<div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags">
-</div>
- 
- 
+	<div class="ui-widget" align="center">
+	<br/><br/><br/>
+  		<label for="clientes">Clientes: </label>
+  		<input id="clientes" />
+	
+	<div id="salida"></div>
+	<div class="btn" id="btnAgregaCliente">Agregar Cliente</div>
+	<div id="form" style="display:none">
+		<iframe id="agregaCliente" width="100%" height="100%" seamless="seamless"></iframe>
+	</div>
+	</div>
+	</body>
+	
 </body>
 </html>
