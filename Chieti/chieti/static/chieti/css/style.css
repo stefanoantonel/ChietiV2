@@ -8,8 +8,8 @@ li a {
 
 .divImg{
 	float:left;
-	width:50px;
-	height:50px;
+	width:80px;
+	height:80px;
 	display:block;
 	margin-right:50px;
 	margin-top:50px;
@@ -105,4 +105,14 @@ border: 1px solid black;
 	font-family: "Verdana";
 	font-weight: bold;
 	font-size: x-small;
+}
+
+
+.link{
+	float:left;
+	display:block;
+	color:gray; 
+	font-weight: bold;
+	/*paddingLeft: 20px;*/
+	margin-left: 300px;
 }
