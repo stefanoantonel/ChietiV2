@@ -1,6 +1,7 @@
-from django.db import models
-from django.contrib.auth.models import User
 from decimal import *
+
+from django.contrib.auth.models import User
+from django.db import models
 
 
 class category(models.Model):
@@ -47,6 +48,7 @@ class orderManager(models.Model):
 	#orders=None #lista de ordenes
 	def getSummaryBuy(self):
 		it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
+		
 		vector=[]
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
@@ -144,9 +146,6 @@ class itemPromo(models.Model):
 	def getPromo(self):
 		return self.promoFK.primary_key;
 	
-
-
-
 
 #===============================================================================
 # class promo(product):

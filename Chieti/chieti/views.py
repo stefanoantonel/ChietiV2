@@ -27,12 +27,11 @@ from django.test import TestCase
 from django.test import TestCase
 from django.views.decorators.csrf import csrf_protect
 
-from chieti.models import product, orderManager, order, user, item
+from chieti.models import product, orderManager, order, user, item, category
 from chieti.models import product, orderManager, order, user, itemPromo, item
 
 
 # Create your tests here.
-
 def home(request):
 	fp = open('./chieti/templates/chieti/homePage.html')
 	t = Template(fp.read())
@@ -85,6 +84,7 @@ def init(request):
 	
 	return HttpResponse('Order Manager OK')
 def test(request):
+	logout(request)
 	return HttpResponse(request.user.username)
 def test1(request):
 	fp = open('./chieti/templates/chieti/test1.html')
@@ -117,14 +117,15 @@ def complete(request):
 	print ("resultado: ",prod)
 	
 	productArray=[]
- 	for p in prod:
- 		pp={'productName':p.productFK.name, 
- 			'quantity':p.productFK.id,
- 			'salePrice':p.productFK.salePrice,}
- 		productArray.append(pp)
 	
-		
-	return HttpResponse(prod)
+	for p in prod:
+		pp={'id': p.id,
+			'label':p.name,
+			'value':p.salePrice}
+		productArray.append(pp)
+	
+	print ('array', productArray )
+	return HttpResponse(productArray)
 	
 	
 
@@ -147,6 +148,7 @@ def addProd2(request):
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('type', '')
+	t=category.objects.get(id=t)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
 	pr.save()
 	#im= request.FILES['image'] 
@@ -157,6 +159,16 @@ def addProd2(request):
 
 
 
+#===============================================================================
+# def my_view(request):
+#     ...
+# 
+# 
+# (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+# @login_required(login_url='/chieti/singIn/')
+#===============================================================================
+
+@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
 	t = Template(fp.read())
@@ -210,6 +222,7 @@ def changePrice2(request):
 	c = (ids, new)
 	return HttpResponse(c)
 
+@login_required(login_url='/chieti/singIn/')
 def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
@@ -224,6 +237,7 @@ def addToOrder(request):
 	c = (ids, quant)
 	return HttpResponse(c)
 
+@login_required(login_url='/chieti/singIn/')
 def changeOrder(request):
 	fp = open('./chieti/templates/chieti/changeOrder.html')
 	t = Template(fp.read())
@@ -233,6 +247,8 @@ def changeOrder(request):
 	html = t.render(c)
 	return HttpResponse(html)
 	# return HttpResponse(request.session["order"])
+
+@login_required(login_url='/chieti/singIn/')
 def changeOrder2(request):
 	# ids=request['ids']
 	itemId = request.POST.getlist("itemId")
@@ -248,7 +264,7 @@ def changeOrder2(request):
 	# return HttpResponse(c)
 	return redirect(showProduct)
 
-
+@login_required(login_url='/chieti/singIn/')
 def removeItem(request):
 	itemId = request.POST.get("itemId")	
 	ordId = request.session["order"]
@@ -266,9 +282,9 @@ def summaryBuy(request):
 	t = Template(fp.read())
 	fp.close()
 	#summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
-	x=item.objects.all()
+	#x=item.objects.all()
 	
-	item.objects.filter(orderFK=x.id)
+	#item.objects.filter(orderFK=x.id)
 	summary = orderManager.objects.get(id=1).getSummaryBuy()
 	c = Context({'todos':summary})
 	html = t.render(c)
@@ -331,7 +347,6 @@ def cancelProduct(request):
 	html = t.render(c)
 	return HttpResponse(html)
 	
-@staff_member_required
 def cancelProduct2(request):
 	productId = request.POST.get('productId')
 	checked = request.POST.get('checked')
@@ -438,8 +453,8 @@ def singUp2Fake(request):
 		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
-		
-		login (request, u)
+		u2=authenticate(username=nameT, password=pass2)
+		login (request, u2)
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
