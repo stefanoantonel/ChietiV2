@@ -21,15 +21,14 @@
             	
             	ant=$(this).parent();
             	$(ant).css('text-decoration','line-through');
-            	
+            	$(ant).find('.subTotal').css('background-color','yellow')
                 total=parseFloat($('.totalPrice').html())
-                console.log('total',total);
-                $(this).parent('body').css('background-color','yellow');
-                prevPrice=parseFloat($(this).parent('table').find('.totalPrice'));
-                console.log('prev',prevPrice);
+                
+                prevPrice=parseFloat($(ant).find('.subTotal').html());
+                
                 total=total-prevPrice
-                console.log(total)
-                $('label[title="totalPrice"]').html(total)
+                
+                $('.totalPrice').html(total)
                 
             }
         })
@@ -75,7 +74,7 @@ border:1px solid black;
 <!-- 		<input class="canceled" title="canceled" value="{{prods.canceled}}" hidden="hidden"> -->
 		  <td title="quantity" class="tableOrders">{{prods.quantity}}</td> 
 		  <td title="salePrice" class="tableOrders">{{prods.salePrice}}</td>
-		  <td title="subTotal" class="tableOrders">{{prods.subTotal}}
+		  <td title="subTotal" class="tableOrders subTotal">{{prods.subTotal}}
 		  
 		  </td>
 		</tr>                        
