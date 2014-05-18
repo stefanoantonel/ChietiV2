@@ -472,7 +472,6 @@ def singUp2Fake(request):
 		html = t.render(c)
 		return HttpResponse(html)
 
-
 def singUp3(request):
 	
 	mailT2 = str(request.GET.get('email'))
@@ -558,14 +557,15 @@ def changeUser3(request):
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})
+
 def singIn(request):
 	fp = open('./chieti/templates/chieti/singIn.html')
 	t = Template(fp.read())
 	fp.close()
 	#todo = user.objects.all()
 	
-	#c = Context({'todos':todo})
-	html = t.render()
+	c = Context({'todos':''})
+	html = t.render(c)
 	return HttpResponse(html)
 
 def singIn2(request):
@@ -573,13 +573,14 @@ def singIn2(request):
 	password = request.POST['password']
 	user1 = authenticate(username=username, password=password)
 	
-	if user1 is not None:
-		if user1.is_active:
+	if user1 is not None: #if exist
+		if user1.is_active: 
+			userParent=user1.getUser #not django user
+			checkOrderExist(userParent)
 			login(request, user1)
-			userParent=user.objects.get(userDj=user1)
-			user2=userParent.id
-			request.session["order"]= order.objects.get(userFK=user2).id
-			request.session['user'] = user2
+			userParentId=userParent.id
+			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
+			request.session['user'] = userParentId
 			return redirect(showProduct)
 			# Redirect to a success page.
 		else:
@@ -604,8 +605,8 @@ def singIn2(request):
 
 @staff_member_required
 def markDelivered(request):
-	om=request.session["orderManager"]
-	om=orderManager.objects.get(id=om)
+#	om=request.session["orderManager"]
+	om=orderManager.objects.get(id=1)
 	om.markDelivered()
 	return redirect(showProduct)
 	pass
@@ -613,3 +614,9 @@ def markDelivered(request):
 def logOut(request):
 	logout(request)
 
+def checkOrderExist(us):
+	a=order.objects.filter(userFK=us,delivered="false")
+	if not a:
+		om=orderManager.objects.get(id=1)
+		b=order(userFK=us,orderManagerFK=om)
+		b.save()

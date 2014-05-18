@@ -22,7 +22,7 @@ class product(models.Model):
 
 
 class user (models.Model):
-	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
+	userDj = models.OneToOneField(User,related_name='getUser') #is a django user. in order to use the password security
 	address=models.CharField(max_length=50)
 	#adress
 	phone=models.CharField(max_length=50)
