@@ -26,8 +26,9 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
 
 	$(document).ready(function() {
 	  	console.log( "ready prod!" ) 		
-		$('input[name=quantity]').change(function(){
-            var ant=$(this).siblings("label[name=price]").attr("title")
+		//$('input[name=quantity]').change(function(){
+		$('.quantity').change(function(){
+			var ant=$(this).siblings("label[name=price]").attr("title")
 			var cant=$(this).val()            
 			var dsp=ant*cant
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
@@ -38,25 +39,34 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
             //ids=$(this).siblings(".ids").text()
             var ids= $(this).siblings("label[name=ids]").html()
             var quant= $(this).siblings('input[name=quantity]').val()
-            console.log("ids:",ids,quant)
-            $.ajax({
-                url: '/chieti/addToOrder/',
-                type: 'post', 
-                data: {
-                    'ids':ids,
-                    'quantity':quant,
-                },
-                success: function(data) {
-                    console.log("todo ok! AJAX")
-                    console.log(data)
-                }
-            });    
-        })
+            if(checkQuantPositive(quant)==true){
+            	console.log("ids:",ids,quant)
+                $.ajax({
+                    url: '/chieti/addToOrder/',
+                    type: 'post', 
+                    data: {
+                        'ids':ids,
+                        'quantity':quant,
+                    },
+                    success: function(data) {
+                        console.log("todo ok! AJAX")
+                        console.log(data)
+                    }
+                });
+            }
+                
+        });
         
         
 
 	});
-
+function checkQuantPositive(quant){
+	num = new Number(quant);
+	console.log('check',quant);
+    if( !(num > 0) )
+    	return false;
+    return true;
+}
 </script>
 
 	
@@ -83,7 +93,7 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
 	        <label name='name' class="product" >{{ prod.name }}</label>
 	        <br/>
 	        <label for='quantity'>Cant:</label>
-	        <input name='quantity' type="number" min=1 value="" style="width:50%">
+	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
 	        {{prod.measureUnit}}
 	        <br/>
 	        <label>Precio: $</label>
