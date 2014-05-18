@@ -533,7 +533,18 @@ def changeUser(request):
 	# return render_to_response(fp,{'todos',todo
 
 @staff_member_required
-def changeUser2(request):
+def changeUser2(request): #login with fake user.	
+	personId = request.POST.get('idPer')
+	us=user.objects.get(id=personId)
+	fp = open('./chieti/templates/chieti/singIn.html')
+	t = Template(fp.read())
+	fp.close()
+	c = Context({'username':us.userDj.username})
+	html = t.render(c)
+	return HttpResponse(html)
+
+@staff_member_required
+def changeUser3(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
 	
@@ -551,10 +562,10 @@ def singIn(request):
 	fp = open('./chieti/templates/chieti/singIn.html')
 	t = Template(fp.read())
 	fp.close()
-	todo = user.objects.all()
-	todo
-	c = Context({'todos':todo})
-	html = t.render(c)
+	#todo = user.objects.all()
+	
+	#c = Context({'todos':todo})
+	html = t.render()
 	return HttpResponse(html)
 
 def singIn2(request):
