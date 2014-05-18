@@ -47,7 +47,8 @@ class Employee(models.Model):
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
 	def getSummaryBuy(self):
-		it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
+		orderNotDelivered = order.objects.filter(delivered='false')
+		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
 		
 		vector=[]
 		for i in it:

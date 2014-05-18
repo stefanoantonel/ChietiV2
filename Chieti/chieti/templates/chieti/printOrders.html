@@ -20,14 +20,13 @@
             if($(this).html()=='true'){
             	
             	ant=$(this).parent();
-                
-                nameP=$(ant).find('.productName');
-                nameHtml=$(nameP).html();
-                
-                $(nameP).html("<del>"+nameHtml+"</del>");
-                
-                total=parseInt($('label[title=totalPrice]').html(),10)
-                prevPrice=parseInt($(this).siblings('label[title="subTotal"]').html(),10)
+            	$(ant).css('text-decoration','line-through');
+            	
+                total=parseFloat($('.totalPrice').html())
+                console.log('total',total);
+                $(this).parent('body').css('background-color','yellow');
+                prevPrice=parseFloat($(this).parent('table').find('.totalPrice'));
+                console.log('prev',prevPrice);
                 total=total-prevPrice
                 console.log(total)
                 $('label[title="totalPrice"]').html(total)
@@ -61,7 +60,7 @@ border:1px solid black;
     <br>
     <label class="remFont">Direccion: {{ords.address}}</label>
     <br/>
-   <table class="tableOrders">
+   <table class="tableOrders table">
 		<tr>
 		  <td class="tableOrders">Producto</td>
 		  <td class="tableOrders">Cantidad</td>  
@@ -84,7 +83,7 @@ border:1px solid black;
 		  <td></td> 
 		  <td></td>
 		  <td>Total:</td>
-		  <td title="totalPrice" class="tableOrders">{{ords.totalPrice}}</td>
+		  <td title="totalPrice" class="tableOrders totalPrice">{{ords.totalPrice}}</td>
 	</table>
 	<label class="remTel">Comunicate a: Diego Giron: 3513646306</label>
 	<br/>
