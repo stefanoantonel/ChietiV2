@@ -590,6 +590,7 @@ def markDelivered(request):
 #	om=request.session["orderManager"]
 	om=orderManager.objects.get(id=1)
 	om.markDelivered()
+	product.objects.filter().update(canceled='false')
 	return redirect(showProduct)
 	pass
 
