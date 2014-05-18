@@ -1,34 +1,17 @@
-import os
 
-from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, permission_required, \
-	user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.messages.storage import default_storage
-from django.core.files.base import ContentFile
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from django.core.mail import EmailMultiAlternatives
-from django.http import request, HttpResponse
-from django.http import request, HttpResponse
-from django.http import request, HttpResponse
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.shortcuts import render_to_response, redirect
-from django.template import Context, Template
-from django.template import Context, Template
-from django.template import RequestContext, loader
-from django.template import RequestContext, loader
+from django.http.response import HttpResponse
+from django.shortcuts import redirect
+from django.template.base import Template
+from django.template.context import Context
 from django.template.loader import render_to_string
-from django.test import TestCase
-from django.test import TestCase
-from django.views.decorators.csrf import csrf_protect
 
-from chieti.models import product, orderManager, order, user, item, category
-from chieti.models import product, orderManager, order, user, itemPromo, item
+from chieti.models import product, orderManager, order, user, item, category, \
+	itemPromo
 
 
 # Create your tests here.
@@ -86,13 +69,13 @@ def init(request):
 def test(request):
 	logout(request)
 	return HttpResponse(request.user.username)
+
 def test1(request):
 	fp = open('./chieti/templates/chieti/test1.html')
 	t = Template(fp.read())
 	fp.close()
 	html = t.render(Context())
 	return HttpResponse(html)
-		
 
 def mainHead(request):
 	fp = open('./chieti/templates/chieti/mainHead.html')
@@ -130,6 +113,7 @@ def complete(request):
 	
 
 # #todo es de prueba... 
+
 def addProd(request):
 
 	fp = open('./chieti/templates/chieti/addProduct.html')
@@ -180,7 +164,6 @@ def showProduct(request):
 	html = t.render(c)
 	return HttpResponse(html)
 	# return render_to_response(fp,{'todos',todo})
-
 
 @staff_member_required
 def showSales(request):
@@ -381,7 +364,6 @@ def sendMail(request):
 	msg.attach_alternative(html_content, "text/html")
 	msg.send()
 	return HttpResponse('Se le envio un mail para su confirmacion')
-
 
 def singUp(request):
 	fp = open('./chieti/templates/chieti/singUp.html')
