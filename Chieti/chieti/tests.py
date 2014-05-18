@@ -14,6 +14,9 @@ if __name__ == '__main__':
 # select * from chieti_itemPromo) as p
 # group by productFK_id
 #===============================================================================
+	ordersNoDelivered=order.objects.filter( delivered='false | null')
+	ordersNoDelivered.update(delivered='true')
 	items=item.objects.all()
 	orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
+	
 	print orders

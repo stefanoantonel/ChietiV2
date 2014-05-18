@@ -97,7 +97,7 @@ class orderManager(models.Model):
 	def printOrders(self):
 		pass
 	def markDelivered(self):
-		ordersNoDelivered=order.objects.filter(orderManagerFK=self,delivered='false')
+		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered='false')
 		ordersNoDelivered.update(delivered='true')
 		print 'todo ok Delivered'
 		
