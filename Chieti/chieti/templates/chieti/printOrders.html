@@ -14,12 +14,17 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('input[title=canceled]').each(function(){
+        $('.canceled').each(function(){
+        	
             //if is true 'tacha' the product
-            if($(this).val()=='true'){
-                ant=$(this).parent('div')
-                $(this).parent('div').replaceWith("<del>"+$(ant).html()+"</del>")
+            if($(this).html()=='true'){
+            	
+            	ant=$(this).parent();
                 
+                nameP=$(ant).find('.productName');
+                nameHtml=$(nameP).html();
+                
+                $(nameP).html("<del>"+nameHtml+"</del>");
                 
                 total=parseInt($('label[title=totalPrice]').html(),10)
                 prevPrice=parseInt($(this).siblings('label[title="subTotal"]').html(),10)
@@ -66,11 +71,13 @@ border:1px solid black;
 
     {% for prods in ords.products %}
     	<tr>
-		  <td title="productName" class="tableOrders">{{prods.productName}}</td>
+		  <td title="productName" class="tableOrders productName">{{prods.productName}}</td>
+		  <td class="canceled" title="canceled" hidden="hidden">{{prods.canceled}}</td>
+<!-- 		<input class="canceled" title="canceled" value="{{prods.canceled}}" hidden="hidden"> -->
 		  <td title="quantity" class="tableOrders">{{prods.quantity}}</td> 
 		  <td title="salePrice" class="tableOrders">{{prods.salePrice}}</td>
 		  <td title="subTotal" class="tableOrders">{{prods.subTotal}}
-		  	<input title="canceled" value="{{prods.canceled}}" hidden="hidden">
+		  
 		  </td>
 		</tr>                        
 	{% endfor %}
