@@ -405,8 +405,8 @@ def singUp2Fake(request):
 		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
-		u2=authenticate(username=nameT, password=pass2)
-		login (request, u2)
+		#u2=authenticate(username=nameT, password=pass2)
+		#login (request, u2)
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
