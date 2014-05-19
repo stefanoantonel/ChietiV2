@@ -158,7 +158,11 @@ def showProduct(request):
 	t = Template(fp.read())
 	fp.close()
 	#todo = product.objects.all()
-	todo = product.objects.filter(category=1)
+	cat=request.POST.get("id")
+	if(cat==None): 
+		todo = product.objects.filter(category=1)
+	else:
+		todo = product.objects.filter(category=cat)
 	print todo.query
 	c = Context({'todos':todo})
 	html = t.render(c)

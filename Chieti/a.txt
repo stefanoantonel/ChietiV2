@@ -1,0 +1,273 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Remove `managed = False` lines for those models you wish to give write DB access
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
+# into your database.
+from __future__ import unicode_literals
+
+from django.db import models
+
+class AccountEmailaddress(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('AuthUser')
+    email = models.CharField(unique=True, max_length=75)
+    verified = models.IntegerField()
+    primary = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'account_emailaddress'
+
+class AccountEmailconfirmation(models.Model):
+    id = models.IntegerField(primary_key=True)
+    email_address = models.ForeignKey(AccountEmailaddress)
+    created = models.DateTimeField()
+    sent = models.DateTimeField(blank=True, null=True)
+    key = models.CharField(unique=True, max_length=64)
+    class Meta:
+        managed = False
+        db_table = 'account_emailconfirmation'
+
+class AuthGroup(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(unique=True, max_length=80)
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+class AuthGroupPermissions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    group = models.ForeignKey(AuthGroup)
+    permission = models.ForeignKey('AuthPermission')
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+
+class AuthPermission(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    content_type = models.ForeignKey('DjangoContentType')
+    codename = models.CharField(max_length=100)
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+
+class AuthUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField()
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=75)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+class AuthUserGroups(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    group = models.ForeignKey(AuthGroup)
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+
+class AuthUserUserPermissions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    permission = models.ForeignKey(AuthPermission)
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+
+class ChietiCategory(models.Model):
+    id = models.IntegerField(primary_key=True)
+    number = models.IntegerField()
+    description = models.CharField(max_length=10)
+    class Meta:
+        managed = False
+        db_table = 'chieti_category'
+
+class ChietiEmployee(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser, unique=True)
+    department = models.CharField(max_length=100)
+    class Meta:
+        managed = False
+        db_table = 'chieti_employee'
+
+class ChietiItem(models.Model):
+    id = models.IntegerField(primary_key=True)
+    productfk = models.ForeignKey('ChietiProduct', db_column='productFK_id') # Field name made lowercase.
+    quantity = models.DecimalField(max_digits=7, decimal_places=2)
+    orderfk = models.ForeignKey('ChietiOrder', db_column='orderFK_id') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'chieti_item'
+
+class ChietiItempromo(models.Model):
+    id = models.IntegerField(primary_key=True)
+    productfk = models.ForeignKey('ChietiProduct', db_column='productFK_id') # Field name made lowercase.
+    promofk = models.ForeignKey('ChietiProduct', db_column='promoFK_id') # Field name made lowercase.
+    promoquantity = models.IntegerField(db_column='promoQuantity') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'chieti_itempromo'
+
+class ChietiOrder(models.Model):
+    id = models.IntegerField(primary_key=True)
+    userfk = models.ForeignKey('ChietiUser', db_column='userFK_id') # Field name made lowercase.
+    ordermanagerfk = models.ForeignKey('ChietiOrdermanager', db_column='orderManagerFK_id') # Field name made lowercase.
+    delivered = models.CharField(max_length=5)
+    class Meta:
+        managed = False
+        db_table = 'chieti_order'
+
+class ChietiOrdermanager(models.Model):
+    id = models.IntegerField(primary_key=True)
+    class Meta:
+        managed = False
+        db_table = 'chieti_ordermanager'
+
+class ChietiProduct(models.Model):
+    id = models.IntegerField(primary_key=True)
+    measureunit = models.CharField(db_column='measureUnit', max_length=10) # Field name made lowercase.
+    pub_date = models.DateTimeField()
+    saleprice = models.DecimalField(db_column='salePrice', max_digits=7, decimal_places=2) # Field name made lowercase.
+    name = models.CharField(max_length=50)
+    canceled = models.CharField(max_length=5)
+    ispromo = models.CharField(db_column='isPromo', max_length=5) # Field name made lowercase.
+    category = models.ForeignKey(ChietiCategory)
+    class Meta:
+        managed = False
+        db_table = 'chieti_product'
+
+class ChietiUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    userdj = models.ForeignKey(AuthUser, db_column='userDj_id', unique=True) # Field name made lowercase.
+    address = models.CharField(max_length=50)
+    phone = models.CharField(max_length=50)
+    activated = models.CharField(max_length=5)
+    class Meta:
+        managed = False
+        db_table = 'chieti_user'
+
+class DjangoAdminLog(models.Model):
+    id = models.IntegerField(primary_key=True)
+    action_time = models.DateTimeField()
+    user = models.ForeignKey(AuthUser)
+    content_type = models.ForeignKey('DjangoContentType', blank=True, null=True)
+    object_id = models.TextField(blank=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.IntegerField()
+    change_message = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+class DjangoContentType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+class DjangoSite(models.Model):
+    id = models.IntegerField(primary_key=True)
+    domain = models.CharField(max_length=100)
+    name = models.CharField(max_length=50)
+    class Meta:
+        managed = False
+        db_table = 'django_site'
+
+class Flor1(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=45, blank=True)
+    class Meta:
+        managed = False
+        db_table = 'flor1'
+
+class Flor2(models.Model):
+    id = models.IntegerField()
+    productfk_id = models.IntegerField(db_column='productFK_id') # Field name made lowercase.
+    quantity = models.DecimalField(max_digits=7, decimal_places=2)
+    orderfk_id = models.IntegerField(db_column='orderFK_id') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'flor2'
+
+class SocialaccountSocialaccount(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    provider = models.CharField(max_length=30)
+    uid = models.CharField(max_length=255)
+    last_login = models.DateTimeField()
+    date_joined = models.DateTimeField()
+    extra_data = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialaccount'
+
+class SocialaccountSocialapp(models.Model):
+    id = models.IntegerField(primary_key=True)
+    provider = models.CharField(max_length=30)
+    name = models.CharField(max_length=40)
+    client_id = models.CharField(max_length=100)
+    secret = models.CharField(max_length=100)
+    key = models.CharField(max_length=100)
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialapp'
+
+class SocialaccountSocialappSites(models.Model):
+    id = models.IntegerField(primary_key=True)
+    socialapp = models.ForeignKey(SocialaccountSocialapp)
+    site = models.ForeignKey(DjangoSite)
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialapp_sites'
+
+class SocialaccountSocialtoken(models.Model):
+    id = models.IntegerField(primary_key=True)
+    app = models.ForeignKey(SocialaccountSocialapp)
+    account = models.ForeignKey(SocialaccountSocialaccount)
+    token = models.TextField()
+    token_secret = models.TextField()
+    expires_at = models.DateTimeField(blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialtoken'
+
+class SummaryBuy(models.Model):
+    productfk_id = models.IntegerField(db_column='productFK_id') # Field name made lowercase.
+    sum = models.DecimalField(max_digits=34, decimal_places=2, blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'summary_buy'
+
+class Unionitem(models.Model):
+    id = models.IntegerField()
+    productfk_id = models.IntegerField(db_column='productFK_id') # Field name made lowercase.
+    quantity = models.DecimalField(max_digits=12, decimal_places=2)
+    orderfk_id = models.IntegerField(db_column='orderFK_id') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'unionitem'
+
