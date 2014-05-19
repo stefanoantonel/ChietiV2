@@ -79,7 +79,7 @@ def complete(request):
 	
 
 # #todo es de prueba... 
-
+@staff_member_required
 def addProd(request):
 
 	fp = open('./chieti/templates/chieti/addProduct.html')
@@ -91,7 +91,7 @@ def addProd(request):
 	#c = Context({'todosLosProd':prod})
 	html = t.render(Context())
 	return HttpResponse(html)
-
+@staff_member_required
 def addProd2(request):
 	nam = request.POST.get('name')
 	pri = request.POST.get('sellPrice', '')
