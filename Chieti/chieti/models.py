@@ -1,6 +1,7 @@
 from decimal import *
 
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -134,7 +135,7 @@ class order(models.Model):
 class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
-	quantity=models.DecimalField(max_digits=7, decimal_places=2)
+	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
 	orderFK=models.ForeignKey(order,related_name='getItem')
 	def getSubtotal(self):
 		return round(self.productFK.salePrice*self.quantity,2)
@@ -143,7 +144,7 @@ class item(models.Model):
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product')
 	promoFK=models.ForeignKey(product, related_name='items')
-	promoQuantity=models.IntegerField()
+	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
 	
