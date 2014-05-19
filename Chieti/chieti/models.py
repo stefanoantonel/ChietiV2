@@ -16,7 +16,7 @@ class product(models.Model):
 	name=models.CharField(max_length=50)
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
-	category=models.ForeignKey(category, related_name='category')
+	category=models.ForeignKey(category, related_name='category',default=1)
 	def getPrice(self):
 		return self.salePrice
 
