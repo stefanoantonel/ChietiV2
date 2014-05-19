@@ -21,41 +21,7 @@ def home(request):
 	fp.close()
 	c = Context()
 	html = t.render(c)
-	#===========================================================================
-	# 
-	# om=orderManager()
-	# #om.save()
-	# 
-	# # u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	# u1=User(username="Stefano Ant",email="122@hotmail.com",password="12")
-	# u1.save()
-	# u=user(userDj=u1,address="Roma 33",phone="3133312212")
-	# u.save()
-	# 
-	# 
-	# 
-	# #print a.userDj.id
-	# 
-	# om = orderManager.objects.get(id=1)
-	# a=User.objects.get(username='Stefano Ant')
-	# u=user.objects.get(userDj=a)
-	# 
-	# 
-	# 
-	# #===========================================================================
-	# # if not order.objects.filter(userFK=request.session['user']):
-	# o=order(userFK=u,orderManagerFK=om)
-	# o.save()
-	# #===========================================================================
-	# request.session['user']=u.id
-	# u = user.objects.get(id=request.session['user'])
-	# 
-	# 
-	# o=order.objects.get(userFK=request.session["user"],orderManagerFK=1)
-	# request.session["order"]=o.id
-	# 
-	# # oro=model
-	#===========================================================================
+	
 	return HttpResponse(html)
 	
 def init(request):
@@ -120,9 +86,9 @@ def addProd(request):
 	t = Template(fp.read())
 	fp.close()
 	prod = product.objects.all()
-	print "prod"
+	
 	print prod
-	c = Context({'todosLosProd':prod})
+	#c = Context({'todosLosProd':prod})
 	html = t.render(Context())
 	return HttpResponse(html)
 
@@ -163,7 +129,7 @@ def showProduct(request):
 		todo = product.objects.filter(category=1)
 	else:
 		todo = product.objects.filter(category=cat)
-	print todo.query
+	#print todo.query
 	c = Context({'todos':todo})
 	html = t.render(c)
 	return HttpResponse(html)
