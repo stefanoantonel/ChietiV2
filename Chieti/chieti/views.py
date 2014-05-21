@@ -403,10 +403,16 @@ def singUp2Fake(request):
 		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()
 		om = orderManager.objects.get(id=1)
-		orderT1=order(userFK=u, orderManagerFK=om)
-		orderT1.save()
+		#orderT1=order(userFK=u, orderManagerFK=om)
+		#orderT1.save()
 		#u2=authenticate(username=nameT, password=pass2)
 		#login (request, u2)
+		checkOrderExist(u)
+		#orderT1=order(userFK=u, orderManagerFK=om)
+		#orderT1.save()
+		#u2=authenticate(username=nameT, password=pass2)
+		#login (request, u2)
+
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
