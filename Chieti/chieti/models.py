@@ -48,9 +48,11 @@ class Employee(models.Model):
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
 	def getSummaryBuy(self):
+
+		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		orderNotDelivered = order.objects.filter(delivered='false')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
-		
+
 		vector=[]
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
@@ -58,7 +60,6 @@ class orderManager(models.Model):
 			mu=product.objects.get(id=i["productFK"]).measureUnit
 			a={"product":prod,"quantity":quant, "measureUnit":mu}
 			vector.append(a)
-		
 		return vector
 		pass #JSON array
 	
@@ -70,7 +71,6 @@ class orderManager(models.Model):
 		#orders=order.objects.all()
 		items=item.objects.all()
 		orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
-		
 		#------------
 		#i = item.objects.all()
 		#orders=order.objects.filter(id__in=i)
@@ -100,7 +100,8 @@ class orderManager(models.Model):
 	def printOrders(self):
 		pass
 	def markDelivered(self):
-		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered='false')
+		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered__isnull=True)
+		print ordersNoDelivered.query
 		ordersNoDelivered.update(delivered='true')
 		print 'todo ok Delivered'
 		

@@ -56,27 +56,25 @@ def auto(request):
 	fp.close()
 	html = t.render(Context())	
 	return HttpResponse(html)
-
 def complete(request):
 	print "autooooo"
 	term=request.GET.get('term')
-	print (term)
 	prod = product.objects.filter(name__contains=term)
-	print (prod.query)
-	print ("resultado: ",prod)
-	
+	print ("prod:",prod)
 	productArray=[]
-	
+	lista=[]
+# 	for p in prod:
+# 		pp={'id':p.id,
+# 		'productName':p.name, 
+# 		'salePrice':p.salePrice,}
+# 		productArray.append(pp)
+# 	print ("xxx:",productArray)
 	for p in prod:
-		pp={'id': p.id,
-			'label':p.name,
-			'value':p.salePrice}
-		productArray.append(pp)
-	
-	print ('array', productArray )
-	return HttpResponse(productArray)
-	
-	
+		ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		lista.append(ppp)
+	print ("l:",lista)
+#	return HttpResponse(productArray)
+	return HttpResponse(lista)
 
 # #todo es de prueba... 
 @staff_member_required
@@ -511,7 +509,7 @@ def changeUser3(request):
 	
 	#login(request, us2)
 	
-	request.session["order"]= order.objects.get(userFK=us.id).id
+	request.session["order"]= order.objects.get(userFK=us.id,delivered='false').id
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})
