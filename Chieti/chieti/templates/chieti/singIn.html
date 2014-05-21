@@ -8,10 +8,11 @@
 	<body>
 	{{error}}
 		<form action="/chieti/singIn2/" method="post">
-			<input type="text" name='username' placeholder="Username" >
-			<input type="text" name='password' placeholder="Password">
+			<input type="text" name='username' placeholder="Username" value='{{username}}'>
+			<input type="password" name='password' placeholder="Password">
 			<input type="submit" value="Ingresar">
 		</form>
+		<a href="/chieti/templete/chieti/singUp">Registrarse</a>
 		
 	</body>
 </html>

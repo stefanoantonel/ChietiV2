@@ -49,6 +49,7 @@ urlpatterns = patterns('',
 	url(r'singIn/','chieti.views.singIn'),
 	url(r'singIn2/','chieti.views.singIn2'),
 	url(r'markDelivered/','chieti.views.markDelivered'),
-
+	
+	
 )
 

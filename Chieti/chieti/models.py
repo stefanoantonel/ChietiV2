@@ -1,6 +1,8 @@
-from django.db import models
-from django.contrib.auth.models import User
 from decimal import *
+
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
+from django.db import models
 
 
 class category(models.Model):
@@ -14,14 +16,14 @@ class product(models.Model):
 	name=models.CharField(max_length=50)
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
-	category=models.ForeignKey(category, related_name='category')
+	category=models.ForeignKey(category, related_name='category',default=1)
 	def getPrice(self):
 		return self.salePrice
 
 
 
 class user (models.Model):
-	userDj = models.OneToOneField(User) #is a django user. in order to use the password security
+	userDj = models.OneToOneField(User,related_name='getUser') #is a django user. in order to use the password security
 	address=models.CharField(max_length=50)
 	#adress
 	phone=models.CharField(max_length=50)
@@ -46,9 +48,11 @@ class Employee(models.Model):
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
 	def getSummaryBuy(self):
+
 		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		orderNotDelivered = order.objects.filter(delivered='false')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
+
 		vector=[]
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
@@ -84,6 +88,7 @@ class orderManager(models.Model):
 					'canceled':it.productFK.canceled,}
 				productArray.append(prod)
 			orde={'userName':ords.userFK.userDj.username,
+				'lastName':ords.userFK.userDj.last_name,
 				'address':ords.userFK.address,
 				'orderNumber':ords.id,
 				'products':productArray,
@@ -132,7 +137,7 @@ class order(models.Model):
 class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
-	quantity=models.DecimalField(max_digits=7, decimal_places=2)
+	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
 	orderFK=models.ForeignKey(order,related_name='getItem')
 	def getSubtotal(self):
 		return round(self.productFK.salePrice*self.quantity,2)
@@ -141,13 +146,10 @@ class item(models.Model):
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product')
 	promoFK=models.ForeignKey(product, related_name='items')
-	promoQuantity=models.IntegerField()
+	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
 	
-
-
-
 
 #===============================================================================
 # class promo(product):

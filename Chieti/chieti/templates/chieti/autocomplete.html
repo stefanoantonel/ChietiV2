@@ -11,15 +11,16 @@
    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
   <script src="{% static 'chieti/js/jquery.js' %}"></script>
   <script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
-  
+  <!--  
   <script>
   $(document).ready(function() {
 		$("#clientes").autocomplete({
-		      source: "/chieti/complete/",
-		     // minLength: 2,
-		     // select: function( event, data ) {
-		    //	  $("#salida").html("Cliente: "+data.item.salePrice+"<br/>Id: "+data.item.productName);
-		    //  }
+			  source: "/chieti/complete/",
+		      minLength: 2,
+		      select: function( event, data ) {
+		    	  console.log('automcplete')
+		    	  //$("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+		      }
 		});
 		/* $("#btnAgregaCliente").click(function(){
 			$("#agregaCliente").attr("src","agregarCliente.jsp");
@@ -32,8 +33,41 @@
 
 	});
   </script>
+  
+   -->
+  
+  <script type="text/javascript">
+  
+  
+  data = [
+  		{"label" : "Aragorn"},
+  		{"label" : "Arwen"},
+  		{"label" : "Bilbo Baggins"},
+  		{"label" : "Boromir"},
+  		{"label" : "Frodo Baggins"},
+  		{"label" : "Gandalf"},
+  		{"label" : "Gimli"},
+  		{"label" : "Gollum"},
+  		{"label" : "Legolas"},
+  		{"label" : "Meriadoc Merry Brandybuck"},
+  		{"label" : "Peregrin Pippin Took"},
+  		{"label" : "Samwise Gamgee"}
+  		];
+  
+  
+  $(function() {
+
+		$( "#search" ).autocomplete(
+		{
+			 source:"/chieti/complete/"
+		})
+	});
+  </script>
+  
+  
 </head>
 <body>
+<input type="text" id="search" />
 	<div class="ui-widget" align="center">
 	<br/><br/><br/>
   		<label for="clientes">Clientes: </label>

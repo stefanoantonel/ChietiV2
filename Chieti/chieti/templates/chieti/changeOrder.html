@@ -10,14 +10,15 @@
 
 	$(document).ready(function() { 
 	  	console.log( "ready prod!" ) 		
-		$('input[name=quantity]').change(function(){
+		$('.quantity').change(function(){
 			//recalc the price when change quantity
-            var ant=$(this).siblings("label[name=price]").attr("title")
-			var cant=$(this).val()            
-			var dsp=ant*cant
-			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	)
-			$(this).siblings('label[name=price]').html(dsp)
-			calTotalPrice()
+			
+            var ant=$(this).parents('.table').find('.price').attr("title");
+			var cant=$(this).val();            
+			var dsp=ant*cant;
+			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
+			$(this).parents('.table').find('.price').html(dsp);
+			calTotalPrice();
             
 		});
 		$('label[name=price]').each(function(){
@@ -66,18 +67,18 @@
 <form action="/chieti/changeOrder2/" method="post">
 <table>
     {% for item in todos %} <!-- OJO is a vector of jsons -->
-     <tr>
+     <tr class="table">
 		  <td><img alt="" src="">
 		  	  <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
 		  	  <input name="productId" hidden="hidden" value="{{ item.productFK.id }}"/>
 		  </td>
 		  <td><label title='name' class="product" >{{ item.productFK.name }}</label></td>
 		  <td><label for='quantity'>Cant:</label></td>
-		  <td><input name='quantity' type="number" value="{{item.quantity}}"></input>
+		  <td><input name='quantity' type="number" class="quantity" value="{{item.quantity}}" min="0" step="0.5"></input>
 		  	  <label >{{ item.productFK.measureUnit }}</label>
 		  </td>
 		  <td><label>Precio:</label></td>
-		  <td><label name='price' title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label></td>
+		  <td><label name='price' class="price" title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label></td>
 		  <td><label class="remove btn btn-default">Eliminar</label></td>
 	 </tr>                        
 	{% endfor %}

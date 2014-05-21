@@ -14,18 +14,21 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('input[title=canceled]').each(function(){
+        $('.canceled').each(function(){
+        	
             //if is true 'tacha' the product
-            if($(this).val()=='true'){
-                ant=$(this).parent('div')
-                $(this).parent('div').replaceWith("<del>"+$(ant).html()+"</del>")
+            if($(this).html()=='true'){
+            	
+            	ant=$(this).parent();
+            	$(ant).css('text-decoration','line-through');
+            	$(ant).find('.subTotal').css('background-color','yellow')
+                total=parseFloat($('.totalPrice').html())
                 
+                prevPrice=parseFloat($(ant).find('.subTotal').html());
                 
-                total=parseInt($('label[title=totalPrice]').html(),10)
-                prevPrice=parseInt($(this).siblings('label[title="subTotal"]').html(),10)
                 total=total-prevPrice
-                console.log(total)
-                $('label[title="totalPrice"]').html(total)
+                
+                $('.totalPrice').html(total)
                 
             }
         })
@@ -51,12 +54,13 @@ border:1px solid black;
 	<div class="remBoreder">
 	<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:100px;height:100px;display:block; margin-left: auto; margin-right: auto" alt=""/>
     <label title="user" class="remTitle remFont">{{ords.userName}}</label>
+    <label title="lastName" class="remTitle remFont">{{ords.lastName}}</label>
     <label class="remTitle remFont"> N:</label>
     <label title="orderNumber" class="remTitle remFont">{{ords.orderNumber}}</label> 
     <br>
     <label class="remFont">Direccion: {{ords.address}}</label>
     <br/>
-   <table class="tableOrders">
+   <table class="tableOrders table">
 		<tr>
 		  <td class="tableOrders">Producto</td>
 		  <td class="tableOrders">Cantidad</td>  
@@ -66,22 +70,24 @@ border:1px solid black;
 
     {% for prods in ords.products %}
     	<tr>
-		  <td title="productName" class="tableOrders">{{prods.productName}}</td>
+		  <td title="productName" class="tableOrders productName">{{prods.productName}}</td>
+		  <td class="canceled" title="canceled" hidden="hidden">{{prods.canceled}}</td>
+<!-- 		<input class="canceled" title="canceled" value="{{prods.canceled}}" hidden="hidden"> -->
 		  <td title="quantity" class="tableOrders">{{prods.quantity}}</td> 
 		  <td title="salePrice" class="tableOrders">{{prods.salePrice}}</td>
-		  <td title="subTotal" class="tableOrders">{{prods.subTotal}}
-		  	<input title="canceled" value="{{prods.canceled}}" hidden="hidden">
+		  <td title="subTotal" class="tableOrders subTotal">{{prods.subTotal}}
+		  
 		  </td>
 		</tr>                        
 	{% endfor %}
 		  <td></td> 
 		  <td></td>
 		  <td>Total:</td>
-		  <td title="totalPrice" class="tableOrders">{{ords.totalPrice}}</td>
+		  <td title="totalPrice" class="tableOrders totalPrice">{{ords.totalPrice}}</td>
 	</table>
 	<label class="remTel">Comunicate a: Diego Giron: 3513646306</label>
 	<br/>
-	<label class="remTel">              Paulo Graglia: 3515523537</label>
+	<label class="remTel">              Paulo Graglia: - - -  </label>
     </div>	
 {% endfor %}
 
