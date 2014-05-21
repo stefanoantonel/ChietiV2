@@ -112,22 +112,22 @@ def auto(request):
 def complete(request):
 	print "autooooo"
 	term=request.GET.get('term')
-	print (term)
 	prod = product.objects.filter(name__contains=term)
-	print (prod.query)
-	print ("resultado: ",prod)
-	
+	print ("prod:",prod)
 	productArray=[]
- 	for p in prod:
- 		pp={'productName':p.productFK.name, 
- 			'quantity':p.productFK.id,
- 			'salePrice':p.productFK.salePrice,}
- 		productArray.append(pp)
-	
-		
-	return HttpResponse(prod)
-	
-	
+	lista=[]
+# 	for p in prod:
+# 		pp={'id':p.id,
+# 		'productName':p.name, 
+# 		'salePrice':p.salePrice,}
+# 		productArray.append(pp)
+# 	print ("xxx:",productArray)
+	for p in prod:
+		ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		lista.append(ppp)
+	print ("l:",lista)
+#	return HttpResponse(productArray)
+	return HttpResponse(lista)
 
 # #todo es de prueba... 
 def addProd(request):
@@ -148,7 +148,7 @@ def addProd2(request):
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('type', '')
-	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
+	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
 	pr.save()
 	#im= request.FILES['image'] 
 	#ids=pr.id
@@ -271,9 +271,9 @@ def summaryBuy(request):
 	t = Template(fp.read())
 	fp.close()
 	#summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
-	x=item.objects.all()
+	#x=item.objects.all()
 	
-	item.objects.filter(orderFK=x.id)
+	#item.objects.filter(orderFK=x.id)
 	summary = orderManager.objects.get(id=1).getSummaryBuy()
 	c = Context({'todos':summary})
 	html = t.render(c)
@@ -444,7 +444,7 @@ def singUp2Fake(request):
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
 		
-		login (request, u)
+		#login (request, u)
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
@@ -533,7 +533,7 @@ def changeUser2(request):
 	
 	#login(request, us2)
 	
-	request.session["order"]= order.objects.get(userFK=us.id).id
+	request.session["order"]= order.objects.get(userFK=us.id,delivered='false').id
 	request.session['user'] = us.id
 	return redirect(showProduct)
 	# return render_to_response(fp,{'todos',todo})
@@ -554,6 +554,8 @@ def singIn2(request):
 	
 	if user1 is not None:
 		if user1.is_active:
+			userParent=user1.getUser #not django user
+			checkOrderExist(userParent)
 			login(request, user1)
 			userParent=user.objects.get(userDj=user1)
 			user2=userParent.id
@@ -592,3 +594,9 @@ def markDelivered(request):
 def logOut(request):
 	logout(request)
 
+def checkOrderExist(us):
+	a=order.objects.filter(userFK=us,delivered="false")
+	if not a:
+		om=orderManager.objects.get(id=1)
+		b=order(userFK=us,orderManagerFK=om)
+		b.save()

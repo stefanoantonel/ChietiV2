@@ -14,17 +14,22 @@ if __name__ == '__main__':
     #p.save()
     #promo.save()
     
-    promo=product.objects.get(id=1)
-    p=product.objects.get(id=2)
-    i=itemPromo(productFK=p,promoFK=promo,promoQuantity=5)
-    i.save()
-    
-    print promo.items.all()
+#     promo=product.objects.get(id=1)
+#     p=product.objects.get(id=2)
+#     i=itemPromo(productFK=p,promoFK=promo,promoQuantity=5)
+#     i.save()
+#     
+#     print promo.items.all()
     #x=itemPromo.objects.get(promoFK=12)
     #print promo.itemPromo.all()
     #--------------------------------------
     #a = Article.objects.get(id=1)
     #print a.headlines.all()
-    
+    for u in user.objects.all():
+        a=order.objects.filter(userFK=u,delivered="false")
+        if not a:
+            om=orderManager.objects.get(id=1)
+            b=order(userFK=u,orderManagerFK=om)
+            b.save()
     
     
