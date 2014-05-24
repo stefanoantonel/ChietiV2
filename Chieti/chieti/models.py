@@ -70,7 +70,6 @@ class orderManager(models.Model):
 		#orders=order.objects.all()
 		items=item.objects.all()
 		orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
-		
 		#------------
 		#i = item.objects.all()
 		#orders=order.objects.filter(id__in=i)
@@ -95,15 +94,7 @@ class orderManager(models.Model):
 				'totalPrice':ords.getTotal(),}
 			orderManagerArray.append(orde)
 		return orderManagerArray
-		pass
-	
-	def printOrders(self):
-		pass
-	def markDelivered(self):
-		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered='false')
-		ordersNoDelivered.update(delivered='true')
-		print 'todo ok Delivered'
-		
+		pass		
 
 class order(models.Model):
 	userFK=models.ForeignKey(user)

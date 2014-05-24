@@ -118,7 +118,7 @@ def addProd2(request):
 # @login_required(login_url='/chieti/singIn/')
 #===============================================================================
 
-@login_required(login_url='/chieti/singIn/')
+
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
 	t = Template(fp.read())

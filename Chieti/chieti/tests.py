@@ -8,14 +8,12 @@ from chieti.models import order, product, item, orderManager, user, category
 
 # Create your tests here.
 if __name__ == '__main__':
-	nam = 'peras1'
-	pri = 23
-	meas = 'unidad'
-	isP = 'false'
-	t=''
-	if not t:
-		t=1
-	t=category.objects.get(id=t)
-	print t
-	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
-	pr.save()
+	ords=order.objects.all().distinct()
+	item1=item.objects.filter(orderFK__isnull=False)
+	print item1
+	print
+	item2=item.objects.filter(orderFK=ords)
+	for i in item2:
+		print i
+	#print item2
+	pass
