@@ -95,29 +95,18 @@ def addProd(request):
 def addProd2(request):
 	nam = request.POST.get('name')
 	pri = request.POST.get('sellPrice', '')
+	buyP=request.POST.get('buyPrice', '')
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('type', '')
 	t=category.objects.get(id=t)
-	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
+	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t,buyPrice=buyP)
 	pr.save()
 	#im= request.FILES['image'] 
 	#ids=pr.id
 	#path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
 	#tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 	return redirect(addProd)
-
-
-
-#===============================================================================
-# def my_view(request):
-#     ...
-# 
-# 
-# (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-# @login_required(login_url='/chieti/singIn/')
-#===============================================================================
-
 
 def showProduct(request):
 	fp = open('./chieti/templates/chieti/productsTemplate.html')
@@ -578,3 +567,31 @@ def checkOrderExist(us):
 		om=orderManager.objects.get(id=1)
 		b=order(userFK=us,orderManagerFK=om)
 		b.save()
+
+@staff_member_required
+def changeProduct(request):
+	fp = open('./chieti/templates/chieti/changeProduct.html')
+	t = Template(fp.read())
+	fp.close()
+	todos = product.objects.all()
+	
+	c = Context({'todos':todos})
+	html = t.render(c)
+	return HttpResponse(html)
+
+@staff_member_required
+def changeProduct2(request):
+	personId = request.POST.get('idPer')
+	us=user.objects.get(id=personId)
+	
+	#print 'person',us.userDj.username,us.userDj.password
+	#us2=us.userDj
+	#authenticate(username=us2.username, password=us2.password)
+	
+	#login(request, us2)
+	
+	checkOrderExist(us)
+	request.session["order"]= order.objects.get(userFK=us.id).id
+	request.session['user'] = us.id
+	return redirect(showProduct)
+	# return render_to_response(fp,{'todos',todo})

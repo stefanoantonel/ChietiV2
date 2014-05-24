@@ -13,6 +13,7 @@ class product(models.Model):
 	measureUnit = models.CharField(max_length=10)
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
+	buyPrice=models.DecimalField(max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
