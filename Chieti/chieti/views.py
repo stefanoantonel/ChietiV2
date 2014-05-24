@@ -64,22 +64,30 @@ def complete(request):
 	print ("prod:",prod)
 	productArray=[]
 	lista=[]
-# 	for p in prod:
-# 		pp={'id':p.id,
-# 		'productName':p.name, 
-# 		'salePrice':p.salePrice,}
-# 		productArray.append(pp)
-# 	print ("xxx:",productArray)
-#--------
 	for p in prod:
 		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
-		ppp={"label" : p.name}
+		ppp={"label" : p.name, "id" : p.id}
 		lista.append(ppp)
-	ll=json.dumps(lista)
-	print ("l:",ll)
-#--------	
-#	return HttpResponse(productArray)
-	return HttpResponse(ll)
+	lJson=json.dumps(lista)
+	print ("l:",lJson)
+	return HttpResponse(lJson)
+
+
+def compCategory(request):
+	print "category"
+	term=request.GET.get('term')
+	cat = category.objects.filter(description__contains=term)
+	print ("cat:",cat)
+	productArray=[]
+	lista=[]
+	for c in cat:
+		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		ppp={"label" : c.description, "id" : c.number}
+		lista.append(ppp)
+	lJson=json.dumps(lista)
+	print ("l:",lJson)
+	return HttpResponse(lJson)
+
 
 # #todo es de prueba... 
 @staff_member_required

@@ -4,22 +4,37 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 {% include 'chieti/mainHead.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
 
 $(function() {
-    var productNames = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++"
-    ];
     $( "#tags" ).autocomplete({
-      source: productNames
+      source:"/chieti/complete/",
+      minLength:2,
+      select: function( event, data ) {
+		   $("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+		   //INSERTA UNO NUEVO CADA VEZ con el ID
+		    $("#prodPromo").append("<label for="+data.item.id+">"+data.item.label+", cant:</label><input id="+data.item.id+"></br>");
+	}
     });
+    
+    $( "#category" ).autocomplete({
+        source:"/chieti/compCategory/",
+        minLength:2,
+        select: function( event, data ) {
+			   $("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+			   $("#salida").attr('value', data.item.id);
+		}
+      });
+    
+    $("#siPromo").click(function() {
+		if ($('#siPromo').prop('checked')) 
+			{$('#subProd').css("display", "inline")}
+		
+	});	
+    
   });
-
 
 </script>
 </head>
@@ -36,37 +51,21 @@ $(function() {
 	        <input type="radio" name="mu" value="Un">Unidad
 	        <br/>
 	        Es una promocion: 
-	        <input type="radio" name="promo" value="true">Si
-	        <input type="radio" name="promo" value="false" checked="checked">No
+	        <input id="siPromo" type="radio" name="promo" value="true">Si
+	        <input  type="radio" name="promo" value="false" checked="checked">No
 	        <br/>
-	        Tipo de producto: 
-	        <input type="number" name="type"  required="required">
-	        
-			<input type="submit"/>
+	        <label for="category">Tipo de producto: </label>
+		    	<input id="category">
 			
-			<div class="ui-widget">
-			  <label for="tags">Tags: </label>
+			<br/>
+			<div id="subProd" style="display:none" class="ui-widget">
+			  <label for="tags">Subproductos: </label>
 		    <input id="tags">
-		    {% for prod in todosLosProd %}
-		
-					 <div id="div{{ prod.id }}">
-				    	<section >
-				        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
-				        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
-				        <br/>
-				        <label name='name' class="product" >{{ prod.name }}</label>
-				        <br/>
-				        <label for='quantity'>Cant:</label>
-				        <input name='quantity' type="text" value="" style="width:50%">
-				        {{prod.measureUnit}}
-				        <br/>
-				        <button class="add">Agregar</button>
-				        <br/><br/>
-				        </section>
-				    </div>
-			{% endfor %}
-		    	
 		    </div>
+		    
+		   <input id="salida" style="display:none" value="0"/>
+		   <div id="prodPromo"></div>
+		   <input type="submit"/>   
 </div>
 	</form>
 	

@@ -8,52 +8,10 @@
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
    -->
    {% load staticfiles %}
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
   <script src="{% static 'chieti/js/jquery.js' %}"></script>
-  <script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
-  <!--  
-  <script>
-  $(document).ready(function() {
-		$("#clientes").autocomplete({
-			  source: "/chieti/complete/",
-		      minLength: 2,
-		      select: function( event, data ) {
-		    	  console.log('automcplete')
-		    	  //$("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
-		      }
-		});
-		/* $("#btnAgregaCliente").click(function(){
-			$("#agregaCliente").attr("src","agregarCliente.jsp");
-			$("#form").dialog({
-				height: 300,
-				width: 550,
-				modal: true
-			});
-		}); */
-
-	});
-  </script>
-  
-   -->
-  
+  <script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>  
   <script type="text/javascript">
-  
-  
-  data = [
-  		{"label" : "Aragorn"},
-  		{"label" : "Arwen"},
-  		{"label" : "Bilbo Baggins"},
-  		{"label" : "Boromir"},
-  		{"label" : "Frodo Baggins"},
-  		{"label" : "Gandalf"},
-  		{"label" : "Gimli"},
-  		{"label" : "Gollum"},
-  		{"label" : "Legolas"},
-  		{"label" : "Meriadoc Merry Brandybuck"},
-  		{"label" : "Peregrin Pippin Took"},
-  		{'label' : "Samwise Gamgee"}
-  		];
-  
   
   $(function() {
 		
