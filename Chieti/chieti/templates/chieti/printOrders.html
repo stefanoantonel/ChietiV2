@@ -32,6 +32,12 @@
                 
             }
         })
+        var sumTotal=parseFloat(0);
+        $('.totalPrice').each(function(){
+        	sumTotal=sumTotal+parseFloat($(this).html());
+        	console.log(sumTotal);
+        	$('.totalAll').html(sumTotal);
+        });
     })
 </script>
 
@@ -90,6 +96,8 @@ border:1px solid black;
 	<label class="remTel">			Paulo Graglia: 3516156342</label>
     </div>	
 {% endfor %}
-
+	<label>Total Completo $: 
+	<label class='totalAll'></label>
+	</label>
 </body>
 </html>

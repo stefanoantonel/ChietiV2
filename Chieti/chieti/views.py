@@ -57,7 +57,6 @@ def auto(request):
 	fp.close()
 	html = t.render(Context())	
 	return HttpResponse(html)
-
 def complete(request):
 	print "autooooo"
 	term=request.GET.get('term')
@@ -102,7 +101,6 @@ def addProd2(request):
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('type', '')
-
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
 
 	#Stefano
@@ -415,9 +413,13 @@ def singUp2Fake(request):
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
 
+		#orderT1=order(userFK=u, orderManagerFK=om)
+		#orderT1.save()
+		checkOrderExist(u)
+		#orderT1=order(userFK=u, orderManagerFK=om)
+		#orderT1.save()
 		#u2=authenticate(username=nameT, password=pass2)
 		#login (request, u2)
-
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
@@ -535,7 +537,6 @@ def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	user1 = authenticate(username=username, password=password)
-
 	if user1 is not None: #if exist
 		if user1.is_active: 
 			userParent=user1.getUser #not django user
