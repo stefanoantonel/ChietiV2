@@ -8,6 +8,9 @@ from chieti.models import order, product, item, orderManager, user, category
 
 # Create your tests here.
 if __name__ == '__main__':
-	orders=order.objects.filter(getItem__isnull=False).distinct()
-	print orders
-		
+	
+	a='pedro'
+	cate=category.objects.all()
+	print cate
+	b={'c':a}
+	print b['c']

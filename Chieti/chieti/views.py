@@ -574,24 +574,46 @@ def changeProduct(request):
 	t = Template(fp.read())
 	fp.close()
 	todos = product.objects.all()
+	cate=category.objects.all()
 	
-	c = Context({'todos':todos})
+	c = Context({'todos':todos,'categ':cate})
 	html = t.render(c)
 	return HttpResponse(html)
 
 @staff_member_required
 def changeProduct2(request):
-	personId = request.POST.get('idPer')
-	us=user.objects.get(id=personId)
-	
+	print ('entro')
+	prodId = request.POST.get('idProd')
+	paramName=request.POST.get('paramName')
+	paramValue=request.POST.get('paramValue')
+	if(paramName=='name'):
+		product.objects.filter(id=prodId).update( name =paramValue)
+	if(paramName=='buyPrice'):
+		product.objects.filter(id=prodId).update( buyPrice =paramValue)
+	if(paramName=='salePrice'):
+		product.objects.filter(id=prodId).update( salePrice =paramValue) 
+	if(paramName=='category'):
+		product.objects.filter(id=prodId).update( category =paramValue) 
+	if(paramName=='measureUnit'):
+		product.objects.filter(id=prodId).update( measureUnit =paramValue) 
+	if(paramName=='canceled'):
+		product.objects.filter(id=prodId).update( canceled =paramValue) 
+	if(paramName=='canceled'):
+		product.objects.filter(id=prodId).update( canceled =paramValue) 
+	if(paramName=='delete'):
+		product.objects.filter(id=prodId).delete() 
 	#print 'person',us.userDj.username,us.userDj.password
 	#us2=us.userDj
 	#authenticate(username=us2.username, password=us2.password)
 	
 	#login(request, us2)
 	
-	checkOrderExist(us)
-	request.session["order"]= order.objects.get(userFK=us.id).id
-	request.session['user'] = us.id
-	return redirect(showProduct)
-	# return render_to_response(fp,{'todos',todo})
+	#===========================================================================
+	# 
+	# checkOrderExist(us)
+	# request.session["order"]= order.objects.get(userFK=us.id).id
+	# request.session['user'] = us.id
+	# return redirect(showProduct)
+	# # return render_to_response(fp,{'todos',todo})
+	#===========================================================================
+	return HttpResponse("Todo ok Change PRod")
