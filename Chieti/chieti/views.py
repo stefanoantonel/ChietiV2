@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
+import json
 
 from chieti.models import product, orderManager, order, user, item, category, \
 	itemPromo
@@ -70,12 +71,16 @@ def complete(request):
 # 		'salePrice':p.salePrice,}
 # 		productArray.append(pp)
 # 	print ("xxx:",productArray)
+#--------
 	for p in prod:
-		ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		ppp={"label" : p.name}
 		lista.append(ppp)
-	print ("l:",lista)
+	ll=json.dumps(lista)
+	print ("l:",ll)
+#--------	
 #	return HttpResponse(productArray)
-	return HttpResponse(lista)
+	return HttpResponse(ll)
 
 # #todo es de prueba... 
 @staff_member_required
@@ -97,12 +102,13 @@ def addProd2(request):
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('type', '')
-<<<<<<< HEAD
+
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
-=======
-	t=category.objects.get(id=t)
-	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
->>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
+
+	#Stefano
+	#t=category.objects.get(id=t)
+	#pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
+
 	pr.save()
 	#im= request.FILES['image'] 
 	#ids=pr.id
@@ -408,13 +414,10 @@ def singUp2Fake(request):
 		om = orderManager.objects.get(id=1)
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
-<<<<<<< HEAD
-		
-		#login (request, u)
-=======
+
 		#u2=authenticate(username=nameT, password=pass2)
 		#login (request, u2)
->>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
+
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
@@ -532,14 +535,9 @@ def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	user1 = authenticate(username=username, password=password)
-	
-<<<<<<< HEAD
-	if user1 is not None:
-		if user1.is_active:
-=======
+
 	if user1 is not None: #if exist
 		if user1.is_active: 
->>>>>>> branch 'master' of https://github.com/stefanoantonel/ChietiV2.git
 			userParent=user1.getUser #not django user
 			checkOrderExist(userParent)
 			login(request, user1)

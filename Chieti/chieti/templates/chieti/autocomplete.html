@@ -51,15 +51,16 @@
   		{"label" : "Legolas"},
   		{"label" : "Meriadoc Merry Brandybuck"},
   		{"label" : "Peregrin Pippin Took"},
-  		{"label" : "Samwise Gamgee"}
+  		{'label' : "Samwise Gamgee"}
   		];
   
   
   $(function() {
-
-		$( "#search" ).autocomplete(
+		
+		$( "#products" ).autocomplete(
 		{
 			 source:"/chieti/complete/"
+			 //source:data //-- ANDA
 		})
 	});
   </script>
@@ -67,11 +68,10 @@
   
 </head>
 <body>
-<input type="text" id="search" />
 	<div class="ui-widget" align="center">
 	<br/><br/><br/>
-  		<label for="clientes">Clientes: </label>
-  		<input id="clientes" />
+  		<label for="products">Producto: </label>
+  		<input id="products" />
 	
 	<div id="salida"></div>
 	<div class="btn" id="btnAgregaCliente">Agregar Cliente</div>
