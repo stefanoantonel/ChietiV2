@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
+import json
 
 from chieti.models import product, orderManager, order, user, item, category, \
 	itemPromo
@@ -63,18 +64,30 @@ def complete(request):
 	print ("prod:",prod)
 	productArray=[]
 	lista=[]
-# 	for p in prod:
-# 		pp={'id':p.id,
-# 		'productName':p.name, 
-# 		'salePrice':p.salePrice,}
-# 		productArray.append(pp)
-# 	print ("xxx:",productArray)
 	for p in prod:
-		ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		ppp={"label" : p.name, "id" : p.id}
 		lista.append(ppp)
-	print ("l:",lista)
-#	return HttpResponse(productArray)
-	return HttpResponse(lista)
+	lJson=json.dumps(lista)
+	print ("l:",lJson)
+	return HttpResponse(lJson)
+
+
+def compCategory(request):
+	print "category"
+	term=request.GET.get('term')
+	cat = category.objects.filter(description__contains=term)
+	print ("cat:",cat)
+	productArray=[]
+	lista=[]
+	for c in cat:
+		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		ppp={"label" : c.description, "id" : c.number}
+		lista.append(ppp)
+	lJson=json.dumps(lista)
+	print ("l:",lJson)
+	return HttpResponse(lJson)
+
 
 # #todo es de prueba... 
 @staff_member_required
@@ -402,16 +415,16 @@ def singUp2Fake(request):
 		#u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=pass1)
 		u.save()
 		om = orderManager.objects.get(id=1)
+		orderT1=order(userFK=u, orderManagerFK=om)
+		orderT1.save()
+
 		#orderT1=order(userFK=u, orderManagerFK=om)
 		#orderT1.save()
-		#u2=authenticate(username=nameT, password=pass2)
-		#login (request, u2)
 		checkOrderExist(u)
 		#orderT1=order(userFK=u, orderManagerFK=om)
 		#orderT1.save()
 		#u2=authenticate(username=nameT, password=pass2)
 		#login (request, u2)
-
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
@@ -532,7 +545,6 @@ def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	user1 = authenticate(username=username, password=password)
-	
 	if user1 is not None: #if exist
 		if user1.is_active: 
 			userParent=user1.getUser #not django user
