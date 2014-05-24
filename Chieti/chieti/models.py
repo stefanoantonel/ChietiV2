@@ -68,8 +68,9 @@ class orderManager(models.Model):
 		
 		#orders=order.objects.filter(orderManagerFK=1)
 		#orders=order.objects.all()
-		items=item.objects.all()
-		orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
+		#items=item.objects.all()
+		#orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
+		orders=order.objects.filter(getItem__isnull=False,delivered='false').distinct()
 		#------------
 		#i = item.objects.all()
 		#orders=order.objects.filter(id__in=i)

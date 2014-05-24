@@ -485,19 +485,21 @@ def changeUser(request):
 	return HttpResponse(html)
 	# return render_to_response(fp,{'todos',todo
 
-@staff_member_required
-def changeUser2(request): #login with fake user.	
-	personId = request.POST.get('idPer')
-	us=user.objects.get(id=personId)
-	fp = open('./chieti/templates/chieti/singIn.html')
-	t = Template(fp.read())
-	fp.close()
-	c = Context({'username':us.userDj.username})
-	html = t.render(c)
-	return HttpResponse(html)
+#===============================================================================
+# @staff_member_required
+# def changeUser2(request): #login with fake user.	
+# 	personId = request.POST.get('idPer')
+# 	us=user.objects.get(id=personId)
+# 	fp = open('./chieti/templates/chieti/singIn.html')
+# 	t = Template(fp.read())
+# 	fp.close()
+# 	c = Context({'username':us.userDj.username})
+# 	html = t.render(c)
+# 	return HttpResponse(html)
+#===============================================================================
 
 @staff_member_required
-def changeUser3(request):
+def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
 	
@@ -507,6 +509,7 @@ def changeUser3(request):
 	
 	#login(request, us2)
 	
+	checkOrderExist(us)
 	request.session["order"]= order.objects.get(userFK=us.id).id
 	request.session['user'] = us.id
 	return redirect(showProduct)
