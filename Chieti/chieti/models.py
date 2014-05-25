@@ -20,7 +20,14 @@ class product(models.Model):
 	category=models.ForeignKey(category, related_name='category',default=1)
 	def getPrice(self):
 		return self.salePrice
-
+	def multItemPromo(self,cant):
+		itemsMult=[]
+		print ("self.items",self.items.all())
+		for itPromo in self.items.all():
+			c=itPromo.promoQuantity*cant
+			p=itPromo.productFK.name
+			itemsMult.append({"prod":p,"cant":c})
+		return itemsMult
 
 
 class user (models.Model):
@@ -53,8 +60,21 @@ class orderManager(models.Model):
 		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		orderNotDelivered = order.objects.filter(delivered='false')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
-
+		prod=product.objects.filter(isPromo='true')
+		itP=it.filter(productFK=prod)
+		
+		
 		vector=[]
+		for a in itP:
+			print(product.objects.get(id=a.get("productFK")).name)
+			result=product.objects.get(id=a.get("productFK")).multItemPromo(a.get('quantity'))
+			print("itemPromo:",result)
+			for prodItem in result:
+				quant=prodItem.get('cant')
+				prod=prodItem.get('prod')
+				a={"product":prod,"quantity":quant, "measureUnit":'Unidad'}
+				vector.append(a)
+
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
 			quant=i["quantity"]
