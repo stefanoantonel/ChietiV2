@@ -53,7 +53,7 @@ class orderManager(models.Model):
 		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		orderNotDelivered = order.objects.filter(delivered='false')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
-
+		
 		vector=[]
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name

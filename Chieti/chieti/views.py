@@ -111,7 +111,8 @@ def addProd2(request):
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('tipoProd', '')
 	items=request.POST.get('items', '')
-	print ("i----:",items)
+	items2=request.POST['itemPromo']
+	print ("i----:",items2)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
 
 	#Stefano
