@@ -5,25 +5,22 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http.response import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
 import json
 
-from chieti.models import product, orderManager, order, user, item, category, \
-	itemPromo
+from chieti.models import product, orderManager, order, user, item, category,itemPromo
+
 
 
 # Create your tests here.
 def home(request):
-	fp = open('./chieti/templates/chieti/homePage.html')
-	t = Template(fp.read())
-	fp.close()
-	c = Context()
-	html = t.render(c)
+	p=product.objects.all()
+	return render(request, 'chieti/homePage.html', {'a':p})
 	
-	return HttpResponse(html)
+	#return HttpResponse(html)
 	
 def init(request):
 	
@@ -111,7 +108,8 @@ def addProd2(request):
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('tipoProd', '')
 	items=request.POST.get('items', '')
-	print ("i----:",items)
+	items2=request.POST['itemPromo']
+	print ("i----:",items2)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
 
 	#Stefano

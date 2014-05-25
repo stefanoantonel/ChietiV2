@@ -30,6 +30,7 @@ class product(models.Model):
 		return itemsMult
 
 
+
 class user (models.Model):
 	userDj = models.OneToOneField(User,related_name='getUser') #is a django user. in order to use the password security
 	address=models.CharField(max_length=50)
