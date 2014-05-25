@@ -3,6 +3,7 @@
 *.sqlite3
 
 settings.py
+*.pydevproject
 
 db.sqlite3
 *.metadata

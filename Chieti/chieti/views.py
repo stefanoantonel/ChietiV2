@@ -106,6 +106,7 @@ def addProd(request):
 def addProd2(request):
 	nam = request.POST.get('name')
 	pri = request.POST.get('sellPrice', '')
+	buyP=request.POST.get('buyPrice', '')
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('tipoProd', '')
@@ -119,6 +120,7 @@ def addProd2(request):
 
 	## ACA COMENTE EL SAVE, FALTA VER items
 	########################pr.save()
+
 	#im= request.FILES['image'] 
 	#ids=pr.id
 	#path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
@@ -507,19 +509,21 @@ def changeUser(request):
 	return HttpResponse(html)
 	# return render_to_response(fp,{'todos',todo
 
-@staff_member_required
-def changeUser2(request): #login with fake user.	
-	personId = request.POST.get('idPer')
-	us=user.objects.get(id=personId)
-	fp = open('./chieti/templates/chieti/singIn.html')
-	t = Template(fp.read())
-	fp.close()
-	c = Context({'username':us.userDj.username})
-	html = t.render(c)
-	return HttpResponse(html)
+#===============================================================================
+# @staff_member_required
+# def changeUser2(request): #login with fake user.	
+# 	personId = request.POST.get('idPer')
+# 	us=user.objects.get(id=personId)
+# 	fp = open('./chieti/templates/chieti/singIn.html')
+# 	t = Template(fp.read())
+# 	fp.close()
+# 	c = Context({'username':us.userDj.username})
+# 	html = t.render(c)
+# 	return HttpResponse(html)
+#===============================================================================
 
 @staff_member_required
-def changeUser3(request):
+def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
 	
@@ -529,6 +533,7 @@ def changeUser3(request):
 	
 	#login(request, us2)
 	
+	checkOrderExist(us)
 	request.session["order"]= order.objects.get(userFK=us.id,delivered='false').id
 	request.session['user'] = us.id
 	return redirect(showProduct)
@@ -596,3 +601,53 @@ def checkOrderExist(us):
 		om=orderManager.objects.get(id=1)
 		b=order(userFK=us,orderManagerFK=om)
 		b.save()
+
+@staff_member_required
+def changeProduct(request):
+	fp = open('./chieti/templates/chieti/changeProduct.html')
+	t = Template(fp.read())
+	fp.close()
+	todos = product.objects.all()
+	cate=category.objects.all()
+	
+	c = Context({'todos':todos,'categ':cate})
+	html = t.render(c)
+	return HttpResponse(html)
+
+@staff_member_required
+def changeProduct2(request):
+	print ('entro')
+	prodId = request.POST.get('idProd')
+	paramName=request.POST.get('paramName')
+	paramValue=request.POST.get('paramValue')
+	if(paramName=='name'):
+		product.objects.filter(id=prodId).update( name =paramValue)
+	if(paramName=='buyPrice'):
+		product.objects.filter(id=prodId).update( buyPrice =paramValue)
+	if(paramName=='salePrice'):
+		product.objects.filter(id=prodId).update( salePrice =paramValue) 
+	if(paramName=='category'):
+		product.objects.filter(id=prodId).update( category =paramValue) 
+	if(paramName=='measureUnit'):
+		product.objects.filter(id=prodId).update( measureUnit =paramValue) 
+	if(paramName=='canceled'):
+		product.objects.filter(id=prodId).update( canceled =paramValue) 
+	if(paramName=='canceled'):
+		product.objects.filter(id=prodId).update( canceled =paramValue) 
+	if(paramName=='delete'):
+		product.objects.filter(id=prodId).delete() 
+	#print 'person',us.userDj.username,us.userDj.password
+	#us2=us.userDj
+	#authenticate(username=us2.username, password=us2.password)
+	
+	#login(request, us2)
+	
+	#===========================================================================
+	# 
+	# checkOrderExist(us)
+	# request.session["order"]= order.objects.get(userFK=us.id).id
+	# request.session['user'] = us.id
+	# return redirect(showProduct)
+	# # return render_to_response(fp,{'todos',todo})
+	#===========================================================================
+	return HttpResponse("Todo ok Change PRod")

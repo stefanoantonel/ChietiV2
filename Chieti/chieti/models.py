@@ -13,6 +13,7 @@ class product(models.Model):
 	measureUnit = models.CharField(max_length=10)
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
+	buyPrice=models.DecimalField(max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
@@ -69,7 +70,7 @@ class orderManager(models.Model):
 		
 		#orders=order.objects.filter(orderManagerFK=1)
 		#orders=order.objects.all()
-		#items=item.objects.all()
+		
 		#orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
 		orders=order.objects.filter(getItem__isnull=False,delivered='false').distinct()
 		#------------
