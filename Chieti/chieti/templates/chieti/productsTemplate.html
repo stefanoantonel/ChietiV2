@@ -58,14 +58,16 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
                 
         });
         
-        $(".link").click(function() {
+        $(".links").click(function() {
   		  console.log("link id:", $(this).attr("id") );
+  		  //console.log("link id:", $(this).val() );
   		  //idLink=
   		  $.ajax({
               url: '/chieti/product/',
               type: 'post', 
               data: {
                   'id': $(this).attr("id"),
+            	  //'id': $(this).val(),
               },
               success: function(data) {
                   //console.log("todo ok! AJAX")
@@ -91,13 +93,9 @@ function checkQuantPositive(quant){
 </head>
 <body class="prodBody">
 <div>
-<!-- <a style="margin-left: 20%" class="link">frutas</a>
-	<a style="margin-left: 25%"class="link">verduras</a>
-	<a style="margin-left: 27%" class="link">otros</a> -->
-<a id="1" class="link">frutas</a>
-<a id="2" class="link">verduras</a>
-<a id="3" class="link">otros</a>
-
+	<a id="3" style="float:left;margin-left: 20%; color:gray; font-weight: bold" >otros</a>
+	<a id="2" class="links" >verduras</a> 
+	<a id="1" class="links">frutas</a>
 </div>
 <div>
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->

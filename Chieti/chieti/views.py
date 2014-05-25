@@ -66,7 +66,7 @@ def complete(request):
 	lista=[]
 	for p in prod:
 		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
-		ppp={"label" : p.name, "id" : p.id}
+		ppp={"label" : p.name, "id" : p.id, "um":p.measureUnit}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
 	print ("l:",lJson)
@@ -108,14 +108,17 @@ def addProd2(request):
 	pri = request.POST.get('sellPrice', '')
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
-	t=request.POST.get('type', '')
+	t=request.POST.get('tipoProd', '')
+	items=request.POST.get('items', '')
+	print ("i----:",items)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
 
 	#Stefano
 	#t=category.objects.get(id=t)
 	#pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
 
-	pr.save()
+	## ACA COMENTE EL SAVE, FALTA VER items
+	########################pr.save()
 	#im= request.FILES['image'] 
 	#ids=pr.id
 	#path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))

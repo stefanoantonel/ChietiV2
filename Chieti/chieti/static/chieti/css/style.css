@@ -28,8 +28,10 @@ li a {
 
 }
 .links{
-	float:left;
+	/*float:left;
 	margin-left: 50%;
+	display:block;*/
+	float:left;margin-left: 20%; color:gray; font-weight: bold
 }
 
 .allProducts{
@@ -109,10 +111,13 @@ border: 1px solid black;
 
 
 .link{
-	float:left;
-	display:block;
+	/*float:left;
 	color:gray; 
 	font-weight: bold;
-	/*paddingLeft: 20px;
+	margin-left: 50%;
+	paddingLeft: 20px;
 	margin-left: 300px;*/
+	
+	float:left;margin-left: 20%;display:block; color:gray; font-weight: bold 
+	
 }

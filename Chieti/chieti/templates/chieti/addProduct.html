@@ -13,9 +13,12 @@ $(function() {
       source:"/chieti/complete/",
       minLength:2,
       select: function( event, data ) {
-		   $("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+		   $("#tipoProd").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
 		   //INSERTA UNO NUEVO CADA VEZ con el ID
-		    $("#prodPromo").append("<label for="+data.item.id+">"+data.item.label+", cant:</label><input id="+data.item.id+"></br>");
+		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.label+", cant:<input id="+data.item.id+">"+data.item.um);
+		   // $("#prodPromo").append(data.item.um);
+		    $("#prodPromo").append(""); //AGREGAR EL BOTON PARA ELIMINAR
+		    $("#prodPromo").append("</li>")
 	}
     });
     
@@ -63,8 +66,10 @@ $(function() {
 		    <input id="tags">
 		    </div>
 		    
-		   <input id="salida" style="display:none" value="0"/>
-		   <div id="prodPromo"></div>
+		   <input id="tipoProd" name="tipoProd" style="display:none" value="0"/>
+		   
+		   <ul id="prodPromo"></ul>
+		   
 		   <input type="submit"/>   
 </div>
 	</form>
