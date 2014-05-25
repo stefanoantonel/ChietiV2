@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http.response import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
@@ -17,13 +17,10 @@ from chieti.models import product, orderManager, order, user, item, category, \
 
 # Create your tests here.
 def home(request):
-	fp = open('./chieti/templates/chieti/homePage.html')
-	t = Template(fp.read())
-	fp.close()
-	c = Context()
-	html = t.render(c)
+	p=product.objects.all()
+	return render(request, 'chieti/homePage.html', {'a':p})
 	
-	return HttpResponse(html)
+	#return HttpResponse(html)
 	
 def init(request):
 	
