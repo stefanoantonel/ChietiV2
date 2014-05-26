@@ -21,6 +21,13 @@ def home(request):
 	return render(request, 'chieti/homePage.html', {'a':p})
 	
 	#return HttpResponse(html)
+
+def quienes(request):
+	return render(request, 'chieti/quienesSomos.html')
+
+def comoComprar(request):
+	return render(request, 'chieti/comoComprar.html')
+
 	
 def init(request):
 	
@@ -144,7 +151,8 @@ def showProduct(request):
 	#todo = product.objects.all()
 	cat=request.POST.get("id")
 	if(cat==None): 
-		todo = product.objects.filter(category=1)
+		#todo = product.objects.filter(category=1)
+		todo = product.objects.all()
 	else:
 		todo = product.objects.filter(category=cat)
 	#print todo.query

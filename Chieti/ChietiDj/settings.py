@@ -34,7 +34,6 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 # Application definition
 
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,8 +46,7 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    #'allauth.socialaccount.providers.facebook',
-    'django.contrib.admindocs',
+    'allauth.socialaccount.providers.facebook',
     
 )
 
@@ -65,11 +63,11 @@ ROOT_URLCONF = 'ChietiDj.urls'
 
 WSGI_APPLICATION = 'ChietiDj.wsgi.application'
 
-#===============================================================================
-# 
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-# 
+
+#===============================================================================
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -78,19 +76,17 @@ WSGI_APPLICATION = 'ChietiDj.wsgi.application'
 # }
 #===============================================================================
  
- 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'chieti_db',
-        'USER': 'chieti',
-        'PASSWORD': 'django',
-        #'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        #'PORT': '3306',
+        'NAME': 'chietidb',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
-ALLOWED_HOSTS=['chietionline.webfactional.com','ex.chietionline.webfactional.com']
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -109,8 +105,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_DIR = '/home/webapps/static_media'
-STATIC_ROOT = '~/webapps/static_media/'
 
 #LOGIN FACEBOOK
 AUTHENTICATION_BACKENDS = (

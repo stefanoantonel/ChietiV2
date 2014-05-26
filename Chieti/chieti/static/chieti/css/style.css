@@ -27,12 +27,34 @@ li a {
     height:50%;  
 
 }
-.links{
+.linkTipo{
 	/*float:left;
 	margin-left: 50%;
-	display:block;*/
-	float:left;margin-left: 20%; color:gray; font-weight: bold
+	display:block;
+	margin-left: 20%;*/
+	float:left; color:gray; font-weight: bold;
+	padding-left: 100px;
 }
+
+.carrito{
+	position:absolute;
+	/*margin-right:1%;
+	margin-left:50%;*/
+	margin-top:5%;
+	margin-left:-85%;
+	width: 100px;
+	height: 100px;
+	background:url('/static/chieti/images/carrito.jpg') no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	
+}
+/*
+#carrito:hover .carrito {
+background-image:url('/static/chieti/images/miCompra.jpg');
+}*/
 
 .allProducts{
 	position:absolute;

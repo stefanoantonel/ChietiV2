@@ -58,7 +58,7 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
                 
         });
         
-        $(".links").click(function() {
+        $(".linkTipo").click(function() {
   		  console.log("link id:", $(this).attr("id") );
   		  //console.log("link id:", $(this).val() );
   		  //idLink=
@@ -77,7 +77,12 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
           });    
   		  
   		});    
-
+        $("#carrito").click(function() {
+        	
+        		//alert("HOLA");
+        		$(location).attr('href','/chieti/template/chieti/changeOrder');
+       			
+       		});
 	});
 function checkQuantPositive(quant){
 	num = new Number(quant);
@@ -93,9 +98,12 @@ function checkQuantPositive(quant){
 </head>
 <body class="prodBody">
 <div>
-	<a id="3" style="float:left;margin-left: 20%; color:gray; font-weight: bold" >otros</a>
-	<a id="2" class="links" >verduras</a> 
-	<a id="1" class="links">frutas</a>
+	<a id="3" class="linkTipo">otros</a>
+	<a id="2" class="linkTipo" >verduras</a> 
+	<a id="1" class="linkTipo">frutas</a>
+</div>
+<div id="h">
+<img id="carrito"  class="carrito hover" alt="Mi compra" >
 </div>
 <div>
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
