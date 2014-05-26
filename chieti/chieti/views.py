@@ -11,8 +11,8 @@ from django.template.context import Context
 from django.template.loader import render_to_string
 import json
 
-from chieti.models import product, orderManager, order, user, item, category, \
-	itemPromo
+from chieti.models import product, orderManager, order, user, item, category,itemPromo
+
 
 
 # Create your tests here.

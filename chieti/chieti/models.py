@@ -64,8 +64,14 @@ class orderManager(models.Model):
 		prod=product.objects.filter(isPromo='true')
 		itP=it.filter(productFK=prod)
 		
-		
 		vector=[]
+		for i in it:
+			prod=product.objects.get(id=i["productFK"]).name
+			quant=i["quantity"]
+			mu=product.objects.get(id=i["productFK"]).measureUnit
+			a={"product":prod,"quantity":quant, "measureUnit":mu}
+			vector.append(a)
+			
 		for a in itP:
 			print(product.objects.get(id=a.get("productFK")).name)
 			result=product.objects.get(id=a.get("productFK")).multItemPromo(a.get('quantity'))
@@ -73,17 +79,18 @@ class orderManager(models.Model):
 			for prodItem in result:
 				quant=prodItem.get('cant')
 				prod=prodItem.get('prod')
-				a={"product":prod,"quantity":quant, "measureUnit":'Unidad'}
-				vector.append(a)
+				a=0
+				for element in vector:
+					 if element['product'] == prod:
+					 	element['quantity']=element['quantity']+quant;
+					 	a=1;
+				if a==0:	 		
+					a={"product":prod,"quantity":quant, "measureUnit":'Unidad'}
+					vector.append(a)
+			
 		
-
-		for i in it:
-			prod=product.objects.get(id=i["productFK"]).name
-			quant=i["quantity"]
-			mu=product.objects.get(id=i["productFK"]).measureUnit
-			a={"product":prod,"quantity":quant, "measureUnit":mu}
-			vector.append(a)
-		return vector
+		v=sorted(vector)	
+		return v
 		pass #JSON array
 	
 	def printSummary(self,summary):# elemento y cantidad
