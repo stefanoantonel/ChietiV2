@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+{% include 'chieti/mainHead.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript">
+
+$(function() {
+    $( "#tags" ).autocomplete({
+      source:"/chieti/complete/",
+      minLength:2,
+      select: function( event, data ) {
+		   $("#tipoProd").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+		   //INSERTA UNO NUEVO CADA VEZ con el ID
+		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.label+", cant:<input id="+data.item.id+" name='itemPromo' class='quant' >"+data.item.um);
+		   // $("#prodPromo").append(data.item.um);
+		    $("#prodPromo").append(""); //AGREGAR EL BOTON PARA ELIMINAR
+		    $("#prodPromo").append("</li>")
+	}
+    });
+    
+    $( "#category" ).autocomplete({
+        source:"/chieti/compCategory/",
+        minLength:2,
+        select: function( event, data ) {
+			   $("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+			   $("#salida").attr('value', data.item.id);
+		}
+      });
+    
+    $("#siPromo").click(function() {
+		if ($('#siPromo').prop('checked')) 
+			{$('#subProd').css("display", "inline")}
+		
+	});	
+    
+  });
+ /*
+$(document).ready(function() {
+  	
+	$('.ready').click(function(){
+		console.log('readdd');
+		itemsPromo=$('.itemsContainer').children();
+		arrayItems=[];
+		
+		$(itemsPromo).each(function(inde,valu){
+			item=[];
+			item.push($(valu).attr('id'));
+			quant=$(valu).find('.quant').val();
+			item.push(quant);
+			arrayItems.push(item);
+			console.log(arrayItems[1]); //id + cant
+		});
+
+		
+		Ingrese el nombre del producto <input type="text" name="name"><div></div>
+		Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
+		Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
+		Ingrese la imagen<input type="file" name="image" />
+		<br/>
+        Seleccion Unidad de Medida: 
+        <input type="radio" name="mu" value="Kg" checked="checked">Kg
+        <input type="radio" name="mu" value="Un">Unidad
+        <br/>
+        Es una promocion: 
+        <input id="siPromo" type="radio" name="promo" value="true">Si
+        <input  type="radio" name="promo" value="false" checked="checked">No
+        <br/>
+        <label for="category">Tipo de producto: </label>
+	    	<input id="category">
+		
+		<br/>
+		<div id="subProd" style="display:none" class="ui-widget">
+		  <label for="tags">Subproductos: </label>
+	    <input id="tags">
+	    </div>
+	    
+	   <input id="tipoProd" name="tipoProd" style="display:none" value="0"/>
+	   
+	   <ul id="prodPromo" class='itemsContainer'></ul>
+	   
+	   <input type="submit" class='ready'/>   
+
+	   
+		
+		$.ajax({
+            url: '/chieti/addProduct2/',
+            type: 'post', 
+            data: {
+                'arrayItems':arrayItems,
+                ,
+            },
+            success: function(data) {
+                console.log("todo ok! AJAX")
+                console.log(data)
+            }
+        });
+	});
+		
+        
+});
+ */
+</script>
+</head>
+<body>
+
+	<form action="/chieti/addProduct2/" method="post" enctype="multipart/form-data"> 
+			Ingrese el nombre del producto <input type="text" name="name"><div></div>
+			Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
+			Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
+			Ingrese la imagen<input type="file" name="image" />
+			<br/>
+	        Seleccion Unidad de Medida: 
+	        <input type="radio" name="mu" value="Kg" checked="checked">Kg
+	        <input type="radio" name="mu" value="Un">Unidad
+	        <br/>
+	        Es una promocion: 
+	        <input id="siPromo" type="radio" name="promo" value="true">Si
+	        <input  type="radio" name="promo" value="false" checked="checked">No
+	        <br/>
+	        <label for="category">Tipo de producto: </label>
+		    	<input id="category">
+			
+			<br/>
+			<div id="subProd" style="display:none" class="ui-widget">
+			  <label for="tags">Subproductos: </label>
+		    <input id="tags">
+		    </div>
+		    
+		   <input id="tipoProd" name="tipoProd" style="display:none" value="0"/>
+		   
+		   <ul id="prodPromo" class='itemsContainer'></ul>
+		   
+		   <input type="submit" class='ready'/>   
+
+	</form>  
+	
+</body>
+</html>

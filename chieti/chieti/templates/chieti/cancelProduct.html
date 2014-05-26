@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cancelacion de productos </title>
+{% include 'chieti/mainHead.html' %}
+<br>
+Seleccione para CANCELAR de las ordenes
+
+<script type="text/javascript">
+	$(document).ready(function(){	
+		$('input[type=checkbox]').each(function (){
+			//put checked if is canceled from DB
+			canceled=$(this).attr('value')
+			if(canceled =='true'){
+				$(this).prop('checked', true)
+			}
+		})
+		
+		$('input[type=checkbox]').change(function (){
+			//change the canceled state in DB
+			productId=$(this).siblings('input[name=prodId]').val()
+			checked=$(this).is(':checked')
+
+			console.log(productId,checked)
+			
+			$.ajax({
+                url: '/chieti/cancelProduct2/',
+                type: 'post', 
+                data: {
+                    'productId':productId,
+                    'checked':checked,
+                },
+                success: function(data) {
+                    console.log("todo ok! AJAX")
+                    console.log(data)
+                }
+            });
+
+
+		})
+	})
+	
+</script>
+
+</head>
+<body>
+
+
+<div>
+<form action="/chieti/changeOrder2/" method="post">
+	{% for prod in todos %} <!-- OJO is a vector of jsons -->
+	    <div>
+	        <img alt="" src="">
+	        <input name="prodId" hidden="hidden" value="{{ prod.id }}"/>
+	        
+	        <label title='name' class="product" >{{ prod.name }}</label>
+	        -----
+	        <input type="checkbox" value="{{ prod.canceled }}">
+	        <br/>
+	    </div>
+	{% endfor %}
+	
+	<br/>
+	<input type="submit" class="change" value="Cambiar"></input>
+</form>
+</div>
+
+
+</body>
+</html>
