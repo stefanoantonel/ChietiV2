@@ -87,8 +87,6 @@ class orderManager(models.Model):
 				if a==0:	 		
 					a={"product":prod,"quantity":quant, "measureUnit":'Unidad'}
 					vector.append(a)
-			
-		
 		v=sorted(vector)	
 		return v
 		pass #JSON array
