@@ -87,11 +87,12 @@ def addProd2(request):
 	meas = request.POST.get('mu', '')
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('tipoProd', '')
-	items=request.POST.get('items', '')
-	items2=request.POST['itemPromo']
-	print ("i----:",items2)
-	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category_id=t)
-
+	#items=request.POST.get('items', '')
+	#items2=request.POST['itemPromo']
+	#print ("i----:",items2)
+	t=category.objects.get(id=t)
+	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t,buyPrice=buyP)
+	pr.save()
 	#Stefano
 	#t=category.objects.get(id=t)
 	#pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
