@@ -17,8 +17,8 @@ from chieti.models import product, orderManager, order, user, item, category,ite
 
 # Create your tests here.
 def home(request):
-	p=product.objects.all()
-	return render(request, 'chieti/homePage.html', {'a':p})
+	
+	return render(request, 'chieti/homePage.html')
 	
 	#return HttpResponse(html)
 	

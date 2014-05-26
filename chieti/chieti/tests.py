@@ -8,12 +8,7 @@ from chieti.models import order, product, item, orderManager, user, category
 
 # Create your tests here.
 if __name__ == '__main__':
-	orderNotDelivered = order.objects.filter(delivered='false')
-	it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
-	prod=product.objects.filter(isPromo='true')
-	itP=it.filter(productFK=prod)
-	for i in itP:
-		
-		itP.productFK.items.all()
-		
+	p=product.objects.all()
+	print p
+	print ('pepe')
 	
