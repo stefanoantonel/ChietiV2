@@ -122,7 +122,7 @@ $(document).ready(function() {
 	        <input  type="radio" name="promo" value="false" checked="checked">No
 	        <br/>
 	        <label for="category">Tipo de producto: </label>
-		    	<input id="category">
+		    	<input id="category" required="required" name='category'>
 			
 			<br/>
 			<div id="subProd" style="display:none" class="ui-widget">
@@ -130,7 +130,7 @@ $(document).ready(function() {
 		    <input id="tags">
 		    </div>
 		    
-		   <input id="tipoProd" name="tipoProd" style="display:none" value="0" required="required"/>
+		   <input id="tipoProd" name="tipoProd" style="display:none" value="0" />
 		   
 		   <ul id="prodPromo" class='itemsContainer'></ul>
 		   
