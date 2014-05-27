@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
@@ -138,3 +139,145 @@ function checkQuantPositive(quant){
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Chieti</title>
+
+
+{% include 'chieti/mainHead.html' %}
+
+<script type="text/javascript">
+
+function Popup(status, id) {
+	var pos = $("#img"+id).position();
+	$( "#div"+id ).css({ position: "absolute",
+         marginLeft: 0, marginTop: 0,
+         top: pos.top, left: pos.left });
+
+     if (status == 1) {
+        	console.log("id status1: "+id);
+        	$("#div"+id).css("display","");
+    }
+}
+
+function Aparecer(id){$("#div"+id).css('display', '');}
+function Desaparecer(id){$("#div"+id).css('display', 'none');}
+
+	$(document).ready(function() {
+	  	console.log( "ready prod!" ) 		
+		//$('input[name=quantity]').change(function(){
+		$('.quantity').change(function(){
+			var ant=$(this).siblings("label[name=price]").attr("title")
+			var cant=$(this).val()            
+			var dsp=ant*cant
+			dsp = dsp.toFixed(2);
+			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+			$(this).siblings('label[name=price]').html(dsp)
+            
+		})
+        $('.add').click(function(){
+            //ids=$(this).siblings(".ids").text()
+            var ids= $(this).siblings("label[name=ids]").html()
+            var quant= $(this).siblings('input[name=quantity]').val()
+            if(checkQuantPositive(quant)==true){
+            	console.log("ids:",ids,quant)
+                $.ajax({
+                    url: '/chieti/addToOrder/',
+                    type: 'post', 
+                    data: {
+                        'ids':ids,
+                        'quantity':quant,
+                    },
+                    success: function(data) {
+                        console.log("todo ok! AJAX")
+                        console.log(data)
+                    }
+                });
+            }
+                
+        });
+        
+		$(".l").click(function() {
+  		  console.log("link id:", $(this).attr("id") );
+  		  //console.log("link id:", $(this).val() );
+  		  //idLink=
+  		  $.ajax({
+              url: '/chieti/product/',
+              type: 'post', 
+              data: {
+                  'id': $(this).attr("id"),
+            	  //'id': $(this).val(),
+              },
+              success: function(data) {
+                  //console.log("todo ok! AJAX")
+                  //console.log(data)
+                  $("body").html(data)
+              }
+          });    
+  		  
+  		});
+		
+		 $("#carrito").click(function() {
+			 $(location).attr('href','/chieti/template/chieti/changeOrder');       			
+			 });
+
+	});
+function checkQuantPositive(quant){
+	num = new Number(quant);
+	console.log('check',quant);
+    if( !(num > 0) )
+    	return false;
+    return true;
+}
+</script>
+
+	
+
+</head>
+<body class="prodBody">
+<div>
+	<a id="3" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">otros</a>
+ 	<a id="2" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">verduras</a> 
+ 	<a id="1" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">frutas</a>
+</div>
+<img id="carrito"  class="carrito hover" alt="Mi compra" >
+<div>
+<!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
+<div class="allProducts">
+{% for prod in todos %}
+	<div class="divImg">
+	<label name='name' class="product" >{{ prod.name }}</label>
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
+		 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})" class="divInvisible">
+	    	<section >
+	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
+	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
+	        <br/>
+	        <label name='name' class="product" >{{ prod.name }}</label>
+	        <br/>
+	        <label for='quantity'>Cant:</label>
+	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
+	        {{prod.measureUnit}}
+	        <br/>
+	        <label>Precio: $</label>
+	        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
+	        <button class="add">Agregar</button>
+	        <br/><br/>
+	        </section>
+	    </div>
+	</div>
+	
+{% endfor %}    
+</div>
+
+
+   
+    
+</div>
+
+</body>
+</html>
+>>>>>>> branch 'develop' of https://github.com/stefanoantonel/ChietiV2.git

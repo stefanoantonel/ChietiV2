@@ -1,5 +1,4 @@
 
-import json
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
@@ -11,12 +10,17 @@ from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
+import json
 
-from chieti.models import product, orderManager, order, user, item, category, itemPromo
+from chieti.models import product, orderManager, order, user, item, category,itemPromo
+
 
 
 # Create your tests here.
 def home(request):
+	
+	return render(request, 'chieti/homePage2.html')
+def homa(request):
 	
 	return render(request, 'chieti/homePage.html')
 	
@@ -40,6 +44,12 @@ def test(request):
 	logout(request)
 	return HttpResponse(request.user.username)
 
+def test1(request):
+	fp = open('./chieti/templates/chieti/test1.html')
+	t = Template(fp.read())
+	fp.close()
+	html = t.render(Context())
+	return HttpResponse(html)
 
 def mainHead(request):
 	return render(request, 'chieti/mainHead.html')
