@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Datos de Usuario</title>
+{% include 'chieti/mainHead.html' %}
+
+</head>
+<body>
+
+	<div>
+		
+		<input value="Nombre" disabled="disabled"/>
+		<input value="Precio de Compra" disabled="disabled"/>
+		<input value="Precio de Venta" disabled="disabled"/>
+		<input value="Categoria" disabled="disabled"/>
+		<input value="Unidad de Medida" disabled="disabled"/>
+		<input value="Cancelado" disabled="disabled"/>
+		<input value="Borrar" disabled="disabled"/>
+		<br>
+		{% for prod in todos %}
+			<section class="productContainer">
+					<input name="prodId" class ='prodId' hidden="hidden" value="{{prod.id}}"/>
+					<input name="name" value="{{prod.name}}"/>
+					<input name="buyPrice" value="{{prod.buyPrice}}"/>
+					<input name="salePrice" value="{{prod.salePrice}}"/>
+					<input name="category" value="{{prod.category.id}}" />
+					<input name="measureUnit" value="{{prod.measureUnit}}"/>
+					
+					<input name="canceled" type="checkbox"  value="{{ prod.canceled }}"/>
+					
+					<input name="delete" type="checkbox" />
+					<br>
+			</section>
+		{% endfor %}    
+	</div>
+</body>
+</html>
