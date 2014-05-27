@@ -207,3 +207,11 @@ border: 1px solid black;
 	margin-top:5%;
 	background-image:url('/static/chieti/images/cajonPedido.png');
 }
+
+
+.quienes{
+	font-size: 20px;
+	font-family: "Verdana";		
+	margin-left: 10%;
+	margin-right: 10%;
+}
