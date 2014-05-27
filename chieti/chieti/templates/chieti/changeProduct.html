@@ -9,19 +9,37 @@
 	$(document).ready(function(){
 		$("input").change(function(){
 			var id=$(this).parents(".productContainer").find('.prodId').val();
+			var name=$(this).parents(".productContainer").find('.name').val();
+			var buyPrice=$(this).parents(".productContainer").find('.buyPrice').val();
+			var salePrice=$(this).parents(".productContainer").find('.salePrice').val();
+			var category=$(this).parents(".productContainer").find('.category').val();
+			var meas=$(this).parents(".productContainer").find('.measureUnit').val();
+			var can=$(this).parents(".productContainer").find('.canceled').prop('checked');
+			//console.log(can);
+			var dele=$(this).parents(".productContainer").find('.delete').prop("checked");
+			console.log(name,buyPrice,salePrice,category,meas,dele,can);
+			console.log('[ name]',name)
 			var parameterName=$(this).attr('name');
 			var parameterValue=$(this).val();
 			console.log(id,parameterName,parameterValue);
 			$.ajax({
                 url: '/chieti/changeProduct2/',
                 type: 'post', 
-                data: { "idProd": id, "paramName":parameterName, "paramValue":parameterValue},
+                data: { "idProd": id, "name":name, "buyPrice":buyPrice,"salePrice":salePrice,"category":category, "measureUnit":meas,"canceled":can, "delete":dele},
                 success: function(data) {
                     console.log("todo ok! AJAX")
                     console.log(data)
                 }
             });
 		});
+		
+		$('.canceled').each(function (){
+			//put checked if is canceled from DB
+			canceled=$(this).attr('value')
+			if(canceled =='true'){
+				$(this).prop('checked', true)
+			}
+		})
 	});
 
 </script>
@@ -40,15 +58,13 @@
 		{% for prod in todos %}
 			<section class="productContainer">
 					<input name="prodId" class ='prodId' hidden="hidden" value="{{prod.id}}"/>
-					<input name="name" value="{{prod.name}}"/>
-					<input name="buyPrice" value="{{prod.buyPrice}}"/>
-					<input name="salePrice" value="{{prod.salePrice}}"/>
-					<input name="category" value="{{prod.category.id}}" />
-					<input name="measureUnit" value="{{prod.measureUnit}}"/>
-					
-					<input name="canceled" type="checkbox"  value="{{ prod.canceled }}"/>
-					
-					<input name="delete" type="checkbox" />
+					<input name="name" class ='name'value="{{prod.name}}"/>
+					<input name="buyPrice" class ='buyPrice'value="{{prod.buyPrice}}"/>
+					<input name="salePrice" class ='salePrice' value="{{prod.salePrice}}"/>
+					<input name="category" class ='category' value="{{prod.category.id}}" />
+					<input name="measureUnit" class ='measureUnit' value="{{prod.measureUnit}}"/>
+					<input name="canceled" class ='canceled' type="checkbox"  value="{{prod.canceled}}" />
+					<input name="delete" class ='delete' type="checkbox" />
 					<br>
 			</section>
 		{% endfor %}    

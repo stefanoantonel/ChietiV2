@@ -622,24 +622,21 @@ def changeProduct(request):
 def changeProduct2(request):
 	print ('entro')
 	prodId = request.POST.get('idProd')
-	paramName=request.POST.get('paramName')
-	paramValue=request.POST.get('paramValue')
-	if(paramName=='name'):
-		product.objects.filter(id=prodId).update( name =paramValue)
-	if(paramName=='buyPrice'):
-		product.objects.filter(id=prodId).update( buyPrice =paramValue)
-	if(paramName=='salePrice'):
-		product.objects.filter(id=prodId).update( salePrice =paramValue) 
-	if(paramName=='category'):
-		product.objects.filter(id=prodId).update( category =paramValue) 
-	if(paramName=='measureUnit'):
-		product.objects.filter(id=prodId).update( measureUnit =paramValue) 
-	if(paramName=='canceled'):
-		product.objects.filter(id=prodId).update( canceled =paramValue) 
-	if(paramName=='canceled'):
-		product.objects.filter(id=prodId).update( canceled =paramValue) 
-	if(paramName=='delete'):
-		product.objects.filter(id=prodId).delete() 
+	#paramName=request.POST.get('paramName')
+	#paramValue=request.POST.get('paramValue')
+	nam=request.POST.get('name')
+	buyPric=request.POST.get('buyPrice')
+	salePric=request.POST.get('salePrice')
+	categor=request.POST.get('category')
+	measureUni=request.POST.get('measureUnit')
+	delet=request.POST.get('delete')
+	cancele=request.POST.get('canceled','false')
+	
+	print 'product'
+	print nam,buyPric,salePric,categor,measureUni,delet,cancele
+	if(delet =='true'):
+		product.objects.filter(id=prodId).delete()
+	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele) 
 	#print 'person',us.userDj.username,us.userDj.password
 	#us2=us.userDj
 	#authenticate(username=us2.username, password=us2.password)
