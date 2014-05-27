@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE>
 <html>
 <head>
@@ -51,56 +50,3 @@ $('#swap').bind('mouseleave', function(e) {
 </script>
 </body>
 </html>
-=======
-<!DOCTYPE>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	{% load staticfiles %}
-	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
-	<!-- script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}"/> -->
-	<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
-  	<script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
-	<script type="text/javascript"></script>
-
-		
-<title>Chieti</title>
-</head>
-<body>
-<div name="titulo" align="center">
-		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:150px;height:150px;" alt=""/>			 
-</div>
-		<div>
-			<a style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " href="/chieti/template/chieti/quienes">Quienes Somos</a>
-			<a style="float:left;margin-left: 18%;display:block; color:gray;font-weight: bold " href="/chieti/template/chieti/product">Que ofrecemos</a>
-			<a style="float:left;margin-left: 15%;display:block; color:gray;font-weight: bold " href="/chieti/template/chieti/comoComprar">Como realizar tus compras</a>
-		</div>
-
-<script>
-var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
-i = 0,
-// $swap = $("#swap");
-swapper=0;
-	console.log("mouse in");
-function swapImg(){
-  i = i % images.length;
-  $("#swap").attr("src",images[i]);        
-  i++;
-}
-
-$("#swap").hover(function(){
-	console.log("in!");
-	swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
-	},function(){
-	    clearInterval(swapper);
-		});
-		
-$('#swap').bind('mouseleave', function(e) {
-	$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
-		});
- 
-</script>
-</body>
-</html>
->>>>>>> branch 'develop' of https://github.com/stefanoantonel/ChietiV2.git
