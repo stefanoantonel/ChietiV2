@@ -363,7 +363,8 @@ def singUp2Fake(request):
 		
 		
 		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
-		u1.last_name=lastNameT
+		if lastNameT:
+			u1.last_name=lastNameT
 		u1.is_active=1 # default because don't have email 
 		u1.save()
 		u=user(userDj=u1,address=addressT, phone='')
