@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,63 +71,4 @@
 	</div>
 </body>
 
-=======
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Cambio de Producto</title>
-{% include 'chieti/mainHead.html' %}
-<script type="application/javascript">
-
-	$(document).ready(function(){
-		$("input").change(function(){
-			var id=$(this).parents(".productContainer").find('.prodId').val();
-			var parameterName=$(this).attr('name');
-			var parameterValue=$(this).val();
-			console.log(id,parameterName,parameterValue);
-			$.ajax({
-                url: '/chieti/changeProduct2/',
-                type: 'post', 
-                data: { "idProd": id, "paramName":parameterName, "paramValue":parameterValue},
-                success: function(data) {
-                    console.log("todo ok! AJAX")
-                    console.log(data)
-                }
-            });
-		});
-	});
-
-</script>
-</head>
-<body>
-	<div>
-		
-		<input value="Nombre" disabled="disabled"/>
-		<input value="Precio de Compra" disabled="disabled"/>
-		<input value="Precio de Venta" disabled="disabled"/>
-		<input value="Categoria" disabled="disabled"/>
-		<input value="Unidad de Medida" disabled="disabled"/>
-		<input value="Cancelado" disabled="disabled"/>
-		<input value="Borrar" disabled="disabled"/>
-		<br>
-		{% for prod in todos %}
-			<section class="productContainer">
-					<input name="prodId" class ='prodId' hidden="hidden" value="{{prod.id}}"/>
-					<input name="name" value="{{prod.name}}"/>
-					<input name="buyPrice" value="{{prod.buyPrice}}"/>
-					<input name="salePrice" value="{{prod.salePrice}}"/>
-					<input name="category" value="{{prod.category.id}}" />
-					<input name="measureUnit" value="{{prod.measureUnit}}"/>
-					
-					<input name="canceled" type="checkbox"  value="{{ prod.canceled }}"/>
-					
-					<input name="delete" type="checkbox" />
-					<br>
-			</section>
-		{% endfor %}    
-	</div>
-</body>
-
->>>>>>> 453716cc4cbe205ba1fe17f7371bf28a0475d658
 </html>
