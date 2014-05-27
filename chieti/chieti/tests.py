@@ -4,11 +4,14 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from chieti.models import order, product, item, orderManager, user, category
+from django.db.models.base import Empty
 
 
 # Create your tests here.
 if __name__ == '__main__':
-	p=product.objects.all()
-	print p
-	print ('pepe')
+	u=User.objects.filter(username='fl')
+	print u
+	if u:
+		print 'none'
+	
 	

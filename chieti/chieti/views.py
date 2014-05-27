@@ -1,4 +1,6 @@
 
+import json
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -9,10 +11,8 @@ from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
-import json
 
-from chieti.models import product, orderManager, order, user, item, category,itemPromo
-
+from chieti.models import product, orderManager, order, user, item, category, itemPromo
 
 
 # Create your tests here.
@@ -606,6 +606,7 @@ def checkOrderExist(us):
 		b=order(userFK=us,orderManagerFK=om)
 		b.save()
 
+
 @staff_member_required
 def changeProduct(request):
 	fp = open('./chieti/templates/chieti/changeProduct.html')
@@ -652,3 +653,15 @@ def changeProduct2(request):
 	# # return render_to_response(fp,{'todos',todo})
 	#===========================================================================
 	return HttpResponse("Todo ok Change PRod")
+
+
+def usernameExist(request):
+	param=request.POST.get('name')
+	print param
+	us=User.objects.filter(username=param)
+	print us
+	if not us: #no exist
+		return HttpResponse("false")
+	return HttpResponse("true")
+	
+	

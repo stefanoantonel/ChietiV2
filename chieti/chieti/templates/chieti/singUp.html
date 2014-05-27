@@ -3,14 +3,19 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Sing Up</title>
+{% include 'chieti/mainHead.html' %}
+
 </head>
 <body>
 {{error}}
+
+
+
 <form action="/chieti/singUp2/" method="post">
 	<table>
 		<tr>
 		<td><label>Ingrese Usuario</label></td>
-		<td><input type="text" name="name" required="required"></td>
+		<td><input type="text" name="name" class='username' required="required"></td>
 		<br/>
 		</tr>
 		<!-- 
@@ -42,7 +47,32 @@
 <input type="submit" value="Listo">
 
 </form>
+
+
 </body>
+
+<script type="application/javascript">
+$(document).ready(function(){
+	$('.username').change(function(){
+		console.log($('.username').val());
+		name=$(this).val();
+		$.ajax({
+            url: '/chieti/usernameExist/',
+            type: 'post', 
+            data: {
+                'name':name,
+            },
+            success: function(data) {
+                console.log(data);
+                
+            }
+        });
+
+
+	});
+});
+
+</script>
 </html>
 
 
