@@ -58,7 +58,7 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
                 
         });
         
-		$(".linkTipo").click(function() {
+		$(".l").click(function() {
   		  console.log("link id:", $(this).attr("id") );
   		  //console.log("link id:", $(this).val() );
   		  //idLink=
@@ -97,9 +97,9 @@ function checkQuantPositive(quant){
 </head>
 <body class="prodBody">
 <div>
-	<a id="3" class="linkTipo">otros</a>
- 	<a id="2" class="linkTipo" >verduras</a> 
- 	<a id="1" class="linkTipo">frutas</a>
+	<a id="3" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">otros</a>
+ 	<a id="2" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">verduras</a> 
+ 	<a id="1" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">frutas</a>
 </div>
 <img id="carrito"  class="carrito hover" alt="Mi compra" >
 <div>

@@ -143,3 +143,67 @@ border: 1px solid black;
 	float:left;margin-left: 20%;display:block; color:gray; font-weight: bold 
 
 }
+
+
+.mainHome{
+	float:left;
+	margin-left: 15%;
+	margin-top: 3%;
+}
+
+.textHome{
+	font-size: 25px;
+	font-family: "Verdana";
+}
+
+.textHome2{
+	font-size: 30px;
+	font-family: "Verdana";
+}
+
+.textHome3{
+	font-size: 20px;
+	font-family: "Verdana";
+}
+
+
+.sectionBotones{
+	padding-left:55%;
+	margin-top:3%;
+}
+
+.botonMenu2{
+	/*float:left;
+	display:-ms-flexbox; 
+	display:-moz-box; 
+	display:-webkit-box;
+	display: box; 
+	box-orient: vertical;
+	margin-top:1%;
+	width:150px;
+	height:100px;
+	background-size: 100% 100%;
+	*/
+	
+	float:left;
+	width:150px;
+	height:100px;
+	background-size: 100% 100%;
+	
+}
+
+.botonMenu2.prod2{
+	margin-left:0%;
+	margin-top:1%;
+	background-image:url('/static/chieti/images/cajonProductos.png');
+}
+.botonMenu2.sale2{
+	margin-left:2%;
+	margin-top:25%;
+	background-image:url('/static/chieti/images/cajonSale2.png');
+}
+.botonMenu2.order2{
+	margin-left:0%;
+	margin-top:5%;
+	background-image:url('/static/chieti/images/cajonPedido.png');
+}

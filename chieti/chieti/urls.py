@@ -4,6 +4,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'ChietiDj.views.home', name='home'),
     url(r'home/', 'chieti.views.home', name='home'),
+    url(r'homa/', 'chieti.views.homa', name='home'),
     url(r'quienes/', 'chieti.views.quienes', name='home'),
     url(r'comoComprar/', 'chieti.views.comoComprar', name='home'),
     url(r'head/', 'chieti.mainHead.index', name='head'),
