@@ -9,9 +9,7 @@ from django.db.models.base import Empty
 
 # Create your tests here.
 if __name__ == '__main__':
-	u=User.objects.filter(username='fl')
-	print u
-	if u:
-		print 'none'
+	user1 = authenticate(username='flor', password='12')
+	print user1
 	
 	
