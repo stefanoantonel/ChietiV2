@@ -145,7 +145,7 @@ def showProduct(request):
 	#c = Context({'todos':todo})
 	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
 	
-@staff_member_required
+
 def showSales(request):
 	todo = product.objects.filter(isPromo='true')
 	itemsXPromo=dict()
