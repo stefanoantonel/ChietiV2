@@ -3,26 +3,29 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Chieti</title>
-
-
 {% include 'chieti/mainHead.html' %}
-
+{% load staticfiles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
-
+var prevID;
 function Popup(status, id) {
+	if(prevID){Desaparecer(prevID);}
+	prevID=id;	
 	var pos = $("#img"+id).position();
-	$( "#div"+id ).css({ position: "absolute",
-         marginLeft: 0, marginTop: 0,
-         top: pos.top, left: pos.left });
+	//$( "#div"+id ).css({ position: "absolute",
+    //     marginLeft: 0, marginTop: 0,
+    //     top: pos.top, left: pos.left });
+	$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
 
      if (status == 1) {
         	console.log("id status1: "+id);
         	$("#div"+id).css("display","");
     }
 }
-
-function Aparecer(id){$("#div"+id).css('display', '');}
-function Desaparecer(id){$("#div"+id).css('display', 'none');}
+function Desaparecer(id){
+	console.log(id);
+	$("#div"+id).css('display', 'none');
+	}
 
 	$(document).ready(function() {
 	  	console.log( "ready prod!" ) 		
@@ -59,28 +62,40 @@ function Desaparecer(id){$("#div"+id).css('display', 'none');}
         });
         
 		$(".l").click(function() {
-  		  console.log("link id:", $(this).attr("id") );
-  		  //console.log("link id:", $(this).val() );
-  		  //idLink=
-  		  $.ajax({
-              url: '/chieti/product/',
-              type: 'post', 
-              data: {
-                  'id': $(this).attr("id"),
-            	  //'id': $(this).val(),
-              },
-              success: function(data) {
-                  //console.log("todo ok! AJAX")
-                  //console.log(data)
-                  $("body").html(data)
-              }
-          });    
-  		  
+		  		  console.log("link id:", $(this).attr("id") );
+		  		  alert("h");
+		  		  $.ajax({
+		              url: '/chieti/product/',
+		              type: 'post', 
+		              data: {
+		                  'id': $(this).attr("id"),
+		            	  //'id': $(this).val(),
+		              },
+		              success: function(data) {
+		                  //console.log("todo ok! AJAX")
+		                  //console.log(data)
+		                  $("body").html(data)
+		              }
+		          });    
   		});
 		
 		 $("#carrito").click(function() {
 			 $(location).attr('href','/chieti/template/chieti/changeOrder');       			
 			 });
+		 
+		 
+		  $( "#tags" ).autocomplete({
+		      source:"/chieti/complete/",
+		      minLength:2,
+		      select: function( event, data ) {
+				  if(prevID)
+					  {console.log("prevID:",prevID);
+					   Desaparecer(prevID);
+					  }
+				  prevID=data.item.id;
+				  Popup(1,data.item.id);
+			}
+		    });
 
 	});
 function checkQuantPositive(quant){
@@ -95,21 +110,28 @@ function checkQuantPositive(quant){
 	
 
 </head>
-<body class="prodBody">
-<div>
-	<a id="3" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">otros</a>
- 	<a id="2" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">verduras</a> 
- 	<a id="1" style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " class="l">frutas</a>
+<body class="prodBody" >
+<div id="tipo" style="margin-left:20%">
+	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;" class="l">otros</a>
+ 	<a id="2" style="float:left;display:block; color:gray; font-weight: bold " class="l">verduras</a> 
+ 	<a id="1" style="float:left;display:block; color:gray; font-weight: bold " class="l">frutas</a>
 </div>
-<img id="carrito"  class="carrito" alt="Mi compra" style="border-style:none;">
+<img id="carrito"  class="carrito" alt="Mi compra">
 <div>
+<div>
+	<div id="subProd" class="ui-widget">
+	     <label for="tags">Producto: </label>
+		 <input id="tags">
+	</div>	    
+</div>
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}
 	<div class="divImg">
 	<label name='name' class="product" >{{ prod.name }}</label>
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onMouseover="Popup(1,{{ prod.id }})" onMouseout="Popup(0,{{ prod.id }})">
-		 <div id="div{{ prod.id }}" style="display:none;" onMouseover="Aparecer({{ prod.id }})"onMouseout="Desaparecer({{ prod.id }})" class="divInvisible">
+		<!-- onMouseover -->
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="Popup(1,{{ prod.id }})">
+		 <div id="div{{ prod.id }}" style="display:none;" onClick="Desaparecer({{ prod.id }})" class="divInvisible">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
 	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
@@ -130,10 +152,7 @@ function checkQuantPositive(quant){
 	
 {% endfor %}    
 </div>
-
-
    
-    
 </div>
 
 </body>

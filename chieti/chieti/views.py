@@ -61,7 +61,7 @@ def auto(request):
 def complete(request):
 	print "autooooo"
 	term=request.GET.get('term')
-	prod = product.objects.filter(name__contains=term)
+	prod = product.objects.filter(name__icontains=term)
 	print ("prod:",prod)
 	productArray=[]
 	lista=[]
@@ -138,7 +138,8 @@ def addProd2(request):
 def showProduct(request):
 	cat=request.POST.get("id")
 	if(cat==None): 
-		todo = product.objects.all()
+		#todo = product.objects.all()
+		todo = product.objects.filter(category=3)
 	else:
 		todo = product.objects.filter(category=cat)
 	#print todo.query
@@ -147,14 +148,15 @@ def showProduct(request):
 	
 @staff_member_required
 def showSales(request):
-	todo = product.objects.filter(isPromo='true')
-	itemsXPromo=dict()
-	for promo in todo:
-		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
-		x=itemsXPromo[promo.id]
-		print promo.id
-	#c = Context({'todasPromos':todo,'items':itemsXPromo})
-	return render(request, 'chieti/sales.html',{'todasPromos':todo,'items':itemsXPromo})
+# 	todo = product.objects.filter(isPromo='true')
+# 	itemsXPromo=dict()
+# 	for promo in todo:
+# 		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
+# 		x=itemsXPromo[promo.id]
+# 		print promo.id
+# 	#c = Context({'todasPromos':todo,'items':itemsXPromo})
+# 	return render(request, 'chieti/sales.html',{'todasPromos':todo,'items':itemsXPromo})
+	return render(request, 'chieti/sales2.html')
 	
 @staff_member_required
 def changePrice(request):
