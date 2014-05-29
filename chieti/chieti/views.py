@@ -67,7 +67,7 @@ def complete(request):
 	lista=[]
 	for p in prod:
 		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
-		ppp={"label" : p.name, "id" : p.id, "um":p.measureUnit}
+		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
 	print ("l:",lJson)

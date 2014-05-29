@@ -13,9 +13,9 @@ $(function() {
       source:"/chieti/complete/",
       minLength:2,
       select: function( event, data ) {
-		   $("#tipoProd").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+		   $("#tipoProd").html("Cliente: "+data.item.name+"<br/>Id: "+data.item.id);
 		   //INSERTA UNO NUEVO CADA VEZ con el ID
-		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.label+", cant:<input id="+data.item.id+" name='itemPromo' class='quant' >"+data.item.um);
+		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.name+", cant:<input id="+data.item.id+" name='itemPromo' class='quant' >"+data.item.um);
 		   // $("#prodPromo").append(data.item.um);
 		    $("#prodPromo").append(""); //AGREGAR EL BOTON PARA ELIMINAR
 		    $("#prodPromo").append("</li>")
@@ -26,7 +26,7 @@ $(function() {
         source:"/chieti/compCategory/",
         minLength:2,
         select: function( event, data ) {
-			   $("#salida").html("Cliente: "+data.item.label+"<br/>Id: "+data.item.id);
+			   $("#salida").html("Cliente: "+data.item.name+"<br/>Id: "+data.item.id);
 			   $("#salida").attr('value', data.item.id);
 		}
       });

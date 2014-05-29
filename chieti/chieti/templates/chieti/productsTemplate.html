@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
 var prevID;
-function Popup(status, id) {
+function Popup(id) {
 	if(prevID){Desaparecer(prevID);}
 	prevID=id;	
 	var pos = $("#img"+id).position();
@@ -16,12 +16,35 @@ function Popup(status, id) {
     //     marginLeft: 0, marginTop: 0,
     //     top: pos.top, left: pos.left });
 	$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
-
-     if (status == 1) {
-        	console.log("id status1: "+id);
-        	$("#div"+id).css("display","");
-    }
+    console.log("id status1: "+id);
+    $("#div"+id).css("display","");
 }
+
+function PopupAutoComplete(id,name,um) {
+	if(prevID){Desaparecer(prevID);}
+	prevID=id;	
+	
+	$template= $(".divAuto").clone();
+	$template.attr("id",id);
+	$ids= $template.siblings("input[name='ids']");
+	$ids.attr("id",id);
+	$name= $template.siblings("label[name=name]")
+	$name.attr("value",name);
+	$quant= $template.siblings("label[name=quantity]")
+	$quant.attr("value",um);
+	//price= $(this).siblings("label[name=price]").html()
+	//price.attr("value",saleP);
+	
+	$template.css("display","");
+	console.log($template);
+	$("#divAutoComplete").append($template);
+	//$( "#div"+id ).css({ position: "absolute",
+    //     marginLeft: 0, marginTop: 0,
+    //     top: pos.top, left: pos.left });
+	
+}
+
+
 function Desaparecer(id){
 	console.log(id);
 	$("#div"+id).css('display', 'none');
@@ -93,7 +116,8 @@ function Desaparecer(id){
 					   Desaparecer(prevID);
 					  }
 				  prevID=data.item.id;
-				  Popup(1,data.item.id);
+				  console.log("ANTES ");
+				  PopupAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
 			}
 		    });
 
@@ -118,7 +142,7 @@ function checkQuantPositive(quant){
 </div>
 <img id="carrito"  class="carrito" alt="Mi compra">
 <div>
-<div>
+<div id="divAutoComplete">
 	<div id="subProd" class="ui-widget">
 	     <label for="tags">Producto: </label>
 		 <input id="tags">
@@ -130,7 +154,7 @@ function checkQuantPositive(quant){
 	<div class="divImg">
 	<label name='name' class="product" >{{ prod.name }}</label>
 		<!-- onMouseover -->
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="Popup(1,{{ prod.id }})">
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="Popup({{ prod.id }})">
 		 <div id="div{{ prod.id }}" style="display:none;" onClick="Desaparecer({{ prod.id }})" class="divInvisible">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
@@ -154,6 +178,26 @@ function checkQuantPositive(quant){
 </div>
    
 </div>
+
+<div style="display:none;" onClick="Desaparecer({{ prod.id }})" class="divInvisible divAuto" style="float:left;">
+	    	<section >
+	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
+	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>
+	        <br/>
+	        <label name='name' class="product" ></label>
+	        <br/>
+	        <label for='quantity'>Cant:</label>
+	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
+	        {{prod.measureUnit}}
+	        <br/>
+	        <label>Precio: $</label>
+	        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
+	        <button class="add">Agregar</button>
+	        <br/><br/>
+	        </section>
+	    </div>
+
+
 
 </body>
 </html>
