@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 import json
 
 from chieti.models import product, orderManager, order, user, item, category,itemPromo
+from _elementtree import tostring
 
 
 
@@ -63,11 +64,10 @@ def complete(request):
 	term=request.GET.get('term')
 	prod = product.objects.filter(name__icontains=term)
 	print ("prod:",prod)
-	productArray=[]
 	lista=[]
 	for p in prod:
-		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
-		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit}
+		saleP=str(p.salePrice);
+		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit, "saleP" : saleP}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
 	print ("l:",lJson)

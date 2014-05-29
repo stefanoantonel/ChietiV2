@@ -20,27 +20,33 @@ function Popup(id) {
     $("#div"+id).css("display","");
 }
 
-function PopupAutoComplete(id,name,um) {
-	if(prevID){Desaparecer(prevID);}
+function PopupAutoComplete(id,nameProd,um,saleP) {
+	if(prevID){
+		console.log(prevID);
+		Desaparecer(prevID);}
 	prevID=id;	
 	
-	$template= $(".divAuto").clone();
-	$template.attr("id","div"+id);
-	$template.attr("name",id);
-	$ids= $template.siblings("input[name='ids']");
-	$ids.attr("id",id);
-	$name= $template.siblings("label[name=name]")
-	$name.attr("value",name);
-	$quant= $template.siblings("label[name=quantity]")
-	$quant.attr("value",um);
-	//price= $(this).siblings("label[name=price]").html()
-	//price.attr("value",saleP);
 	
+	//REVISAAAAAAAR
 	
-	$template.css({  position: "absolute", top: '30%', left: '30%'});
-	$template.css("display","");
-	console.log($template);
-	$("#divAutoComplete").append($template);
+	template= $(".divAuto").clone();
+	$(template).attr("id","div"+id);
+	$(template).attr("name",id);
+	ids= $(template).find("input[name='ids']");
+	$(ids).attr("id",id);
+	nameLabel= $(template).find(".product");
+	$(nameLabel).html(nameProd);
+	unidadMedida= $(template).find("[name='UnidadMedida']");
+	$(unidadMedida).html(um);
+	pr= $(template).find(".price");
+	console.log("PR: ",$(pr));
+	$(pr).html(saleP);
+	
+	//CENTRAR
+	$(template).css({top:'50%',left:'50%',margin:'-'+($('#myDiv').height() / 2)+'px 0 0 -'+($('#myDiv').width() / 2)+'px'});
+	$(template).css("display","");
+	console.log($(template));
+	$("#divAutoComplete").append(template);
 	//$( "#div"+id ).css({ position: "absolute",
     //     marginLeft: 0, marginTop: 0,
     //     top: pos.top, left: pos.left });
@@ -49,7 +55,7 @@ function PopupAutoComplete(id,name,um) {
 
 
 function Desaparecer(id,autoc){
-	if(autoc)
+	 if(autoc)
 		{	//$("#"+id).css('display', 'none');
 			$("#"+id).remove();
 			console.log("$(id)",$(id));
@@ -57,10 +63,24 @@ function Desaparecer(id,autoc){
 	else
 		{$("#div"+id).css('display', 'none');
 			console.log("$('#div'+id)",$("#div"+id))
-		}
+		} 
 	}
 
 	$(document).ready(function() {
+		
+		$('html').click(function() {
+			$(".divInvisible").css('display', 'none');
+			});
+
+		$('.divInvisible').click(function(event){
+			    event.stopPropagation();
+			    console.log("se detuvo");
+		});	
+		
+		$('.divImg').click(function(event){
+		    event.stopPropagation();
+		});	
+	
 	  	console.log( "ready prod!" ) 		
 		//$('input[name=quantity]').change(function(){
 		$('.quantity').change(function(){
@@ -165,7 +185,7 @@ function checkQuantPositive(quant){
 	<label name='name' class="product" >{{ prod.name }}</label>
 		<!-- onMouseover -->
 		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="Popup({{ prod.id }})">
-		 <div id="div{{ prod.id }}" style="display:none;" onClick="Desaparecer({{ prod.id }})" class="divInvisible">
+		 <div id="div{{ prod.id }}" style="display:none;" class="divInvisible">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
 	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
@@ -177,7 +197,7 @@ function checkQuantPositive(quant){
 	        {{prod.measureUnit}}
 	        <br/>
 	        <label>Precio: $</label>
-	        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
+	        <label name='price'  title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
 	        <button class="add">Agregar</button>
 	        <br/><br/>
 	        </section>
@@ -189,19 +209,20 @@ function checkQuantPositive(quant){
    
 </div>
 
-<div style="display:none;" onClick="Desaparecer(this.id,1)" class="divInvisible divAuto">
+<div style="display:none;" class="divInvisible divAuto">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
 	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>
 	        <br/>
 	        <label name='name' class="product" ></label>
 	        <br/>
-	        <label for='quantity'>Cant:</label>
+	        <label id="labQuantity" for='quantity'>Cant:</label>
 	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
-	        {{prod.measureUnit}}
+	        <label name='UnidadMedida'></label>
 	        <br/>
 	        <label>Precio: $</label>
-	        <label name='price' title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
+	        <label name='price' class="price"></label>
+	        <br/>
 	        <button class="add">Agregar</button>
 	        <br/><br/>
 	        </section>
