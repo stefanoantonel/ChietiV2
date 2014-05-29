@@ -134,7 +134,7 @@ def addProd2(request):
 # @login_required(login_url='/chieti/singIn/')
 #===============================================================================
 
-@login_required(login_url='/chieti/singIn/')
+#@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
 	cat=request.POST.get("id")
 	if(cat==None): 
