@@ -134,19 +134,19 @@ def addProd2(request):
 # @login_required(login_url='/chieti/singIn/')
 #===============================================================================
 
-@login_required(login_url='/chieti/singIn/')
+#@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
 	cat=request.POST.get("id")
 	if(cat==None): 
 		#todo = product.objects.all()
-		todo = product.objects.filter(category=3)
+		todo = product.objects.filter(category=1)
 	else:
 		todo = product.objects.filter(category=cat)
 	#print todo.query
 	#c = Context({'todos':todo})
 	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
 	
-@staff_member_required
+
 def showSales(request):
 # 	todo = product.objects.filter(isPromo='true')
 # 	itemsXPromo=dict()
