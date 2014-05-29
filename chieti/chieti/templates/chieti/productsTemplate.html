@@ -25,7 +25,8 @@ function PopupAutoComplete(id,name,um) {
 	prevID=id;	
 	
 	$template= $(".divAuto").clone();
-	$template.attr("id",id);
+	$template.attr("id","div"+id);
+	$template.attr("name",id);
 	$ids= $template.siblings("input[name='ids']");
 	$ids.attr("id",id);
 	$name= $template.siblings("label[name=name]")
@@ -35,6 +36,8 @@ function PopupAutoComplete(id,name,um) {
 	//price= $(this).siblings("label[name=price]").html()
 	//price.attr("value",saleP);
 	
+	
+	$template.css({  position: "absolute", top: '30%', left: '30%'});
 	$template.css("display","");
 	console.log($template);
 	$("#divAutoComplete").append($template);
@@ -45,9 +48,16 @@ function PopupAutoComplete(id,name,um) {
 }
 
 
-function Desaparecer(id){
-	console.log(id);
-	$("#div"+id).css('display', 'none');
+function Desaparecer(id,autoc){
+	if(autoc)
+		{	//$("#"+id).css('display', 'none');
+			$("#"+id).remove();
+			console.log("$(id)",$(id));
+		}
+	else
+		{$("#div"+id).css('display', 'none');
+			console.log("$('#div'+id)",$("#div"+id))
+		}
 	}
 
 	$(document).ready(function() {
@@ -86,7 +96,6 @@ function Desaparecer(id){
         
 		$(".l").click(function() {
 		  		  console.log("link id:", $(this).attr("id") );
-		  		  alert("h");
 		  		  $.ajax({
 		              url: '/chieti/product/',
 		              type: 'post', 
@@ -135,14 +144,15 @@ function checkQuantPositive(quant){
 
 </head>
 <body class="prodBody" >
-<div id="tipo" style="margin-left:20%">
-	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;" class="l">otros</a>
- 	<a id="2" style="float:left;display:block; color:gray; font-weight: bold " class="l">verduras</a> 
- 	<a id="1" style="float:left;display:block; color:gray; font-weight: bold " class="l">frutas</a>
+<div id="tipo">
+	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:20%" class="l">otros</a>
+ 	<a id="2" style="float:left;display:block; color:gray; font-weight: bold; margin-left:25%" class="l">verduras</a> 
+ 	<a id="1" style="float:left;display:block; color:gray; font-weight: bold;margin-left:25% " class="l">frutas</a>
 </div>
 <img id="carrito"  class="carrito" alt="Mi compra">
 <div>
-<div id="divAutoComplete">
+<br/>
+<div id="divAutoComplete" align="center">
 	<div id="subProd" class="ui-widget">
 	     <label for="tags">Producto: </label>
 		 <input id="tags">
@@ -179,7 +189,7 @@ function checkQuantPositive(quant){
    
 </div>
 
-<div style="display:none;" onClick="Desaparecer({{ prod.id }})" class="divInvisible divAuto" style="float:left;">
+<div style="display:none;" onClick="Desaparecer(this.id,1)" class="divInvisible divAuto">
 	    	<section >
 	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
 	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>

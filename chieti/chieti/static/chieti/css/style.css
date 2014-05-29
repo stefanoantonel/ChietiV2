@@ -40,8 +40,8 @@ li a {
 	position:absolute;
 	/*margin-right:1%;
 	margin-left:50%;*/
-	margin-top:5%;
-	margin-left:-25%;
+	top:45%;
+	left:5%;
 	width: 100px;
 	height: 100px;
 	background:url('/static/chieti/images/carrito.jpg') no-repeat;
@@ -67,6 +67,7 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 	background-color: white;
 	width:400px;
 	height: 400px;
+	z-index:99;
 }
 
 .botonMenu{
