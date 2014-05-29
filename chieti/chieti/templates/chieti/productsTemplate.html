@@ -11,7 +11,8 @@
 
 var prevID;
 function popUp(id) {
-	if(prevID){Desaparecer(prevID);}
+	console.log("prev: ",prevID);
+	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
 	findProductById(id);
 	console.log("dsp find");
@@ -25,6 +26,7 @@ function popUp(id) {
 }
 
 function findProductById(id){
+	console.log("ajax id:",id);
     $.ajax({
         url: '/chieti/findProductById/',
         type: 'post', 
@@ -36,23 +38,18 @@ function findProductById(id){
             console.log("todo ok! AJAX");
             console.log("name:",data.name);
             popUpAutoComplete(id,data.name,data.um,data.saleP);
-        }
+        }	
     });
+  
 } 
 
 
 
-function popUpAutoComplete(id,nameProd,um,saleP) {
-	if(prevID){
-		console.log(prevID);
-		Desaparecer(prevID);}
-	prevID=id;	
-
-	//REVISAAAAAAAR
-	
+function popUpAutoComplete(id,nameProd,um,saleP) {	
 	template= $(".divAuto").clone();
 	$(template).attr("id","div"+id);
 	$(template).attr("name",id);
+	$(template).attr("value","visible");
 	ids= $(template).find("input[name='ids']");
 	$(ids).attr("id",id);
 	nameLabel= $(template).find(".product");
@@ -71,32 +68,26 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	//$( "#div"+id ).css({ position: "absolute",
     //     marginLeft: 0, marginTop: 0,
     //     top: pos.top, left: pos.left });
-	
+	  $('.divInvisible').click(function(event){
+		    event.stopPropagation();
+		    console.log("se detuvo");
+		});	
 }
 
 
-function Desaparecer(id,autoc){
-	 if(autoc)
-		{	//$("#"+id).css('display', 'none');
+function Desaparecer(id){
+			console.log("id-----------------",id);
 			$("#"+id).remove();
 			console.log("$(id)",$(id));
-		}
-	else
-		{$("#div"+id).css('display', 'none');
-			console.log("$('#div'+id)",$("#div"+id))
-		} 
 	}
 
 	$(document).ready(function() {
 		
 		$('html').click(function() {
-			$(".divInvisible").css('display', 'none');
+			console.log($(".divInvisible[value='visible']"));
+			$(".divInvisible[value='visible']").remove();
 			});
 
-		$('.divInvisible').click(function(event){
-			    event.stopPropagation();
-			    console.log("se detuvo");
-		});	
 		
 		$('.divImg').click(function(event){
 		    event.stopPropagation();
@@ -161,17 +152,12 @@ function Desaparecer(id,autoc){
 		      source:"/chieti/complete/",
 		      minLength:2,
 		      select: function( event, data ) {
-				  if(prevID)
-					  {console.log("prevID:",prevID);
-					   Desaparecer(prevID);
-					  }
-				  prevID=data.item.id;
 				  console.log("ANTES ");
 				  popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
 			}
 		    });
 		  
-		 
+		//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
 		  
 
 	});
@@ -207,7 +193,7 @@ function checkQuantPositive(quant){
 {% for prod in todos %}
 	<div class="divImg">
 	<label name='name' class="product" >{{ prod.name }}</label>
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="popUp({{ prod.id }})">
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
 	</div>
 	
 {% endfor %}    
