@@ -60,7 +60,6 @@ def auto(request):
 	return render(request, 'chieti/autocomplete.html')
 	
 def complete(request):
-	print "autooooo"
 	term=request.GET.get('term')
 	prod = product.objects.filter(name__icontains=term)
 	print ("prod:",prod)
@@ -74,12 +73,19 @@ def complete(request):
 	return HttpResponse(lJson)
 
 
+def findProductById(request):
+	prodId=request.POST.get('id')
+	prod = product.objects.get(id=prodId)
+	saleP=str(prod.salePrice);
+	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
+	pJson=json.dumps(p)
+	return HttpResponse(pJson)
+
 def compCategory(request):
 	print "category"
 	term=request.GET.get('term')
 	cat = category.objects.filter(description__contains=term)
 	print ("cat:",cat)
-	productArray=[]
 	lista=[]
 	for c in cat:
 		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}

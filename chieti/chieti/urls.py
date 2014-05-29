@@ -56,7 +56,7 @@ urlpatterns = patterns('',
 	url(r'changeProduct/','chieti.views.changeProduct'),
 	url(r'changeProduct2/','chieti.views.changeProduct2'),
 	url(r'usernameExist/','chieti.views.usernameExist'),
-	
+	url(r'findProductById/','chieti.views.findProductById'),
 	
 )
 

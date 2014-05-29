@@ -7,10 +7,14 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
+
+
 var prevID;
-function Popup(id) {
+function popUp(id) {
 	if(prevID){Desaparecer(prevID);}
 	prevID=id;	
+	findProductById(id);
+	console.log("dsp find");
 	var pos = $("#img"+id).position();
 	//$( "#div"+id ).css({ position: "absolute",
     //     marginLeft: 0, marginTop: 0,
@@ -20,13 +24,30 @@ function Popup(id) {
     $("#div"+id).css("display","");
 }
 
-function PopupAutoComplete(id,nameProd,um,saleP) {
+function findProductById(id){
+    $.ajax({
+        url: '/chieti/findProductById/',
+        type: 'post', 
+        data: {
+            'id':id,
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log("todo ok! AJAX");
+            console.log("name:",data.name);
+            popUpAutoComplete(id,data.name,data.um,data.saleP);
+        }
+    });
+} 
+
+
+
+function popUpAutoComplete(id,nameProd,um,saleP) {
 	if(prevID){
 		console.log(prevID);
 		Desaparecer(prevID);}
 	prevID=id;	
-	
-	
+
 	//REVISAAAAAAAR
 	
 	template= $(".divAuto").clone();
@@ -146,9 +167,12 @@ function Desaparecer(id,autoc){
 					  }
 				  prevID=data.item.id;
 				  console.log("ANTES ");
-				  PopupAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
+				  popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
 			}
 		    });
+		  
+		 
+		  
 
 	});
 function checkQuantPositive(quant){
@@ -183,25 +207,7 @@ function checkQuantPositive(quant){
 {% for prod in todos %}
 	<div class="divImg">
 	<label name='name' class="product" >{{ prod.name }}</label>
-		<!-- onMouseover -->
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="Popup({{ prod.id }})">
-		 <div id="div{{ prod.id }}" style="display:none;" class="divInvisible">
-	    	<section >
-	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
-	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
-	        <br/>
-	        <label name='name' class="product" >{{ prod.name }}</label>
-	        <br/>
-	        <label for='quantity'>Cant:</label>
-	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
-	        {{prod.measureUnit}}
-	        <br/>
-	        <label>Precio: $</label>
-	        <label name='price'  title="{{prod.salePrice}}">{{prod.salePrice}}</label><br>
-	        <button class="add">Agregar</button>
-	        <br/><br/>
-	        </section>
-	    </div>
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" onClick="popUp({{ prod.id }})">
 	</div>
 	
 {% endfor %}    
