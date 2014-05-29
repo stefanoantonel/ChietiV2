@@ -41,7 +41,7 @@ li a {
 	/*margin-right:1%;
 	margin-left:50%;*/
 	margin-top:5%;
-	margin-left:-75%;
+	margin-left:-25%;
 	width: 100px;
 	height: 100px;
 	background:url('/static/chieti/images/carrito.jpg') no-repeat;
@@ -65,8 +65,8 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 
 .divInvisible{
 	background-color: white;
-	width:200px;
-	height: 300px;
+	width:400px;
+	height: 400px;
 }
 
 .botonMenu{
@@ -215,4 +215,9 @@ border: 1px solid black;
 	margin-left: 10%;
 	margin-right: 10%;
 
+}
+
+.sales{
+	background: url('/static/chieti/images/promo.jpg')no-repeat;
+	background-size: 100% 100%;
 }

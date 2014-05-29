@@ -61,13 +61,13 @@ def auto(request):
 def complete(request):
 	print "autooooo"
 	term=request.GET.get('term')
-	prod = product.objects.filter(name__contains=term)
+	prod = product.objects.filter(name__icontains=term)
 	print ("prod:",prod)
 	productArray=[]
 	lista=[]
 	for p in prod:
 		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
-		ppp={"label" : p.name, "id" : p.id, "um":p.measureUnit}
+		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
 	print ("l:",lJson)
@@ -138,7 +138,8 @@ def addProd2(request):
 def showProduct(request):
 	cat=request.POST.get("id")
 	if(cat==None): 
-		todo = product.objects.all()
+		#todo = product.objects.all()
+		todo = product.objects.filter(category=1)
 	else:
 		todo = product.objects.filter(category=cat)
 	#print todo.query
@@ -147,14 +148,15 @@ def showProduct(request):
 	
 
 def showSales(request):
-	todo = product.objects.filter(isPromo='true')
-	itemsXPromo=dict()
-	for promo in todo:
-		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
-		x=itemsXPromo[promo.id]
-		print promo.id
-	#c = Context({'todasPromos':todo,'items':itemsXPromo})
-	return render(request, 'chieti/sales.html',{'todasPromos':todo,'items':itemsXPromo})
+# 	todo = product.objects.filter(isPromo='true')
+# 	itemsXPromo=dict()
+# 	for promo in todo:
+# 		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
+# 		x=itemsXPromo[promo.id]
+# 		print promo.id
+# 	#c = Context({'todasPromos':todo,'items':itemsXPromo})
+# 	return render(request, 'chieti/sales.html',{'todasPromos':todo,'items':itemsXPromo})
+	return render(request, 'chieti/sales2.html')
 	
 @staff_member_required
 def changePrice(request):
