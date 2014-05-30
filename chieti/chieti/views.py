@@ -650,4 +650,8 @@ def changeUserData2(request):
 	user.objects.filter(id=ids).update(address=addr)
 	
 	pass
+
+def adm(request):
+	return render(request, 'chieti/adm.html')
+	pass
 	
