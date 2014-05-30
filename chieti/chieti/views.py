@@ -635,5 +635,19 @@ def usernameExist(request):
 	if not us: #no exist
 		return HttpResponse("false")
 	return HttpResponse("true")
+
+def changeUserData(request):
+	print request.session['user']
+	u=user.objects.get(id=request.session['user'])
+	return render(request, 'chieti/changeUserData.html',{'us':u})
+	pass
+
+def changeUserData2(request):
+	ids=request.POST.get('ids')
+	#nam=request.POST.get('username')
+	addr=request.POST.get('direccion')
+	print addr
+	user.objects.filter(id=ids).update(address=addr)
 	
+	pass
 	

@@ -62,6 +62,8 @@ urlpatterns = patterns('',
 	url(r'changePass1/','chieti.views.changePass1'),
 	url(r'changePass2/','chieti.views.changePass2'),
 	url(r'changePass3/','chieti.views.changePass3'),
+	url(r'changeUserData/','chieti.views.changeUserData'),
+	url(r'changeUserData2/','chieti.views.changeUserData2'),
 	
 )
 
