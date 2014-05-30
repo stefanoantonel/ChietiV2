@@ -19,6 +19,13 @@ from chieti.models import product, orderManager, order, user, item, category,ite
 # Create your tests here.
 def home(request):
 	
+	
+	om=orderManager.objects.filter(id=1)
+	
+	if not om: #no exist
+		om=orderManager()
+		om.save()
+		
 	return render(request, 'chieti/homePage2.html')
 def homa(request):
 	
@@ -330,6 +337,44 @@ def sendMail(request):
 	msg.send()
 	return HttpResponse('Se le envio un mail para su confirmacion')
 
+def sendMail2(request,email,context):
+	print 'conte', context
+	subject, from_email, to = 'Cambiar Clave ChietiOnline' , 'chietionline@gmail.com', email
+	text_content = 'This is an important message.'
+	html_content = render_to_string('chieti/emailPass.html', context) ##mando username y email
+	
+	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	msg.attach_alternative(html_content, "text/html")
+	msg.send()
+	return HttpResponse('Se le envio un mail para cambiar su clave')
+
+def changePass0(request):
+	return render(request, 'chieti/changePass1.html')
+
+def changePass1(request):
+	mailT2 = request.POST.get('email')
+	print 'mailT2',mailT2
+	cont={'mail': mailT2, 'name':''}
+	sendMail2(request, mailT2,cont)
+	return HttpResponse('Se le envio un mail para su confirmacion')
+	#changePass2(request, mailT2)
+
+def changePass2(request):
+	mailT2 = str(request.GET.get('email'))
+	
+	return render(request, 'chieti/changePass2.html', {'mail':mailT2})
+	
+def changePass3(request):
+	mailT2 = request.POST.get('email')
+	print 'email:', mailT2
+	pass1 = request.POST.get('pass1')
+	pass2 = request.POST.get('pass2')
+	if pass1==pass2:
+		u=User.objects.get(email=mailT2)
+		u.set_password(pass1)
+		u.save()
+	return redirect(showProduct)
+	
 def singUp(request):
 	
 	return render(request, 'chieti/singUp.html',{'error':''})
