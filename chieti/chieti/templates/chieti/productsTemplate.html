@@ -45,8 +45,14 @@ function findProductById(id){
 
 
 
-function popUpAutoComplete(id,nameProd,um,saleP) {	
+function popUpAutoComplete(id,nameProd,um,saleP) {
+	console.log("prev: ",prevID);
+	if(prevID!=undefined){Desaparecer(prevID);}
+	prevID=id;	
 	template= $(".divAuto").clone();
+	$(template).removeClass("divAuto");
+	$(template).addClass("divActual");
+	$(template).prepend("<img  src='/static/chieti/productImages/"+id+".png'  class='productImg2'>");
 	$(template).attr("id","div"+id);
 	$(template).attr("name",id);
 	$(template).attr("value","visible");
@@ -61,7 +67,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	$(pr).html(saleP);
 	
 	//CENTRAR
-	$(template).css({top:'50%',left:'50%',margin:'-'+($('#myDiv').height() / 2)+'px 0 0 -'+($('#myDiv').width() / 2)+'px'});
+	$(template).css({position: "absolute",top:'30%',left:'35%'});
 	$(template).css("display","");
 	console.log($(template));
 	$("#divAutoComplete").append(template);
@@ -77,7 +83,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 
 function Desaparecer(id){
 			console.log("id-----------------",id);
-			$("#"+id).remove();
+			$("#div"+id).remove();
 			console.log("$(id)",$(id));
 	}
 
@@ -155,10 +161,14 @@ function Desaparecer(id){
 				  console.log("ANTES ");
 				  popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
 			}
-		    });
+		  });
 		  
 		//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
-		  
+		$("#close").click(function() {
+			console.log("parent:",$(this).parent("#divInvisible"));
+			$(this).parent("#divInvisible").remove();
+			});
+		    
 
 	});
 function checkQuantPositive(quant){
@@ -193,7 +203,8 @@ function checkQuantPositive(quant){
 {% for prod in todos %}
 	<div class="divImg">
 	<label name='name' class="product" >{{ prod.name }}</label>
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.jpg" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
+	<label name='name' class="product" >{{ prod.id }}</label>
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
 	</div>
 	
 {% endfor %}    
@@ -202,8 +213,8 @@ function checkQuantPositive(quant){
 </div>
 
 <div style="display:none;" class="divInvisible divAuto">
+<button id="close" style="position:absolute; left:40px;top:5px;">x</button>
 	    	<section >
-	        <img  src="/static/chieti/productImages/{{ prod.id }}.jpg" alt="" class="productImg2">
 	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>
 	        <br/>
 	        <label name='name' class="product" ></label>

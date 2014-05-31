@@ -25,11 +25,19 @@ if __name__ == '__main__':
     #--------------------------------------
     #a = Article.objects.get(id=1)
     #print a.headlines.all()
-    for u in user.objects.all():
-        a=order.objects.filter(userFK=u,delivered="false")
-        if not a:
-            om=orderManager.objects.get(id=1)
-            b=order(userFK=u,orderManagerFK=om)
-            b.save()
+    i=itemPromo.objects.all();
+    print(i);
     
-    
+    p=product(name="PRUEBA22",measureUnit='kg', salePrice=30,isPromo=False,items=i);
+    #p.save();
+    #===========================================================================
+    # 
+    # for u in user.objects.all():
+    #     a=order.objects.filter(userFK=u,delivered="false")
+    #     if not a:
+    #         om=orderManager.objects.get(id=1)
+    #         b=order(userFK=u,orderManagerFK=om)
+    #         b.save()
+    # 
+    # 
+    #===========================================================================
