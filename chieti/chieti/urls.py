@@ -56,7 +56,15 @@ urlpatterns = patterns('',
 	url(r'changeProduct/','chieti.views.changeProduct'),
 	url(r'changeProduct2/','chieti.views.changeProduct2'),
 	url(r'usernameExist/','chieti.views.usernameExist'),
-	url(r'findProductById/','chieti.views.findProductById'),
+	
+	
+	url(r'changePass0/','chieti.views.changePass0'),
+	url(r'changePass1/','chieti.views.changePass1'),
+	url(r'changePass2/','chieti.views.changePass2'),
+	url(r'changePass3/','chieti.views.changePass3'),
+	url(r'changeUserData/','chieti.views.changeUserData'),
+	url(r'changeUserData2/','chieti.views.changeUserData2'),
+	url(r'adm/','chieti.views.adm'),
 	
 )
 

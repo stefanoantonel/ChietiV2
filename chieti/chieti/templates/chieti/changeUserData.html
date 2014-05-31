@@ -8,31 +8,17 @@
 </head>
 <body>
 
-	<div>
+	<div>	
 		
-		<input value="Nombre" disabled="disabled"/>
-		<input value="Precio de Compra" disabled="disabled"/>
-		<input value="Precio de Venta" disabled="disabled"/>
-		<input value="Categoria" disabled="disabled"/>
-		<input value="Unidad de Medida" disabled="disabled"/>
-		<input value="Cancelado" disabled="disabled"/>
-		<input value="Borrar" disabled="disabled"/>
-		<br>
-		{% for prod in todos %}
-			<section class="productContainer">
-					<input name="prodId" class ='prodId' hidden="hidden" value="{{prod.id}}"/>
-					<input name="name" value="{{prod.name}}"/>
-					<input name="buyPrice" value="{{prod.buyPrice}}"/>
-					<input name="salePrice" value="{{prod.salePrice}}"/>
-					<input name="category" value="{{prod.category.id}}" />
-					<input name="measureUnit" value="{{prod.measureUnit}}"/>
-					
-					<input name="canceled" type="checkbox"  value="{{ prod.canceled }}"/>
-					
-					<input name="delete" type="checkbox" />
-					<br>
-			</section>
-		{% endfor %}    
+		<form action="/chieti/changeUserData2/" method="post" align='center'> 
+			<br><h3>Cambiar datos de usuario</h3> <br>
+				<input name="ids" class ='prodId' hidden="hidden" value="{{us.userDj.id}}"/>
+				<!-- Nombre <input name="username" value="{{us.userDj.username}}"/> <br>  -->
+				Direccion <input name="direccion" value="{{us.address}}"/> <br>
+				<input type="submit">
+				
+		
+	  	</form>  
 	</div>
 </body>
 </html>
