@@ -11,6 +11,7 @@ from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
 import json
+from _elementtree import tostring
 
 from chieti.models import product, orderManager, order, user, item, category,itemPromo
 
@@ -586,9 +587,8 @@ def checkOrderExist(us):
 
 @staff_member_required
 def changeProduct(request):
-	
-	todos = product.objects.all()
-	cate=category.objects.all()
+	todos = product.objects.all() 
+	cate=category.objects.all() 
 	return render(request, 'chieti/changeProduct.html',{'todos':todos,'categ':cate})
 
 @staff_member_required
@@ -655,3 +655,10 @@ def adm(request):
 	return render(request, 'chieti/adm.html')
 	pass
 	
+def findProductById(request):
+	prodId=request.POST.get('id')
+	prod = product.objects.get(id=prodId)
+	saleP=str(prod.salePrice);
+	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
+	pJson=json.dumps(p)
+	return HttpResponse(pJson)
