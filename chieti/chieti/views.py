@@ -588,7 +588,7 @@ def checkOrderExist(us):
 @staff_member_required
 def changeProduct(request):
 	todos = product.objects.all()
-	cate=category.objects.all()
+	cate=category.objects.all() 
 	return render(request, 'chieti/changeProduct.html',{'todos':todos,'categ':cate})
 
 @staff_member_required
