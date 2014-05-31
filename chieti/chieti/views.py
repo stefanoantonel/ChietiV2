@@ -13,13 +13,19 @@ from django.template.loader import render_to_string
 import json
 
 from chieti.models import product, orderManager, order, user, item, category,itemPromo
-from _elementtree import tostring
 
 
 
 # Create your tests here.
 def home(request):
 	
+	
+	om=orderManager.objects.filter(id=1)
+	
+	if not om: #no exist
+		om=orderManager()
+		om.save()
+		
 	return render(request, 'chieti/homePage2.html')
 def homa(request):
 	
@@ -60,32 +66,27 @@ def auto(request):
 	return render(request, 'chieti/autocomplete.html')
 	
 def complete(request):
+	print "autooooo"
 	term=request.GET.get('term')
 	prod = product.objects.filter(name__icontains=term)
 	print ("prod:",prod)
+	productArray=[]
 	lista=[]
 	for p in prod:
-		saleP=str(p.salePrice);
-		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit, "saleP" : saleP}
+		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
+		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
 	print ("l:",lJson)
 	return HttpResponse(lJson)
 
 
-def findProductById(request):
-	prodId=request.POST.get('id')
-	prod = product.objects.get(id=prodId)
-	saleP=str(prod.salePrice);
-	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
-	pJson=json.dumps(p)
-	return HttpResponse(pJson)
-
 def compCategory(request):
 	print "category"
 	term=request.GET.get('term')
 	cat = category.objects.filter(description__contains=term)
 	print ("cat:",cat)
+	productArray=[]
 	lista=[]
 	for c in cat:
 		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
@@ -336,6 +337,44 @@ def sendMail(request):
 	msg.send()
 	return HttpResponse('Se le envio un mail para su confirmacion')
 
+def sendMail2(request,email,context):
+	print 'conte', context
+	subject, from_email, to = 'Cambiar Clave ChietiOnline' , 'chietionline@gmail.com', email
+	text_content = 'This is an important message.'
+	html_content = render_to_string('chieti/emailPass.html', context) ##mando username y email
+	
+	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+	msg.attach_alternative(html_content, "text/html")
+	msg.send()
+	return HttpResponse('Se le envio un mail para cambiar su clave')
+
+def changePass0(request):
+	return render(request, 'chieti/changePass1.html')
+
+def changePass1(request):
+	mailT2 = request.POST.get('email')
+	print 'mailT2',mailT2
+	cont={'mail': mailT2, 'name':''}
+	sendMail2(request, mailT2,cont)
+	return HttpResponse('Se le envio un mail para su confirmacion')
+	#changePass2(request, mailT2)
+
+def changePass2(request):
+	mailT2 = str(request.GET.get('email'))
+	
+	return render(request, 'chieti/changePass2.html', {'mail':mailT2})
+	
+def changePass3(request):
+	mailT2 = request.POST.get('email')
+	print 'email:', mailT2
+	pass1 = request.POST.get('pass1')
+	pass2 = request.POST.get('pass2')
+	if pass1==pass2:
+		u=User.objects.get(email=mailT2)
+		u.set_password(pass1)
+		u.save()
+	return redirect(showProduct)
+	
 def singUp(request):
 	
 	return render(request, 'chieti/singUp.html',{'error':''})
@@ -596,5 +635,23 @@ def usernameExist(request):
 	if not us: #no exist
 		return HttpResponse("false")
 	return HttpResponse("true")
+
+def changeUserData(request):
+	print request.session['user']
+	u=user.objects.get(id=request.session['user'])
+	return render(request, 'chieti/changeUserData.html',{'us':u})
+	pass
+
+def changeUserData2(request):
+	ids=request.POST.get('ids')
+	#nam=request.POST.get('username')
+	addr=request.POST.get('direccion')
+	print addr
+	user.objects.filter(id=ids).update(address=addr)
 	
+	pass
+
+def adm(request):
+	return render(request, 'chieti/adm.html')
+	pass
 	
