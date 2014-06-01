@@ -57,7 +57,6 @@ urlpatterns = patterns('',
 	url(r'changeProduct2/','chieti.views.changeProduct2'),
 	url(r'usernameExist/','chieti.views.usernameExist'),
 	
-	
 	url(r'changePass0/','chieti.views.changePass0'),
 	url(r'changePass1/','chieti.views.changePass1'),
 	url(r'changePass2/','chieti.views.changePass2'),
