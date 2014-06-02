@@ -65,7 +65,6 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	pr= $(template).find(".price");
 	console.log("PR: ",$(pr));
 	$(pr).html(saleP);
-	$(pr).attr('title',saleP);
 	
 	//CENTRAR
 	$(template).css({position: "absolute",top:'30%',left:'35%'});
@@ -93,7 +92,6 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
             $(this).remove();
         }
     });
-	  
 }
 
 
@@ -117,7 +115,16 @@ function Desaparecer(id){
 	
 	  	console.log( "ready prod!" ) 		
 		//$('input[name=quantity]').change(function(){
-		setQuantity();
+		$('.quantity').change(function(){
+			var ant=$(this).siblings("label[name=price]").attr("title")
+			var cant=$(this).val()            
+			var dsp=ant*cant
+			dsp = dsp.toFixed(2);
+			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+			$(this).siblings('label[name=price]').html(dsp)
+            
+		});
+        
         
 		$(".l").click(function() {
 		  		  console.log("link id:", $(this).attr("id") );
@@ -137,7 +144,7 @@ function Desaparecer(id){
   		});
 		
 		 $("#carrito").click(function() {
-			 $(location).attr('href','/chieti/changeOrder');       			
+			 $(location).attr('href','/chieti/template/chieti/changeOrder');       			
 			 });
 		 
 		 
@@ -166,18 +173,6 @@ function checkQuantPositive(quant){
     return true;
 }
 
-function setQuantity(){
-	$('.quantity').change(function(){
-		var ant=$(this).siblings(".price").attr('title');
-		var cant=$(this).val()            
-		var dsp=ant*cant
-		dsp = dsp.toFixed(2);
-		console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
-		
-		$(this).siblings('.price').html(dsp)    
-	});
-}
-
 function addClick(){
     //ids=$(this).siblings(".ids").text()
     console.log(".add");
@@ -195,24 +190,26 @@ function addClick(){
             },
             success: function(data) {
                 console.log("todo ok! AJAX")
-                console.log(data);
                 if (data != 'true'){
                 	$('body').html(data);
-                	//$('.iframe').attr('src',data);
-                	//$('.iframe').show(350);
-                	//$('<iframe id="someId"/>').appendTo('#someDiv')
-					//	.contents().find('body').append(data);
-
-					//$('.iframe').document.write('Hello World!');
-                	/*a='<iframe class="iframe" width="400" height="400" src='+data+'></iframe>'
-                	$('body').append(a);
-                	*/
                 }
+
 
             }
         });
     }
         
+}
+function setQuantity(){
+	$('.quantity').change(function(){
+		var ant=$(this).siblings(".price").attr('title');
+		var cant=$(this).val()            
+		var dsp=ant*cant
+		dsp = dsp.toFixed(2);
+		console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+		
+		$(this).siblings('.price').html(dsp)    
+	});
 }
 
 </script>
@@ -222,16 +219,17 @@ function addClick(){
 </head>
 <body class="prodBody" >
 <div id="tipo">
-	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:20%" class="l">otros</a>
- 	<a id="2" style="float:left;display:block; color:gray; font-weight: bold; margin-left:25%" class="l">verduras</a> 
- 	<a id="1" style="float:left;display:block; color:gray; font-weight: bold;margin-left:25% " class="l">frutas</a>
+	<a id="1" style="float:left;display:block; color:gray; font-weight: bold;margin-left:20% " class="l">frutas</a>
+	<a id="2" style="float:left;display:block; color:gray; font-weight: bold; margin-left:15%" class="l">verduras</a>
+	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">otros</a>
+	<a id="4" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">todos</a>
 </div>
 <img id="carrito"  class="carrito" alt="Mi compra">
 <div>
 <br/>
-<div id="divAutoComplete" align="center">
+<div id="divAutoComplete" style="margin-left: 20%;margin-top: 2%;">
 	<div id="subProd" class="ui-widget">
-	     <label for="tags">Producto: </label>
+	     <label for="tags">Buscar Producto: </label>
 		 <input id="tags">
 	</div>	    
 </div>
@@ -245,7 +243,6 @@ function addClick(){
 	
 {% endfor %}    
 </div>
-   
 </div>
 
 <div style="display:none;" class="divInvisible divAuto">
@@ -256,7 +253,7 @@ function addClick(){
 	        <label name='name' class="product" ></label>
 	        <br/>
 	        <label id="labQuantity" for='quantity'>Cant:</label>
-	        <input name='quantity' type="number" class="quantity" min=0.1 value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
+	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
 	        <label name='UnidadMedida'></label>
 	        <br/>
 	        <label>Precio: $</label>
@@ -267,7 +264,8 @@ function addClick(){
 	        </section>
 	    </div>
 
-
-<!-- <iframe class="iframe" width="400" height="400" src="chieti/singIn/"></iframe> -->
 </body>
+
+<iframe id="sing" width="400" height="400" src="/chieti/singIn" style="display:none"></iframe>
+
 </html>

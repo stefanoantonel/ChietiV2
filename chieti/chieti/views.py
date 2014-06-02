@@ -145,8 +145,9 @@ def addProd2(request):
 def showProduct(request):
 	cat=request.POST.get("id")
 	if(cat==None): 
-		#todo = product.objects.all()
 		todo = product.objects.filter(category=1)
+	elif(cat=='4'): 
+		todo = product.objects.all()
 	else:
 		todo = product.objects.filter(category=cat)
 	#print todo.query
