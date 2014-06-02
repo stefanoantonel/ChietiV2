@@ -14,6 +14,6 @@ urlpatterns = patterns('',
     url('chieti/',include('chieti.urls')),
     #url('$',include('chieti.views.home')),
     url(r'^accounts/', include('allauth.urls')),
-    url('',include('chieti.urls')),
+    url(r'^$',include('chieti.urls')),
     
 )
