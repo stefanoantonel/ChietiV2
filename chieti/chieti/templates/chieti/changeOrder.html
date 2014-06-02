@@ -13,31 +13,33 @@
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
-			
-            var ant=$(this).parents('.table').find('.price').attr("title");
-			var cant=$(this).val();            
-			var dsp=(ant*cant).toFixed(2);
-			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
-			$(this).parents('.table').find('.price').html(dsp);
-			calTotalPrice();
+			if( checkQuantPositive($(this).val()) ==true){
+				var ant=$(this).parents('.table').find('.price').attr("title");
+				var cant=$(this).val();            
+				var dsp=(ant*cant).toFixed(2);
+				console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
+				$(this).parents('.table').find('.price').html(dsp);
+				calTotalPrice();
 
-			itemId=$(this).parents('.table').find('.idItem').val();
-			
-			console.log("prodId:", itemId);
-			$.ajax({
-                url: '/chieti/changeOrder3/',
-                type: 'post', 
-                data: {
-                    "itemId":itemId,
-                    "quantity":cant,
+				itemId=$(this).parents('.table').find('.idItem').val();
+				
+				console.log("prodId:", itemId);
+				$.ajax({
+	                url: '/chieti/changeOrder3/',
+	                type: 'post', 
+	                data: {
+	                    "itemId":itemId,
+	                    "quantity":cant,
 
-                },
-                success: function(data) {
-                    console.log("todo ok! AJAX")
-                    //console.log(data)
-                }
-            });
+	                },
+	                success: function(data) {
+	                    console.log("todo ok! AJAX")
+	                    //console.log(data)
+	                }
+	            });
 
+	            		
+			}
             
 		});
 		$('label[name=price]').each(function(){
@@ -80,6 +82,13 @@
 		})
 		$('label[title=total]').html(sumTotal)
 	}
+	function checkQuantPositive(quant){
+	num = new Number(quant);
+	console.log('check',quant);
+    if( !(num > 0.1) )
+    	return false;
+    return true;
+}
 
 </script>
 </head>
