@@ -646,8 +646,8 @@ def usernameExist(request):
 	us=User.objects.filter(username=param)
 	print us
 	if not us: #no exist
-		return HttpResponse("false")
-	return HttpResponse("true")
+		return HttpResponse("Usuario correcto")
+	return HttpResponse("Usuario Existente, elija otro")
 
 def changeUserData(request):
 	print request.session['user']
