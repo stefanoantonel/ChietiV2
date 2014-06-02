@@ -65,6 +65,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	pr= $(template).find(".price");
 	console.log("PR: ",$(pr));
 	$(pr).html(saleP);
+	$(pr).attr('title',saleP);
 	
 	//CENTRAR
 	$(template).css({position: "absolute",top:'30%',left:'35%'});
@@ -83,6 +84,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	  $('#close').click(function(){
 		  $(".divActual").remove();
 	  });
+	  setQuantity();
 	  
 }
 
@@ -107,16 +109,7 @@ function Desaparecer(id){
 	
 	  	console.log( "ready prod!" ) 		
 		//$('input[name=quantity]').change(function(){
-		$('.quantity').change(function(){
-			var ant=$(this).siblings("label[name=price]").attr("title")
-			var cant=$(this).val()            
-			var dsp=ant*cant
-			dsp = dsp.toFixed(2);
-			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
-			$(this).siblings('label[name=price]').html(dsp)
-            
-		});
-        
+		setQuantity();
         
 		$(".l").click(function() {
 		  		  console.log("link id:", $(this).attr("id") );
@@ -163,6 +156,18 @@ function checkQuantPositive(quant){
     if( !(num > 0) )
     	return false;
     return true;
+}
+
+function setQuantity(){
+	$('.quantity').change(function(){
+		var ant=$(this).siblings(".price").attr('title');
+		var cant=$(this).val()            
+		var dsp=ant*cant
+		dsp = dsp.toFixed(2);
+		console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+		
+		$(this).siblings('.price').html(dsp)    
+	});
 }
 
 function addClick(){
