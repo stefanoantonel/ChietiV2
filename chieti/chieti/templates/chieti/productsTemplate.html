@@ -85,6 +85,14 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 		  $(".divActual").remove();
 	  });
 	  setQuantity();
+	  console.log('temp;',template);
+	  $(template).keyup(function(e) { 
+	  	console.log($(this));
+        if (e.which == 27) {
+        	alert('esc');
+            $(this).remove();
+        }
+    });
 	  
 }
 
