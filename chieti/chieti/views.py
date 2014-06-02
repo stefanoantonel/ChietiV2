@@ -237,7 +237,9 @@ def changeOrder3(request):
 	# ids=request['ids']
 	itemId = request.POST.get("itemId")
 	quant = request.POST.get("quantity")
+	print 'idItem',itemId,' quant', quant
 	item.objects.filter(id=itemId).update(quantity=quant)
+	print item.objects.get(id=itemId)
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')

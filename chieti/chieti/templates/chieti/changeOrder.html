@@ -21,7 +21,7 @@
 			$(this).parents('.table').find('.price').html(dsp);
 			calTotalPrice();
 
-			itemId=$(this).parents('.table').find('.idProd').val();
+			itemId=$(this).parents('.table').find('.idItem').val();
 			
 			console.log("prodId:", itemId);
 			$.ajax({
@@ -90,7 +90,7 @@
     {% for item in todos %} <!-- OJO is a vector of jsons -->
      <tr class="table">
 		  <td><img alt="" src="">
-		  	  <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
+		  	  <input name="itemId" hidden="hidden" value="{{ item.id }}" class='idItem'/>
 		  	  <input name="productId" hidden="hidden" value="{{ item.productFK.id }}" class='idProd'/>
 		  </td>
 		  <td><label title='name' class="product" >{{ item.productFK.name }}</label></td>
