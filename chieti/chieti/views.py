@@ -19,13 +19,8 @@ from chieti.models import product, orderManager, order, user, item, category,ite
 
 # Create your tests here.
 def home(request):
-	
-	
-	om=orderManager.objects.filter(id=1)
-	
-	if not om: #no exist
-		om=orderManager()
-		om.save()
+	u=request.session[user]
+	request.order
 		
 	return render(request, 'chieti/homePage2.html')
 def homa(request):

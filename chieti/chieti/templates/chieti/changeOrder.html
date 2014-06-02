@@ -15,7 +15,7 @@
 			
             var ant=$(this).parents('.table').find('.price').attr("title");
 			var cant=$(this).val();            
-			var dsp=ant*cant;
+			var dsp=(ant*cant).toFixed(2);
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
 			$(this).parents('.table').find('.price').html(dsp);
 			calTotalPrice();
@@ -33,7 +33,7 @@
                 },
                 success: function(data) {
                     console.log("todo ok! AJAX")
-                    console.log(data)
+                    //console.log(data)
                 }
             });
 
@@ -41,9 +41,12 @@
 		});
 		$('label[name=price]').each(function(){
 			//calc the subTotal price
-			pr=$(this).attr("title").toFixed(2);
-	  		qu=$(this).parent().parent().find("input[name=quantity]").val()
-	  		$(this).html(pr*qu)
+			pr=$(this).attr("title");
+			console.log('pr',pr);
+	  		qu=$(this).parent().parent().find("input[name=quantity]").val();
+	  		multip=(pr*qu).toFixed(2);
+	  		//console.log('mult',multip.toFixed(2));
+	  		$(this).html(multip);
 		});
 		$("label.remove").click(function(){
 			//remove the item from de DB and DOM
@@ -65,15 +68,14 @@
 			calTotalPrice();
 		})
 		
-		
 		calTotalPrice()  	
 	});
 	function calTotalPrice(){
-		var sumTotal=0
-		$('label[name=price]').each(function(){
+		var sumTotal=0;
+		$('.price').each(function(){
 			//calc the total price
-			sumTotal=sumTotal+parseInt($(this).text()).toFixed(2);
-			console.log(sumTotal)	
+			sumTotal=sumTotal+parseFloat($(this).text());
+			console.log('sum total',sumTotal)	
 		})
 		$('label[title=total]').html(sumTotal)
 	}
@@ -106,7 +108,14 @@
 	<br/><br>
 	<!--<input type="submit" class="change" value="Cambiar"></input> -->
 
+
 </form>
+<div style="display:none">
+	<form>
+	<input type="submit" class="confirm" value="Confirmar Compra"></input>
+	</form>
+</div>
+
 </div>
 
 </body>
