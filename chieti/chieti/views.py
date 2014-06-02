@@ -19,13 +19,6 @@ from chieti.models import product, orderManager, order, user, item, category,ite
 
 # Create your tests here.
 def home(request):
-	
-	
-	om=orderManager.objects.filter(id=1)
-	
-	if not om: #no exist
-		om=orderManager()
-		om.save()
 		
 	return render(request, 'chieti/homePage2.html')
 def homa(request):
@@ -50,10 +43,11 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 def test(request):
 	logout(request)
-	return HttpResponse(request.user.username)
+	return render(request, 'chieti/homePage2.html')
+	
 
 def test1(request):
-	fp = open('./chieti/templates/chieti/test1.html')
+	fp = open('./chieti/test1.html')
 	t = Template(fp.read())
 	fp.close()
 	html = t.render(Context())
@@ -208,8 +202,8 @@ def addToOrder(request):
 	
 	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
 	i.save()
-	c = (ids, quant)
-	return HttpResponse(c)
+	
+	return HttpResponse('true')
 
 @login_required(login_url='/chieti/singIn/')
 def changeOrder(request):
@@ -236,6 +230,14 @@ def changeOrder2(request):
 	
 	# c=(itemId,productId)
 	# return HttpResponse(c)
+	return redirect(showProduct)
+
+@login_required(login_url='/chieti/singIn/')
+def changeOrder3(request):
+	# ids=request['ids']
+	itemId = request.POST.get("itemId")
+	quant = request.POST.get("quantity")
+	item.objects.filter(id=itemId).update(quantity=quant)
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')
@@ -639,8 +641,8 @@ def usernameExist(request):
 	us=User.objects.filter(username=param)
 	print us
 	if not us: #no exist
-		return HttpResponse("false")
-	return HttpResponse("true")
+		return HttpResponse("Usuario correcto")
+	return HttpResponse("Usuario Existente, elija otro")
 
 def changeUserData(request):
 	print request.session['user']
@@ -668,3 +670,8 @@ def findProductById(request):
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
 	pJson=json.dumps(p)
 	return HttpResponse(pJson)
+
+@staff_member_required
+def printPrice(request):
+	p=product.objects.all()
+	return render(request, 'chieti/printPrice.html',{'todos':p})

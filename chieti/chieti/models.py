@@ -166,7 +166,7 @@ class order(models.Model):
 class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
-	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
+	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	orderFK=models.ForeignKey(order,related_name='getItem')
 	def getSubtotal(self):
 		return round(self.productFK.salePrice*self.quantity,2)

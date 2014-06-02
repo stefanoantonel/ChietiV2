@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
 
-
 var prevID;
 function popUp(id) {
 	console.log("prev: ",prevID);
@@ -83,7 +82,15 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	  $('#close').click(function(){
 		  $(".divActual").remove();
 	  });
-	  
+	  setQuantity();
+	  console.log('temp;',template);
+	  $(template).keyup(function(e) { 
+	  	console.log($(this));
+        if (e.which == 27) {
+        	alert('esc');
+            $(this).remove();
+        }
+    });
 }
 
 
@@ -182,11 +189,26 @@ function addClick(){
             },
             success: function(data) {
                 console.log("todo ok! AJAX")
-                console.log(data)
+                if (data != 'true'){
+                	$('body').html(data);
+                }
+
+
             }
         });
     }
         
+}
+function setQuantity(){
+	$('.quantity').change(function(){
+		var ant=$(this).siblings(".price").attr('title');
+		var cant=$(this).val()            
+		var dsp=ant*cant
+		dsp = dsp.toFixed(2);
+		console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+		
+		$(this).siblings('.price').html(dsp)    
+	});
 }
 
 </script>

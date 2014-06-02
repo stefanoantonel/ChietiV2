@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+mo<!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -14,7 +14,9 @@
 	<table>
 		<tr>
 		<td><label>Ingrese Usuario</label></td>
-		<td><input type="text" name="name" class='username' required="required"></td>
+		<td><input type="text" name="name" class='username' required="required">
+		<label class="exist"></label>
+		</td> 
 		
 		</tr>
 		
@@ -68,7 +70,8 @@ $(document).ready(function(){
             },
             success: function(data) {
                 console.log(data);
-                
+                $('.exist').html(data);
+
             }
         });
 
