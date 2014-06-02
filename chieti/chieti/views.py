@@ -675,3 +675,8 @@ def findProductById(request):
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
 	pJson=json.dumps(p)
 	return HttpResponse(pJson)
+
+@staff_member_required
+def printPrice(request):
+	p=product.objects.all()
+	return render(request, 'chieti/printPrice.html',{'todos':p})

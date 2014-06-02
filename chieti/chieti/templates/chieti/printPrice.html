@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Precios de Productos</title>
+</head>
+<body>
+<div>
+	{% for prod in todos %}
+		<label class="prodName">{{prod.name}}</label>
+		<label class="price">{{prod.salePrice}}</label>
+		<br>
+	{% endfor %}    
+</div>
+</body>
+</html>
