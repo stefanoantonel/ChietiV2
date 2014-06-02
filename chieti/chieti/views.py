@@ -74,8 +74,8 @@ def complete(request):
 	productArray=[]
 	lista=[]
 	for p in prod:
-		#ppp={"id":p.id,"label":p.name,"value":p.salePrice}
-		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit}
+		saleP=str(p.salePrice);
+		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit, "saleP" : saleP}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
 	print ("l:",lJson)
@@ -85,7 +85,7 @@ def complete(request):
 def compCategory(request):
 	print "category"
 	term=request.GET.get('term')
-	cat = category.objects.filter(description__contains=term)
+	cat = category.objects.filter(description__icontains=term)
 	print ("cat:",cat)
 	productArray=[]
 	lista=[]
@@ -112,6 +112,11 @@ def addProd2(request):
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('tipoProd', '')
 	c=request.POST.get('category','1')
+	
+	if not c.isdigit():
+		print 'entro no'
+		c=category.objects.get(description=c).id
+		pass
 	#items=request.POST.get('items', '')
 	#items2=request.POST['itemPromo']
 	#print ("i----:",items2)
