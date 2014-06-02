@@ -150,19 +150,20 @@ border: 1px solid black;
 	float:left;
 	margin-left: 15%;
 	margin-top: 3%;
+	background-color: white;
 }
 
-.textHome{
+.textSeg{
 	font-size: 25px;
 	font-family: "Verdana";
 }
 
-.textHome2{
+.textPrim{
 	font-size: 30px;
 	font-family: "Verdana";
 }
 
-.textHome3{
+.textTer{
 	font-size: 20px;
 	font-family: "Verdana";
 }
@@ -174,41 +175,42 @@ border: 1px solid black;
 }
 
 .botonMenu2{
-	/*float:left;
-	display:-ms-flexbox; 
-	display:-moz-box; 
-	display:-webkit-box;
-	display: box; 
-	box-orient: vertical;
-	margin-top:1%;
+	/*float:left;*/
 	width:150px;
 	height:100px;
 	background-size: 100% 100%;
-	*/
-	
-	float:left;
-	width:150px;
-	height:100px;
-	background-size: 100% 100%;
+	display:block;
 	
 }
 
 .botonMenu2.prod2{
-	margin-left:0%;
-	margin-top:1%;
 	background-image:url('/static/chieti/images/cajonProductos.png');
 }
 .botonMenu2.sale2{
-	margin-left:2%;
-	margin-top:25%;
+	margin-left:25%;
+	margin-top:1%;
 	background-image:url('/static/chieti/images/cajonSale2.png');
 }
 .botonMenu2.order2{
-	margin-left:0%;
-	margin-top:5%;
+	margin-left:50%;
+	margin-top:1%;
 	background-image:url('/static/chieti/images/cajonPedido.png');
 }
 
+.comprar{
+	width:300px;
+	height:80px;
+	background-size: 100% 100%;
+	display:block;
+	margin-top:5%;
+	
+}
+
+.comprar.fuente{
+	font-size: 25px;
+	font-family: "Verdana";
+	padding: 15px 10px 10px 10px;
+}
 
 .quienes{
 	font-size: 20px;
@@ -221,4 +223,13 @@ border: 1px solid black;
 .sales{
 	background: url('/static/chieti/images/promo.jpg')no-repeat;
 	background-size: 100% 100%;
+}
+
+
+.formLogIn{
+	/*border: medium;*/
+	border-color: aqua;
+	border-style:outset;
+	width: 300px;
+	
 }

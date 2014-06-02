@@ -2,14 +2,14 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
 <title>Sing Up</title>
-{% include 'chieti/mainHead.html' %}
 </head>
 <body>
 {{error}}
-
-
-
+<div class="formLogIn">
 <form action="/chieti/singUp2/" method="post">
 	<table>
 		<tr>
@@ -46,6 +46,9 @@
 	<tr>
 </table>
 <input type="submit" value="Listo">
+
+</div>
+
 
 </form>
 

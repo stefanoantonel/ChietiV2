@@ -17,12 +17,7 @@
 <div name="titulo" align="center">
 		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:150px;height:150px;" alt=""/>			 
 </div>
-		<div>
-			<a style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " href="/chieti/quienes">Quienes Somos</a>
-			<a style="float:left;margin-left: 18%;display:block; color:gray;font-weight: bold " href="/chieti/product">Que ofrecemos</a>
-			<a style="float:left;margin-left: 15%;display:block; color:gray;font-weight: bold " href="/chieti/comoComprar">Como realizar tus compras</a>
-			<br>
-		</div>
+		
 
 <script>
 var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
@@ -46,6 +41,10 @@ $("#swap").hover(function(){
 $('#swap').bind('mouseleave', function(e) {
 	$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
 		});
+ 
+ 
+$('#swap').click(function(){
+		})
  
 </script>
 </body>

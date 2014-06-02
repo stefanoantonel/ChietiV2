@@ -75,9 +75,15 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
     //     marginLeft: 0, marginTop: 0,
     //     top: pos.top, left: pos.left });
 	  $('.divInvisible').click(function(event){
-		    event.stopPropagation();
-		    console.log("se detuvo");
-		});	
+		    //event.stopPropagation();
+		    //console.log("se detuvo");
+		});
+	  
+	  $('.add').click(addClick);
+	  $('#close').click(function(){
+		  $(".divActual").remove();
+	  });
+	  
 }
 
 
@@ -89,14 +95,14 @@ function Desaparecer(id){
 
 	$(document).ready(function() {
 		
-		$('html').click(function() {
+		/* $('html').click(function() {
 			console.log($(".divInvisible[value='visible']"));
 			$(".divInvisible[value='visible']").remove();
-			});
+			}); */
 
 		
 		$('.divImg').click(function(event){
-		    event.stopPropagation();
+		    //event.stopPropagation();
 		});	
 	
 	  	console.log( "ready prod!" ) 		
@@ -109,28 +115,8 @@ function Desaparecer(id){
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
 			$(this).siblings('label[name=price]').html(dsp)
             
-		})
-        $('.add').click(function(){
-            //ids=$(this).siblings(".ids").text()
-            var ids= $(this).siblings("label[name=ids]").html()
-            var quant= $(this).siblings('input[name=quantity]').val()
-            if(checkQuantPositive(quant)==true){
-            	console.log("ids:",ids,quant)
-                $.ajax({
-                    url: '/chieti/addToOrder/',
-                    type: 'post', 
-                    data: {
-                        'ids':ids,
-                        'quantity':quant,
-                    },
-                    success: function(data) {
-                        console.log("todo ok! AJAX")
-                        console.log(data)
-                    }
-                });
-            }
-                
-        });
+		});
+        
         
 		$(".l").click(function() {
 		  		  console.log("link id:", $(this).attr("id") );
@@ -178,6 +164,31 @@ function checkQuantPositive(quant){
     	return false;
     return true;
 }
+
+function addClick(){
+    //ids=$(this).siblings(".ids").text()
+    console.log(".add");
+    var ids= $(this).siblings("input[name=ids]").attr("id");
+    console.log("agregar id:",ids);
+    var quant= $(this).siblings('input[name=quantity]').val()
+    if(checkQuantPositive(quant)==true){
+    	console.log("ids:",ids,quant)
+        $.ajax({
+            url: '/chieti/addToOrder/',
+            type: 'post', 
+            data: {
+                'ids':ids,
+                'quantity':quant,
+            },
+            success: function(data) {
+                console.log("todo ok! AJAX")
+                console.log(data)
+            }
+        });
+    }
+        
+}
+
 </script>
 
 	
@@ -185,16 +196,17 @@ function checkQuantPositive(quant){
 </head>
 <body class="prodBody" >
 <div id="tipo">
-	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:20%" class="l">otros</a>
- 	<a id="2" style="float:left;display:block; color:gray; font-weight: bold; margin-left:25%" class="l">verduras</a> 
- 	<a id="1" style="float:left;display:block; color:gray; font-weight: bold;margin-left:25% " class="l">frutas</a>
+	<a id="1" style="float:left;display:block; color:gray; font-weight: bold;margin-left:20% " class="l">frutas</a>
+	<a id="2" style="float:left;display:block; color:gray; font-weight: bold; margin-left:15%" class="l">verduras</a>
+	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">otros</a>
+	<a id="4" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">todos</a>
 </div>
 <img id="carrito"  class="carrito" alt="Mi compra">
 <div>
 <br/>
-<div id="divAutoComplete" align="center">
+<div id="divAutoComplete" style="margin-left: 20%;margin-top: 2%;">
 	<div id="subProd" class="ui-widget">
-	     <label for="tags">Producto: </label>
+	     <label for="tags">Buscar Producto: </label>
 		 <input id="tags">
 	</div>	    
 </div>
@@ -202,14 +214,12 @@ function checkQuantPositive(quant){
 <div class="allProducts">
 {% for prod in todos %}
 	<div class="divImg">
-	<label name='name' class="product" >{{ prod.name }}</label>
-	<label name='name' class="product" >{{ prod.id }}</label>
+	
 		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
 	</div>
 	
 {% endfor %}    
 </div>
-   
 </div>
 
 <div style="display:none;" class="divInvisible divAuto">
@@ -231,7 +241,10 @@ function checkQuantPositive(quant){
 	        </section>
 	    </div>
 
-
-
 </body>
+
+<iframe id="sing" width="400" height="400" src="/chieti/singIn" style="display:none"></iframe>
+
+
+
 </html>
