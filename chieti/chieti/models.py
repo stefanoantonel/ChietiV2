@@ -68,6 +68,7 @@ class orderManager(models.Model):
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
 			quant=i["quantity"]
+			quant=round(quant,2)
 			mu=product.objects.get(id=i["productFK"]).measureUnit
 			a={"product":prod,"quantity":quant, "measureUnit":mu}
 			vector.append(a)
@@ -78,6 +79,7 @@ class orderManager(models.Model):
 			print("itemPromo:",result)
 			for prodItem in result:
 				quant=prodItem.get('cant')
+				quant=round(quant,2)
 				prod=prodItem.get('prod')
 				a=0
 				for element in vector:
