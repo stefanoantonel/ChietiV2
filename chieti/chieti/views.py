@@ -238,6 +238,14 @@ def changeOrder2(request):
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')
+def changeOrder3(request):
+	# ids=request['ids']
+	itemId = request.POST.get("itemId")
+	quant = request.POST.get("quantity")
+	item.objects.filter(id=itemId).update(quantity=quant)
+	return redirect(showProduct)
+
+@login_required(login_url='/chieti/singIn/')
 def removeItem(request):
 	itemId = request.POST.get("itemId")	
 	ordId = request.session["order"]

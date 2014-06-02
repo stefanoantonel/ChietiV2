@@ -19,6 +19,24 @@
 			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
 			$(this).parents('.table').find('.price').html(dsp);
 			calTotalPrice();
+
+			itemId=$(this).parents('.table').find('.idProd').val();
+			
+			console.log("prodId:", itemId);
+			$.ajax({
+                url: '/chieti/changeOrder3/',
+                type: 'post', 
+                data: {
+                    "itemId":itemId,
+                    "quantity":cant,
+
+                },
+                success: function(data) {
+                    console.log("todo ok! AJAX")
+                    console.log(data)
+                }
+            });
+
             
 		});
 		$('label[name=price]').each(function(){
@@ -70,7 +88,7 @@
      <tr class="table">
 		  <td><img alt="" src="">
 		  	  <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
-		  	  <input name="productId" hidden="hidden" value="{{ item.productFK.id }}"/>
+		  	  <input name="productId" hidden="hidden" value="{{ item.productFK.id }}" class='idProd'/>
 		  </td>
 		  <td><label title='name' class="product" >{{ item.productFK.name }}</label></td>
 		  <td><label for='quantity'>Cant:</label></td>

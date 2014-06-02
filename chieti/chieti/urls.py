@@ -32,6 +32,7 @@ urlpatterns = patterns('',
 
     url(r'changeOrder/','chieti.views.changeOrder'),
     url(r'changeOrder2/','chieti.views.changeOrder2'),
+    url(r'changeOrder3/','chieti.views.changeOrder3'),
     url(r'removeItem/','chieti.views.removeItem'),
     url(r'summaryBuy/','chieti.views.summaryBuy'),
     url(r'printOrders/','chieti.views.printOrders'),
