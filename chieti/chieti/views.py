@@ -19,8 +19,6 @@ from chieti.models import product, orderManager, order, user, item, category,ite
 
 # Create your tests here.
 def home(request):
-	u=request.session[user]
-	request.order
 		
 	return render(request, 'chieti/homePage2.html')
 def homa(request):
@@ -202,8 +200,8 @@ def addToOrder(request):
 	
 	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
 	i.save()
-	c = (ids, quant)
-	return HttpResponse(c)
+	
+	return HttpResponse('true')
 
 @login_required(login_url='/chieti/singIn/')
 def changeOrder(request):

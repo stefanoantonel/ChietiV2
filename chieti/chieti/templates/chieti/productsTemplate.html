@@ -187,7 +187,11 @@ function addClick(){
             },
             success: function(data) {
                 console.log("todo ok! AJAX")
-                console.log(data)
+                console.log(data);
+                if (data != 'true'){
+                	$('body').html(data);
+                }
+
             }
         });
     }

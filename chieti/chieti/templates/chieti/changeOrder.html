@@ -9,7 +9,9 @@
 	
 
 	$(document).ready(function() { 
-	  	console.log( "ready prod!" ) 		
+		na=document.cookie;
+		$('body').append(na);
+	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
 			
