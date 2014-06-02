@@ -41,7 +41,7 @@
 		});
 		$('label[name=price]').each(function(){
 			//calc the subTotal price
-			pr=$(this).attr("title")
+			pr=$(this).attr("title").toFixed(2);
 	  		qu=$(this).parent().parent().find("input[name=quantity]").val()
 	  		$(this).html(pr*qu)
 		});
@@ -72,7 +72,7 @@
 		var sumTotal=0
 		$('label[name=price]').each(function(){
 			//calc the total price
-			sumTotal=sumTotal+parseInt($(this).text())
+			sumTotal=sumTotal+parseInt($(this).text()).toFixed(2);
 			console.log(sumTotal)	
 		})
 		$('label[title=total]').html(sumTotal)
