@@ -521,7 +521,7 @@ def changeUser(request):
 # def changeUser2(request): #login with fake user.	
 # 	personId = request.POST.get('idPer')
 # 	us=user.objects.get(id=personId)
-# 	fp = open('./chieti/templates/chieti/singIn.html')
+# 	fp = open('chieti/singIn.html')
 # 	t = Template(fp.read())
 # 	fp.close()
 # 	c = Context({'username':us.userDj.username})
