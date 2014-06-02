@@ -129,7 +129,7 @@ function Desaparecer(id){
   		});
 		
 		 $("#carrito").click(function() {
-			 $(location).attr('href','/chieti/template/chieti/changeOrder');       			
+			 $(location).attr('href','/chieti/changeOrder');       			
 			 });
 		 
 		 
@@ -190,6 +190,15 @@ function addClick(){
                 console.log(data);
                 if (data != 'true'){
                 	$('body').html(data);
+                	//$('.iframe').attr('src',data);
+                	//$('.iframe').show(350);
+                	//$('<iframe id="someId"/>').appendTo('#someDiv')
+					//	.contents().find('body').append(data);
+
+					//$('.iframe').document.write('Hello World!');
+                	/*a='<iframe class="iframe" width="400" height="400" src='+data+'></iframe>'
+                	$('body').append(a);
+                	*/
                 }
 
             }
@@ -251,6 +260,6 @@ function addClick(){
 	    </div>
 
 
-
+<!-- <iframe class="iframe" width="400" height="400" src="chieti/singIn/"></iframe> -->
 </body>
 </html>

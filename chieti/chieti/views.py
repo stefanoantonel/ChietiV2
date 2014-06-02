@@ -43,10 +43,11 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 def test(request):
 	logout(request)
-	return HttpResponse(request.user.username)
+	return render(request, 'chieti/homePage2.html')
+	
 
 def test1(request):
-	fp = open('./chieti/templates/chieti/test1.html')
+	fp = open('./chieti/test1.html')
 	t = Template(fp.read())
 	fp.close()
 	html = t.render(Context())
