@@ -178,6 +178,7 @@ function addClick(){
     var ids= $(this).siblings("input[name=ids]").attr("id");
     console.log("agregar id:",ids);
     var quant= $(this).siblings('input[name=quantity]').val()
+    divActual=$(this);
     if(checkQuantPositive(quant)==true){
     	console.log("ids:",ids,quant)
         $.ajax({
@@ -192,12 +193,17 @@ function addClick(){
                 if (data != 'true'){
                 	$('body').html(data);
                 }
+                else{
+                	// Agregar efecto
+                	$(divActual).parents(".divActual").remove();                	
+                }
+                }
 
 
-            }
-        });
+            });
     }
-        
+     
+    
 }
 function setQuantity(){
 	$('.quantity').change(function(){
