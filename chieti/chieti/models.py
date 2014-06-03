@@ -4,6 +4,13 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from django.db import models
+from django.core.files.storage import FileSystemStorage
+
+fs = FileSystemStorage(location='/static/images')
+
+class Car(models.Model):
+    photo = models.ImageField(upload_to=fs)
 
 class category(models.Model):
 	number=models.IntegerField()

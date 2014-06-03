@@ -9,6 +9,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
+from django.core.files import File
 from django.template.loader import render_to_string
 import json
 from _elementtree import tostring
@@ -106,6 +107,8 @@ def addProd2(request):
 	isP = request.POST.get('promo', '')
 	t=request.POST.get('tipoProd', '')
 	c=request.POST.get('category','1')
+	image=request.POST.get('image')
+
 	
 	if not c.isdigit():
 		print 'entro no'
@@ -117,6 +120,22 @@ def addProd2(request):
 	cat=category.objects.get(id=c)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=cat,buyPrice=buyP)
 	pr.save()
+	
+	#carr=car(photo=image)
+	#carr.save()
+
+	#id=pr.id
+	#print image
+	#with open('chieti/static/chieti/images/'+str(id)+'.jpg', 'w') as f:
+	#	myfile = File(f)
+		
+
+	#	myfile.closed
+
+	#	f.closed
+	#imgFile = open('chieti/static/chieti/images/'+str(id)+'.jpg', 'w') 
+	#imgFile.write() 
+	#imgFile.close()
 	#Stefano
 	#t=category.objects.get(id=t)
 	#pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
