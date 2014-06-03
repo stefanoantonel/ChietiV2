@@ -1,20 +1,22 @@
-<!DOCTYPE html>
+mo<!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
 <title>Sing Up</title>
-{% include 'chieti/mainHead.html' %}
 </head>
 <body>
 {{error}}
-
-
-
+<div class="formLogIn">
 <form action="/chieti/singUp2/" method="post">
 	<table>
 		<tr>
 		<td><label>Ingrese Usuario</label></td>
-		<td><input type="text" name="name" class='username' required="required"></td>
+		<td><input type="text" name="name" class='username' required="required">
+		<label class="exist"></label>
+		</td> 
 		
 		</tr>
 		
@@ -47,6 +49,9 @@
 </table>
 <input type="submit" value="Listo">
 
+</div>
+
+
 </form>
 
 
@@ -65,7 +70,8 @@ $(document).ready(function(){
             },
             success: function(data) {
                 console.log(data);
-                
+                $('.exist').html(data);
+
             }
         });
 

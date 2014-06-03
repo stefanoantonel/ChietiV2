@@ -7,7 +7,7 @@ from django.template import Context, Template
 def index(request):
 
     
-    fp = open('./chieti/templates/chieti/homePage.html')
+    fp = open('/chieti/homePage.html')
     t = Template(fp.read())
     fp.close()
     html = t.render(Context())

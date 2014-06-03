@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     # Examples:
     #url(r'^$', 'chieti.views.home', name='home'),
+    #url('','chieti.views.home'),
     url(r'home', 'chieti.views.home', name='home'),
     url(r'homa/', 'chieti.views.homa', name='home'),
     url(r'quienes/', 'chieti.views.quienes', name='home'),
@@ -32,6 +33,7 @@ urlpatterns = patterns('',
 
     url(r'changeOrder/','chieti.views.changeOrder'),
     url(r'changeOrder2/','chieti.views.changeOrder2'),
+    url(r'changeOrder3/','chieti.views.changeOrder3'),
     url(r'removeItem/','chieti.views.removeItem'),
     url(r'summaryBuy/','chieti.views.summaryBuy'),
     url(r'printOrders/','chieti.views.printOrders'),
@@ -65,6 +67,12 @@ urlpatterns = patterns('',
 	url(r'changeUserData2/','chieti.views.changeUserData2'),
 	url(r'adm/','chieti.views.adm'),
     url(r'findProductById/','chieti.views.findProductById'),
+    url(r'printPrice/','chieti.views.printPrice'),
+
+
+
+
+    url(r'^$','chieti.views.home'),
 	
 )
 

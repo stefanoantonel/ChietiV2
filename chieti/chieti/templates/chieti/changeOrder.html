@@ -9,23 +9,47 @@
 	
 
 	$(document).ready(function() { 
-	  	console.log( "ready prod!" ) 		
+		
+	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
-			
-            var ant=$(this).parents('.table').find('.price').attr("title");
-			var cant=$(this).val();            
-			var dsp=ant*cant;
-			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
-			$(this).parents('.table').find('.price').html(dsp);
-			calTotalPrice();
+			if( checkQuantPositive($(this).val()) ==true){
+				var ant=$(this).parents('.table').find('.price').attr("title");
+				var cant=$(this).val();            
+				var dsp=(ant*cant).toFixed(2);
+				console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
+				$(this).parents('.table').find('.price').html(dsp);
+				calTotalPrice();
+
+				itemId=$(this).parents('.table').find('.idItem').val();
+				
+				console.log("prodId:", itemId);
+				$.ajax({
+	                url: '/chieti/changeOrder3/',
+	                type: 'post', 
+	                data: {
+	                    "itemId":itemId,
+	                    "quantity":cant,
+
+	                },
+	                success: function(data) {
+	                    console.log("todo ok! AJAX")
+	                    //console.log(data)
+	                }
+	            });
+
+	            		
+			}
             
 		});
 		$('label[name=price]').each(function(){
 			//calc the subTotal price
-			pr=$(this).attr("title")
-	  		qu=$(this).parent().parent().find("input[name=quantity]").val()
-	  		$(this).html(pr*qu)
+			pr=$(this).attr("title");
+			console.log('pr',pr);
+	  		qu=$(this).parent().parent().find("input[name=quantity]").val();
+	  		multip=(pr*qu).toFixed(2);
+	  		//console.log('mult',multip.toFixed(2));
+	  		$(this).html(multip);
 		});
 		$("label.remove").click(function(){
 			//remove the item from de DB and DOM
@@ -47,18 +71,24 @@
 			calTotalPrice();
 		})
 		
-		
 		calTotalPrice()  	
 	});
 	function calTotalPrice(){
-		var sumTotal=0
-		$('label[name=price]').each(function(){
+		var sumTotal=0;
+		$('.price').each(function(){
 			//calc the total price
-			sumTotal=sumTotal+parseInt($(this).text())
-			console.log(sumTotal)	
+			sumTotal=sumTotal+parseFloat($(this).text());
+			console.log('sum total',sumTotal)	
 		})
 		$('label[title=total]').html(sumTotal)
 	}
+	function checkQuantPositive(quant){
+	num = new Number(quant);
+	console.log('check',quant);
+    if( !(num > 0.1) )
+    	return false;
+    return true;
+}
 
 </script>
 </head>
@@ -69,8 +99,8 @@
     {% for item in todos %} <!-- OJO is a vector of jsons -->
      <tr class="table">
 		  <td><img alt="" src="">
-		  	  <input name="itemId" hidden="hidden" value="{{ item.id }}"/>
-		  	  <input name="productId" hidden="hidden" value="{{ item.productFK.id }}"/>
+		  	  <input name="itemId" hidden="hidden" value="{{ item.id }}" class='idItem'/>
+		  	  <input name="productId" hidden="hidden" value="{{ item.productFK.id }}" class='idProd'/>
 		  </td>
 		  <td><label title='name' class="product" >{{ item.productFK.name }}</label></td>
 		  <td><label for='quantity'>Cant:</label></td>
@@ -86,8 +116,18 @@
 		<label>Total: $ </label>
 		<label title='total'></label>
 	<br/><br>
-	<input type="submit" class="change" value="Cambiar"></input>
+	
+	<a type="button" class="btn btn-warning botonMenu2 comprar2 fuente2"  href="/chieti/product">Seguir comprando!  ></a>
+	<!--<input type="submit" class="change" value="Cambiar"></input> -->
+
+
 </form>
+<div style="display:none">
+	<form>
+	<input type="submit" class="confirm" value="Confirmar Compra"></input>
+	</form>
+</div>
+
 </div>
 
 </body>

@@ -4,6 +4,13 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from django.db import models
+from django.core.files.storage import FileSystemStorage
+
+fs = FileSystemStorage(location='/static/images')
+
+class Car(models.Model):
+    photo = models.ImageField(upload_to=fs)
 
 class category(models.Model):
 	number=models.IntegerField()
@@ -68,6 +75,7 @@ class orderManager(models.Model):
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
 			quant=i["quantity"]
+			quant=round(quant,2)
 			mu=product.objects.get(id=i["productFK"]).measureUnit
 			a={"product":prod,"quantity":quant, "measureUnit":mu}
 			vector.append(a)
@@ -78,6 +86,7 @@ class orderManager(models.Model):
 			print("itemPromo:",result)
 			for prodItem in result:
 				quant=prodItem.get('cant')
+				quant=round(quant,2)
 				prod=prodItem.get('prod')
 				a=0
 				for element in vector:
@@ -166,7 +175,7 @@ class order(models.Model):
 class item(models.Model):
 	productFK=models.ForeignKey(product)
 	#promoFK=models.ForeignKey(promo)
-	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
+	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	orderFK=models.ForeignKey(order,related_name='getItem')
 	def getSubtotal(self):
 		return round(self.productFK.salePrice*self.quantity,2)
@@ -175,7 +184,7 @@ class item(models.Model):
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product')
 	promoFK=models.ForeignKey(product, related_name='items')
-	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.01'))])
+	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
 	
