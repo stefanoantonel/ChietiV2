@@ -9,7 +9,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
-from django.core.files import File
+
 from django.template.loader import render_to_string
 import json
 from _elementtree import tostring
