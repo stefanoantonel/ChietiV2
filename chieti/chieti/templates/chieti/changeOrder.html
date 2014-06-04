@@ -13,7 +13,7 @@
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
-			if( checkQuantPositive($(this).val()) ==true){
+			if(checkQuantOk($(this).val()) ==true){
 				var ant=$(this).parents('.table').find('.price').attr("title");
 				var cant=$(this).val();            
 				var dsp=(ant*cant).toFixed(2);
@@ -40,6 +40,9 @@
 
 	            		
 			}
+			else{
+		    	alert("Cantidad debe ser un numero");
+		    }
             
 		});
 		$('label[name=price]').each(function(){
@@ -77,23 +80,27 @@
 		var sumTotal=0;
 		$('.price').each(function(){
 			//calc the total price
-			sumTotal=sumTotal+parseFloat($(this).text());
-			console.log('sum total',sumTotal)	
+			sumTotal=sumTotal+parseFloat($(this).text());	
 		})
-		$('label[title=total]').html(sumTotal)
+		$('label[title=total]').html(sumTotal.toFixed(2));
 	}
-	function checkQuantPositive(quant){
-	num = new Number(quant);
-	console.log('check',quant);
-    if( !(num > 0.1) )
-    	return false;
-    return true;
-}
+	function checkQuantOk(quant){
+		num = new Number(quant);
+		console.log('check',quant);
+		if(!$.isNumeric(quant))
+			{console.log("num",quant);
+			return false;
+			}
+	    if(num < 0.1)
+	    	return false;
+	    return true;
+	}
 
 </script>
 </head>
 <body>
 <div align="center">
+<label class="textTer">Mi Compra</label> 
 <form action="/chieti/changeOrder2/" method="post">
 <table>
     {% for item in todos %} <!-- OJO is a vector of jsons -->

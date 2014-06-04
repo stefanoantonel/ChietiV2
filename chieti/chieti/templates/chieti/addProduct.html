@@ -15,10 +15,13 @@ $(function() {
       select: function( event, data ) {
 		   $("#tipoProd").html("Cliente: "+data.item.name+"<br/>Id: "+data.item.id);
 		   //INSERTA UNO NUEVO CADA VEZ con el ID
-		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.name+", cant:<input id="+data.item.id+" name='itemPromo' class='quant' >"+data.item.um);
+
+		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.name+", cant:<input id="+data.item.id+" name='itemPromo' class='quant itemPromo' >"+data.item.um);
 		   // $("#prodPromo").append(data.item.um);
-		    $("#prodPromo").append(""); //AGREGAR EL BOTON PARA ELIMINAR
-		    $("#prodPromo").append("</li>")
+		    $("#prodPromo").append("<input type='button' class='delete' value='Eliminar'>"); //AGREGAR EL BOTON PARA ELIMINAR
+		    $("#prodPromo").append("</li>");
+		    //subItems();
+		    setDelete();
 	}
     });
     
@@ -38,27 +41,73 @@ $(function() {
 	});	
     
   });
- /*
-$(document).ready(function() {
-  	
+ 
+$(document).ready(function() {	
 	$('.ready').click(function(){
-		console.log('readdd');
-		itemsPromo=$('.itemsContainer').children();
+		//subItems();
+	
+		itemsPromo=	$('.itemPromo')
 		arrayItems=[];
-		
-		$(itemsPromo).each(function(inde,valu){
-			item=[];
-			item.push($(valu).attr('id'));
-			quant=$(valu).find('.quant').val();
-			item.push(quant);
-			arrayItems.push(item);
-			console.log(arrayItems[1]); //id + cant
+		$(itemsPromo).each(function(inde,inputCurr){
+			console.log(inputCurr);
+			id=($(inputCurr).attr('id'));
+			quant=($(inputCurr).val());
+			j={'id':id,'quant':quant}
+			arrayItems.push(j);
+			//console.log(arrayItems); //id + cant
 		});
+		items={'itemsPromo':arrayItems}
+		j=JSON.stringify(items);
+		
+	  	$('#json').val(j);
+		
+	});
+	/*
+		var data = {
+	  title: "Jobs",
+	  names: ["John", "Bill", "Stacey"],
+	  positions: [
+	    {title: "Engineer", id: 1},
+	    {title: "Manager", id: 2}
+	  ]
+	};
 
+	document.getElementById("my_form").onclick = function() {
+	  this.elements.json.value = JSON.stringify(data);
+	};
+	*/
+});
+function setDelete(){
+	$('.delete').click(function(){
+		$(this).prev().remove();
+		$(this).remove();
+	});
+}
+/*
+function subItems(){
+	
+	itemsPromo=$('.itemPromo')
+
+	arrayItems=[];
+	$(itemsPromo).each(function(inde,inputCurr){
+			console.log(inputCurr);
+			id=($(inputCurr).attr('id'));
+			quant=($(inputCurr).val());
+			j={'id':id,'quant':quant}
+			arrayItems.push(j);
+			//console.log(arrayItems); //id + cant
+		});
+	items={'itemsPromo':arrayItems}
+	
+	j=JSON.stringify(items);
+	console.log(j);
+}
+*/
+/*
 		
 		Ingrese el nombre del producto <input type="text" name="name"><div></div>
-		Ingrese el precio del producto <input type="text" name="sellPrice"><div></div>
-		Ingrese el precio de compra <input type="text" name="buyPrice"><div></div>
+		Ingrese el precio del producto <input type="text" name="sellPrice"><div></iv>
+		Ingrese el precio de compra <input type="text" name="buyPrice"><div>;div>
 		Ingrese la imagen<input type="file" name="image" />
 		<br/>
         Seleccion Unidad de Medida: 
@@ -126,14 +175,14 @@ $(document).ready(function() {
 			
 			<br/>
 			<div id="subProd" style="display:none" class="ui-widget">
-			  <label for="tags">Subproductos: </label>
-		    <input id="tags">
+			  	<label for="tags">Subproductos: </label>
+		    	<input id="tags">
 		    </div>
 		    
 		   <input id="tipoProd" name="tipoProd" style="display:none" value="0"/>
 		   
 		   <ul id="prodPromo" class='itemsContainer'></ul>
-		   
+			<input name='jsonItemPromo' id='json' type="hidden" >		   
 		   <input type="submit" class='ready'/>   
 
 	</form>  

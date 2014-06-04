@@ -9,7 +9,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
-from django.core.files import File
+
 from django.template.loader import render_to_string
 import json
 from _elementtree import tostring
@@ -121,9 +121,21 @@ def addProd2(request):
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=cat,buyPrice=buyP)
 	pr.save()
 	
+	jsonItemsPromo=request.POST.get('jsonItemPromo')
+	j=json.loads(jsonItemsPromo)
+
+	for item in j['itemsPromo']:
+		it=itemPromo(promoFK_id=pr.id,productFK_id=item['id'],promoQuantity=item['quant'])
+		it.save()
+	#it=itemPromo(promoFK_id=pr.id,productFK=)
+	#print 'oculto', oculto1
 	#carr=car(photo=image)
 	#carr.save()
-
+	
+	#productFK=models.ForeignKey(product, related_name='product')
+	#promoFK=models.ForeignKey(product, related_name='items')
+	#promoQuantity=m
+	
 	#id=pr.id
 	#print image
 	#with open('chieti/static/chieti/images/'+str(id)+'.jpg', 'w') as f:
@@ -213,16 +225,17 @@ def changePrice2(request):
 def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
-	print ('quantity:',quant)
-	print ('prod:',ids)
-	# p=product.object.get(id=ids) 
-	# q=quant
-	# o=order.objects.filter(id=1)
-	
-	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
-	i.save()
-	
-	return HttpResponse('true')
+	if quant.isdigit():
+		print ('quantity:',quant)
+		print ('prod:',ids)
+		# p=product.object.get(id=ids) 
+		# q=quant
+		# o=order.objects.filter(id=1)
+		
+		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
+		i.save()
+		return HttpResponse('true')
+	return HttpResponse('false')
 
 @login_required(login_url='/chieti/singIn/')
 def changeOrder(request):
@@ -241,15 +254,17 @@ def changeOrder2(request):
 	itemId = request.POST.getlist("itemId")
 	productId = request.POST.getlist("productId")
 	quant = request.POST.getlist("quantity")
-	# pri=request.POST.get('product11')
-	# pr=product(measureUnit ='kg',salePrice=pri,name=nam)
-	# pr.save()
-	for i in range(0, len(itemId)):
-		item.objects.filter(id=itemId[i]).update(quantity=quant[i])
-	
-	# c=(itemId,productId)
-	# return HttpResponse(c)
-	return redirect(showProduct)
+	if quant.isdigit():
+		# pri=request.POST.get('product11')
+		# pr=product(measureUnit ='kg',salePrice=pri,name=nam)
+		# pr.save()
+		for i in range(0, len(itemId)):
+			item.objects.filter(id=itemId[i]).update(quantity=quant[i])
+		
+		# c=(itemId,productId)
+		# return HttpResponse(c)
+		return redirect(showProduct)
+	return redirect(showProduct) 
 
 @login_required(login_url='/chieti/singIn/')
 def changeOrder3(request):
@@ -257,8 +272,9 @@ def changeOrder3(request):
 	itemId = request.POST.get("itemId")
 	quant = request.POST.get("quantity")
 	print 'idItem',itemId,' quant', quant
-	item.objects.filter(id=itemId).update(quantity=quant)
-	print item.objects.get(id=itemId)
+	if quant.isdigit():
+		item.objects.filter(id=itemId).update(quantity=quant)
+		print item.objects.get(id=itemId)
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')

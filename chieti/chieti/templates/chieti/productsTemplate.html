@@ -62,11 +62,11 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	unidadMedida= $(template).find("[name='UnidadMedida']");
 	$(unidadMedida).html(um);
 	pr= $(template).find(".price");
-	console.log("PR: ",$(pr));
 	$(pr).html(saleP);
+	$(pr).attr("title",saleP);
 	
 	//CENTRAR
-	$(template).css({position: "absolute",top:'30%',left:'35%'});
+	//$(template).css({position: "absolute",top:'30%',left:'35%'});
 	$(template).css("display","");
 	console.log($(template));
 	$("#divAutoComplete").append(template);
@@ -164,10 +164,14 @@ function Desaparecer(id){
 		    
 
 	});
-function checkQuantPositive(quant){
+function checkQuantOk(quant){
 	num = new Number(quant);
 	console.log('check',quant);
-    if( !(num > 0) )
+	if(!$.isNumeric(quant))
+		{console.log("num",quant);
+		return false;
+		}
+    if(num < 0.1)
     	return false;
     return true;
 }
@@ -178,7 +182,8 @@ function addClick(){
     var ids= $(this).siblings("input[name=ids]").attr("id");
     console.log("agregar id:",ids);
     var quant= $(this).siblings('input[name=quantity]').val()
-    if(checkQuantPositive(quant)==true){
+    divActual=$(this);
+    if(checkQuantOk(quant)==true){
     	console.log("ids:",ids,quant)
         $.ajax({
             url: '/chieti/addToOrder/',
@@ -192,12 +197,20 @@ function addClick(){
                 if (data != 'true'){
                 	$('body').html(data);
                 }
+                else{
+                	// Agregar efecto
+                	$(divActual).parents(".divActual").remove();                	
+                }
+                }
 
 
-            }
-        });
+            });
     }
-        
+    else{
+    	alert("Cantidad debe ser un numero");
+    }
+     
+    
 }
 function setQuantity(){
 	$('.quantity').change(function(){
@@ -244,15 +257,15 @@ function setQuantity(){
 </div>
 </div>
 
-<div style="display:none;" class="divInvisible divAuto">
-<button id="close" style="position:absolute; left:40px;top:5px;">x</button>
+<div style="display:none;" class="divInvisible divAuto"  align="center">
+<button id="close" style="position:absolute; left:30px;top:5px;">x</button>
 	    	<section >
 	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>
 	        <br/>
 	        <label name='name' class="product" ></label>
 	        <br/>
 	        <label id="labQuantity" for='quantity'>Cant:</label>
-	        <input name='quantity' type="number" class="quantity" min=0.001 value="" pattern="[0-9]{10}" required="required" style="width:50%">
+	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%">
 	        <label name='UnidadMedida'></label>
 	        <br/>
 	        <label>Precio: $</label>
