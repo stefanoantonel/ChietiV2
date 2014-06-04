@@ -175,8 +175,8 @@ class item(models.Model):
 		pass
 
 class itemPromo(models.Model):
-	productFK=models.ForeignKey(product, related_name='product')
-	promoFK=models.ForeignKey(product, related_name='items')
+	productFK=models.ForeignKey(product, related_name='product') #que soy 
+	promoFK=models.ForeignKey(product, related_name='items') #a quien me asocio
 	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
