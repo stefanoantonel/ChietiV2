@@ -4,13 +4,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from django.db import models
-from django.core.files.storage import FileSystemStorage
-
-fs = FileSystemStorage(location='/static/images')
-
-class Car(models.Model):
-    photo = models.ImageField(upload_to=fs)
 
 class category(models.Model):
 	number=models.IntegerField()
@@ -182,8 +175,8 @@ class item(models.Model):
 		pass
 
 class itemPromo(models.Model):
-	productFK=models.ForeignKey(product, related_name='product')
-	promoFK=models.ForeignKey(product, related_name='items')
+	productFK=models.ForeignKey(product, related_name='product') #que soy 
+	promoFK=models.ForeignKey(product, related_name='items') #a quien me asocio
 	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
