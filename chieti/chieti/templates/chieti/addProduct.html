@@ -17,10 +17,10 @@ $(function() {
 		   //INSERTA UNO NUEVO CADA VEZ con el ID
 
 		    $("#prodPromo").append("<li name='items' id="+data.item.id+">"+data.item.name+", cant:<input id="+data.item.id+" name='itemPromo' class='quant itemPromo' >"+data.item.um);
-		   // $("#prodPromo").append(data.item.um);
+		   
 		    $("#prodPromo").append("<input type='button' class='delete' value='Eliminar'>"); //AGREGAR EL BOTON PARA ELIMINAR
 		    $("#prodPromo").append("</li>");
-		    //subItems();
+		   
 		    setDelete();
 	}
     });
@@ -44,7 +44,6 @@ $(function() {
  
 $(document).ready(function() {	
 	$('.ready').click(function(){
-		//subItems();
 	
 		itemsPromo=	$('.itemPromo')
 		arrayItems=[];
@@ -54,7 +53,7 @@ $(document).ready(function() {
 			quant=($(inputCurr).val());
 			j={'id':id,'quant':quant}
 			arrayItems.push(j);
-			//console.log(arrayItems); //id + cant
+			
 		});
 		items={'itemsPromo':arrayItems}
 		j=JSON.stringify(items);
@@ -62,20 +61,6 @@ $(document).ready(function() {
 	  	$('#json').val(j);
 		
 	});
-	/*
-		var data = {
-	  title: "Jobs",
-	  names: ["John", "Bill", "Stacey"],
-	  positions: [
-	    {title: "Engineer", id: 1},
-	    {title: "Manager", id: 2}
-	  ]
-	};
-
-	document.getElementById("my_form").onclick = function() {
-	  this.elements.json.value = JSON.stringify(data);
-	};
-	*/
 });
 function setDelete(){
 	$('.delete').click(function(){
@@ -83,75 +68,7 @@ function setDelete(){
 		$(this).remove();
 	});
 }
-/*
-function subItems(){
-	
-	itemsPromo=$('.itemPromo')
 
-	arrayItems=[];
-	$(itemsPromo).each(function(inde,inputCurr){
-			console.log(inputCurr);
-			id=($(inputCurr).attr('id'));
-			quant=($(inputCurr).val());
-			j={'id':id,'quant':quant}
-			arrayItems.push(j);
-			//console.log(arrayItems); //id + cant
-		});
-	items={'itemsPromo':arrayItems}
-	
-	j=JSON.stringify(items);
-	console.log(j);
-}
-*/
-/*
-		
-		Ingrese el nombre del producto <input type="text" name="name"><div></div>
-		Ingrese el precio del producto <input type="text" name="sellPrice"><div></iv>
-		Ingrese el precio de compra <input type="text" name="buyPrice"><div>;div>
-		Ingrese la imagen<input type="file" name="image" />
-		<br/>
-        Seleccion Unidad de Medida: 
-        <input type="radio" name="mu" value="Kg" checked="checked">Kg
-        <input type="radio" name="mu" value="Un">Unidad
-        <br/>
-        Es una promocion: 
-        <input id="siPromo" type="radio" name="promo" value="true">Si
-        <input  type="radio" name="promo" value="false" checked="checked">No
-        <br/>
-        <label for="category">Tipo de producto: </label>
-	    	<input id="category">
-		
-		<br/>
-		<div id="subProd" style="display:none" class="ui-widget">
-		  <label for="tags">Subproductos: </label>
-	    <input id="tags">
-	    </div>
-	    
-	   <input id="tipoProd" name="tipoProd" style="display:none" value="0"/>
-	   
-	   <ul id="prodPromo" class='itemsContainer'></ul>
-	   
-	   <input type="submit" class='ready'/>   
-
-	   
-		
-		$.ajax({
-            url: '/chieti/addProduct2/',
-            type: 'post', 
-            data: {
-                'arrayItems':arrayItems,
-                ,
-            },
-            success: function(data) {
-                console.log("todo ok! AJAX")
-                console.log(data)
-            }
-        });
-	});
-		
-        
-});
- */
 </script>
 </head>
 <body>

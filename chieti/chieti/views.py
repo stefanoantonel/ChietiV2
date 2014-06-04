@@ -127,50 +127,8 @@ def addProd2(request):
 	for item in j['itemsPromo']:
 		it=itemPromo(promoFK_id=pr.id,productFK_id=item['id'],promoQuantity=item['quant'])
 		it.save()
-	#it=itemPromo(promoFK_id=pr.id,productFK=)
-	#print 'oculto', oculto1
-	#carr=car(photo=image)
-	#carr.save()
-	
-	#productFK=models.ForeignKey(product, related_name='product')
-	#promoFK=models.ForeignKey(product, related_name='items')
-	#promoQuantity=m
-	
-	#id=pr.id
-	#print image
-	#with open('chieti/static/chieti/images/'+str(id)+'.jpg', 'w') as f:
-	#	myfile = File(f)
-		
-
-	#	myfile.closed
-
-	#	f.closed
-	#imgFile = open('chieti/static/chieti/images/'+str(id)+'.jpg', 'w') 
-	#imgFile.write() 
-	#imgFile.close()
-	#Stefano
-	#t=category.objects.get(id=t)
-	#pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=t)
-
-	## ACA COMENTE EL SAVE, FALTA VER items
-	########################pr.save()
-
-	#im= request.FILES['image'] 
-	#ids=pr.id
-	#path = default_storage.save('./chieti/static/chieti/productImages/'+ str(ids)+ '.jpg', ContentFile(im.read()))
-	#tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 	return redirect(addProd)
 
-
-
-#===============================================================================
-# def my_view(request):
-#     ...
-# 
-# 
-# (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-# @login_required(login_url='/chieti/singIn/')
-#===============================================================================
 
 #@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
@@ -187,14 +145,6 @@ def showProduct(request):
 	
 
 def showSales(request):
-# 	todo = product.objects.filter(isPromo='true')
-# 	itemsXPromo=dict()
-# 	for promo in todo:
-# 		itemsXPromo[promo.id]=itemPromo.objects.get(promoFK=promo.id)
-# 		x=itemsXPromo[promo.id]
-# 		print promo.id
-# 	#c = Context({'todasPromos':todo,'items':itemsXPromo})
-# 	return render(request, 'chieti/sales.html',{'todasPromos':todo,'items':itemsXPromo})
 	return render(request, 'chieti/sales2.html')
 	
 @staff_member_required
@@ -289,13 +239,7 @@ def removeItem(request):
 @staff_member_required
 def summaryBuy(request):
 	
-	# Te da JSON array
-	# a={"product":prod,"quantity":quant, "measureUnit":mu}
 	
-	#summary = orderManager.objects.get(id=request.session["orderManager"]).getSummaryBuy()
-	#x=item.objects.all()
-	
-	#item.objects.filter(orderFK=x.id)
 	summary = orderManager.objects.get(id=1).getSummaryBuy()
 	
 	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
@@ -303,40 +247,6 @@ def summaryBuy(request):
 @staff_member_required
 def printOrders(request):
 	
-	
-	
-	#===========================================================================
-	# 
-	# orders=order.objects.filter(orderManagerFK=1)
-	# for ords in orders:
-	# 	print ords.userFK.name, " Numero de Orden:",ords.id
-	# 	items=item.objects.filter(orderFK=ords)
-	# 	for it in items:
-	# 		print it.productFK.name, it.quantity, it.productFK.salePrice, it.getSubtotal()
-	# 	print ords.getTotal()
-	# 
-	#===========================================================================
-	
-	#===========================================================================
-	# orders=order.objects.filter(orderManagerFK=1)
-	# orderManagerArray=[]
-	# for ords in orders:
-	# 	items=item.objects.filter(orderFK=ords)
-	# 	productArray=[]
-	# 	for it in items:
-	# 		prod={'productName':it.productFK.name, 
-	# 			'quantity':it.quantity,
-	# 			'salePrice':it.productFK.salePrice, 
-	# 			'subTotal':it.getSubtotal(),
-	# 			'canceled':it.productFK.canceled,}
-	# 		productArray.append(prod)
-	# 	orde={'userName':ords.userFK.name,
-	# 		'orderNumber':ords.id,
-	# 		'products':productArray,
-	# 		'totalPrice':ords.getTotal(),}
-	# 	orderManagerArray.append(orde)
-	# pass
-	#===========================================================================
 	
 	orderMan = orderManager.objects.get(id=1)
 	summary = orderMan.getSummarySell()
@@ -358,25 +268,12 @@ def cancelProduct2(request):
 def sendMail(request):
 	
 	
-	#===========================================================================
-	# name=request.POST.get('name')
-	# lastName=request.POST.get('lastName')
-	# email=request.POST.get('email')
-	# address=request.POST.get('address')
-	#===========================================================================
-	
-	
 	subject, from_email, to = 'Welcome Chieti Online' , 'chietionline@gmail.com', request.session['emailTemp']
 	text_content = 'This is an important message.'
 	
 	# html_content='<a href="localhost:8000/chieti/singUp3/?email='+request.session['emailTemp']+'>Presione aqui para confirmar su registracion</a>'
 	
 	html_content = render_to_string('chieti/email.html', {'mail': request.session['emailTemp'], 'name':request.session['userNameTemp']})
-	#===========================================================================
-	# html_content =html_content + ' <p>This is an <strong>important</strong> message.'
-	# html_content=html_content + str(name)
-	# html_content=html_content +'</p>'
-	#===========================================================================
 	
 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 	msg.attach_alternative(html_content, "text/html")
@@ -478,13 +375,7 @@ def singUp2Fake(request):
 		orderT1=order(userFK=u, orderManagerFK=om)
 		orderT1.save()
 
-		#orderT1=order(userFK=u, orderManagerFK=om)
-		#orderT1.save()
 		checkOrderExist(u)
-		#orderT1=order(userFK=u, orderManagerFK=om)
-		#orderT1.save()
-		#u2=authenticate(username=nameT, password=pass2)
-		#login (request, u2)
 		request.session["order"]= orderT1.id
 		
 		request.session['user'] = u.id
@@ -513,22 +404,6 @@ def singUp3(request):
 	nameT1=temp.userDj.username
 	
 	if mailT1 == mailT2 and nameT1 == nameT2:
-		#=======================================================================
-		# nameT = request.session['userNameTemp']
-		# lastNameT = request.session['lastNameTemp']
-		# emailT = request.session['emailTemp']
-		# addressT = request.session['addressTemp']
-		# passwordT = request.session['password']
-		# 
-		# u = user(name=nameT, lastName=lastNameT, adress=addressT, phone='', email=emailT, password=passwordT)
-		# u.save()
-		#=======================================================================
-		
-		
-		#user.objects.filter(id=temp.id).update(activated='true')
-		#om=orderManager()
-		#om.save()
-		#u1=authenticate(username='john', password='johnpassword')
 		u.is_active=1
 		u.save()
 		om = orderManager.objects.get(id=1)
@@ -551,31 +426,10 @@ def changeUser(request):
 	todo = user.objects.all()
 	return render(request, 'chieti/changeUser.html',{'todos':todo})
 	
-	# return render_to_response(fp,{'todos',todo
-
-#===============================================================================
-# @staff_member_required
-# def changeUser2(request): #login with fake user.	
-# 	personId = request.POST.get('idPer')
-# 	us=user.objects.get(id=personId)
-# 	fp = open('chieti/singIn.html')
-# 	t = Template(fp.read())
-# 	fp.close()
-# 	c = Context({'username':us.userDj.username})
-# 	html = t.render(c)
-# 	return HttpResponse(html)
-#===============================================================================
-
 @staff_member_required
 def changeUser2(request):
 	personId = request.POST.get('idPer')
 	us=user.objects.get(id=personId)
-	
-	#print 'person',us.userDj.username,us.userDj.password
-	#us2=us.userDj
-	#authenticate(username=us2.username, password=us2.password)
-	
-	#login(request, us2)
 	
 	checkOrderExist(us)
 	request.session["order"]= order.objects.get(userFK=us.id,delivered='false').id
@@ -655,20 +509,6 @@ def changeProduct2(request):
 	if(delet =='true'):
 		product.objects.filter(id=prodId).delete()
 	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele) 
-	#print 'person',us.userDj.username,us.userDj.password
-	#us2=us.userDj
-	#authenticate(username=us2.username, password=us2.password)
-	
-	#login(request, us2)
-	
-	#===========================================================================
-	# 
-	# checkOrderExist(us)
-	# request.session["order"]= order.objects.get(userFK=us.id).id
-	# request.session['user'] = us.id
-	# return redirect(showProduct)
-	# # return render_to_response(fp,{'todos',todo})
-	#===========================================================================
 	return HttpResponse("Todo ok Change PRod")
 
 
