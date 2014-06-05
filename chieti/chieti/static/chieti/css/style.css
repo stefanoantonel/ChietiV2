@@ -18,6 +18,7 @@ li a {
 .productImg{
 	width:100%;
 	height: 100%; 
+	z-index:1;
 }
 .productImg2{
 	display: block;
@@ -69,7 +70,7 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 	height: 400px;*/
 	width:100mm;
 	height:130mm;
-	z-index:99;
+	z-index:2;
 	position: absolute;
 	left: calc(50% - 50mm);
 	top: calc(50% - 20mm)
@@ -254,5 +255,9 @@ border: 1px solid black;
 	border-color: aqua;
 	border-style:outset;
 	width: 300px;
+}
 
+.fuenteComun{
+	font-size: 20px;
+	font-family: "Verdana";
 }

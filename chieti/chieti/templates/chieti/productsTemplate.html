@@ -195,7 +195,9 @@ function addClick(){
             success: function(data) {
                 console.log("todo ok! AJAX")
                 if (data != 'true'){
-                	$('body').html(data);
+                	//$('body').html(data);
+                	//$("#singIn").css("display","block");
+                	var myWindow = window.open("/chieti/singIn", "", "width=300, height=300"); 
                 }
                 else{
                 	// Agregar efecto
@@ -277,7 +279,3 @@ function setQuantity(){
 	    </div>
 
 </body>
-
-<iframe id="sing" width="400" height="400" src="/chieti/singIn" style="display:none"></iframe>
-
-</html>

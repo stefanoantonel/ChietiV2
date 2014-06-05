@@ -440,6 +440,10 @@ def changeUser2(request):
 def singIn(request):
 	return render(request, 'chieti/singIn.html',{'error':''})
 
+def bienvenido(request):
+	return render(request, 'chieti/bienvenido.html')
+
+
 def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
@@ -452,7 +456,8 @@ def singIn2(request):
 			userParentId=userParent.id
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
-			return redirect(showProduct)
+			#return redirect(showProduct)
+			return redirect(bienvenido)
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
