@@ -450,7 +450,9 @@ def changeUser2(request):
 	# return render_to_response(fp,{'todos',todo})
 
 def singIn(request):
-	return render(request, 'chieti/singIn.html',{'error':''})
+	isVentana = request.GET.get('ventana')
+	print("ventana singIn",isVentana);
+	return render(request, 'chieti/singIn.html',{'error':'','isVentana':isVentana})
 
 def bienvenido(request):
 	return render(request, 'chieti/bienvenido.html')
@@ -460,7 +462,7 @@ def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	isVentana=0;
-	isVentana = request.GET.get('ventana')
+	isVentana = request.POST.get('isVentana')
  	
 	print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
@@ -473,7 +475,8 @@ def singIn2(request):
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
 
-			if(isVentana==1):
+			if(isVentana=="1"):
+				print 'es 1'
 				return redirect(bienvenido)
 			return redirect(showProduct)
 
@@ -579,3 +582,5 @@ def logOut(request):
 	logout(request)
 	return render(request, 'chieti/homePage2.html')
 
+def singInPop(request):
+	return render(request, 'chieti/singInPop.html')
