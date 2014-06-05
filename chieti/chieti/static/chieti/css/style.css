@@ -204,14 +204,7 @@ border: 1px solid black;
 	background-image:url('/static/chieti/images/cajonPedido.png');
 }
 
-.comprar{
-	width:300px;
-	height:80px;
-	background-size: 100% 100%;
-	display:block;
-	margin-top:5%;
 
-}
 
 .comprar.fuente{
 	font-size: 25px;
@@ -252,12 +245,15 @@ border: 1px solid black;
 
 .formLogIn{
 	/*border: medium;*/
-	border-color: aqua;
+	border-color: #FFCAA6;
 	border-style:outset;
 	width: 300px;
+	border-width: 8px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .fuenteComun{
-	font-size: 20px;
+	font-size: 15px;
 	font-family: "Verdana";
 }

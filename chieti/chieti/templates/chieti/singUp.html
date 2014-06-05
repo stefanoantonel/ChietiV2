@@ -1,16 +1,17 @@
-mo<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/buttonStyle.css' %}" />
 <script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
 <title>Sing Up</title>
 </head>
 <body>
 {{error}}
 <div class="formLogIn">
-<form action="/chieti/singUp2/" method="post">
+<form action="/chieti/singUp2/" method="post" align="middle">
 	<table>
 		<tr>
 		<td><label>Ingrese Usuario</label></td>
@@ -43,11 +44,11 @@ mo<!DOCTYPE html>
 		
 		<tr>
 		<td><label>Ingrese direccion</label></td>
-		<td><input type="text" name=address required="required"></td>
+		<td><input  type="text" name=address required="required"></td>
 		</tr>
 	<tr>
 </table>
-<input type="submit" value="Listo">
+<input class= "button white singIn" style="margin:5px;" type="submit" value="Listo">
 
 </div>
 

@@ -17,15 +17,15 @@
 <title>Chieti</title>
 </head>
 <body>
-<div class="formLogIn fuente">
+<div class="formLogIn fuenteComun">
 	{{error}}
-		<form action="/chieti/singIn2/" method="post">
+		<form action="/chieti/singIn2/" method="post" align="middle">
 			<input type="text" name='username' placeholder="Username" value='{{username}}'>
 			<br/>
 			<input type="password" name='password' placeholder="Password">
-			<input class="button white" type="submit" value="Ingresar">
+			<input class="button white singIn" type="submit" value="Ingresar">
 		</form>
-		<a class="fuenteComun" href="/chieti/singUp">Registrarse</a><br>
-		<a class="fuenteComun" href="/chieti/changePass0">Olvide mi clave</a>
+		<a class="fuenteComun"  href="/chieti/singUp">Registrarse</a><br>
+		<a class="fuenteComun"  href="/chieti/changePass0">Olvide mi clave</a>
 </div>
 </body>
