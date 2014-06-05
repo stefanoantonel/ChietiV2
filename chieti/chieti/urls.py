@@ -70,7 +70,7 @@ urlpatterns = patterns('',
 	url(r'adm/','chieti.views.adm'),
     url(r'findProductById/','chieti.views.findProductById'),
     url(r'printPrice/','chieti.views.printPrice'),
-
+    url(r'logOut/','chieti.views.logOut'),
 
 
 

@@ -560,3 +560,8 @@ def findProductById(request):
 def printPrice(request):
 	p=product.objects.all()
 	return render(request, 'chieti/printPrice.html',{'todos':p})
+
+def logOut(request):
+	logout(request)
+	return render(request, 'chieti/homePage2.html')
+
