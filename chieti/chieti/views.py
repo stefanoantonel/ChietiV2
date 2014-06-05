@@ -337,19 +337,22 @@ def singUp2(request):
 		lastNameT = request.POST.get('lastName')
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
-		
-		request.session['userNameTemp']=nameT
-		request.session['emailTemp']=emailT
-		
-		#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
-		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
-		u1.last_name=lastNameT
-		u1.is_active=0
-		u1.save()
-		u=user(userDj=u1,address=addressT, phone='',)
-		u.save()
-		
-		return redirect(sendMail)
+		uExist=User.objects.get(username=nameT)
+		print uExist
+		if not uExist:
+			request.session['userNameTemp']=nameT
+			request.session['emailTemp']=emailT
+			
+			#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+			u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
+			u1.last_name=lastNameT
+			u1.is_active=0
+			u1.save()
+			u=user(userDj=u1,address=addressT, phone='',)
+			u.save()
+			return redirect(sendMail)
+		else:
+			return render(request, 'chieti/singUp.html',{'error':'Nombre ya en uso'})	
 	else:
 		return render(request, 'chieti/singUp.html',{'error':'Claves son distintas'})
 		
@@ -522,12 +525,13 @@ def changeProduct2(request):
 
 def usernameExist(request):
 	param=request.POST.get('name')
-	print param
 	us=User.objects.filter(username=param)
-	print us
+	
 	if not us: #no exist
-		return HttpResponse("Usuario correcto")
-	return HttpResponse("Usuario Existente, elija otro")
+		#image_data = open("chieti/static/chieti/images/fine.png", "rb").read()
+		#return HttpResponse(image_data, mimetype="image/png")
+		return HttpResponse("Usuario OK")
+	return HttpResponse("Usuario MAL")
 
 def changeUserData(request):
 	print request.session['user']
