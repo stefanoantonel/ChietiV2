@@ -296,24 +296,27 @@ def changePass0(request):
 
 def changePass1(request):
 	mailT2 = request.POST.get('email')
-	print 'mailT2',mailT2
-	cont={'mail': mailT2, 'name':''}
+	usernameT2 = request.POST.get('username')
+	
+	cont={'mail': mailT2, 'name':usernameT2}
 	sendMail2(request, mailT2,cont)
 	return HttpResponse('Se le envio un mail para su confirmacion')
 	#changePass2(request, mailT2)
 
 def changePass2(request):
 	mailT2 = str(request.GET.get('email'))
+	usernameT2 = str(request.GET.get('username'))
 	
-	return render(request, 'chieti/changePass2.html', {'mail':mailT2})
+	return render(request, 'chieti/changePass2.html', {'mail':mailT2,'name':usernameT2})
 	
 def changePass3(request):
 	mailT2 = request.POST.get('email')
-	print 'email:', mailT2
+	usernameT2 = request.POST.get('name')
+	
 	pass1 = request.POST.get('pass1')
 	pass2 = request.POST.get('pass2')
 	if pass1==pass2:
-		u=User.objects.get(email=mailT2)
+		u=User.objects.get(email=mailT2,username=usernameT2)
 		u.set_password(pass1)
 		u.save()
 	return redirect(showProduct)
