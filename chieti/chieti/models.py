@@ -43,16 +43,6 @@ class Employee(models.Model):
 	user = models.OneToOneField(User)
 	department = models.CharField(max_length=100)
 	
-	#===========================================================================
-	# def __init__(self,nam,last,addr,pho,emai,passw):	
-	# 	self.id #deberia ir a buscar 
-	# 	self.name=nam
-	# 	self.lastName=last
-	# 	self.address=addr
-	# 	self.phone=pho
-	# 	self.email=emai
-	# 	self.password=passw
-	#===========================================================================
 	
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
@@ -97,16 +87,7 @@ class orderManager(models.Model):
 		pass
 	def getSummarySell(self):# elemento y cantidad
 		
-		#orders=order.objects.filter(orderManagerFK=1)
-		#orders=order.objects.all()
-		
-		#orders=order.objects.filter(getItem=items,delivered='false').distinct() #if item is in order, order is not empty
 		orders=order.objects.filter(getItem__isnull=False,delivered='false').distinct()
-		#------------
-		#i = item.objects.all()
-		#orders=order.objects.filter(id__in=i)
-		#print ("orders",orders)
-		#-------------
 		orderManagerArray=[]
 		for ords in orders:
 			items=item.objects.filter(orderFK=ords)
@@ -141,12 +122,9 @@ class order(models.Model):
 	userFK=models.ForeignKey(user)
 	orderManagerFK=models.ForeignKey(orderManager,related_name='getOrderManager')
 	delivered=models.CharField(default='false',max_length=5)
-	#deliver=models.BinaryField(default='false')
-	#oro=models.ManyToOneRel(orderManager)
-	# items 
 	
 	def getTotal(self):
-		## for each item get subtotal
+
 		it=item.objects.filter(orderFK=self)
 		sumTotal=0
 		for i in it:
@@ -180,26 +158,3 @@ class itemPromo(models.Model):
 	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
-	
-
-#===============================================================================
-# class promo(product):
-#	 #items=None #list
-#	 items=[]
-#	 discountPercent=models.FloatField()
-# 
-#	 def addDiscountPercent(self,mount):
-#		 self.discountPercent=mount
-# 
-#	 def addItem(self,item):
-#		 self.items.append(item)
-#		 
-#		 
-# class singleProduct(product):
-#	 buyPrice=models.FloatField()
-#	 def addBuyPrice(self,price):
-#		 self.buyPrice=price	 
-#	 
-#===============================================================================
-
-	
