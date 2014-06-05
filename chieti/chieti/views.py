@@ -453,6 +453,10 @@ def bienvenido(request):
 def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
+	isVentana=0;
+	if 'ventana' in request.GET:
+		isVentana = request.GET['ventana']
+	print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
 	if user1 is not None: #if exist
 		if user1.is_active: 
@@ -462,8 +466,9 @@ def singIn2(request):
 			userParentId=userParent.id
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
-			#return redirect(showProduct)
-			return redirect(bienvenido)
+			if(isVentana==1):
+				return redirect(bienvenido)
+			return redirect(showProduct)
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
@@ -484,8 +489,6 @@ def markDelivered(request):
 	return redirect(showProduct)
 	pass
 
-def logOut(request):
-	logout(request)
 
 def checkOrderExist(us):
 	a=order.objects.filter(userFK=us,delivered="false")
