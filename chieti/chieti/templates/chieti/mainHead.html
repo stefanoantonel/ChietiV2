@@ -18,7 +18,15 @@
 </div>
 		
 <div style="position:absolute;top: 140px; right: 5%;">
-	<a type="button" class="button white"  href="/chieti/logOut"> Cerrar Sesion</a>
+
+{% if user.is_authenticated %}
+    <a type="button" class="button white"  href="/chieti/logOut"> Cerrar Sesion</a>
+{% else %}
+    <a type="button" class="button white"  href="/chieti/singIn"> Iniciar Sesion</a>
+{% endif %}
+
+
+	
 </div>
 <script>
 var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];

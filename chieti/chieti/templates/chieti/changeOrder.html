@@ -14,7 +14,7 @@
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
-			if(checkQuantOk($(this).val()) ==true){
+			if(checkQuantOk($(this))){
 				var ant=$(this).parents('.table').find('.price').attr("title");
 				var cant=$(this).val();            
 				var dsp=(ant*cant).toFixed(2);
@@ -86,12 +86,9 @@
 		$('label[title=total]').html(sumTotal.toFixed(2));
 	}
 	function checkQuantOk(quant){
-		num = new Number(quant);
-		console.log('check',quant);
-		if(!$.isNumeric(quant))
-			{console.log("num",quant);
-			return false;
-			}
+		num=$(quant).val()
+		if(!$.isNumeric(num))
+			{return false;}
 	    if(num < 0.1)
 	    	return false;
 	    return true;
@@ -113,7 +110,7 @@
 		  <td><label title='name' class="product" >{{ item.productFK.name }}</label></td>
 		  <td><label for='quantity'>Cant:</label></td>
 		  <td><input name='quantity' type="number" class="quantity" value="{{item.quantity}}" min="0" step="0.5"></input>
-		  	  <label >{{ item.productFK.measureUnit }}</label>
+		  	  <label id="um" >{{ item.productFK.measureUnit }}</label>
 		  </td>
 		  <td><label>Precio:</label></td>
 		  <td><label name='price' class="price" title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label></td>

@@ -222,9 +222,11 @@ def changeOrder3(request):
 	itemId = request.POST.get("itemId")
 	quant = request.POST.get("quantity")
 	print 'idItem',itemId,' quant', quant
-	if quant.isdigit():
-		item.objects.filter(id=itemId).update(quantity=quant)
-		print item.objects.get(id=itemId)
+	if(quant != None):
+		q=float(quant)
+		if q.isdigit():
+			item.objects.filter(id=itemId).update(quantity=q)
+			print item.objects.get(id=itemId)
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')
@@ -454,9 +456,7 @@ def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	isVentana=0;
-	if 'ventana' in request.GET:
-		isVentana = request.GET['ventana']
-	print("isVentana",isVentana);
+	#print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
 	if user1 is not None: #if exist
 		if user1.is_active: 
