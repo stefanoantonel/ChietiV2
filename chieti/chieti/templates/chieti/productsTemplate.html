@@ -91,6 +91,13 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
             $(this).remove();
         }
     });
+	  $('.quantity').change(function(){
+		  if(!checkQuantOk($(this))){
+			  //chequear aveces no lo llama
+			  alert("Cantidad incorrecta");
+		    	$(this).focus();
+		  }
+	  });
 }
 
 
@@ -164,17 +171,21 @@ function Desaparecer(id){
 		    
 
 	});
-function checkQuantOk(quant){
-	num = new Number(quant);
-	console.log('check',quant);
-	if(!$.isNumeric(quant))
-		{console.log("num",quant);
-		return false;
-		}
-    if(num < 0.1)
-    	return false;
-    return true;
-}
+	function checkQuantOk(quant){
+		num=$(quant).val()
+		console.log("num----:",num);
+		um=$(quant).siblings("#um").html();
+		console.log("um----:",um);
+		if(!$.isNumeric(num))
+			{return false;}
+	    if(num < 0.1)
+	    	return false;
+	    if (um=="Unidad"){
+	    	if(!(num % 1 === 0))
+	    		{return false}
+	    	}
+	    return true;
+	}
 
 function addClick(){
     //ids=$(this).siblings(".ids").text()
@@ -182,8 +193,9 @@ function addClick(){
     var ids= $(this).siblings("input[name=ids]").attr("id");
     console.log("agregar id:",ids);
     var quant= $(this).siblings('input[name=quantity]').val()
+    var quantAcheck= $(this).siblings('input[name=quantity]')
     divActual=$(this);
-    if(checkQuantOk(quant)==true){
+    if(checkQuantOk(quantAcheck)==true){
     	console.log("ids:",ids,quant)
         $.ajax({
             url: '/chieti/addToOrder/',
@@ -212,7 +224,8 @@ function addClick(){
             });
     }
     else{
-    	alert("Cantidad debe ser un numero");
+    	alert("Cantidad incorrecta");
+    	$(this).focus();
     }
      
     
@@ -271,7 +284,7 @@ function setQuantity(){
 	        <br/>
 	        <label id="labQuantity" for='quantity'>Cant:</label>
 	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
-	        <label name='UnidadMedida'></label>
+	        <label id="um" name='UnidadMedida'></label>
 	        <br/>
 	        <label>Precio: $</label>
 	        <label name='price' class="price"></label>

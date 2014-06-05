@@ -181,7 +181,7 @@ def changePrice2(request):
 def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
-	if quant.isdigit():
+	if float(quant):
 		print ('quantity:',quant)
 		print ('prod:',ids)
 		# p=product.object.get(id=ids) 

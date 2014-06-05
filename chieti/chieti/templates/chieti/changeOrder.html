@@ -42,7 +42,8 @@
 	            		
 			}
 			else{
-		    	alert("Cantidad debe ser un numero");
+		    	alert("Cantidad incorrecta");
+		    	$(this).focus();
 		    }
             
 		});
@@ -87,10 +88,16 @@
 	}
 	function checkQuantOk(quant){
 		num=$(quant).val()
+		um=$(quant).siblings("#um").html();
+		console.log("um----:",um);
 		if(!$.isNumeric(num))
 			{return false;}
 	    if(num < 0.1)
 	    	return false;
+	    if (um=="Unidad"){
+	    	if(!(num % 1 === 0))
+	    		{return false}
+	    	}
 	    return true;
 	}
 
