@@ -43,9 +43,15 @@ def init(request):
 	
 	return HttpResponse('Order Manager OK')
 def test(request):
-	logout(request)
-	return render(request, 'chieti/homePage2.html')
-	
+	#logout(request)
+	#return render(request, 'chieti/homePage2.html')
+	#from django.http import HttpResponse 
+	p = request.GET.get('p')
+	if p is not None:
+		return HttpResponse(p)
+	else:
+		return HttpResponse("No hay p")
+
 
 def test1(request):
 	fp = open('./chieti/test1.html')
@@ -446,7 +452,9 @@ def changeUser2(request):
 	# return render_to_response(fp,{'todos',todo})
 
 def singIn(request):
-	return render(request, 'chieti/singIn.html',{'error':''})
+	isVentana = request.GET.get('ventana')
+	print("ventana singIn",isVentana);
+	return render(request, 'chieti/singIn.html',{'error':'','isVentana':isVentana})
 
 def bienvenido(request):
 	return render(request, 'chieti/bienvenido.html')
@@ -456,7 +464,8 @@ def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
 	isVentana=0;
-	#print("isVentana",isVentana);
+	isVentana = request.POST.get('isVentana')
+	print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
 	if user1 is not None: #if exist
 		if user1.is_active: 
@@ -466,9 +475,12 @@ def singIn2(request):
 			userParentId=userParent.id
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
-			if(isVentana==1):
+
+			if(isVentana=="1"):
+				print 'es 1'
 				return redirect(bienvenido)
 			return redirect(showProduct)
+
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
@@ -488,7 +500,6 @@ def markDelivered(request):
 	product.objects.filter().update(canceled='false')
 	return redirect(showProduct)
 	pass
-
 
 def checkOrderExist(us):
 	a=order.objects.filter(userFK=us,delivered="false")
@@ -572,3 +583,5 @@ def logOut(request):
 	logout(request)
 	return render(request, 'chieti/homePage2.html')
 
+def singInPop(request):
+	return render(request, 'chieti/singInPop.html')

@@ -200,7 +200,7 @@ function addClick(){
                     var h = 300;
                     var left = (screen.width/2)-(w/2);
                     var top = (screen.height/2)-(h/2);
-                	var myWindow = window.open('/chieti/singIn?ventana=1','','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); */
+                	var myWindow = window.open('/chieti/singIn/?ventana=1','','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);*/
                 }
                 else{
                 	// Agregar efecto
@@ -270,7 +270,7 @@ function setQuantity(){
 	        <label name='name' class="product" ></label>
 	        <br/>
 	        <label id="labQuantity" for='quantity'>Cant:</label>
-	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%">
+	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
 	        <label name='UnidadMedida'></label>
 	        <br/>
 	        <label>Precio: $</label>
