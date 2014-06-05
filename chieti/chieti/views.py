@@ -344,7 +344,7 @@ def singUp2(request):
 		lastNameT = request.POST.get('lastName')
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
-		uExist=User.objects.get(username=nameT)
+		uExist=User.objects.filter(username=nameT)
 		print uExist
 		if not uExist:
 			request.session['userNameTemp']=nameT
