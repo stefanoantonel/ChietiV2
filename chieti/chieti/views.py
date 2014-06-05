@@ -43,14 +43,14 @@ def init(request):
 	
 	return HttpResponse('Order Manager OK')
 def test(request):
-	logout(request)
-	return render(request, 'chieti/homePage2.html')
+	#logout(request)
+	#return render(request, 'chieti/homePage2.html')
 	#from django.http import HttpResponse 
-	#p = request.GET.get('p')
-	#if p is not None:
-	#	return HttpResponse(p)
-	#else:
-	#	return HttpResponse("No hay p")
+	p = request.GET.get('p')
+	if p is not None:
+		return HttpResponse(p)
+	else:
+		return HttpResponse("No hay p")
 
 
 def test1(request):
@@ -459,6 +459,10 @@ def bienvenido(request):
 def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
+	isVentana=0;
+	isVentana = request.GET.get('ventana')
+ 	
+	print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
 	if user1 is not None: #if exist
 		if user1.is_active: 
@@ -469,8 +473,10 @@ def singIn2(request):
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
 
-			#return redirect(showProduct)
-			return redirect(bienvenido,)
+			if(isVentana==1):
+				return redirect(bienvenido)
+			return redirect(showProduct)
+
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
