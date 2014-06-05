@@ -45,7 +45,13 @@ def init(request):
 def test(request):
 	logout(request)
 	return render(request, 'chieti/homePage2.html')
-	
+	#from django.http import HttpResponse 
+	#p = request.GET.get('p')
+	#if p is not None:
+	#	return HttpResponse(p)
+	#else:
+	#	return HttpResponse("No hay p")
+
 
 def test1(request):
 	fp = open('./chieti/test1.html')
@@ -462,8 +468,9 @@ def singIn2(request):
 			userParentId=userParent.id
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
+
 			#return redirect(showProduct)
-			return redirect(bienvenido)
+			return redirect(bienvenido,)
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
@@ -483,9 +490,6 @@ def markDelivered(request):
 	product.objects.filter().update(canceled='false')
 	return redirect(showProduct)
 	pass
-
-def logOut(request):
-	logout(request)
 
 def checkOrderExist(us):
 	a=order.objects.filter(userFK=us,delivered="false")
