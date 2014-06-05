@@ -268,7 +268,7 @@ def cancelProduct2(request):
 def sendMail(request):
 	
 	
-	subject, from_email, to = 'Welcome Chieti Online' , 'chietionline@gmail.com', request.session['emailTemp']
+	subject, from_email, to = 'Bienvenido Chieti Compras' , 'chietionline@gmail.com', request.session['emailTemp']
 	text_content = 'This is an important message.'
 	
 	# html_content='<a href="localhost:8000/chieti/singUp3/?email='+request.session['emailTemp']+'>Presione aqui para confirmar su registracion</a>'
@@ -282,7 +282,7 @@ def sendMail(request):
 
 def sendMail2(request,email,context):
 	print 'conte', context
-	subject, from_email, to = 'Cambiar Clave ChietiOnline' , 'chietionline@gmail.com', email
+	subject, from_email, to = 'Cambiar Clave Chieti Compras' , 'chietionline@gmail.com', email
 	text_content = 'This is an important message.'
 	html_content = render_to_string('chieti/emailPass.html', context) ##mando username y email
 	
