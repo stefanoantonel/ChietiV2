@@ -228,11 +228,10 @@ def changeOrder3(request):
 	itemId = request.POST.get("itemId")
 	quant = request.POST.get("quantity")
 	print 'idItem',itemId,' quant', quant
-	if(quant != None):
-		q=float(quant)
-		if q.isdigit():
-			item.objects.filter(id=itemId).update(quantity=q)
-			print item.objects.get(id=itemId)
+	if float(quant):
+	#if quant.isdigit():
+		item.objects.filter(id=itemId).update(quantity=quant)
+		print item.objects.get(id=itemId)
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')
