@@ -22,7 +22,6 @@ class product(models.Model):
 		return self.salePrice
 	def multItemPromo(self,cant):
 		itemsMult=[]
-		
 		for itPromo in self.items.all():
 			c=itPromo.promoQuantity*cant
 			p=itPromo.productFK.name
@@ -46,7 +45,7 @@ class Employee(models.Model):
 	
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
-	def getSummaryBuy(self):
+	def getSummaryBuy(self): #imprime todo lo que tienen que comprar.
 
 		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		orderNotDelivered = order.objects.filter(delivered='false')
@@ -83,7 +82,7 @@ class orderManager(models.Model):
 	
 	def printSummary(self,summary):# elemento y cantidad
 		pass
-	def getSummarySell(self):# elemento y cantidad
+	def getSummarySell(self):# ARma todas las ordenes. 
 		
 		orders=order.objects.filter(getItem__isnull=False,delivered='false').distinct()
 		orderManagerArray=[]
@@ -111,9 +110,9 @@ class orderManager(models.Model):
 		pass
 	def markDelivered(self):
 		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered__isnull=True)
-		print ordersNoDelivered.query
+		
 		ordersNoDelivered.update(delivered='true')
-		print 'todo ok Delivered'
+		
 		
 
 class order(models.Model):
