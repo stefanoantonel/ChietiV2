@@ -35,7 +35,7 @@ var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images
 i = 0,
 // $swap = $("#swap");
 swapper=0;
-	console.log("mouse in");
+	
 function swapImg(){
   i = i % images.length;
   $("#swap").attr("src",images[i]);        
@@ -59,6 +59,7 @@ $(document).ready(function() {
 				window.location="/chieti/home";
 				})
 }); 
+
 </script>
 </body>
 </html>

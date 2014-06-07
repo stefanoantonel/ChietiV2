@@ -68,10 +68,10 @@ def auto(request):
 	return render(request, 'chieti/autocomplete.html')
 	
 def complete(request):
-	print "autooooo"
+
 	term=request.GET.get('term')
 	prod = product.objects.filter(name__icontains=term)
-	print ("prod:",prod)
+
 	productArray=[]
 	lista=[]
 	for p in prod:
@@ -79,15 +79,15 @@ def complete(request):
 		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit, "saleP" : saleP}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
-	print ("l:",lJson)
+
 	return HttpResponse(lJson)
 
 
 def compCategory(request):
-	print "category"
+	
 	term=request.GET.get('term')
 	cat = category.objects.filter(description__icontains=term)
-	print ("cat:",cat)
+	
 	productArray=[]
 	lista=[]
 	for c in cat:
@@ -95,7 +95,7 @@ def compCategory(request):
 		ppp={"label" : c.description, "id" : c.number}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
-	print ("l:",lJson)
+	
 	return HttpResponse(lJson)
 
 
@@ -117,7 +117,6 @@ def addProd2(request):
 
 	
 	if not c.isdigit():
-		print 'entro no'
 		c=category.objects.get(description=c).id
 		pass
 	#items=request.POST.get('items', '')
@@ -182,8 +181,6 @@ def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
 	if float(quant):
-		print ('quantity:',quant)
-		print ('prod:',ids)
 		# p=product.object.get(id=ids) 
 		# q=quant
 		# o=order.objects.filter(id=1)
@@ -227,11 +224,9 @@ def changeOrder3(request):
 	# ids=request['ids']
 	itemId = request.POST.get("itemId")
 	quant = request.POST.get("quantity")
-	print 'idItem',itemId,' quant', quant
 	if float(quant):
 	#if quant.isdigit():
 		item.objects.filter(id=itemId).update(quantity=quant)
-		print item.objects.get(id=itemId)
 	return redirect(showProduct)
 
 @login_required(login_url='/chieti/singIn/')
@@ -286,7 +281,6 @@ def sendMail(request):
 	return render(request, 'chieti/homePage2.html',{'mnjEmail':'Se le envio un mail para su confirmacion'})
 
 def sendMail2(request,email,context):
-	print 'conte', context
 	subject, from_email, to = 'Cambiar Clave ChietiOnline' , 'chietionline@gmail.com', email
 	text_content = 'This is an important message.'
 	html_content = render_to_string('chieti/emailPass.html', context) ##mando username y email
@@ -343,7 +337,6 @@ def singUp2(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		uExist=User.objects.filter(username=nameT)
-		print uExist
 		if not uExist:
 			request.session['userNameTemp']=nameT
 			request.session['emailTemp']=emailT
@@ -450,7 +443,6 @@ def changeUser2(request):
 
 def singIn(request):
 	isVentana = request.GET.get('ventana')
-	print("ventana singIn",isVentana);
 	return render(request, 'chieti/singIn.html',{'error':'','isVentana':isVentana})
 
 def bienvenido(request):
@@ -462,7 +454,6 @@ def singIn2(request):
 	password = request.POST['password']
 	isVentana=0;
 	isVentana = request.POST.get('isVentana')
-	print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
 	if user1 is not None: #if exist
 		if user1.is_active: 
@@ -474,7 +465,6 @@ def singIn2(request):
 			request.session['user'] = userParentId
 
 			if(isVentana=="1"):
-				print 'es 1'
 				return redirect(bienvenido)
 			return redirect(showProduct)
 
@@ -514,7 +504,6 @@ def changeProduct(request):
 
 @staff_member_required
 def changeProduct2(request):
-	print ('entro')
 	prodId = request.POST.get('idProd')
 	#paramName=request.POST.get('paramName')
 	#paramValue=request.POST.get('paramValue')
@@ -525,9 +514,7 @@ def changeProduct2(request):
 	measureUni=request.POST.get('measureUnit')
 	delet=request.POST.get('delete')
 	cancele=request.POST.get('canceled','false')
-	
-	print 'product'
-	print nam,buyPric,salePric,categor,measureUni,delet,cancele
+
 	if(delet =='true'):
 		product.objects.filter(id=prodId).delete()
 	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele) 
@@ -545,7 +532,6 @@ def usernameExist(request):
 	return HttpResponse("MAL")
 
 def changeUserData(request):
-	print request.session['user']
 	u=user.objects.get(id=request.session['user'])
 	return render(request, 'chieti/changeUserData.html',{'us':u})
 	pass
@@ -554,7 +540,6 @@ def changeUserData2(request):
 	ids=request.POST.get('ids')
 	#nam=request.POST.get('username')
 	addr=request.POST.get('direccion')
-	print addr
 	user.objects.filter(id=ids).update(address=addr)
 	
 	pass
