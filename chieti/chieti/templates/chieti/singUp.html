@@ -71,8 +71,11 @@ $(document).ready(function(){
             },
             success: function(data) {
                 console.log(data);
-                $('.exist').html(data);
-
+                if(data){
+                	$('.exist').html("<img id='wrong' src='/static/chieti/images/wrong.png'>");}
+                else{
+                	$('.exist').html("<img id='fine' src='/static/chieti/images/fine.png'>");}
+					
             }
         });
 

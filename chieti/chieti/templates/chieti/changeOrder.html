@@ -77,6 +77,11 @@
 		})
 		
 		calTotalPrice()  	
+		
+		$("#recordatorio").click(function(){
+			$(this).remove();
+		});
+		
 	});
 	function calTotalPrice(){
 		var sumTotal=0;
@@ -104,7 +109,7 @@
 </script>
 </head>
 <body>
-<b style="align='left'">
+<b id="recordatorio" style="align='left'" class="alertMnj green2">
 	Recuerde que su compra sera entregada
 	el lunes a la direccion registrada.
 </b>

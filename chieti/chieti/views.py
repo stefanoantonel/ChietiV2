@@ -541,8 +541,8 @@ def usernameExist(request):
 	if not us: #no exist
 		#image_data = open("chieti/static/chieti/images/fine.png", "rb").read()
 		#return HttpResponse(image_data, mimetype="image/png")
-		return HttpResponse("Usuario OK")
-	return HttpResponse("Usuario MAL")
+		return HttpResponse()
+	return HttpResponse("MAL")
 
 def changeUserData(request):
 	print request.session['user']
