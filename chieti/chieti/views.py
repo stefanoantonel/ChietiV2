@@ -273,8 +273,6 @@ def cancelProduct2(request):
 	return HttpResponse(checked)
 
 def sendMail(request):
-	
-	
 	subject, from_email, to = 'Welcome Chieti Online' , 'chietionline@gmail.com', request.session['emailTemp']
 	text_content = 'This is an important message.'
 	
@@ -285,7 +283,7 @@ def sendMail(request):
 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 	msg.attach_alternative(html_content, "text/html")
 	msg.send()
-	return HttpResponse('Se le envio un mail para su confirmacion')
+	return render(request, 'chieti/homePage2.html',{'mnjEmail':'Se le envio un mail para su confirmacion'})
 
 def sendMail2(request,email,context):
 	print 'conte', context
@@ -307,7 +305,7 @@ def changePass1(request):
 	
 	cont={'mail': mailT2, 'name':usernameT2}
 	sendMail2(request, mailT2,cont)
-	return HttpResponse('Se le envio un mail para su confirmacion')
+	return HttpResponse('Revise su email para confirmar, muchas gracias')
 	#changePass2(request, mailT2)
 
 def changePass2(request):

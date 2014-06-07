@@ -17,6 +17,10 @@
 		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:150px;height:150px;" alt=""/>			 
 </div>
 		
+
+{% if mnjEmail %}
+    <a type="button" class="alertMnj green" align="center" href="/chieti/logOut"> {{mnjEmail}}</a>
+{% endif %}		
 <div style="position:absolute;top: 140px; right: 5%;">
 
 {% if user.is_authenticated %}
@@ -24,8 +28,6 @@
 {% else %}
     <a type="button" class="button white"  href="/chieti/singIn"> Iniciar Sesion</a>
 {% endif %}
-
-
 	
 </div>
 <script>
@@ -53,7 +55,8 @@ $('#swap').bind('mouseleave', function(e) {
  
  
 $('#swap').click(function(){
-		window.location="/chieti/product";
+	console.log("hizo click");
+		window.location="/chieti/home";
 		})
  
 </script>

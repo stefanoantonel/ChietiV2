@@ -254,15 +254,20 @@ function setQuantity(){
 	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">Otros</a>
 	<a id="4" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">Todos</a>
 </div>
-<img id="carrito"  class="carrito" alt="Mi compra">
-<div>
 <br/>
-<div id="divAutoComplete" style="margin-left: 20%;margin-top: 2%;">
+<div id="divAutoComplete" style="margin-left:20%;margin-top:2%;">
 	<div id="subProd" class="ui-widget">
 	     <label for="tags">Buscar Producto: </label>
 		 <input id="tags">
 	</div>	    
 </div>
+<br/>
+<div id="divLeft" class="divLeft">
+	<img id="carrito"  class="carrito" alt="Mi compra">
+</div>
+<div>
+<br/>
+
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}

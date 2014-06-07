@@ -1,3 +1,21 @@
+.alertMnj { /* clase general */
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  /*color: #555;*/
+  display: block;
+  font: bold 18px/18px HelveticaNeue, Arial;
+  padding: 8px 11px;
+}
+
+.alertMnj.green { /* clase general */
+  	padding: 15px;
+	text-decoration: none;
+	color:#EBFFE0;
+  background: 	#8AE65C;
+  border-color: #7ACC52 #C2FFA3 #d3d3d3;
+}
+
+
 .button { /* clase general */
   border: 1px solid #dedede;
   border-radius: 10px;
