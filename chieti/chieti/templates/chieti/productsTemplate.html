@@ -70,9 +70,6 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	$(template).css("display","");
 	console.log($(template));
 	$("#divAutoComplete").append(template);
-	//$( "#div"+id ).css({ position: "absolute",
-    //     marginLeft: 0, marginTop: 0,
-    //     top: pos.top, left: pos.left });
 	  $('.divInvisible').click(function(event){
 		    //event.stopPropagation();
 		    //console.log("se detuvo");
@@ -87,8 +84,8 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	  $(template).keyup(function(e) { 
 	  	console.log($(this));
         if (e.which == 27) {
-        	alert('esc');
-            $(this).remove();
+        	//alert('esc');
+            $(".divActual").remove();
         }
     });
 	  $('.quantity').change(function(){
