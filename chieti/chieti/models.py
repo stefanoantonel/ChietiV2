@@ -22,7 +22,7 @@ class product(models.Model):
 		return self.salePrice
 	def multItemPromo(self,cant):
 		itemsMult=[]
-		print ("self.items",self.items.all())
+		
 		for itPromo in self.items.all():
 			c=itPromo.promoQuantity*cant
 			p=itPromo.productFK.name
@@ -64,9 +64,7 @@ class orderManager(models.Model):
 			vector.append(a)
 			
 		for a in itP:
-			print(product.objects.get(id=a.get("productFK")).name)
 			result=product.objects.get(id=a.get("productFK")).multItemPromo(a.get('quantity'))
-			print("itemPromo:",result)
 			for prodItem in result:
 				quant=prodItem.get('cant')
 				quant=round(quant,2)

@@ -10,22 +10,22 @@
 
 var prevID;
 function popUp(id) {
-	console.log("prev: ",prevID);
+	
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
 	findProductById(id);
-	console.log("dsp find");
+	
 	var pos = $("#img"+id).position();
 	//$( "#div"+id ).css({ position: "absolute",
     //     marginLeft: 0, marginTop: 0,
     //     top: pos.top, left: pos.left });
 	$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
-    console.log("id status1: "+id);
+    
     $("#div"+id).css("display","");
 }
 
 function findProductById(id){
-	console.log("ajax id:",id);
+	
     $.ajax({
         url: '/chieti/findProductById/',
         type: 'post', 
@@ -34,8 +34,7 @@ function findProductById(id){
         },
         dataType: 'json',
         success: function(data) {
-            console.log("todo ok! AJAX");
-            console.log("name:",data.name);
+    
             popUpAutoComplete(id,data.name,data.um,data.saleP);
         }	
     });
@@ -45,7 +44,7 @@ function findProductById(id){
 
 
 function popUpAutoComplete(id,nameProd,um,saleP) {
-	console.log("prev: ",prevID);
+	
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
 	template= $(".divAuto").clone();
@@ -68,7 +67,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	//CENTRAR
 	//$(template).css({position: "absolute",top:'30%',left:'35%'});
 	$(template).css("display","");
-	console.log($(template));
+	
 	$("#divAutoComplete").append(template);
 	  $('.divInvisible').click(function(event){
 		    //event.stopPropagation();
@@ -80,9 +79,9 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 		  $(".divActual").remove();
 	  });
 	  setQuantity();
-	  console.log('temp;',template);
+	
 	  $(template).keyup(function(e) { 
-	  	console.log($(this));
+	
         if (e.which == 27) {
         	//alert('esc');
             $(".divActual").remove();
@@ -99,9 +98,9 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 
 
 function Desaparecer(id){
-			console.log("id-----------------",id);
+	
 			$("#div"+id).remove();
-			console.log("$(id)",$(id));
+	
 	}
 
 	$(document).ready(function() {
@@ -116,21 +115,21 @@ function Desaparecer(id){
 		    //event.stopPropagation();
 		});	
 	
-	  	console.log( "ready prod!" ) 		
+	
 		//$('input[name=quantity]').change(function(){
 		$('.quantity').change(function(){
 			var ant=$(this).siblings("label[name=price]").attr("title")
 			var cant=$(this).val()            
 			var dsp=ant*cant
 			dsp = dsp.toFixed(2);
-			console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+	
 			$(this).siblings('label[name=price]').html(dsp)
             
 		});
         
         
 		$(".l").click(function() {
-		  		  console.log("link id:", $(this).attr("id") );
+	
 		  		  $.ajax({
 		              url: '/chieti/product/',
 		              type: 'post', 
@@ -155,14 +154,14 @@ function Desaparecer(id){
 		      source:"/chieti/complete/",
 		      minLength:2,
 		      select: function( event, data ) {
-				  console.log("ANTES ");
+	
 				  popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
 			}
 		  });
 		  
 		//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
 		$("#close").click(function() {
-			console.log("parent:",$(this).parent("#divInvisible"));
+	
 			$(this).parent("#divInvisible").remove();
 			});
 		    
@@ -170,9 +169,9 @@ function Desaparecer(id){
 	});
 	function checkQuantOk(quant){
 		num=$(quant).val()
-		console.log("num----:",num);
+	
 		um=$(quant).siblings("#um").html();
-		console.log("um----:",um);
+	
 		if(!$.isNumeric(num))
 			{return false;}
 	    if(num < 0.1)
@@ -186,14 +185,14 @@ function Desaparecer(id){
 
 function addClick(){
     //ids=$(this).siblings(".ids").text()
-    console.log(".add");
+    
     var ids= $(this).siblings("input[name=ids]").attr("id");
-    console.log("agregar id:",ids);
+    
     var quant= $(this).siblings('input[name=quantity]').val()
     var quantAcheck= $(this).siblings('input[name=quantity]')
     divActual=$(this);
     if(checkQuantOk(quantAcheck)==true){
-    	console.log("ids:",ids,quant)
+    
         $.ajax({
             url: '/chieti/addToOrder/',
             type: 'post', 
@@ -202,7 +201,7 @@ function addClick(){
                 'quantity':quant,
             },
             success: function(data) {
-                console.log("todo ok! AJAX")
+    
                 if (data != 'true'){
                 	$('body').html(data);
                 	/* var w  = 400;
@@ -233,7 +232,7 @@ function setQuantity(){
 		var cant=$(this).val()            
 		var dsp=ant*cant
 		dsp = dsp.toFixed(2);
-		console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp)
+	
 		
 		$(this).siblings('.price').html(dsp)    
 	});

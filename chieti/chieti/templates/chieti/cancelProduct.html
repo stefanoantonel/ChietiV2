@@ -21,8 +21,6 @@ Seleccione para CANCELAR de las ordenes
 			//change the canceled state in DB
 			productId=$(this).siblings('input[name=prodId]').val()
 			checked=$(this).is(':checked')
-
-			console.log(productId,checked)
 			
 			$.ajax({
                 url: '/chieti/cancelProduct2/',
@@ -32,8 +30,6 @@ Seleccione para CANCELAR de las ordenes
                     'checked':checked,
                 },
                 success: function(data) {
-                    console.log("todo ok! AJAX")
-                    console.log(data)
                 }
             });
 
