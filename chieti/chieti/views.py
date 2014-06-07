@@ -29,10 +29,10 @@ def homa(request):
 	#return HttpResponse(html)
 	
 def quienes(request):
- 	return render(request, 'chieti/quienesSomos.html')
+	return render(request, 'chieti/quienesSomos.html')
  
 def comoComprar(request):
- 	return render(request, 'chieti/comoComprar.html')
+	return render(request, 'chieti/comoComprar.html')
 	
 def init(request):
 	
