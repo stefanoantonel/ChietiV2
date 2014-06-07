@@ -1,11 +1,33 @@
-<div class="formLogIn">
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/buttonStyle.css' %}" />
+	
+	<!-- script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}"/> 
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
+	-->
+	<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
+  	<script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
+	<script type="text/javascript"></script>
+
+		
+<title>Chieti</title>
+</head>
+<body>
+<div class="formLogIn fuenteComun">
 	{{error}}
-		<form action="/chieti/singIn2/" method="post">
+		<form action="/chieti/singIn2/" method="post" align="middle">
 			<input type="text" name='username' placeholder="Username" value='{{username}}'>
 			<br/>
 			<input type="password" name='password' placeholder="Password">
-			<input type="submit" value="Ingresar">
+			<input class="button white singIn" type="submit" value="Ingresar">
+			<input type="hidden" value="{{isVentana}}" name="isVentana">
 		</form>
-		<a href="/chieti/singUp">Registrarse</a><br>
-		<a href="/chieti/changePass0">Olvide mi clave</a>
+		<a class="fuenteComun"  href="/chieti/singUp">Registrarse</a><br>
+		<a class="fuenteComun"  href="/chieti/changePass0">Olvide mi clave</a>
 </div>
+
+</body>

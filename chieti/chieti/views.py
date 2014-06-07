@@ -1,5 +1,3 @@
-
-
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -29,10 +27,10 @@ def homa(request):
 	#return HttpResponse(html)
 	
 def quienes(request):
- 	return render(request, 'chieti/quienesSomos.html')
+	return render(request, 'chieti/quienesSomos.html')
  
 def comoComprar(request):
- 	return render(request, 'chieti/comoComprar.html')
+	return render(request, 'chieti/comoComprar.html')
 	
 def init(request):
 	
@@ -43,9 +41,15 @@ def init(request):
 	
 	return HttpResponse('Order Manager OK')
 def test(request):
-	logout(request)
-	return render(request, 'chieti/homePage2.html')
-	
+	#logout(request)
+	#return render(request, 'chieti/homePage2.html')
+	#from django.http import HttpResponse 
+	p = request.GET.get('p')
+	if p is not None:
+		return HttpResponse(p)
+	else:
+		return HttpResponse("No hay p")
+
 
 def test1(request):
 	fp = open('./chieti/test1.html')
@@ -175,7 +179,7 @@ def changePrice2(request):
 def addToOrder(request):
 	ids = request.POST.get('ids')
 	quant = request.POST.get('quantity')
-	if quant.isdigit():
+	if float(quant):
 		print ('quantity:',quant)
 		print ('prod:',ids)
 		# p=product.object.get(id=ids) 
@@ -222,7 +226,8 @@ def changeOrder3(request):
 	itemId = request.POST.get("itemId")
 	quant = request.POST.get("quantity")
 	print 'idItem',itemId,' quant', quant
-	if quant.isdigit():
+	if float(quant):
+	#if quant.isdigit():
 		item.objects.filter(id=itemId).update(quantity=quant)
 		print item.objects.get(id=itemId)
 	return redirect(showProduct)
@@ -266,9 +271,7 @@ def cancelProduct2(request):
 	return HttpResponse(checked)
 
 def sendMail(request):
-	
-	
-	subject, from_email, to = 'Bienvenido Chieti Compras' , 'chietionline@gmail.com', request.session['emailTemp']
+	subject, from_email, to = 'Welcome Chieti Online' , 'chietionline@gmail.com', request.session['emailTemp']
 	text_content = 'This is an important message.'
 	
 	# html_content='<a href="localhost:8000/chieti/singUp3/?email='+request.session['emailTemp']+'>Presione aqui para confirmar su registracion</a>'
@@ -278,11 +281,11 @@ def sendMail(request):
 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 	msg.attach_alternative(html_content, "text/html")
 	msg.send()
-	return HttpResponse('Se le envio un mail para su confirmacion')
+	return render(request, 'chieti/homePage2.html',{'mnjEmail':'Se le envio un mail para su confirmacion'})
 
 def sendMail2(request,email,context):
 	print 'conte', context
-	subject, from_email, to = 'Cambiar Clave Chieti Compras' , 'chietionline@gmail.com', email
+	subject, from_email, to = 'Cambiar Clave ChietiOnline' , 'chietionline@gmail.com', email
 	text_content = 'This is an important message.'
 	html_content = render_to_string('chieti/emailPass.html', context) ##mando username y email
 	
@@ -296,24 +299,27 @@ def changePass0(request):
 
 def changePass1(request):
 	mailT2 = request.POST.get('email')
-	print 'mailT2',mailT2
-	cont={'mail': mailT2, 'name':''}
+	usernameT2 = request.POST.get('username')
+	
+	cont={'mail': mailT2, 'name':usernameT2}
 	sendMail2(request, mailT2,cont)
-	return HttpResponse('Se le envio un mail para su confirmacion')
+	return HttpResponse('Revise su email para confirmar, muchas gracias')
 	#changePass2(request, mailT2)
 
 def changePass2(request):
 	mailT2 = str(request.GET.get('email'))
+	usernameT2 = str(request.GET.get('username'))
 	
-	return render(request, 'chieti/changePass2.html', {'mail':mailT2})
+	return render(request, 'chieti/changePass2.html', {'mail':mailT2,'name':usernameT2})
 	
 def changePass3(request):
 	mailT2 = request.POST.get('email')
-	print 'email:', mailT2
+	usernameT2 = request.POST.get('name')
+	
 	pass1 = request.POST.get('pass1')
 	pass2 = request.POST.get('pass2')
 	if pass1==pass2:
-		u=User.objects.get(email=mailT2)
+		u=User.objects.get(email=mailT2,username=usernameT2)
 		u.set_password(pass1)
 		u.save()
 	return redirect(showProduct)
@@ -334,19 +340,22 @@ def singUp2(request):
 		lastNameT = request.POST.get('lastName')
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
-		
-		request.session['userNameTemp']=nameT
-		request.session['emailTemp']=emailT
-		
-		#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
-		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
-		u1.last_name=lastNameT
-		u1.is_active=0
-		u1.save()
-		u=user(userDj=u1,address=addressT, phone='',)
-		u.save()
-		
-		return redirect(sendMail)
+		uExist=User.objects.filter(username=nameT)
+		print uExist
+		if not uExist:
+			request.session['userNameTemp']=nameT
+			request.session['emailTemp']=emailT
+			
+			#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
+			u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
+			u1.last_name=lastNameT
+			u1.is_active=0
+			u1.save()
+			u=user(userDj=u1,address=addressT, phone='',)
+			u.save()
+			return redirect(sendMail)
+		else:
+			return render(request, 'chieti/singUp.html',{'error':'Nombre ya en uso'})	
 	else:
 		return render(request, 'chieti/singUp.html',{'error':'Claves son distintas'})
 		
@@ -438,11 +447,20 @@ def changeUser2(request):
 	# return render_to_response(fp,{'todos',todo})
 
 def singIn(request):
-	return render(request, 'chieti/singIn.html',{'error':''})
+	isVentana = request.GET.get('ventana')
+	print("ventana singIn",isVentana);
+	return render(request, 'chieti/singIn.html',{'error':'','isVentana':isVentana})
+
+def bienvenido(request):
+	return render(request, 'chieti/bienvenido.html')
+
 
 def singIn2(request):
 	username = request.POST['username']
 	password = request.POST['password']
+	isVentana=0;
+	isVentana = request.POST.get('isVentana')
+	print("isVentana",isVentana);
 	user1 = authenticate(username=username, password=password)
 	if user1 is not None: #if exist
 		if user1.is_active: 
@@ -452,7 +470,12 @@ def singIn2(request):
 			userParentId=userParent.id
 			request.session["order"]= order.objects.get(userFK=userParentId,delivered='false').id
 			request.session['user'] = userParentId
+
+			if(isVentana=="1"):
+				print 'es 1'
+				return redirect(bienvenido)
 			return redirect(showProduct)
+
 			# Redirect to a success page.
 		else:
 			# Return a 'disabled account' error message
@@ -472,9 +495,6 @@ def markDelivered(request):
 	product.objects.filter().update(canceled='false')
 	return redirect(showProduct)
 	pass
-
-def logOut(request):
-	logout(request)
 
 def checkOrderExist(us):
 	a=order.objects.filter(userFK=us,delivered="false")
@@ -514,12 +534,13 @@ def changeProduct2(request):
 
 def usernameExist(request):
 	param=request.POST.get('name')
-	print param
 	us=User.objects.filter(username=param)
-	print us
+	
 	if not us: #no exist
-		return HttpResponse("Usuario correcto")
-	return HttpResponse("Usuario Existente, elija otro")
+		#image_data = open("chieti/static/chieti/images/fine.png", "rb").read()
+		#return HttpResponse(image_data, mimetype="image/png")
+		return HttpResponse("Usuario OK")
+	return HttpResponse("Usuario MAL")
 
 def changeUserData(request):
 	print request.session['user']
@@ -552,3 +573,10 @@ def findProductById(request):
 def printPrice(request):
 	p=product.objects.all()
 	return render(request, 'chieti/printPrice.html',{'todos':p})
+
+def logOut(request):
+	logout(request)
+	return render(request, 'chieti/homePage2.html')
+
+def singInPop(request):
+	return render(request, 'chieti/singInPop.html')

@@ -4,10 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
-	
-	<!-- script type="text/javascript" src="{% static 'chieti/js/jquery.js' %}"/> 
-	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
-	-->
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/buttonStyle.css' %}" />
 	<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
   	<script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
 	<script type="text/javascript"></script>
@@ -21,6 +18,18 @@
 </div>
 		
 
+{% if mnjEmail %}
+    <a type="button" class="alertMnj green" align="center" href="/chieti/logOut"> {{mnjEmail}}</a>
+{% endif %}		
+<div style="position:absolute;top: 140px; right: 5%;">
+
+{% if user.is_authenticated %}
+    <a type="button" class="button white"  href="/chieti/logOut"> Cerrar Sesion</a>
+{% else %}
+    <a type="button" class="button white"  href="/chieti/singIn"> Iniciar Sesion</a>
+{% endif %}
+	
+</div>
 <script>
 var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
 i = 0,
@@ -46,7 +55,8 @@ $('#swap').bind('mouseleave', function(e) {
  
  
 $('#swap').click(function(){
-		window.location="/chieti/product";
+	console.log("hizo click");
+		window.location="/chieti/home";
 		})
  
 </script>

@@ -16,14 +16,16 @@ li a {
 }
 
 .productImg{
-	width:100%;
+	/*width:100%;*/
 	height: 100%; 
+	max-width:80px;
+	z-index:1;
+	display:block;
 }
 .productImg2{
 	display: block;
     margin-left: auto;
     margin-right: auto;
-    width:50%;
     height:50%;  
 
 }
@@ -37,11 +39,9 @@ li a {
 }
 
 .carrito{
-	position:absolute;
-	/*margin-right:1%;
-	margin-left:50%;*/
+	/*position:absolute;
 	top:45%;
-	left:5%;
+	left:5%;*/
 	width: 100px;
 	height: 100px;
 	background:url('/static/chieti/images/carrito.jpg') no-repeat;
@@ -49,6 +49,10 @@ li a {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	
+	margin-top:10%;
+	margin-left:40%;
+	
 
 }
 /*
@@ -57,10 +61,11 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 }*/
 
 .allProducts{
-	position:absolute;
+	display:inline-block;
 	/*left:20%;*/
-	margin-right:10%;
-	margin-left:19%;
+	margin-right:5%;
+	margin-left:20%;
+	margin-top: -5%;
 }
 
 .divInvisible{
@@ -69,7 +74,7 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 	height: 400px;*/
 	width:100mm;
 	height:130mm;
-	z-index:99;
+	z-index:2;
 	position: absolute;
 	left: calc(50% - 50mm);
 	top: calc(50% - 20mm)
@@ -152,12 +157,6 @@ border: 1px solid black;
 }
 
 
-.mainHome{
-	float:left;
-	margin-left: 15%;
-	margin-top: 3%;
-	background-color: white;
-}
 
 .textSeg{
 	font-size: 25px;
@@ -175,10 +174,31 @@ border: 1px solid black;
 }
 
 
-.sectionBotones{
-	padding-left:55%;
-	margin-top:3%;
+.mainHome{
+	/*float:left;
+	margin-top: 3%;
+	*/
+	display:inline-block;
+	margin-left: 15%;
+	
+	background-color: white;
 }
+
+
+.sectionBotones{
+	/*padding-left:55%;
+	margin-top:5%;*/
+	display:inline-block;
+	position:absolute;
+}
+
+.divLeft{
+	position:absolute;
+	display:inline-block;
+	left:0;
+	width: 10%;
+}
+
 
 .botonMenu2{
 	/*float:left;*/
@@ -186,31 +206,27 @@ border: 1px solid black;
 	height:100px;
 	background-size: 100% 100%;
 	display:block;
+	
 
 }
 
 .botonMenu2.prod2{
+	margin-left:10%;
+	margin-top:5%;
 	background-image:url('/static/chieti/images/cajonProductos.png');
 }
 .botonMenu2.sale2{
-	margin-left:25%;
-	margin-top:1%;
+	margin-left:100%;
+	margin-top:5%;
 	background-image:url('/static/chieti/images/cajonSale2.png');
 }
 .botonMenu2.order2{
-	margin-left:50%;
-	margin-top:1%;
+	margin-left:200%;
+	margin-top:5%;
 	background-image:url('/static/chieti/images/cajonPedido.png');
 }
 
-.comprar{
-	width:300px;
-	height:80px;
-	background-size: 100% 100%;
-	display:block;
-	margin-top:5%;
 
-}
 
 .comprar.fuente{
 	font-size: 25px;
@@ -251,8 +267,15 @@ border: 1px solid black;
 
 .formLogIn{
 	/*border: medium;*/
-	border-color: aqua;
+	border-color: #FFCAA6;
 	border-style:outset;
 	width: 300px;
+	border-width: 8px;
+	margin-left: auto;
+	margin-right: auto;
+}
 
+.fuenteComun{
+	font-size: 15px;
+	font-family: "Verdana";
 }

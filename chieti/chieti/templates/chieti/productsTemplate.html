@@ -77,7 +77,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 		    //event.stopPropagation();
 		    //console.log("se detuvo");
 		});
-	  
+
 	  $('.add').click(addClick);
 	  $('#close').click(function(){
 		  $(".divActual").remove();
@@ -91,6 +91,13 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
             $(this).remove();
         }
     });
+	  $('.quantity').change(function(){
+		  if(!checkQuantOk($(this))){
+			  //chequear aveces no lo llama
+			  alert("Cantidad incorrecta");
+		    	$(this).focus();
+		  }
+	  });
 }
 
 
@@ -164,17 +171,21 @@ function Desaparecer(id){
 		    
 
 	});
-function checkQuantOk(quant){
-	num = new Number(quant);
-	console.log('check',quant);
-	if(!$.isNumeric(quant))
-		{console.log("num",quant);
-		return false;
-		}
-    if(num < 0.1)
-    	return false;
-    return true;
-}
+	function checkQuantOk(quant){
+		num=$(quant).val()
+		console.log("num----:",num);
+		um=$(quant).siblings("#um").html();
+		console.log("um----:",um);
+		if(!$.isNumeric(num))
+			{return false;}
+	    if(num < 0.1)
+	    	return false;
+	    if (um=="Unidad"){
+	    	if(!(num % 1 === 0))
+	    		{return false}
+	    	}
+	    return true;
+	}
 
 function addClick(){
     //ids=$(this).siblings(".ids").text()
@@ -182,8 +193,9 @@ function addClick(){
     var ids= $(this).siblings("input[name=ids]").attr("id");
     console.log("agregar id:",ids);
     var quant= $(this).siblings('input[name=quantity]').val()
+    var quantAcheck= $(this).siblings('input[name=quantity]')
     divActual=$(this);
-    if(checkQuantOk(quant)==true){
+    if(checkQuantOk(quantAcheck)==true){
     	console.log("ids:",ids,quant)
         $.ajax({
             url: '/chieti/addToOrder/',
@@ -196,6 +208,11 @@ function addClick(){
                 console.log("todo ok! AJAX")
                 if (data != 'true'){
                 	$('body').html(data);
+                	/* var w  = 400;
+                    var h = 300;
+                    var left = (screen.width/2)-(w/2);
+                    var top = (screen.height/2)-(h/2);
+                	var myWindow = window.open('/chieti/singIn/?ventana=1','','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);*/
                 }
                 else{
                 	// Agregar efecto
@@ -207,7 +224,8 @@ function addClick(){
             });
     }
     else{
-    	alert("Cantidad debe ser un numero");
+    	alert("Cantidad incorrecta");
+    	$(this).focus();
     }
      
     
@@ -236,15 +254,20 @@ function setQuantity(){
 	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">Otros</a>
 	<a id="4" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">Todos</a>
 </div>
-<img id="carrito"  class="carrito" alt="Mi compra">
-<div>
 <br/>
-<div id="divAutoComplete" style="margin-left: 20%;margin-top: 2%;">
+<div id="divAutoComplete" style="margin-left:20%;margin-top:2%;">
 	<div id="subProd" class="ui-widget">
 	     <label for="tags">Buscar Producto: </label>
 		 <input id="tags">
 	</div>	    
 </div>
+<br/>
+<div id="divLeft" class="divLeft">
+	<img id="carrito"  class="carrito" alt="Mi compra">
+</div>
+<div>
+<br/>
+
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <div class="allProducts">
 {% for prod in todos %}
@@ -265,8 +288,8 @@ function setQuantity(){
 	        <label name='name' class="product" ></label>
 	        <br/>
 	        <label id="labQuantity" for='quantity'>Cant:</label>
-	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%">
-	        <label name='UnidadMedida'></label>
+	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
+	        <label id="um" name='UnidadMedida'></label>
 	        <br/>
 	        <label>Precio: $</label>
 	        <label name='price' class="price"></label>
@@ -277,7 +300,3 @@ function setQuantity(){
 	    </div>
 
 </body>
-
-<iframe id="sing" width="400" height="400" src="/chieti/singIn" style="display:none"></iframe>
-
-</html>

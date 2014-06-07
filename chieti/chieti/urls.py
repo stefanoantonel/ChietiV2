@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     #url(r'$','chieti.tests.index'),
     #url('index/',include('chieti.urls')),
     url(r'product/','chieti.views.showProduct', name='productos'),
+    url(r'bienvenido/','chieti.views.bienvenido'),
     url(r'changePrice/','chieti.views.changePrice'),
     url(r'changePrice2/','chieti.views.changePrice2'),
     url(r'addToOrder/','chieti.views.addToOrder'),
@@ -59,6 +60,7 @@ urlpatterns = patterns('',
 	url(r'changeProduct2/','chieti.views.changeProduct2'),
 	url(r'usernameExist/','chieti.views.usernameExist'),
 	
+	
 	url(r'changePass0/','chieti.views.changePass0'),
 	url(r'changePass1/','chieti.views.changePass1'),
 	url(r'changePass2/','chieti.views.changePass2'),
@@ -68,11 +70,10 @@ urlpatterns = patterns('',
 	url(r'adm/','chieti.views.adm'),
     url(r'findProductById/','chieti.views.findProductById'),
     url(r'printPrice/','chieti.views.printPrice'),
-
-
+    url(r'logOut/','chieti.views.logOut'),
+    url(r'singInPop/','chieti.views.singInPop'),
 
 
     url(r'^$','chieti.views.home'),
 	
 )
-

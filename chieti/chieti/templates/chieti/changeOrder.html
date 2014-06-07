@@ -4,7 +4,8 @@
 <meta charset="ISO-8859-1">
 <title>Cambiar Orden</title>
 {% include 'chieti/mainHead.html' %}
-    
+{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
 <script type="text/javascript">
 	
 
@@ -13,7 +14,7 @@
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
-			if(checkQuantOk($(this).val()) ==true){
+			if(checkQuantOk($(this))){
 				var ant=$(this).parents('.table').find('.price').attr("title");
 				var cant=$(this).val();            
 				var dsp=(ant*cant).toFixed(2);
@@ -41,7 +42,8 @@
 	            		
 			}
 			else{
-		    	alert("Cantidad debe ser un numero");
+		    	alert("Cantidad incorrecta");
+		    	$(this).focus();
 		    }
             
 		});
@@ -85,20 +87,28 @@
 		$('label[title=total]').html(sumTotal.toFixed(2));
 	}
 	function checkQuantOk(quant){
-		num = new Number(quant);
-		console.log('check',quant);
-		if(!$.isNumeric(quant))
-			{console.log("num",quant);
-			return false;
-			}
+		num=$(quant).val()
+		um=$(quant).siblings("#um").html();
+		console.log("um----:",um);
+		if(!$.isNumeric(num))
+			{return false;}
 	    if(num < 0.1)
 	    	return false;
+	    if (um=="Unidad"){
+	    	if(!(num % 1 === 0))
+	    		{return false}
+	    	}
 	    return true;
 	}
 
 </script>
 </head>
 <body>
+<b style="align='left'">
+	Recuerde que su compra sera entregada
+	el lunes a la direccion registrada.
+</b>
+
 <div align="center">
 <label class="textTer">Mi Compra</label> 
 <form action="/chieti/changeOrder2/" method="post">
@@ -112,7 +122,7 @@
 		  <td><label title='name' class="product" >{{ item.productFK.name }}</label></td>
 		  <td><label for='quantity'>Cant:</label></td>
 		  <td><input name='quantity' type="number" class="quantity" value="{{item.quantity}}" min="0" step="0.5"></input>
-		  	  <label >{{ item.productFK.measureUnit }}</label>
+		  	  <label id="um" >{{ item.productFK.measureUnit }}</label>
 		  </td>
 		  <td><label>Precio:</label></td>
 		  <td><label name='price' class="price" title="{{item.productFK.salePrice}}">{{item.productFK.salePrice}}</label></td>
