@@ -35,12 +35,7 @@ class user (models.Model):
 	address=models.CharField(max_length=50)
 	#adress
 	phone=models.CharField(max_length=50)
-	activated=models.CharField(default='false',max_length=5)
-	
-
-class Employee(models.Model):
-	user = models.OneToOneField(User)
-	department = models.CharField(max_length=100)
+	#activated=models.CharField(default='false',max_length=5)
 	
 	
 class orderManager(models.Model):
@@ -129,10 +124,6 @@ class order(models.Model):
 		return sumTotal
 		pass
 		
-	def addItem(self,newItem): ## no va mas porque la FK esta del otro lado
-		self.items.append(newItem)
-		pass
-	
 	def removeItem(self,itemId): #le paso el objeto item
 		item.objects.filter(id=itemId).delete() 
 		return "ok delete"
