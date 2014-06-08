@@ -35,30 +35,31 @@ var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images
 i = 0,
 // $swap = $("#swap");
 swapper=0;
-	console.log("mouse in");
+	
 function swapImg(){
   i = i % images.length;
   $("#swap").attr("src",images[i]);        
   i++;
 }
 
-$("#swap").hover(function(){
-	console.log("in!");
-	swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
-	},function(){
-	    clearInterval(swapper);
-		});
-		
-$('#swap').bind('mouseleave', function(e) {
-	$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
-		});
- 
- 
-$('#swap').click(function(){
-	console.log("hizo click");
-		window.location="/chieti/home";
-		})
- 
+$(document).ready(function() {
+		$("#swap").hover(function(){
+			console.log("in!");
+			swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
+			},function(){
+			    clearInterval(swapper);
+				});
+				
+		$('#swap').bind('mouseleave', function(e) {
+			$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
+				});
+		 
+		 
+		$('#swap').click(function(){
+				window.location="/chieti/home";
+				})
+}); 
+
 </script>
 </body>
 </html>

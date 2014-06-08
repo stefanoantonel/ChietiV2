@@ -22,7 +22,6 @@ class product(models.Model):
 		return self.salePrice
 	def multItemPromo(self,cant):
 		itemsMult=[]
-		print ("self.items",self.items.all())
 		for itPromo in self.items.all():
 			c=itPromo.promoQuantity*cant
 			p=itPromo.productFK.name
@@ -36,17 +35,12 @@ class user (models.Model):
 	address=models.CharField(max_length=50)
 	#adress
 	phone=models.CharField(max_length=50)
-	activated=models.CharField(default='false',max_length=5)
-	
-
-class Employee(models.Model):
-	user = models.OneToOneField(User)
-	department = models.CharField(max_length=100)
+	#activated=models.CharField(default='false',max_length=5)
 	
 	
 class orderManager(models.Model):
 	#orders=None #lista de ordenes
-	def getSummaryBuy(self):
+	def getSummaryBuy(self): #imprime todo lo que tienen que comprar.
 
 		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
 		orderNotDelivered = order.objects.filter(delivered='false')
@@ -64,9 +58,7 @@ class orderManager(models.Model):
 			vector.append(a)
 			
 		for a in itP:
-			print(product.objects.get(id=a.get("productFK")).name)
 			result=product.objects.get(id=a.get("productFK")).multItemPromo(a.get('quantity'))
-			print("itemPromo:",result)
 			for prodItem in result:
 				quant=prodItem.get('cant')
 				quant=round(quant,2)
@@ -85,7 +77,7 @@ class orderManager(models.Model):
 	
 	def printSummary(self,summary):# elemento y cantidad
 		pass
-	def getSummarySell(self):# elemento y cantidad
+	def getSummarySell(self):# ARma todas las ordenes. 
 		
 		orders=order.objects.filter(getItem__isnull=False,delivered='false').distinct()
 		orderManagerArray=[]
@@ -113,9 +105,9 @@ class orderManager(models.Model):
 		pass
 	def markDelivered(self):
 		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered__isnull=True)
-		print ordersNoDelivered.query
+		
 		ordersNoDelivered.update(delivered='true')
-		print 'todo ok Delivered'
+		
 		
 
 class order(models.Model):
@@ -132,10 +124,6 @@ class order(models.Model):
 		return sumTotal
 		pass
 		
-	def addItem(self,newItem): ## no va mas porque la FK esta del otro lado
-		self.items.append(newItem)
-		pass
-	
 	def removeItem(self,itemId): #le paso el objeto item
 		item.objects.filter(id=itemId).delete() 
 		return "ok delete"

@@ -17,18 +17,15 @@
 			var can=$(this).parents(".productContainer").find('.canceled').prop('checked');
 			//console.log(can);
 			var dele=$(this).parents(".productContainer").find('.delete').prop("checked");
-			console.log(name,buyPrice,salePrice,category,meas,dele,can);
-			console.log('[ name]',name)
+			
 			var parameterName=$(this).attr('name');
 			var parameterValue=$(this).val();
-			console.log(id,parameterName,parameterValue);
+			
 			$.ajax({
                 url: '/chieti/changeProduct2/',
                 type: 'post', 
                 data: { "idProd": id, "name":name, "buyPrice":buyPrice,"salePrice":salePrice,"category":category, "measureUnit":meas,"canceled":can, "delete":dele},
                 success: function(data) {
-                    console.log("todo ok! AJAX")
-                    console.log(data)
                 }
             });
 		});

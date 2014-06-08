@@ -18,13 +18,13 @@
 				var ant=$(this).parents('.table').find('.price').attr("title");
 				var cant=$(this).val();            
 				var dsp=(ant*cant).toFixed(2);
-				console.log ('prec ant:', ant,' cant: ',cant,' dsp ',dsp 	);
+				
 				$(this).parents('.table').find('.price').html(dsp);
 				calTotalPrice();
 
 				itemId=$(this).parents('.table').find('.idItem').val();
 				
-				console.log("prodId:", itemId);
+				
 				$.ajax({
 	                url: '/chieti/changeOrder3/',
 	                type: 'post', 
@@ -34,7 +34,7 @@
 
 	                },
 	                success: function(data) {
-	                    console.log("todo ok! AJAX")
+	                    
 	                    //console.log(data)
 	                }
 	            });
@@ -77,6 +77,11 @@
 		})
 		
 		calTotalPrice()  	
+		
+		$("#recordatorio").click(function(){
+			$(this).remove();
+		});
+		
 	});
 	function calTotalPrice(){
 		var sumTotal=0;
@@ -104,7 +109,7 @@
 </script>
 </head>
 <body>
-<b style="align='left'">
+<b id="recordatorio" style="align='left'" class="alertMnj green2">
 	Recuerde que su compra sera entregada
 	el lunes a la direccion registrada.
 </b>

@@ -4,6 +4,14 @@
 {% load staticfiles %}
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+	$('#headSale').click(function(){
+		window.location="/chieti/home";
+		})
+});
+</script>
 <title>Sales</title>
 </head>
 <body>
