@@ -121,11 +121,12 @@ function Desaparecer(id){
 			  $(".divImg").mouseover(function(){
 					console.log("mouseover");
 				  	eleOffset = $(this).offset();
-
+				  	//Revisar
+					offTop=eleOffset.top-30;
 					 $(this).find(".productTT").fadeIn("fast").css({
 
 								left: eleOffset.left + $(this).outerWidth(),
-								top: eleOffset.top
+								top: offTop
 
 							});
 					}).mouseout(function(){
@@ -295,7 +296,7 @@ function setQuantity(){
 		<div class="tooltip productTT">{{prod.name}}
 			{% for i in prod.items.all %}
 				<br/>
-				{{i.productFK.name}}
+				{{i.promoQuantity}} {{i.productFK.name}}
 			{% endfor %}
 		</div>
 		
