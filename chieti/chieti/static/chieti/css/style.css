@@ -280,3 +280,18 @@ border: 1px solid black;
 	font-size: 15px;
 	font-family: "Verdana";
 }
+
+
+.tooltip{
+   position: absolute;
+   background: #c0df71;
+   color: #fff;
+   border-radius:10px;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	padding: 10px;
+	margin-top: -10px;
+	margin-left: 10px;
+   z-index: 3;
+   display: none;
+	background-color: #ff934f;
+}

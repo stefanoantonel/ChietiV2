@@ -57,6 +57,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 	ids= $(template).find("input[name='ids']");
 	$(ids).attr("id",id);
 	nameLabel= $(template).find(".product");
+	nameLabelTT= $(template).find(".productTT");
 	$(nameLabel).html(nameProd);
 	unidadMedida= $(template).find("[name='UnidadMedida']");
 	$(unidadMedida).html(um);
@@ -87,13 +88,14 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
             $(".divActual").remove();
         }
     });
-	  $('.quantity').change(function(){
+	 /*  $('.quantity').change(function(){
 		  if(!checkQuantOk($(this))){
 			  //chequear aveces no lo llama
 			  alert("Cantidad incorrecta");
 		    	$(this).focus();
 		  }
-	  });
+	  }); */
+	  
 }
 
 
@@ -115,7 +117,22 @@ function Desaparecer(id){
 		    //event.stopPropagation();
 		});	
 	
-	
+		
+			  $(".divImg").mouseover(function(){
+					console.log("mouseover");
+				  	eleOffset = $(this).offset();
+
+					 $(this).find(".productTT").fadeIn("fast").css({
+
+								left: eleOffset.left + $(this).outerWidth(),
+								top: eleOffset.top
+
+							});
+					}).mouseout(function(){
+						 $(this).find(".productTT").hide();
+					});
+			
+			
 		//$('input[name=quantity]').change(function(){
 		$('.quantity').change(function(){
 			var ant=$(this).siblings("label[name=price]").attr("title")
@@ -185,7 +202,12 @@ function Desaparecer(id){
 
 function addClick(){
     //ids=$(this).siblings(".ids").text()
-    
+    if(!checkQuantOk($(this))){
+			  //chequear aveces no lo llama
+			  alert("Cantidad incorrecta");
+		    	$(this).focus();
+		    	return;
+    }
     var ids= $(this).siblings("input[name=ids]").attr("id");
     
     var quant= $(this).siblings('input[name=quantity]').val()
@@ -270,6 +292,13 @@ function setQuantity(){
 	<div class="divImg">
 	
 		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
+		<div class="tooltip productTT">{{prod.name}}
+			{% for i in prod.items.all %}
+				<br/>
+				{{i.productFK.name}}
+			{% endfor %}
+		</div>
+		
 	</div>
 	
 {% endfor %}    
@@ -277,7 +306,7 @@ function setQuantity(){
 </div>
 
 <div style="display:none;" class="divInvisible divAuto"  align="center">
-<button id="close" style="position:absolute; left:30px;top:5px;">x</button>
+<button id="close" style="position:absolute; left:10px;top:5px;" class="button red">x</button>
 	    	<section >
 	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>
 	        <br/>
