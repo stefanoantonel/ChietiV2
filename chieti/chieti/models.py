@@ -93,6 +93,7 @@ class orderManager(models.Model):
 				productArray.append(prod)
 			orde={'userName':ords.userFK.userDj.username,
 				'lastName':ords.userFK.userDj.last_name,
+				'firstName':ords.userFK.userDj.first_name,
 				'address':ords.userFK.address,
 				'orderNumber':ords.id,
 				'products':productArray,

@@ -158,12 +158,13 @@ def changePrice(request):
 	
 	return render(request, 'chieti/changePrice.html',{'todos':todo})
 	
-
+from decimal import *
 @staff_member_required
 def changePrice2(request):
 	# ids=request['ids']
 	ids = request.POST.getlist("ids")
 	new = request.POST.getlist("newPrice")
+	
 	# pri=request.POST.get('product11')
 	# pr=product(measureUnit ='kg',salePrice=pri,name=nam)
 	# pr.save()
@@ -332,6 +333,7 @@ def singUp2(request):
 	if pass1 == pass2:
 		nameT = request.POST.get('name')
 		lastNameT = request.POST.get('lastName')
+		firstNameT = request.POST.get('firstName')
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		uExist=User.objects.filter(username=nameT)
@@ -342,6 +344,7 @@ def singUp2(request):
 			#u1 = User(username=nameT+" "+lastNameT,  email=emailT, password=pass1)
 			u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
 			u1.last_name=lastNameT
+			u1.first_name=firstNameT
 			u1.is_active=0
 			u1.save()
 			u=user(userDj=u1,address=addressT, phone='',)
@@ -565,3 +568,4 @@ def logOut(request):
 
 def singInPop(request):
 	return render(request, 'chieti/singInPop.html')
+
