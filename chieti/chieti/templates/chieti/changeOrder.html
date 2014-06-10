@@ -11,6 +11,19 @@
 
 	$(document).ready(function() { 
 		
+		$('#confirm').click(function(){
+			$.ajax({
+                url: '/chieti/confirmOrder/',
+                type: 'post', 
+                data: {
+                    "confirm":"true"          
+                  }
+            });
+			
+			alert("Podes seguir modificando tu compra hasta el domingo!");
+		});
+		
+		
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity

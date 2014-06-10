@@ -119,13 +119,15 @@ function Desaparecer(id){
 	
 		
 			  $(".divImg").mouseover(function(){
-					console.log("mouseover");
-				  	eleOffset = $(this).offset();
+				  	eleOffset = $(this).find(".productImg").offset();
+				  	console.log("eleOffset",eleOffset);
 				  	//Revisar
 					offTop=eleOffset.top-30;
+					console.log("offTop",offTop);
+					console.log("eleOffset.top",eleOffset.top);
 					 $(this).find(".productTT").fadeIn("fast").css({
 
-								left: eleOffset.left + $(this).outerWidth(),
+								left: eleOffset.left,
 								top: offTop
 
 							});
@@ -203,7 +205,8 @@ function Desaparecer(id){
 
 function addClick(){
     //ids=$(this).siblings(".ids").text()
-    if(!checkQuantOk($(this))){
+    quant= $(this).siblings('input[name=quantity]');
+    if(!checkQuantOk(quant)){
 			  //chequear aveces no lo llama
 			  alert("Cantidad incorrecta");
 		    	$(this).focus();
