@@ -1,0 +1,33 @@
+<script type="text/javascript">// <![CDATA[
+            $(document).ready(function() {
+ 
+					  $("#tooltip1").mouseover(function(){
+						 eleOffset = $(this).offset();
+ 
+						$(this).next().fadeIn("fast").css({
+ 
+									left: eleOffset.left + $(this).outerWidth(),
+									top: eleOffset.top
+ 
+								});
+						}).mouseout(function(){
+							$(this).next().hide();
+						});
+ 
+						$("#tooltip2").mouseover(function(){
+							$("#tooltip2").mousemove(function(e){
+								 $(this).next().css({left : e.pageX , top: e.pageY});
+							  });
+							eleOffset = $(this).offset();
+							$(this).next().fadeIn("fast").css({
+ 
+									left: eleOffset.left + $(this).outerWidth(),
+									top: eleOffset.top
+ 
+								});
+						}).mouseout(function(){
+							$(this).next().fadeOut("fast");
+						});
+ 
+			});		
+// ]]></script>

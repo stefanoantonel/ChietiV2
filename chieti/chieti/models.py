@@ -13,7 +13,7 @@ class product(models.Model):
 	measureUnit = models.CharField(max_length=10)
 	pub_date = models.DateTimeField(auto_now=True)
 	salePrice=models.DecimalField(max_digits=7, decimal_places=2)
-	buyPrice=models.DecimalField(max_digits=7, decimal_places=2)
+	buyPrice=models.DecimalField(default=0,max_digits=7, decimal_places=2)
 	name=models.CharField(max_length=50)
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
@@ -43,7 +43,7 @@ class orderManager(models.Model):
 	def getSummaryBuy(self): #imprime todo lo que tienen que comprar.
 
 		#it=item.objects.values("productFK").annotate(quantity=models.Sum('quantity'))
-		orderNotDelivered = order.objects.filter(delivered='false')
+		orderNotDelivered = order.objects.filter(delivered='false',confirm='true')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
 		prod=product.objects.filter(isPromo='true')
 		itP=it.filter(productFK=prod)
@@ -79,7 +79,7 @@ class orderManager(models.Model):
 		pass
 	def getSummarySell(self):# ARma todas las ordenes. 
 		
-		orders=order.objects.filter(getItem__isnull=False,delivered='false').distinct()
+		orders=order.objects.filter(getItem__isnull=False,delivered='false',confirm='true').distinct()
 		orderManagerArray=[]
 		for ords in orders:
 			items=item.objects.filter(orderFK=ords)
@@ -115,6 +115,7 @@ class order(models.Model):
 	userFK=models.ForeignKey(user)
 	orderManagerFK=models.ForeignKey(orderManager,related_name='getOrderManager')
 	delivered=models.CharField(default='false',max_length=5)
+	confirm=models.CharField(default='false',max_length=5)
 	
 	def getTotal(self):
 

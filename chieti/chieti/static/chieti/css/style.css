@@ -74,7 +74,7 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 	/*width:400px;
 	height: 400px;*/
 	width:100mm;
-	height:130mm;
+	height:100mm;
 	z-index:2;
 	position: absolute;
 	left: calc(50% - 50mm);
@@ -279,4 +279,19 @@ border: 1px solid black;
 .fuenteComun{
 	font-size: 15px;
 	font-family: "Verdana";
+}
+
+
+.tooltip{
+   position: absolute;
+   background: #c0df71;
+   color: #fff;
+   border-radius:10px;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	padding: 10px;
+	margin-top: -10px;
+	margin-left: 10px;
+   z-index: 3;
+   display: none;
+	background-color: #ff934f;
 }

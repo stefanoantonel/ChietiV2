@@ -200,6 +200,14 @@ def changeOrder(request):
 	
 	# return HttpResponse(request.session["order"])
 
+
+def confirmOrder(request):
+	if(request.POST.get("confirm")):						
+		a=order.objects.get(id=request.session["order"])
+		a.confirm='true'
+		a.save()
+	return redirect(showProduct)
+
 @login_required(login_url='/chieti/singIn/')
 def changeOrder2(request):
 	# ids=request['ids']
@@ -540,9 +548,15 @@ def changeUserData(request):
 def changeUserData2(request):
 	ids=request.POST.get('ids')
 	#nam=request.POST.get('username')
+	print ids
 	addr=request.POST.get('direccion')
-	user.objects.filter(id=ids).update(address=addr)
-	
+	first=request.POST.get('firstName')
+	last=request.POST.get('lastName')
+	u=User.objects.filter(id=ids).update(first_name=first,last_name=last)
+	user.objects.filter(userDj_id=ids).update(address=addr)
+	#user.objects.filter(id=ids).update(address=addr)
+	#u.update(userDj.first_name=first,userDj.last_name=last)
+	return render(request, 'chieti/homePage2.html')
 	pass
 
 def adm(request):
@@ -568,4 +582,3 @@ def logOut(request):
 
 def singInPop(request):
 	return render(request, 'chieti/singInPop.html')
-

@@ -11,6 +11,19 @@
 
 	$(document).ready(function() { 
 		
+		$('#confirm').click(function(){
+			$.ajax({
+                url: '/chieti/confirmOrder/',
+                type: 'post', 
+                data: {
+                    "confirm":"true"          
+                  }
+            });
+			
+			alert("Podes seguir modificando tu compra hasta el domingo!");
+		});
+		
+		
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
 			//recalc the price when change quantity
@@ -136,10 +149,11 @@
 	{% endfor %}
 </table>
 		<label>Total: $ </label>
-		<label title='total'></label>
+		<label class="textTer" title='total'></label>
 	<br/><br>
 	
 	<a type="button" class="btn btn-warning botonMenu2 comprar2 fuente2"  href="/chieti/product">Seguir comprando!  ></a>
+	<a id="confirm" type="button" class="btn btn-warning botonMenu2 comprar2 fuente2">Confirmar Compra</a>
 	<!--<input type="submit" class="change" value="Cambiar"></input> -->
 
 
