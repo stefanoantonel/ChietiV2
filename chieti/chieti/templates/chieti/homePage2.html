@@ -31,6 +31,24 @@
 			<a style="float:left;margin-left: 15%;display:block; color:gray;font-weight: bold " href="/chieti/comoComprar">Como realizar tus compras</a>
 			<br>
 	</div>
+{% if user.is_staff %}
+	<section class="barMenu">
+		<a href="/chieti/addProduct" class="button">Agregar producto</a>
+		<br>
+		<a href="/chieti/changeProduct" class="button">Cambiar producto</a>
+		<br>
+		<a href="/chieti/changeUser" class="button">Cambiar de usuario</a>
+		<br>
+		<a href="/chieti/printOrders" class="button">Mostrar ordenes</a>
+		<br>
+		<a href="/chieti/singUpFake" class="button">Darse de alta fake</a>
+		<br>
+		<a href="/chieti/summaryBuy" class="button">Ver cosas para comprar</a>
+		<br>
+		<a href="/chieti/printPrice" class="button">Ver Precio de productos</a>
+		<br>
+	</section>
+{% endif %}
 <section class="mainHome">	
 	<section class="textSeg">Una nueva forma de hacer tus compras</section>
 	<section class="textPrim">Ahorra plata y tiempo</section>

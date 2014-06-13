@@ -162,16 +162,19 @@ border: 1px solid black;
 .textSeg{
 	font-size: 25px;
 	font-family: "Verdana";
+	margin-top: 5%;
 }
 
 .textPrim{
 	font-size: 30px;
 	font-family: "Verdana";
+	margin-top: 5%;
 }
 
 .textTer{
 	font-size: 20px;
 	font-family: "Verdana";
+	margin-top: 5%;
 }
 
 
@@ -294,4 +297,11 @@ border: 1px solid black;
    z-index: 3;
    display: none;
 	background-color: #ff934f;
+}
+
+
+.barMenu{
+	position: absolute;
+	left:2%;
+	display:inline-block;
 }
