@@ -149,8 +149,12 @@ def showProduct(request):
 	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
 	
 
-def showSales(request):
+def showSalesFake(request):
 	return render(request, 'chieti/sales2.html')
+
+def showSales(request):
+	todasPromos = product.objects.filter(isPromo="true")
+	return render(request, 'chieti/sales.html',{'todos':todasPromos})
 	
 @staff_member_required
 def changePrice(request):

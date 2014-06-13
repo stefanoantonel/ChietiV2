@@ -16,6 +16,17 @@ li a {
 }
 
 
+.divImgSale{
+	float:left;
+	width:200px;
+	height:200px;
+	display:block;
+	margin-right:100px;
+	margin-top:50px;
+}
+
+
+
 .productImg{
 	/*width:100%;*/
 	height: 100%; 
@@ -23,6 +34,16 @@ li a {
 	z-index:1;
 	display:block;
 }
+
+.productImgSale{
+	/*width:100%;*/
+	height: 100%; 
+	max-width:200px;
+	z-index:1;
+	display:block;
+}
+
+
 .productImg2{
 	display: block;
     margin-left: auto;

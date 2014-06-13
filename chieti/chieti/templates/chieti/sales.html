@@ -1,39 +1,318 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="ISO-8859-1">
+<title>Chieti</title>
+{% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
-<title>Sales</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript">
+
+var prevID;
+function popUp(id) {
+	
+	if(prevID!=undefined){Desaparecer(prevID);}
+	prevID=id;	
+	findProductById(id);
+	
+	var pos = $("#img"+id).position();
+	//$( "#div"+id ).css({ position: "absolute",
+    //     marginLeft: 0, marginTop: 0,
+    //     top: pos.top, left: pos.left });
+	$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
+    
+    $("#div"+id).css("display","");
+}
+
+function findProductById(id){
+	
+    $.ajax({
+        url: '/chieti/findProductById/',
+        type: 'post', 
+        data: {
+            'id':id,
+        },
+        dataType: 'json',
+        success: function(data) {
+    
+            popUpAutoComplete(id,data.name,data.um,data.saleP);
+        }	
+    });
+  
+} 
+
+
+
+function popUpAutoComplete(id,nameProd,um,saleP) {
+	
+	if(prevID!=undefined){Desaparecer(prevID);}
+	prevID=id;	
+	template= $(".divAuto").clone();
+	$(template).removeClass("divAuto");
+	$(template).addClass("divActual");
+	$(template).prepend("<img  src='/static/chieti/productImages/"+id+".png'  class='productImg2'>");
+	$(template).attr("id","div"+id);
+	$(template).attr("name",id);
+	$(template).attr("value","visible");
+	ids= $(template).find("input[name='ids']");
+	$(ids).attr("id",id);
+	nameLabel= $(template).find(".product");
+	nameLabelTT= $(template).find(".productTT");
+	$(nameLabel).html(nameProd);
+	unidadMedida= $(template).find("[name='UnidadMedida']");
+	$(unidadMedida).html(um);
+	pr= $(template).find(".price");
+	$(pr).html(saleP);
+	$(pr).attr("title",saleP);
+	
+	//CENTRAR
+	//$(template).css({position: "absolute",top:'30%',left:'35%'});
+	$(template).css("display","");
+	
+	$("#divAutoComplete").append(template);
+	  $('.divInvisible').click(function(event){
+		    //event.stopPropagation();
+		    //console.log("se detuvo");
+		});
+
+	  $('.add').click(addClick);
+	  $('#close').click(function(){
+		  $(".divActual").remove();
+	  });
+	  setQuantity();
+	
+	  $(template).keyup(function(e) { 
+	
+        if (e.which == 27) {
+        	//alert('esc');
+            $(".divActual").remove();
+        }
+    });
+	 /*  $('.quantity').change(function(){
+		  if(!checkQuantOk($(this))){
+			  //chequear aveces no lo llama
+			  alert("Cantidad incorrecta");
+		    	$(this).focus();
+		  }
+	  }); */
+	  
+}
+
+
+function Desaparecer(id){
+	
+			$("#div"+id).remove();
+	
+	}
+
+	$(document).ready(function() {
+		
+		
+			  $(".divImgSale").mouseover(function(){
+				  	eleOffset = $(this).find(".productImgSale").offset();
+				  	//Revisar
+					offTop=eleOffset.top-30;
+					 $(this).find(".productTT").fadeIn("fast").css({
+
+								left: eleOffset.left,
+								top: offTop
+
+							});
+					}).mouseout(function(){
+						 $(this).find(".productTT").hide();
+					});
+			
+			
+		//$('input[name=quantity]').change(function(){
+		$('.quantity').change(function(){
+			var ant=$(this).siblings("label[name=price]").attr("title")
+			var cant=$(this).val()            
+			var dsp=ant*cant
+			dsp = dsp.toFixed(2);
+	
+			$(this).siblings('label[name=price]').html(dsp)
+            
+		});
+        
+        
+		$(".l").click(function() {
+	
+		  		  $.ajax({
+		              url: '/chieti/product/',
+		              type: 'post', 
+		              data: {
+		                  'id': $(this).attr("id"),
+		            	  //'id': $(this).val(),
+		              },
+		              success: function(data) {
+		                  //console.log("todo ok! AJAX")
+		                  //console.log(data)
+		                  $("body").html(data)
+		              }
+		          });    
+  		});
+		
+		 $("#carrito").click(function() {
+			 $(location).attr('href','/chieti/changeOrder');       			
+			 });
+		 
+		 
+		  $( "#tags" ).autocomplete({
+		      source:"/chieti/complete/",
+		      minLength:2,
+		      select: function( event, data ) {
+	
+				  popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
+			}
+		  });
+		  
+		//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
+		$("#close").click(function() {
+	
+			$(this).parent("#divInvisible").remove();
+			});
+		    
+
+	});
+	function checkQuantOk(quant){
+		num=$(quant).val()
+	
+		um=$(quant).siblings("#um").html();
+	
+		if(!$.isNumeric(num))
+			{return false;}
+	    if(num < 0.1)
+	    	return false;
+	    if (um=="Unidad"){
+	    	if(!(num % 1 === 0))
+	    		{return false}
+	    	}
+	    return true;
+	}
+
+function addClick(){
+    //ids=$(this).siblings(".ids").text()
+    quant= $(this).siblings('input[name=quantity]');
+    if(!checkQuantOk(quant)){
+			  //chequear aveces no lo llama
+			  alert("Cantidad incorrecta");
+		    	$(this).focus();
+		    	return;
+    }
+    var ids= $(this).siblings("input[name=ids]").attr("id");
+    
+    var quant= $(this).siblings('input[name=quantity]').val()
+    var quantAcheck= $(this).siblings('input[name=quantity]')
+    divActual=$(this);
+    if(checkQuantOk(quantAcheck)==true){
+    
+        $.ajax({
+            url: '/chieti/addToOrder/',
+            type: 'post', 
+            data: {
+                'ids':ids,
+                'quantity':quant,
+            },
+            success: function(data) {
+    
+                if (data != 'true'){
+                	$('body').html(data);
+                	/* var w  = 400;
+                    var h = 300;
+                    var left = (screen.width/2)-(w/2);
+                    var top = (screen.height/2)-(h/2);
+                	var myWindow = window.open('/chieti/singIn/?ventana=1','','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);*/
+                }
+                else{
+                	// Agregar efecto
+                	$(divActual).parents(".divActual").remove();                	
+                }
+                }
+
+
+            });
+    }
+    else{
+    	alert("Cantidad incorrecta");
+    	$(this).focus();
+    }
+     
+    
+}
+function setQuantity(){
+	$('.quantity').change(function(){
+		var ant=$(this).siblings(".price").attr('title');
+		var cant=$(this).val()            
+		var dsp=ant*cant
+		dsp = dsp.toFixed(2);
+	
+		
+		$(this).siblings('.price').html(dsp)    
+	});
+}
+
+</script>
+
+	
+
 </head>
-<body>
-<div align="center">
-		<img id="headSale" src="{% static 'chieti/images/bigSale.png' %}" style="width:150px;height:150px;" alt=""/>			 
+<body class="prodBody" >
+<div id="tipo">
+	<a id="1" style="float:left;display:block; color:gray; font-weight: bold;margin-left:20% " class="l">Frutas</a>
+	<a id="2" style="float:left;display:block; color:gray; font-weight: bold; margin-left:15%" class="l">Verduras</a>
+	<a id="3" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">Otros</a>
+	<a id="4" style="float:left;display:block; color:gray; font-weight: bold;margin-left:15%" class="l">Todos</a>
+</div>
+<br/>
+<div id="divAutoComplete" style="margin-left:20%;margin-top:2%;">
+	<div id="subProd" class="ui-widget">
+	     <label for="tags">Buscar Producto: </label>
+		 <input id="tags">
+	</div>	    
+</div>
+<br/>
+<div id="divLeft" class="divLeft">
+	<img id="carrito"  class="carrito" alt="Mi compra">
+</div>
+<div>
+<br/>
+
+<!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
+<div class="allProducts">
+{% for prod in todos %}
+	<div class="divImgSale">
+	
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImgSale" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
+		<div class="tooltip productTT">{{prod.name}}
+			{% for i in prod.items.all %}
+				<br/>
+				{{i.promoQuantity}} {{i.productFK.name}}
+			{% endfor %}
+		</div>
+		
+	</div>
+	
+{% endfor %}    
+</div>
 </div>
 
-
-{% for promo in todasPromos %}
-<div id="div{{ promo.id }}">
+<div style="display:none;" class="divInvisible divAuto"  align="center">
+<button id="close" style="position:absolute; left:10px;top:5px;" class="button red">x</button>
 	    	<section >
-	        <img  src="/static/chieti/productImages/{{ promo.id }}.jpg" alt="" class="productImg2">
-	        <label id="id1" name="ids" class="ids" hidden="hidden">{{ prod.id }}</label>
+	        <input id="id1" name="ids" class="ids" hidden="hidden"></input>
 	        <br/>
-	        <label name='name' class="product" >{{ promo.name }}</label>
+	        <label name='name' class="product" ></label>
 	        <br/>
-	        {% for i in promo.items.all %}
-	        	{{i.id}}
-			{% endfor %}		        
-			 	        
-	        <label for='quantity'>Cant:</label>
-	        <input name='quantity' type="text" value="" style="width:10%">
-	        {{promo.measureUnit}}
+	        <label id="labQuantity" for='quantity'>Cant:</label>
+	        <input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
+	        <label id="um" name='UnidadMedida'></label>
 	        <br/>
-	        <label>Precio:</label>
-	        <label name='price' title="{{prod.salePrice}}">${{promo.salePrice}}</label>
+	        <label>Precio: $</label>
+	        <label name='price' class="price"></label>
+	        <br/>
 	        <button class="add">Agregar</button>
 	        <br/><br/>
 	        </section>
-	    </div>
-{% endfor %} 
+</div>
+
 </body>
-</html>
