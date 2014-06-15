@@ -120,11 +120,11 @@ function Desaparecer(id){
 		
 			  $(".divImg").mouseover(function(){
 				  	eleOffset = $(this).find(".productImg").offset();
-				  	console.log("eleOffset",eleOffset);
+				  	//console.log("eleOffset",eleOffset);
 				  	//Revisar
 					offTop=eleOffset.top-30;
-					console.log("offTop",offTop);
-					console.log("eleOffset.top",eleOffset.top);
+					//console.log("offTop",offTop);
+					//console.log("eleOffset.top",eleOffset.top);
 					 $(this).find(".productTT").fadeIn("fast").css({
 
 								left: eleOffset.left,
@@ -326,6 +326,6 @@ function setQuantity(){
 	        <button class="add">Agregar</button>
 	        <br/><br/>
 	        </section>
-	    </div>
+</div>
 
 </body>
