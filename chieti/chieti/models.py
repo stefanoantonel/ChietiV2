@@ -116,7 +116,7 @@ class order(models.Model):
 	orderManagerFK=models.ForeignKey(orderManager,related_name='getOrderManager')
 	delivered=models.CharField(default='false',max_length=5)
 	confirm=models.CharField(default='false',max_length=5)
-	
+	pub_date = models.DateTimeField(auto_now=True)
 	def getTotal(self):
 
 		it=item.objects.filter(orderFK=self)
