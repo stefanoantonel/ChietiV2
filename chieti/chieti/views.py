@@ -9,11 +9,10 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
-
 from django.template.loader import render_to_string
 import json
 from _elementtree import tostring
-
+from django.core.context_processors import csrf
 from chieti.models import product, orderManager, order, user, item, category,itemPromo
 
 
@@ -304,7 +303,9 @@ def sendMail2(request,email,context):
 	return HttpResponse('Se le envio un mail para cambiar su clave')
 
 def changePass0(request):
-	return render(request, 'chieti/changePass1.html')
+	c={}
+	c.update(csrf(request))
+	return render(request, 'chieti/changePass1.html',c)
 
 def changePass1(request):
 	mailT2 = request.POST.get('email')
@@ -334,8 +335,9 @@ def changePass3(request):
 	return redirect(showProduct)
 	
 def singUp(request):
-	
-	return render(request, 'chieti/singUp.html',{'error':''})
+	c={'error':''}
+	c.update(csrf(request))
+	return render(request, 'chieti/singUp.html',c)
 	
 	
 def singUpFake(request):
@@ -458,7 +460,9 @@ def changeUser2(request):
 
 def singIn(request):
 	isVentana = request.GET.get('ventana')
-	return render(request, 'chieti/singIn.html',{'error':'','isVentana':isVentana})
+	c = {'error':'','isVentana':isVentana}
+	c.update(csrf(request))
+	return render(request, 'chieti/singIn.html',c)
 
 def bienvenido(request):
 	return render(request, 'chieti/bienvenido.html')
@@ -588,3 +592,10 @@ def logOut(request):
 
 def singInPop(request):
 	return render(request, 'chieti/singInPop.html')
+
+def deleteOldUser(request):
+	u=user.objects.filter(userDj__is_active=0).delete()
+	#print ('user',u)
+	udj=User.objects.filter(is_active=0).delete()
+	print (udj)
+	return render(request, 'chieti/homePage2.html')

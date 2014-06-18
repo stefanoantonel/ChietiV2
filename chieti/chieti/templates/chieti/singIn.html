@@ -19,10 +19,13 @@
 <body>
 <div class="formLogIn fuenteComun">
 	{{error}}
-		<form action="/chieti/singIn2/" method="post" align="middle">
-			<input type="text" name='username' placeholder="Username" value='{{username}}'>
+		
+		<form action="/chieti/singIn2/" method="post" align="middle">{% csrf_token %}
+			<label>Ingrese o Registrese:</label>
+			<br><br>
+			<input type="text" name='username' placeholder="Usuario" value='{{username}}'>
 			<br/>
-			<input type="password" name='password' placeholder="Password">
+			<input type="password" name='password' placeholder="Clave">
 			<input class="button white singIn" type="submit" value="Ingresar">
 			<input type="hidden" value="{{isVentana}}" name="isVentana">
 		</form>

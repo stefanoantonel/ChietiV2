@@ -11,10 +11,12 @@
 <body>
 {{error}}
 <div class="formLogIn">
-<form action="/chieti/singUp2/" method="post" align="middle">
+<form action="/chieti/singUp2/" method="post" align="middle">{% csrf_token %}
 	<table>
 		
-		
+		<tr>	
+		<label>Registrese </label><br>
+		</tr>
 		<tr>
 		<td><label>Ingrese nombre</label></td>
 		<td><input type="text" name='firstName' required="required"></td>

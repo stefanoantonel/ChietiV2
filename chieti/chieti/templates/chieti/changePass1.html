@@ -6,7 +6,7 @@
 {% include 'chieti/mainHead.html' %}
 </head><br>
 <body align="center">
-<form action="/chieti/changePass1/" method="post">
+<form action="/chieti/changePass1/" method="post">{% csrf_token %}
 	<input placeholder="Ingrese Email" name="email">
 	<input placeholder="Nombre Usuario" name="username">
 	<br>
