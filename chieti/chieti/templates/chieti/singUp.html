@@ -10,48 +10,51 @@
 </head>
 <body>
 {{error}}
-<div class="formLogIn">
+<div class="formLogin fuenteComun">
 <form action="/chieti/singUp2/" method="post" align="middle">{% csrf_token %}
 	<table>
 		
 		<tr>	
-		<label>Registrese </label><br>
+		<label class="fuenteComunGrande">Registrarse </label><br>
 		</tr>
 		<tr>
-		<td><label>Ingrese nombre</label></td>
-		<td><input type="text" name='firstName' required="required"></td>
-		</tr>
-
-		<tr>
-		<td><label>Ingrese apellido</label></td>
-		<td><input type="text" name='lastName' required="required"></td>
+		<td><label>Nombre</label></td>
+		<td><input class="inputStyle" type="text" name='firstName' required="required"></td>
 		</tr>
 
 		<tr>
-		<td><label>Ingrese Usuario</label></td>
-		<td><input type="text" name="name" class='username' required="required">
+		<td><label>Apellido</label></td>
+		<td><input class="inputStyle" type="text" name='lastName' required="required"></td>
+		</tr>
+
+		<tr>
+		<td><label>Usuario</label></td>
+		<td><input class="inputStyle" type="text" name="name" class='username' required="required">
 		<label class="exist"></label>
 		</td> 
 		</tr>
 		
 		<tr>
-		<td><label>Ingrese clave</label></td>
-		<td><input type="password" name=password1 required="required"></td>
+		<td><label>Clave</label></td>
+		<td><input class="inputStyle" type="password" name=password1 required="required"></td>
 		</tr>
 		
 		<tr>
 		<td><label>Repita clave</label></td>
-		<td><input type="password" name=password2 required="required"></td>
+		<td><input class="inputStyle" type="password" name=password2 required="required"></td>
 		</tr>
 		
 		<tr>
-		<td><label>Ingrese email</label></td>
-		<td><input type="email" name=email required="required"></td>
+		<td><label>Email</label></td>
+		<td><input class="inputStyle" type="email" name=email required="required"></td>
 		</tr>
 		
 		<tr>
-		<td><label>Ingrese direccion</label></td>
-		<td><input  type="text" name=address required="required"></td>
+			<td><label>Direccion</label>
+				<!-- <br/>
+				<label>(Lugar de entrega)</label> -->
+			</td>
+			<td><input class="inputStyle" type="text" name=address required="required"></td>
 		</tr>
 	<tr>
 </table>

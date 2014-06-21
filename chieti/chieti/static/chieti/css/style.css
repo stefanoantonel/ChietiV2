@@ -289,23 +289,26 @@ border: 1px solid black;
 	background-size: 100% 100%;
 }
 
-
-.formLogIn{
-	/*border: medium;*/
-	border-color: #FFCAA6;
-	border-style:outset;
-	width: 300px;
-	border-width: 8px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 .fuenteComun{
 	font-size: 15px;
 	font-family: "Verdana";
 }
 
+.fuenteComunGrande{
+	font-size: 30px;
+	font-family: "Verdana";
+}
 
+.formLogin { 
+   padding:8px; 
+   background-color: #F8F8F8; 
+   width: 200px; 
+   border: 1px solid #999999; 
+   width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+} 
 .tooltip{
    position: absolute;
    background: #c0df71;
@@ -325,4 +328,15 @@ border: 1px solid black;
 	position: absolute;
 	left:2%;
 	display:inline-block;
+}
+
+
+.inputStyle{
+	border: 1px solid #dedede;
+  border-radius: 10px;
+  /*color: #555;*/
+  /*display: block;*/
+  font: bold 18px/18px HelveticaNeue, Arial;
+  padding: 5px 8px;
+  width: 70%;
 }
