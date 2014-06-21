@@ -19,9 +19,10 @@ function findProductById(id){
 
 $.ajax({
 url: '/chieti/findProductById/',
-type: 'post', 
+type: 'get', 
 data: {
 	'id':id,
+	
 },
 dataType: 'json',
 success: function(data) {
@@ -143,7 +144,7 @@ eleOffset = $(this).find(".productImg").offset();
 		
 		$.ajax({
 			url: '/chieti/product/',
-			type: 'post', 
+			type: 'get', 
 			data: {
 				'id': $(this).attr("id"),
 				  //'id': $(this).val(),
@@ -212,7 +213,7 @@ if(!checkQuantOk(quant)){
 		
 		$.ajax({
 			url: '/chieti/addToOrder/',
-			type: 'post', 
+			type: 'get', 
 			data: {
 				'ids':ids,
 				'quantity':quant,

@@ -136,7 +136,7 @@ def addProd2(request):
 
 #@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
-	cat=request.POST.get("id")
+	cat=request.GET.get("id")
 	if(cat==None): 
 		todo = product.objects.filter(category=1)
 	elif(cat=='4'): 
@@ -145,6 +145,7 @@ def showProduct(request):
 		todo = product.objects.filter(category=cat)
 	#print todo.query
 	#c = Context({'todos':todo})
+	
 	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
 	
 
@@ -182,8 +183,8 @@ def changePrice2(request):
 
 @login_required(login_url='/chieti/singIn/')
 def addToOrder(request):
-	ids = request.POST.get('ids')
-	quant = request.POST.get('quantity')
+	ids = request.GET.get('ids')
+	quant = request.GET.get('quantity')
 	if float(quant):
 		# p=product.object.get(id=ids) 
 		# q=quant
@@ -207,7 +208,7 @@ def changeOrder(request):
 
 
 def confirmOrder(request):
-	if(request.POST.get("confirm")):						
+	if(request.GET.get("confirm")):						
 		a=order.objects.get(id=request.session["order"])
 		a.confirm='true'
 		a.save()
@@ -333,7 +334,8 @@ def changePass3(request):
 		u.set_password(pass1)
 		u.save()
 	return redirect(showProduct)
-	
+
+
 def singUp(request):
 	c={'error':''}
 	c.update(csrf(request))
@@ -547,7 +549,9 @@ def usernameExist(request):
 	if not us: #no exist
 		#image_data = open("chieti/static/chieti/images/fine.png", "rb").read()
 		#return HttpResponse(image_data, mimetype="image/png")
+		print ('no esta')
 		return HttpResponse()
+	print('si esta')
 	return HttpResponse("MAL")
 
 def changeUserData(request):
@@ -574,7 +578,7 @@ def adm(request):
 	pass
 	
 def findProductById(request):
-	prodId=request.POST.get('id')
+	prodId=request.GET.get('id')
 	prod = product.objects.get(id=prodId)
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
