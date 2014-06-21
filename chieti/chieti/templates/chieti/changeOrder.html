@@ -40,7 +40,7 @@
 				
 				$.ajax({
 	                url: '/chieti/changeOrder3/',
-	                type: 'post', 
+	                type: 'get', 
 	                data: {
 	                    "itemId":itemId,
 	                    "quantity":cant,
@@ -75,7 +75,7 @@
 			console.log("item",item)
 			$.ajax({
                 url: '/chieti/removeItem/',
-                type: 'post', 
+                type: 'get', 
                 data: {
                     "itemId":item,
                 },

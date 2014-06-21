@@ -235,8 +235,8 @@ def changeOrder2(request):
 @login_required(login_url='/chieti/singIn/')
 def changeOrder3(request):
 	# ids=request['ids']
-	itemId = request.POST.get("itemId")
-	quant = request.POST.get("quantity")
+	itemId = request.GET.get("itemId")
+	quant = request.GET.get("quantity")
 	if float(quant):
 	#if quant.isdigit():
 		item.objects.filter(id=itemId).update(quantity=quant)
@@ -244,7 +244,7 @@ def changeOrder3(request):
 
 @login_required(login_url='/chieti/singIn/')
 def removeItem(request):
-	itemId = request.POST.get("itemId")	
+	itemId = request.GET.get("itemId")	
 	ordId = request.session["order"]
 	c = order.objects.get(id=ordId).removeItem(itemId)
 	
@@ -274,8 +274,8 @@ def cancelProduct(request):
 	return render(request, 'chieti/cancelProduct.html',{'todos':products})
 	
 def cancelProduct2(request):
-	productId = request.POST.get('productId')
-	checked = request.POST.get('checked')
+	productId = request.GET.get('productId')
+	checked = request.GET.get('checked')
 	product.objects.filter(id=productId).update(canceled=checked)
 	
 	return HttpResponse(checked)
@@ -343,7 +343,9 @@ def singUp(request):
 	
 	
 def singUpFake(request):
-	return render(request, 'chieti/singUpFake.html',{'error':''})
+	c={'error':''}
+	c.update(csrf(request))
+	return render(request, 'chieti/singUpFake.html',c)
 	
 def singUp2(request):
 	pass1 = request.POST.get('password1')
@@ -525,16 +527,16 @@ def changeProduct(request):
 
 @staff_member_required
 def changeProduct2(request):
-	prodId = request.POST.get('idProd')
+	prodId = request.GET.get('idProd')
 	#paramName=request.POST.get('paramName')
 	#paramValue=request.POST.get('paramValue')
-	nam=request.POST.get('name')
-	buyPric=request.POST.get('buyPrice')
-	salePric=request.POST.get('salePrice')
-	categor=request.POST.get('category')
-	measureUni=request.POST.get('measureUnit')
-	delet=request.POST.get('delete')
-	cancele=request.POST.get('canceled','false')
+	nam=request.GET.get('name')
+	buyPric=request.GET.get('buyPrice')
+	salePric=request.GET.get('salePrice')
+	categor=request.GET.get('category')
+	measureUni=request.GET.get('measureUnit')
+	delet=request.GET.get('delete')
+	cancele=request.GET.get('canceled','false')
 
 	if(delet =='true'):
 		product.objects.filter(id=prodId).delete()
