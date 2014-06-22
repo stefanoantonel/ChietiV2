@@ -168,10 +168,10 @@ $( ".divImg").hover(
 	
 	$(".l").click(function() {
 		
-		
+		console.log('click')
 		$.ajax({
 			//url: '/chieti/getproducts/',
-			url: '/chieti/product/',
+			url: '/chieti/getproducts/',
 			type: 'get', 
 			data: {
 				'id': $(this).attr("id"),
@@ -180,7 +180,7 @@ $( ".divImg").hover(
 				success: function(data) {
 				  //console.log("todo ok! AJAX")
 				  //console.log(data)
-				  $("body").find('.allProducts').parent().html(data);
+				  $("body").find('.allProducts').parent('section').html(data);
 				  recargar();
 			  }
 		});    
