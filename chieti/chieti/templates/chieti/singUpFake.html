@@ -6,7 +6,7 @@
 </head>
 <body>
 {{error}}
-<form action="/chieti/singUp2Fake/" method="post">
+<form action="/chieti/singUp2Fake/" method="post">{% csrf_token %}
 	<label>Ingrese nombre</label>
 	<input type="text" name="name" required="required">
 	<br/>

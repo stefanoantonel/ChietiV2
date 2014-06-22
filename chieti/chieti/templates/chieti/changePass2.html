@@ -6,7 +6,7 @@
 {% include 'chieti/mainHead.html' %}
 </head><br>
 <body align="center">
-<form action="/chieti/changePass3/" method="post">
+<form action="/chieti/changePass3/" method="post">{% csrf_token %}
 	<input placeholder="Email" name= 'email' value={{mail}} disabled="disabled">
 	<input placeholder="Usuario" name= 'name' value={{name}} disabled="disabled"><br><br>
 	<input placeholder="Nueva clave" type="password" name= 'pass1'>

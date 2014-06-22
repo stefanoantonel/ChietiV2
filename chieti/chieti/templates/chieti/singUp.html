@@ -7,53 +7,95 @@
 <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/buttonStyle.css' %}" />
 <script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
 <title>Sing Up</title>
+<script>
+var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
+i = 0,
+// $swap = $("#swap");
+swapper=0;
+	
+function swapImg(){
+  i = i % images.length;
+  $("#swap").attr("src",images[i]);        
+  i++;
+}
+
+$(document).ready(function() {
+		$("#swap").hover(function(){
+			console.log("in!");
+			swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
+			},function(){
+			    clearInterval(swapper);
+				});
+				
+		$('#swap').bind('mouseleave', function(e) {
+			$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
+		});
+ 
+		$('#swap').click(function(){
+			window.location="/chieti/home";
+		})
+		$('#submit').click(function(){
+		//	$('body').append('<h2><b>Agruarde un momento por favor!</b></h2>')
+		});
+}); 
+
+</script>
+
 </head>
 <body>
+<div name="titulo" align="center">
+		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:150px;height:150px;" alt=""/>			 
+</div>
 {{error}}
-<div class="formLogIn">
-<form action="/chieti/singUp2/" method="post" align="middle">
+<div class="formLogin fuenteComun">
+<form action="/chieti/singUp2/" method="post" align="middle">{% csrf_token %}
 	<table>
 		
-		
+		<tr>	
+		<label class="fuenteComunGrande">Registrarse </label><br>
+		</tr>
 		<tr>
-		<td><label>Ingrese nombre</label></td>
-		<td><input type="text" name='firstName' required="required"></td>
+		<td><label>Nombre</label></td>
+		<td><input class="inputStyle" type="text" name='firstName' required="required"></td>
 		</tr>
 
 		<tr>
-		<td><label>Ingrese apellido</label></td>
-		<td><input type="text" name='lastName' required="required"></td>
+		<td><label>Apellido</label></td>
+		<td><input class="inputStyle" type="text" name='lastName' required="required"></td>
 		</tr>
 
 		<tr>
-		<td><label>Ingrese Usuario</label></td>
-		<td><input type="text" name="name" class='username' required="required">
+		<td><label>Usuario</label></td>
+		<td><input class="inputStyle username" type="text" name="name" required="required">
 		<label class="exist"></label>
 		</td> 
 		</tr>
 		
 		<tr>
-		<td><label>Ingrese clave</label></td>
-		<td><input type="password" name=password1 required="required"></td>
+		<td><label>Clave</label></td>
+		<td><input class="inputStyle" type="password" name=password1 required="required"></td>
 		</tr>
 		
 		<tr>
 		<td><label>Repita clave</label></td>
-		<td><input type="password" name=password2 required="required"></td>
+		<td><input class="inputStyle" type="password" name=password2 required="required"></td>
 		</tr>
 		
 		<tr>
-		<td><label>Ingrese email</label></td>
-		<td><input type="email" name=email required="required"></td>
+		<td><label>Email</label></td>
+		<td><input class="inputStyle" type="email" name=email required="required"></td>
 		</tr>
 		
 		<tr>
-		<td><label>Ingrese direccion</label></td>
-		<td><input  type="text" name=address required="required"></td>
+			<td><label>Direccion</label>
+				<!-- <br/>
+				<label>(Lugar de entrega)</label> -->
+			</td>
+			<td><input class="inputStyle" type="text" name=address required="required"></td>
 		</tr>
 	<tr>
 </table>
-<input class= "button white singIn" style="margin:5px;" type="submit" value="Listo">
+<input class= "button white singIn" style="margin:5px;" type="submit" value="Listo" id="submit">
 
 </div>
 
@@ -66,12 +108,16 @@
 <script type="application/javascript">
 $(document).ready(function(){
 	$('.username').change(function(){
+		console.log('cambio!');
 		name=$(this).val();
+		
+		
 		$.ajax({
             url: '/chieti/usernameExist/',
             type: 'post', 
             data: {
                 'name':name,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
             },
             success: function(data) {
                

@@ -23,7 +23,7 @@
 			console.log(buyPrice,salePrice);
 			$.ajax({
                 url: '/chieti/changeProduct2/',
-                type: 'post', 
+                type: 'get', 
                 data: { "idProd": id, "name":name, "buyPrice":buyPrice,"salePrice":salePrice,"category":category, "measureUnit":meas,"canceled":can, "delete":dele},
                 success: function(data) {
                 }

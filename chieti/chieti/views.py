@@ -7,11 +7,10 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
-
 from django.template.loader import render_to_string
 import json
 from _elementtree import tostring
-
+from django.core.context_processors import csrf
 from chieti.models import product, orderManager, order, user, item, category,itemPromo
 
 
@@ -135,7 +134,7 @@ def addProd2(request):
 
 #@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
-	cat=request.POST.get("id")
+	cat=request.GET.get("id")
 	if(cat==None): 
 		todo = product.objects.filter(category=1)
 	elif(cat=='4'): 
@@ -144,6 +143,7 @@ def showProduct(request):
 		todo = product.objects.filter(category=cat)
 	#print todo.query
 	#c = Context({'todos':todo})
+	
 	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
 	
 
@@ -181,8 +181,8 @@ def changePrice2(request):
 
 @login_required(login_url='/chieti/singIn/')
 def addToOrder(request):
-	ids = request.POST.get('ids')
-	quant = request.POST.get('quantity')
+	ids = request.GET.get('ids')
+	quant = request.GET.get('quantity')
 	if float(quant):
 		# p=product.object.get(id=ids) 
 		# q=quant
@@ -206,7 +206,7 @@ def changeOrder(request):
 
 
 def confirmOrder(request):
-	if(request.POST.get("confirm")):						
+	if(request.GET.get("confirm")):						
 		a=order.objects.get(id=request.session["order"])
 		a.confirm='true'
 		a.save()
@@ -233,8 +233,8 @@ def changeOrder2(request):
 @login_required(login_url='/chieti/singIn/')
 def changeOrder3(request):
 	# ids=request['ids']
-	itemId = request.POST.get("itemId")
-	quant = request.POST.get("quantity")
+	itemId = request.GET.get("itemId")
+	quant = request.GET.get("quantity")
 	if float(quant):
 	#if quant.isdigit():
 		item.objects.filter(id=itemId).update(quantity=quant)
@@ -242,7 +242,7 @@ def changeOrder3(request):
 
 @login_required(login_url='/chieti/singIn/')
 def removeItem(request):
-	itemId = request.POST.get("itemId")	
+	itemId = request.GET.get("itemId")	
 	ordId = request.session["order"]
 	c = order.objects.get(id=ordId).removeItem(itemId)
 	
@@ -272,8 +272,8 @@ def cancelProduct(request):
 	return render(request, 'chieti/cancelProduct.html',{'todos':products})
 	
 def cancelProduct2(request):
-	productId = request.POST.get('productId')
-	checked = request.POST.get('checked')
+	productId = request.GET.get('productId')
+	checked = request.GET.get('checked')
 	product.objects.filter(id=productId).update(canceled=checked)
 	
 	return HttpResponse(checked)
@@ -302,7 +302,9 @@ def sendMail2(request,email,context):
 	return HttpResponse('Se le envio un mail para cambiar su clave')
 
 def changePass0(request):
-	return render(request, 'chieti/changePass1.html')
+	c={}
+	c.update(csrf(request))
+	return render(request, 'chieti/changePass1.html',c)
 
 def changePass1(request):
 	mailT2 = request.POST.get('email')
@@ -330,14 +332,18 @@ def changePass3(request):
 		u.set_password(pass1)
 		u.save()
 	return redirect(showProduct)
-	
+
+
 def singUp(request):
-	
-	return render(request, 'chieti/singUp.html',{'error':''})
+	c={'error':''}
+	c.update(csrf(request))
+	return render(request, 'chieti/singUp.html',c)
 	
 	
 def singUpFake(request):
-	return render(request, 'chieti/singUpFake.html',{'error':''})
+	c={'error':''}
+	c.update(csrf(request))
+	return render(request, 'chieti/singUpFake.html',c)
 	
 def singUp2(request):
 	pass1 = request.POST.get('password1')
@@ -456,7 +462,9 @@ def changeUser2(request):
 
 def singIn(request):
 	isVentana = request.GET.get('ventana')
-	return render(request, 'chieti/singIn.html',{'error':'','isVentana':isVentana})
+	c = {'error':'','isVentana':isVentana}
+	c.update(csrf(request))
+	return render(request, 'chieti/singIn.html',c)
 
 def bienvenido(request):
 	return render(request, 'chieti/bienvenido.html')
@@ -517,16 +525,16 @@ def changeProduct(request):
 
 @staff_member_required
 def changeProduct2(request):
-	prodId = request.POST.get('idProd')
+	prodId = request.GET.get('idProd')
 	#paramName=request.POST.get('paramName')
 	#paramValue=request.POST.get('paramValue')
-	nam=request.POST.get('name')
-	buyPric=request.POST.get('buyPrice')
-	salePric=request.POST.get('salePrice')
-	categor=request.POST.get('category')
-	measureUni=request.POST.get('measureUnit')
-	delet=request.POST.get('delete')
-	cancele=request.POST.get('canceled','false')
+	nam=request.GET.get('name')
+	buyPric=request.GET.get('buyPrice')
+	salePric=request.GET.get('salePrice')
+	categor=request.GET.get('category')
+	measureUni=request.GET.get('measureUnit')
+	delet=request.GET.get('delete')
+	cancele=request.GET.get('canceled','false')
 
 	if(delet =='true'):
 		product.objects.filter(id=prodId).delete()
@@ -541,7 +549,9 @@ def usernameExist(request):
 	if not us: #no exist
 		#image_data = open("chieti/static/chieti/images/fine.png", "rb").read()
 		#return HttpResponse(image_data, mimetype="image/png")
+		print ('no esta')
 		return HttpResponse()
+	print('si esta')
 	return HttpResponse("MAL")
 
 def changeUserData(request):
@@ -568,7 +578,7 @@ def adm(request):
 	pass
 	
 def findProductById(request):
-	prodId=request.POST.get('id')
+	prodId=request.GET.get('id')
 	prod = product.objects.get(id=prodId)
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
@@ -586,3 +596,11 @@ def logOut(request):
 
 def singInPop(request):
 	return render(request, 'chieti/singInPop.html')
+
+def deleteOldUser(request):
+	u=user.objects.filter(userDj__is_active=0).delete()
+	#print ('user',u)
+	udj=User.objects.filter(is_active=0).delete()
+	print (udj)
+	return render(request, 'chieti/homePage2.html')
+

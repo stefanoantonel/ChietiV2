@@ -28,7 +28,7 @@ function findProductById(id){
 	
     $.ajax({
         url: '/chieti/findProductById/',
-        type: 'post', 
+        type: 'get', 
         data: {
             'id':id,
         },
@@ -139,7 +139,7 @@ function Desaparecer(id){
 	
 		  		  $.ajax({
 		              url: '/chieti/product/',
-		              type: 'post', 
+		              type: 'get', 
 		              data: {
 		                  'id': $(this).attr("id"),
 		            	  //'id': $(this).val(),
@@ -208,7 +208,7 @@ function addClick(){
     
         $.ajax({
             url: '/chieti/addToOrder/',
-            type: 'post', 
+            type: 'get', 
             data: {
                 'ids':ids,
                 'quantity':quant,
