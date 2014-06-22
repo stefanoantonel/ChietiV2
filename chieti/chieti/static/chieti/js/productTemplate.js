@@ -170,7 +170,8 @@ $( ".divImg").hover(
 		
 		
 		$.ajax({
-			url: '/chieti/getproducts/',
+			//url: '/chieti/getproducts/',
+			url: '/chieti/product/',
 			type: 'get', 
 			data: {
 				'id': $(this).attr("id"),
