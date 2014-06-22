@@ -180,6 +180,7 @@ $( ".divImg").hover(
 				  //console.log("todo ok! AJAX")
 				  //console.log(data)
 				  $("body").find('.allProducts').parent().html(data);
+				  recargar();
 			  }
 		});    
 		
@@ -294,3 +295,85 @@ function setQuantity(){
 	});
 }
 
+
+
+function recargar(){
+	$( ".divImg").hover(
+			function(){
+				
+				eleOffset = $(this).find(".productImg").offset();
+					//console.log("eleOffset",eleOffset);
+					//Revisar
+				offTop=eleOffset.top-30;
+				//console.log("offTop",offTop);
+				//console.log("eleOffset.top",eleOffset.top);
+				$(this).find(".productTT").fadeIn("fast").css({
+					left: eleOffset.left,
+					top: offTop
+				})
+			}, 
+			function() {
+				
+			    $(this).find(".productTT").delay(10).fadeOut();
+			  }
+		);		
+				
+		//$('input[name=quantity]').change(function(){
+			$('.quantity').change(function(){
+				var ant=$(this).siblings("label[name=price]").attr("title")
+				var cant=$(this).val()            
+				var dsp=ant*cant
+				dsp = dsp.toFixed(2);
+				
+				$(this).siblings('label[name=price]').html(dsp)
+				
+			});
+			
+			
+			$(".l").click(function() {
+				
+				
+				$.ajax({
+					url: '/chieti/getproducts/',
+					type: 'get', 
+					data: {
+						'id': $(this).attr("id"),
+						  //'id': $(this).val(),
+						},
+						success: function(data) {
+						  //console.log("todo ok! AJAX")
+						  //console.log(data)
+						  $("body").find('.allProducts').parent().html(data);
+					  }
+				}).callback(recargar);    
+				
+			});
+			
+			$("#carrito").click(function() {
+				$(location).attr('href','/chieti/changeOrder');       			
+			});
+			
+			
+			$( "#tags" ).autocomplete({
+				source:"/chieti/complete/",
+				minLength:2,
+				select: function( event, data ) {
+					
+					popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
+				}
+			});
+			
+		//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
+		$("#close").click(function() {
+			
+			$(this).parent("#divInvisible").remove();
+		});
+
+
+		$('img.productImg').lazyload({
+			threshold : 200,
+			effect : "fadeIn"
+			
+		});
+	
+}
