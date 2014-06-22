@@ -109,7 +109,7 @@ $('.divImg').click(function(event){
 	//event.stopPropagation();
 });	
 
-
+/*
 $(".divImg").mouseover(function(){
 eleOffset = $(this).find(".productImg").offset();
 			//console.log("eleOffset",eleOffset);
@@ -122,13 +122,37 @@ eleOffset = $(this).find(".productImg").offset();
 				left: eleOffset.left,
 				top: offTop
 
-			}).delay(1000).fadeOut();
+			}).delay(500).fadeOut();
 		})
 		
 		//.mouseout(function(){
 		//	$(this).find(".productTT").hide();
 		//});
+*/
+
+//tooltip! 
+// Calling $( selector ).hover( handlerIn, handlerOut ) is shorthand for:
+//$( selector ).mouseenter( handlerIn ).mouseleave( handlerOut );
+
+$( ".divImg").hover(
+	function(){
 		
+		eleOffset = $(this).find(".productImg").offset();
+			//console.log("eleOffset",eleOffset);
+			//Revisar
+		offTop=eleOffset.top-30;
+		//console.log("offTop",offTop);
+		//console.log("eleOffset.top",eleOffset.top);
+		$(this).find(".productTT").fadeIn("fast").css({
+			left: eleOffset.left,
+			top: offTop
+		})
+	}, 
+	function() {
+		
+	    $(this).find(".productTT").delay(10).fadeOut();
+	  }
+);		
 		
 //$('input[name=quantity]').change(function(){
 	$('.quantity').change(function(){
