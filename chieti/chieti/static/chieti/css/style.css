@@ -51,14 +51,19 @@ li a {
     height:50%;  
 
 }
-.linkTipo{
-	/*float:left;
+/* .linkTipo{
+	float:left;
 	margin-left: 50%;
 	display:block;
-	margin-left: 20%;*/
+	margin-left: 20%;
 	float:left; color:gray; font-weight: bold;
 	padding-left: 100px;
 }
+ */
+.linkTipo{
+	float:left;display:block; color:gray; font-weight: bold;
+	}
+
 
 .carrito{
 	/*position:absolute;
