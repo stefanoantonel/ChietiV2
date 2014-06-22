@@ -1,20 +1,23 @@
 
 
+from _elementtree import tostring
+from decimal import *
+import json
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.context_processors import csrf
+from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMultiAlternatives
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
-import json
-from _elementtree import tostring
-from django.core.context_processors import csrf
-from chieti.models import product, orderManager, order, user, item, category,itemPromo
 
+from chieti.models import product, orderManager, order, user, item, category, itemPromo
 
 
 # Create your tests here.
@@ -115,6 +118,15 @@ def addProd2(request):
 	image=request.POST.get('image')
 
 	
+	#--------------
+# 	id=1000
+# 	destination = open('static/chieti/productImages/'+id+'.png, wb+')
+# 	f=request.FILES['file']
+# 	for chunk in f.chunks():
+# 		destination.write(chunk)
+# 	destination.close()
+	#---------------
+	
 	if not c.isdigit():
 		c=category.objects.get(description=c).id
 		pass
@@ -164,7 +176,6 @@ def changePrice(request):
 	
 	return render(request, 'chieti/changePrice.html',{'todos':todo})
 	
-from decimal import *
 @staff_member_required
 def changePrice2(request):
 	# ids=request['ids']

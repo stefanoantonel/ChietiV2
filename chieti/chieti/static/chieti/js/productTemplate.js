@@ -122,10 +122,12 @@ eleOffset = $(this).find(".productImg").offset();
 				left: eleOffset.left,
 				top: offTop
 
-			});
-		}).mouseout(function(){
-			$(this).find(".productTT").hide();
-		});
+			}).delay(1000).fadeOut();
+		})
+		
+		//.mouseout(function(){
+		//	$(this).find(".productTT").hide();
+		//});
 		
 		
 //$('input[name=quantity]').change(function(){
