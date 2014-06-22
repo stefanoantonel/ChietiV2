@@ -204,7 +204,17 @@ $("#close").click(function() {
 });
 
 
+$('img.productImg').lazyload({
+	threshold : 200,
+	effect : "fadeIn"
+	
 });
+
+
+});
+
+
+
 function checkQuantOk(quant){
 num=$(quant).val()
 
@@ -281,3 +291,4 @@ function setQuantity(){
 		$(this).siblings('.price').html(dsp)    
 	});
 }
+
