@@ -168,8 +168,9 @@ $( ".divImg").hover(
 	
 	$(".l").click(function() {
 		
+		
 		$.ajax({
-			url: '/chieti/product/',
+			url: '/chieti/getproducts/',
 			type: 'get', 
 			data: {
 				'id': $(this).attr("id"),
@@ -178,9 +179,10 @@ $( ".divImg").hover(
 				success: function(data) {
 				  //console.log("todo ok! AJAX")
 				  //console.log(data)
-				  $("body").html(data)
+				  $("body").find('.allProducts').parent().html(data);
 			  }
-		  });    
+		});    
+		
 	});
 	
 	$("#carrito").click(function() {
