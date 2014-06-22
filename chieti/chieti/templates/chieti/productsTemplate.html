@@ -5,9 +5,9 @@
 <title>Chieti</title>
 {% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
 
+<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 <script type="text/javascript">
 
 </script>
@@ -42,7 +42,7 @@
 {% for prod in todos %}
 	<div class="divImg">
 	
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
+		<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
 		<div class="tooltip productTT">{{prod.name}}
 			{% for i in prod.items.all %}
 				<br/>
@@ -76,3 +76,5 @@
 </div>
 
 </body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+</html>

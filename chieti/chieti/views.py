@@ -616,3 +616,16 @@ def deleteOldUser(request):
 	udj=User.objects.filter(is_active=0).delete()
 	print (udj)
 	return render(request, 'chieti/homePage2.html')
+
+def getProducts(request):
+	cat=request.GET.get("id")
+	if(cat==None): 
+		todo = product.objects.filter(category=1)
+	elif(cat=='4'): 
+		todo = product.objects.all()
+	else:
+		todo = product.objects.filter(category=cat)
+	#print todo.query
+	#c = Context({'todos':todo})
+	
+	return render(request, 'chieti/getProducts.html',{'todos':todo})
