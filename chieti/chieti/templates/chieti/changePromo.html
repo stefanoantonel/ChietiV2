@@ -1,21 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+{% include 'chieti/mainHead.html' %}
+	<title>Modificacion de Promo</title>
+
 </head>
 <body>
-{% for prod in todos %}
-	<section class="productContainer">
-			<input name="prodId" class ='prodId' hidden="hidden" value="{{prod.id}}"/>
-			<input name="name" class ='name'value="{{prod.name}}"/>
-			<input name="buyPrice" class ='buyPrice'value="{{prod.buyPrice}}"/>
-			<input name="salePrice" class ='salePrice' value="{{prod.salePrice}}"/>
-			<input name="category" class ='category' value="{{prod.category.id}}" />
-			<input name="measureUnit" class ='measureUnit' value="{{prod.measureUnit}}"/>
-			<input name="canceled" class ='canceled' type="checkbox"  value="{{prod.canceled}}" />
-			<input name="delete" class ='delete' type="checkbox" />
-			<br>
-	</section>
-{% endfor %}    
+
+<select id="comboContainer" multiple size="10">
+	{% for prod in combos %}
+		<option value="{{prod.id}}">{{prod.name}}</option>
+	{% endfor %}
+</select>
+
+<select id="productsInCombo" multiple size="10">
+	
+		<option value="{{prod.id}}">{{prod.name}}</option>
+	
+</select>
+<div style="display:inline">
+	<button id="remove" style="display:inline-block"> > </button>
+	<button id="add" style="display:inline-block"> < </button>	
+</div>
+
+<select id="allProducts" multiple size="10" hidden='hidden'>
+	{% for prod in todos %}
+		<option value="{{prod.id}}" >{{prod.name}}</option>
+	{% endfor %}
+</select>
+<input type="submit" id="ready" value="Guardar">
+
+
+<br><br>
+<section hidden='hidden' id='changeQuant'></section>
+
 </body>
+
+<script type="application/javascript">
+	$('#comboContainer').change(function(){
+		var id=parseInt($(this).val());
+		$('#allProducts').removeAttr('hidden')
+		console.log(id);
+		$.ajax({
+            url: '/chieti/changePromo2/',
+            type: 'get',
+            data: { 'id': id,},
+            success: function(data) {
+            	prod=JSON.parse(data);
+            	
+            	container=$('#productsInCombo')
+            	container.html('');
+            	$(prod).each(function(){
+            		
+            		a="<option value="+this.id+">"+this.name+"</option>";
+            		console.log(a);
+            		container.append(a);
+            	})
+            }
+        });
+	});
+
+	$('#add').click(function(){
+		$('#allProducts').find('option:selected').each(function(){
+			$('#productsInCombo').append(this);
+		});
+	});
+
+	$('#remove').click(function(){
+		$('#productsInCombo').find('option:selected').each(function(){
+			this.remove();
+		});
+	});
+	$('#ready').click(function(){
+		arrayIds=[];
+		$('#productsInCombo').find('option').each(function(){
+			a={'id':$(this).val()}
+			arrayIds.push(a);
+		});
+		console.log(arrayIds);
+		$.get("/chieti/changePromo3/ ",{ array:arrayIds})
+	});
+</script>
+
 </html>

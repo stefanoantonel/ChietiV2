@@ -61,7 +61,7 @@ urlpatterns = patterns('',
 	url(r'changeProduct2/','chieti.views.changeProduct2'),
 	url(r'usernameExist/','chieti.views.usernameExist'),
 	
-	
+	url(r'^$','chieti.views.home'),
 	url(r'changePass0/','chieti.views.changePass0'),
 	url(r'changePass1/','chieti.views.changePass1'),
 	url(r'changePass2/','chieti.views.changePass2'),
@@ -78,8 +78,8 @@ urlpatterns = patterns('',
     url(r'getproducts/','chieti.views.getProducts'),
     url(r'getTotalPriceOrder/','chieti.views.getTotalPriceOrder'),
     url(r'changePromo/','chieti.views.changePromo'),
-
-    url(r'^$','chieti.views.home'),
+    url(r'changePromo2/','chieti.views.changePromo2'),
+    url(r'changePromo3/','chieti.views.changePromo3'),
 	
 )
 

@@ -637,5 +637,23 @@ def getTotalPriceOrder(request):
 	total=o2.getTotal()
 	return HttpResponse(total)
 def changePromo(request):
-	todos = product.objects.filter(isPromo="true")
-	return render(request, 'chieti/changeProduct.html',{'todos':todos})
+	combos = product.objects.filter(isPromo="true")
+	todos = product.objects.all()
+	c={'todos':todos,'combos':combos}
+	c.update(csrf(request))
+	return render(request, 'chieti/changePromo.html',c)
+def changePromo2(request):
+	pr=request.GET.get("id")
+	prodInCombo = itemPromo.objects.filter(promoFK=pr)
+	lista=[]
+	for p in prodInCombo:
+		d1={'id':p.productFK.id,'name':p.productFK.name}
+		lista.append(d1)
+	js=json.dumps(lista)
+	return HttpResponse(js)
+def changePromo3(request):
+	pr=request.GET.getlist("array")
+	print('pr',pr)
+	
+	return HttpResponse('')
+	
