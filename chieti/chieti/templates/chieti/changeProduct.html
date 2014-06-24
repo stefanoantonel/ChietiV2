@@ -49,6 +49,13 @@
 				$(this).prop('checked', true)
 			}
 		})
+		$('.delete').each(function (){
+			//put checked if is canceled from DB
+			del=$(this).attr('value')
+			if(del == 1){
+				$(this).prop('checked', true)
+			}
+		})
 	});
 
 </script>
@@ -75,7 +82,7 @@
 					<input name="category" class ='category' value="{{prod.category.id}}" />
 					<input name="measureUnit" class ='measureUnit' value="{{prod.measureUnit}}"/>
 					<input name="canceled" class ='canceled' type="checkbox"  value="{{prod.canceled}}" />
-					<input name="delete" class ='delete' type="checkbox" />
+					<input name="delete" class ='delete' type="checkbox" value="{{prod.isDiscontinued}}"/>
 					<br>
 			</section>
 		{% endfor %}    

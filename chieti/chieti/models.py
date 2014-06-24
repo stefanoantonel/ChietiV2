@@ -18,6 +18,7 @@ class product(models.Model):
 	canceled=models.CharField(default='false',max_length=5)
 	isPromo=models.CharField(default='false',max_length=5)
 	category=models.ForeignKey(category, related_name='category',default=1)
+	isDiscontinued=models.IntegerField(default=0)
 	def getPrice(self):
 		return self.salePrice
 	def multItemPromo(self,cant):

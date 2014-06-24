@@ -547,11 +547,11 @@ def changeProduct2(request):
 	categor=request.GET.get('category')
 	measureUni=request.GET.get('measureUnit')
 	delet=request.GET.get('delete')
+	delet = int('true' == delet)
+	print (delet)
 	cancele=request.GET.get('canceled','false')
 
-	if(delet =='true'):
-		product.objects.filter(id=prodId).delete()
-	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele) 
+	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele,isDiscontinued=delet) 
 	return HttpResponse("Todo ok Change PRod")
 
 
@@ -636,3 +636,6 @@ def getTotalPriceOrder(request):
 	o2=order.objects.get(id=o1)
 	total=o2.getTotal()
 	return HttpResponse(total)
+def changePromo(request):
+	todos = product.objects.filter(isPromo="true")
+	return render(request, 'chieti/changeProduct.html',{'todos':todos})

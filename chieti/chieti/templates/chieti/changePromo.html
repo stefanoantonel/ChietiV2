@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% for prod in todos %}
+	<section class="productContainer">
+			<input name="prodId" class ='prodId' hidden="hidden" value="{{prod.id}}"/>
+			<input name="name" class ='name'value="{{prod.name}}"/>
+			<input name="buyPrice" class ='buyPrice'value="{{prod.buyPrice}}"/>
+			<input name="salePrice" class ='salePrice' value="{{prod.salePrice}}"/>
+			<input name="category" class ='category' value="{{prod.category.id}}" />
+			<input name="measureUnit" class ='measureUnit' value="{{prod.measureUnit}}"/>
+			<input name="canceled" class ='canceled' type="checkbox"  value="{{prod.canceled}}" />
+			<input name="delete" class ='delete' type="checkbox" />
+			<br>
+	</section>
+{% endfor %}    
+</body>
+</html>
