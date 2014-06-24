@@ -629,3 +629,10 @@ def getProducts(request):
 	#c = Context({'todos':todo})
 	
 	return render(request, 'chieti/getProducts.html',{'todos':todo})
+
+
+def getTotalPriceOrder(request):
+	o1=request.session['order']
+	o2=order.objects.get(id=o1)
+	total=o2.getTotal()
+	return HttpResponse(total)

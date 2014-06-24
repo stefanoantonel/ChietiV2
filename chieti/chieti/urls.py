@@ -76,6 +76,7 @@ urlpatterns = patterns('',
     url(r'confirmOrder/','chieti.views.confirmOrder'),
     url(r'deleteolduser/','chieti.views.deleteOldUser'),
     url(r'getproducts/','chieti.views.getProducts'),
+    url(r'getTotalPriceOrder/','chieti.views.getTotalPriceOrder'),
 
     url(r'^$','chieti.views.home'),
 	

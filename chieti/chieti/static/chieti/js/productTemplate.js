@@ -142,15 +142,7 @@ $(document).ready(function() {
 	);		
 			
 	//$('input[name=quantity]').change(function(){
-	$('.quantity').change(function(){
-		var ant=$(this).siblings("label[name=price]").attr("title")
-		var cant=$(this).val()            
-		var dsp=ant*cant
-		dsp = dsp.toFixed(2);
-		
-		$(this).siblings('label[name=price]').html(dsp)
-		
-	});
+	setQuantity();
 	
 		
 	$(".l").click(function() {
@@ -197,6 +189,7 @@ $(document).ready(function() {
 		effect : "fadeIn"
 		
 	});
+	reloadTotalPrice();
 });
 
 function checkQuantOk(quant){
@@ -260,6 +253,7 @@ function addClick(){
 		alert("Cantidad incorrecta");
 		$(this).focus();
 	}
+	reloadTotalPrice();
 }
 
 function setQuantity(){
@@ -270,7 +264,8 @@ function setQuantity(){
 		dsp = dsp.toFixed(2);
 		
 		
-		$(this).siblings('.price').html(dsp)    
+		$(this).siblings('.price').html(dsp) 
+		 
 	});
 }
 
@@ -309,5 +304,20 @@ function recargar(){
 		threshold : 200,
 		effect : "fadeIn"
 		
+	});
+}
+
+function reloadTotalPrice(){
+	
+	$.ajax({
+		url: '/chieti/getTotalPriceOrder/',
+		type: 'get', 
+		data: {
+			
+		},
+		
+		success: function(data) {		
+			$('#totalPrice').html(data);
+		}	
 	});
 }
