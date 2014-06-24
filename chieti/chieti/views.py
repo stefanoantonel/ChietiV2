@@ -567,8 +567,11 @@ def usernameExist(request):
 	print('si esta')
 	return HttpResponse("MAL")
 
+@login_required(login_url='/chieti/singIn/')
 def changeUserData(request):
-	u=user.objects.get(id=request.session['user'])
+	idU=request.session.get('user')
+	u=user.objects.get(id=idU)
+	
 	return render(request, 'chieti/changeUserData.html',{'us':u})
 	pass
 

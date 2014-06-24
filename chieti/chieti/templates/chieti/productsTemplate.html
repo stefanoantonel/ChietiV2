@@ -48,11 +48,16 @@
 	{% for prod in todos %}
 		<div class="divImg">
 			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
-			<div class="tooltip productTT">{{prod.name}}
+			<div class="tooltip productTT">
+				<label >{{prod.name}}</label>
+				
 				{% for i in prod.items.all %}
 					<br/>
 					{{i.promoQuantity}} {{i.productFK.name}}
+				
 				{% endfor %}
+				<br>
+				<label>${{prod.salePrice }} {{prod.measureUnit}} </label>
 			</div>
 		</div>
 	{% endfor %}    

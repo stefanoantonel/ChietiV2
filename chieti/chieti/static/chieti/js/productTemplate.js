@@ -78,6 +78,7 @@ function popUpAutoComplete(id,nameProd,um,saleP) {
 			$(this).focus();
 	  }
 	}); */
+	$(template).find('.quantity').focus();
 }
 
 function Desaparecer(id){
@@ -121,25 +122,6 @@ $(document).ready(function() {
 	// Calling $( selector ).hover( handlerIn, handlerOut ) is shorthand for:
 	//$( selector ).mouseenter( handlerIn ).mouseleave( handlerOut );
 
-	$( ".divImg").hover(
-		function(){
-			
-			eleOffset = $(this).find(".productImg").offset();
-				//console.log("eleOffset",eleOffset);
-				//Revisar
-			offTop=eleOffset.top-30;
-			//console.log("offTop",offTop);
-			//console.log("eleOffset.top",eleOffset.top);
-			$(this).find(".productTT").fadeIn("fast").css({
-				left: eleOffset.left,
-				top: offTop
-			})
-		}, 
-		function() {
-			
-		    $(this).find(".productTT").delay(10).fadeOut();
-		  }
-	);		
 			
 	//$('input[name=quantity]').change(function(){
 	setQuantity();
@@ -184,12 +166,7 @@ $(document).ready(function() {
 	});
 
 
-	$('img.productImg').lazyload({
-		threshold : 200,
-		effect : "fadeIn"
-		
-	});
-	reloadTotalPrice();
+	recargar();
 });
 
 function checkQuantOk(quant){
