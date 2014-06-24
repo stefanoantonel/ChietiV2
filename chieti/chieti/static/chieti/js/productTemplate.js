@@ -200,7 +200,7 @@ function checkQuantOk(quant){
 	}
 	if(num < 0.1)
 		return false;
-	if (um=="Unidad"){
+	if (um=="Un"){
 		if(!(num % 1 === 0)){
 			return false
 		}
