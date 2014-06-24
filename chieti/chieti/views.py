@@ -167,7 +167,6 @@ def showSalesFake(request):
 def showSales(request):
 	todasPromos = product.objects.filter(isPromo="true")
 	return render(request, 'chieti/sales.html',{'todos':todasPromos})
-	#return render(request, 'chieti/productsTemplate.html',{'todos':todasPromos,'promo':'productImgSale'})
 	
 @staff_member_required
 def changePrice(request):

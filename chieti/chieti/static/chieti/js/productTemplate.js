@@ -247,7 +247,6 @@ function setQuantity(){
 }
 
 function recargar(){
-	//tooltip
 	$( ".divImg").hover(
 		function(){
 			
@@ -260,9 +259,10 @@ function recargar(){
 			$(this).find(".productTT").fadeIn("fast").css({
 				left: eleOffset.left,
 				top: offTop
-			});
+			})
 		}, 
-		function(){
+		function() {
+			
 		    $(this).find(".productTT").delay(10).fadeOut();
 		  }
 	);		
