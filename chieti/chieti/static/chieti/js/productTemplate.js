@@ -187,6 +187,7 @@ $(document).ready(function() {
 
 
 	recargar();
+	reloadTotalPrice();
 });
 
 function checkQuantOk(quant){
