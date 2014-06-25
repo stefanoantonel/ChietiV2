@@ -106,10 +106,10 @@
 		<div id="quantities">
 			
 		</div>
-		<form action="/chieti/myList2/" method="get">
+		<form action="/chieti/myList2/" method="post">{% csrf_token %}
 			<button id="finish" style="display:none">Finalizar</button>
 		</form>
-		{% csrf_token %}
+
 	</section>
 
 </body>

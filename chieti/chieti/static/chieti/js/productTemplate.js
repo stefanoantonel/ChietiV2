@@ -186,6 +186,7 @@ function checkQuantOk(quant){
 }
 
 function addClick(){
+	console.log('çlick')
 	quant= $(this).siblings('input[name=quantity]');
 	if(!checkQuantOk(quant)){
 		  //chequear aveces no lo llama
@@ -205,7 +206,7 @@ function addClick(){
 			data: {
 				'ids':ids,
 				'quantity':quant,
-				'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+				//'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
 			},
 			success: function(data) {
 				

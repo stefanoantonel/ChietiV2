@@ -200,11 +200,14 @@ def addToOrder(request):
 	ids = request.GET.get('ids')
 	quant = request.GET.get('quantity')
 	orderId=request.session.get('order')
-	if float(quant):
-		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
-		i.save()
-		return HttpResponse('true')
-	return HttpResponse('false')
+	print (ids,quant,orderId)
+	return addToOrder2(ids,quant,orderId)
+	#if float(quant):
+	#	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
+	#	i.save()
+	#	return HttpResponse('true')
+	#return HttpResponse('false')
+
 
 	
 @login_required(login_url='/chieti/singIn/')
@@ -669,21 +672,21 @@ def myList(request):
 
 def myList2(request):
 	
-	array=request.GET.get("array")
+	array=request.POST.get("array")
 	jsonArray=json.loads(array)
 	print (jsonArray)
 	for prod in jsonArray:
 
 		ids=prod['id']
 		quantity=prod['quant']
-		print ('ids',ids,' quantity',quantity)
+		orderId=request.session["order"]
+		print (ids,quantity,orderId)
 		#,{ids=prod['id'],quantity=prod['quant']}
 		#redirect(addToOrder,{ "ids":ids ,"quantity":quantity} )
-		addToOrder2(ids,quantity,request.session["order"])
+		addToOrder2(ids,quantity,orderId)
 	return render(request, 'chieti/myList.html')
 
 def addToOrder2(ids,quant,orderId):
-	quant=float(quant)
 	if float(quant):
 		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
 		i.save()
