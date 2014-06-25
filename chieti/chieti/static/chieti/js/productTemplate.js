@@ -60,9 +60,10 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 
 	//--------------------------
 	console.log("en pop:",items)
+	console.log( $("#itemPromo"))
 	 for(i=0;i<items.length;i++){
-		 $(".itemPromo").after(items[i].prod,items[i].quantity);
-		 $(".itemPromo").after("<br/>")
+		 $("#itemPromo").html(items[i].prod,items[i].quantity);
+		 $("#itemPromo").append("<br/>")
 		 console.log(items[i].prod,items[i].quantity);
 	 }
 	
