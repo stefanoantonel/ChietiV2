@@ -199,13 +199,13 @@ function addClick(){
 	var quantAcheck= $(this).siblings('input[name=quantity]')
 	divActual=$(this);
 	if(checkQuantOk(quantAcheck)==true){
-		
 		$.ajax({
 			url: '/chieti/addToOrder/',
 			type: 'get', 
 			data: {
 				'ids':ids,
 				'quantity':quant,
+				'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
 			},
 			success: function(data) {
 				

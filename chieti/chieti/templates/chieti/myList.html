@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mi Lista</title>
+	{% include 'chieti/mainHead.html' %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$( "#tags" ).autocomplete({
+				source:"/chieti/complete/",
+				minLength:2,
+				select: function( event, data ) {
+					console.log(data.item.name)
+					//popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
+					temp=$('#template').clone();
+					console.log(temp.find('#close'));
+					$(temp).attr('id',data.item.id);
+					$(temp).addClass("product");
+					$(temp).attr('mu',data.item.um);
+					$(temp).find('label').html(data.item.name);
+					$(temp).removeAttr('style');
+					$('#result').append(temp);
+
+					$('#ready').removeAttr('style');
+					deleteButton();
+				}
+			});
+			$('#ready').click(function(){
+				//saco la lista y pongo la nueva
+				$('#result').attr('hidden','hidden');
+				$('#ready').attr('hidden','hidden');
+
+				$('#finish').removeAttr('style');
+				$('.product').each(function(){
+					
+					l1="<label>"+$(this).find('.name').html()+"</label>"
+					i="<input id="+$(this).attr('id') +" />"
+					l2="<label>"+$(this).attr('mu')+"</label><br>"
+					$('#quantities').append(l1+i+l2);
+					
+				});
+			});
+			$('#finish').click(function(){
+				a=[];
+				$('#quantities input').each(function(){
+					quant=$(this).val();
+					
+					id=$(this).attr('id');
+					
+					b={'quant':quant,'id':id};
+					a.push(b);
+				});
+				a=JSON.stringify(a);
+				console.log(a);
+				$('form').append("<input name="+'array'+" value="+a+" hidden='hidden'>");
+			});
+		});
+		function deleteButton(){
+			$('.button').click(function(){
+				console.log('click')
+				console.log($(this));
+				$(this).parent('.product').remove();
+			});
+		}
+	</script>
+	<style type="text/css">
+		.product{
+			font-size: 50px;
+			display: inline;
+		}
+		#left{
+			max-width: 30%;
+			margin-right: 10%;
+			display: inline;
+			margin-left: 5%;
+		}
+		#rigth{
+			max-width: 30%;
+			margin-left: 10%;
+			display: inline;
+		}
+
+	</style>
+
+</head>
+<body>
+	<div id="divAutoComplete" style="margin-left:20%;margin-top:2%;z-index:3;">
+		<div id="subProd" class="ui-widget">
+		     <label for="tags">Buscar Producto: </label>
+			 <input id="tags">
+		</div>
+		<br>	    
+	</div>
+	<section id='left'>
+		<div id="result">
+			<div id='template' style="display: none" mu=''>
+				<label class='name'></label>
+				<button class="button red">x</button>
+				<br>
+			</div>
+		</div>
+		<br>
+		<button id="ready" style="display:none">Continuar</button>
+	</section>
+
+	<section id='rigth'>
+		<div id="quantities">
+			
+		</div>
+		<form action="/chieti/myList2/" method="get">
+			<button id="finish" style="display:none">Finalizar</button>
+		</form>
+		{% csrf_token %}
+	</section>
+
+</body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+</html>

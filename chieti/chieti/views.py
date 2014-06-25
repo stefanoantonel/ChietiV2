@@ -157,8 +157,9 @@ def showProduct(request):
 		todo = product.objects.filter(category=cat)
 	#print todo.query
 	#c = Context({'todos':todo})
-	
-	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
+	c={'todos':todo}
+	c.update(csrf(request))
+	return render(request, 'chieti/productsTemplate.html',c)
 	
 
 def showSalesFake(request):
@@ -195,18 +196,17 @@ def changePrice2(request):
 
 @login_required(login_url='/chieti/singIn/')
 def addToOrder(request):
+	
 	ids = request.GET.get('ids')
 	quant = request.GET.get('quantity')
+	orderId=request.session.get('order')
 	if float(quant):
-		# p=product.object.get(id=ids) 
-		# q=quant
-		# o=order.objects.filter(id=1)
-		
-		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
+		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
 		i.save()
 		return HttpResponse('true')
 	return HttpResponse('false')
 
+	
 @login_required(login_url='/chieti/singIn/')
 def changeOrder(request):
 	
@@ -660,4 +660,32 @@ def changePromo3(request):
 	print('pr',pr)
 	
 	return HttpResponse('')
+
+@login_required(login_url='/chieti/singIn/')
+def myList(request):
+	c={}
+	c.update(csrf(request))	
+	return render(request, 'chieti/myList.html',c)
+
+def myList2(request):
 	
+	array=request.GET.get("array")
+	jsonArray=json.loads(array)
+	print (jsonArray)
+	for prod in jsonArray:
+
+		ids=prod['id']
+		quantity=prod['quant']
+		print ('ids',ids,' quantity',quantity)
+		#,{ids=prod['id'],quantity=prod['quant']}
+		#redirect(addToOrder,{ "ids":ids ,"quantity":quantity} )
+		addToOrder2(ids,quantity,request.session["order"])
+	return render(request, 'chieti/myList.html')
+
+def addToOrder2(ids,quant,orderId):
+	quant=float(quant)
+	if float(quant):
+		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
+		i.save()
+		return HttpResponse('true')
+	return HttpResponse('false')

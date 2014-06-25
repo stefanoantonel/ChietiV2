@@ -80,6 +80,8 @@ urlpatterns = patterns('',
     url(r'changePromo/','chieti.views.changePromo'),
     url(r'changePromo2/','chieti.views.changePromo2'),
     url(r'changePromo3/','chieti.views.changePromo3'),
+    url(r'myList/','chieti.views.myList'),
+    url(r'myList2/','chieti.views.myList2'),
 	
 )
 
