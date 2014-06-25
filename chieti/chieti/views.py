@@ -606,15 +606,15 @@ def findProductById(request):
 	prod = product.objects.get(id=prodId)
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
-	items={}
-	ind=0;
+	#---------------------------
+	items=[]
 	for i in prod.items.all():
 		item={"prod":i.productFK.name,"quantity":str(i.promoQuantity)}
-		items[ind]=item
-		ind=ind+1;
+		items.append(item)
 	rta={"prod":p,"items":items}
-	pJson=json.dumps(rta)
+	#---------------------
 	#pJson=json.dumps(p)
+	pJson=json.dumps(rta)
 	return HttpResponse(pJson)
 
 @staff_member_required

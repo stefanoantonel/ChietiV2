@@ -5,12 +5,12 @@ function popUp(id) {
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
 	findProductById(id);
-	var pos = $("#img"+id).position();
-	//$( "#div"+id ).css({ position: "absolute",
-	//     marginLeft: 0, marginTop: 0,
-	//     top: pos.top, left: pos.left });
-	$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
-	$("#div"+id).css("display","");
+	//var pos = $("#img"+id).position();
+	   //$( "#div"+id ).css({ position: "absolute",
+	   //     marginLeft: 0, marginTop: 0,
+	   //     top: pos.top, left: pos.left });
+	//$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
+	//$("#div"+id).css("display","");
 }
 
 function findProductById(id){
@@ -45,13 +45,7 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 	$(template).prepend("<img  src='/static/chieti/productImages/"+id+".png'  class='productImg2'>");
 	$(template).attr("id","div"+id);
 	$(template).attr("name",id);
-	
-	//--------------------------
-	for (i in items){
-		console.log(i)
-	}
-	
-	//---------------------------
+	name=$(template).attr("name");
 	$(template).attr("value","visible");
 	ids= $(template).find("input[name='ids']");
 	$(ids).attr("id",id);
@@ -64,6 +58,16 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 	$(pr).html(saleP);
 	$(pr).attr("title",saleP);
 
+	//--------------------------
+	console.log("en pop:",items)
+	 for(i=0;i<items.length;i++){
+		 $(".itemPromo").after(items[i].prod,items[i].quantity);
+		 $(".itemPromo").after("<br/>")
+		 console.log(items[i].prod,items[i].quantity);
+	 }
+	
+	//---------------------------
+	
 	//CENTRAR
 	//$(template).css({position: "absolute",top:'30%',left:'35%'});
 	$(template).css("display","");
