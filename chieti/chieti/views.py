@@ -609,7 +609,7 @@ def findProductById(request):
 	#---------------------------
 	items=[]
 	for i in prod.items.all():
-		item={"prod":i.productFK.name,"quantity":str(i.promoQuantity)}
+		item={"prod":i.productFK.name,"quantity":str(i.promoQuantity),"mu":i.productFK.measureUnit}
 		items.append(item)
 	rta={"prod":p,"items":items}
 	#---------------------

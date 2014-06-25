@@ -25,8 +25,6 @@ function findProductById(id){
 			
 			//popUpAutoComplete(id,data.name,data.um,data.saleP);
 			//----------------------
-			console.log(data.prod);
-			console.log(data.items);
 			prod=data.prod
 			popUpAutoComplete(id,prod.name,prod.um,prod.saleP,data.items);
 			
@@ -59,14 +57,13 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 	$(pr).attr("title",saleP);
 
 	//--------------------------
-	console.log("en pop:",items)
-	console.log( $("#itemPromo"))
-	 for(i=0;i<items.length;i++){
-		 $("#itemPromo").html(items[i].prod,items[i].quantity);
-		 $("#itemPromo").append("<br/>")
-		 console.log(items[i].prod,items[i].quantity);
-	 }
+
+	labelProdPromos=$(template).find("#itemPromo");
 	
+	for(i=0;i<items.length;i++){
+		$(labelProdPromos).append('<br>',items[i].prod,' ',items[i].quantity,' ',items[i].mu);
+	}
+
 	//---------------------------
 	
 	//CENTRAR
