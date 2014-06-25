@@ -22,20 +22,14 @@ function findProductById(id){
 		},
 		dataType: 'json',
 		success: function(data) {		
-			
 			//popUpAutoComplete(id,data.name,data.um,data.saleP);
-			//----------------------
-			console.log(data.prod);
-			console.log(data.items);
-			prod=data.prod
-			popUpAutoComplete(id,prod.name,prod.um,prod.saleP,data.items);
-			
-			//-------------------
+			popUpAutoComplete(id,data[1].name,data[1].um,data[1].saleP);
+			alert(data[2]);
 		}	
 	});
 }
 
-function popUpAutoComplete(id,nameProd,um,saleP,items) {
+function popUpAutoComplete(id,nameProd,um,saleP) {
 
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
@@ -45,13 +39,6 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 	$(template).prepend("<img  src='/static/chieti/productImages/"+id+".png'  class='productImg2'>");
 	$(template).attr("id","div"+id);
 	$(template).attr("name",id);
-	
-	//--------------------------
-	for (i in items){
-		console.log(i)
-	}
-	
-	//---------------------------
 	$(template).attr("value","visible");
 	ids= $(template).find("input[name='ids']");
 	$(ids).attr("id",id);

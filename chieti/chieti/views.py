@@ -150,11 +150,11 @@ def addProd2(request):
 def showProduct(request):
 	cat=request.GET.get("id")
 	if(cat==None): 
-		todo = product.objects.filter(category=1)
+		todo = product.objects.filter(category=1).filter(isPromo="false")
 	elif(cat=='4'): 
-		todo = product.objects.all()
+		todo = product.objects.all().filter(isPromo="false")
 	else:
-		todo = product.objects.filter(category=cat)
+		todo = product.objects.filter(category=cat).filter(isPromo="false")
 	#print todo.query
 	#c = Context({'todos':todo})
 	c={'todos':todo}
@@ -606,7 +606,15 @@ def findProductById(request):
 	prod = product.objects.get(id=prodId)
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
-	pJson=json.dumps(p)
+	items={}
+	ind=0;
+	for i in prod.items.all():
+		item={"prod":i.productFK.name,"quantity":str(i.promoQuantity)}
+		items[ind]=item
+		ind=ind+1;
+	rta={"prod":p,"items":items}
+	pJson=json.dumps(rta)
+	#pJson=json.dumps(p)
 	return HttpResponse(pJson)
 
 @staff_member_required
@@ -631,11 +639,11 @@ def deleteOldUser(request):
 def getProducts(request):
 	cat=request.GET.get("id")
 	if(cat==None): 
-		todo = product.objects.filter(category=1)
+		todo = product.objects.filter(category=1).filter(isPromo="false")
 	elif(cat=='4'): 
-		todo = product.objects.all()
+		todo = product.objects.all().filter(isPromo="false")
 	else:
-		todo = product.objects.filter(category=cat)
+		todo = product.objects.filter(category=cat).filter(isPromo="false")
 	#print todo.query
 	#c = Context({'todos':todo})
 	
