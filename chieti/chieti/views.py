@@ -148,6 +148,11 @@ def addProd2(request):
 
 #@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
+	url='chieti/productsTemplate.html'
+	a=showProduct2(request,url)
+	return HttpResponse(a)
+
+def showProduct2(request,url):
 	cat=request.GET.get("id")
 	if(cat==None): 
 		todo = product.objects.filter(category=1).filter(isPromo="false")
@@ -159,8 +164,7 @@ def showProduct(request):
 	#c = Context({'todos':todo})
 	c={'todos':todo}
 	c.update(csrf(request))
-	return render(request, 'chieti/productsTemplate.html',c)
-	
+	return render(request, url,c)
 
 def showSalesFake(request):
 	return render(request, 'chieti/sales2.html')
@@ -637,30 +641,23 @@ def deleteOldUser(request):
 	return render(request, 'chieti/homePage2.html')
 
 def getProducts(request):
-	cat=request.GET.get("id")
-	if(cat==None): 
-		todo = product.objects.filter(category=1).filter(isPromo="false")
-	elif(cat=='4'): 
-		todo = product.objects.all().filter(isPromo="false")
-	else:
-		todo = product.objects.filter(category=cat).filter(isPromo="false")
-	#print todo.query
-	#c = Context({'todos':todo})
-	
-	return render(request, 'chieti/getProducts.html',{'todos':todo})
-
+	url='chieti/getProducts.html'
+	a=showProduct2(request,url)
+	return HttpResponse(a)
 
 def getTotalPriceOrder(request):
 	o1=request.session['order']
 	o2=order.objects.get(id=o1)
 	total=o2.getTotal()
 	return HttpResponse(total)
+
 def changePromo(request):
 	combos = product.objects.filter(isPromo="true")
 	todos = product.objects.all()
 	c={'todos':todos,'combos':combos}
 	c.update(csrf(request))
 	return render(request, 'chieti/changePromo.html',c)
+
 def changePromo2(request):
 	pr=request.GET.get("id")
 	prodInCombo = itemPromo.objects.filter(promoFK=pr)
@@ -696,7 +693,7 @@ def myList2(request):
 		#,{ids=prod['id'],quantity=prod['quant']}
 		#redirect(addToOrder,{ "ids":ids ,"quantity":quantity} )
 		addToOrder2(ids,quantity,orderId)
-	return render(request, 'chieti/myList.html')
+	return redirect(showProduct)
 
 def addToOrder2(ids,quant,orderId):
 	if float(quant):
