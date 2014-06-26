@@ -171,7 +171,7 @@ def showSalesFake(request):
 
 def showSales(request):
 	todasPromos = product.objects.filter(isPromo="true")
-	c={'todos':todasPromos}
+	c={'todos':todasPromos,'promo':'productImgSale'}
 	c.update(csrf(request))
 	return render(request, 'chieti/productsTemplate.html',c)
 	#Asi manda a al sales
