@@ -44,17 +44,12 @@
 
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <section>
-	<div class="allProducts">
-	{% for prod in todos %}
-		<div class="divImg">
-			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
-			<div class="tooltip productTT ">
-				<label >{{prod.name}}</label>
-				<br>
-				<label>${{prod.salePrice }} {{prod.measureUnit}} </label>
-			</div>
-		</div>
-	{% endfor %}    
+	{% if promo %}
+		{% include 'chieti/getSales.html' %}
+	{% else %}
+		{% include 'chieti/getProducts.html' %} 
+	{% endif %}
+	
 	</div>
 </section>
 
