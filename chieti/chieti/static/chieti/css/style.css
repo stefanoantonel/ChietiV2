@@ -106,6 +106,8 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 	
 	left: calc(50% - 50mm);
 	top: calc(30% - 20mm);
+	
+	/* margin: 0 auto;*/
 
   	position: fixed;
 }
@@ -338,12 +340,22 @@ border: 1px solid black;
 	background-color: #ff934f;
 }
 
-
-.barMenu{
-	position: absolute;
-	left:2%;
-	display:inline-block;
+@media screen and (min-width: 800px) {
+		.barMenu{
+			position: absolute;
+			left:2%;
+			display:inline-block;
+		}
 }
+
+@media screen and (max-width: 800px) {
+		.barMenu{
+			position: absolute;
+			left:2%;
+			display:inblock;
+		}
+}
+
 
 
 .inputStyle{
