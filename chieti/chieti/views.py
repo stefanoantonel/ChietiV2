@@ -626,10 +626,12 @@ def changePromo2(request):
 		lista.append(d1)
 	js=json.dumps(lista)
 	return HttpResponse(js)
+
 def changePromo3(request):
-	pr=request.GET.getlist("array")
-	print('pr',pr)
-	
+	pr=request.POST.get("array")
+	print(pr)
+	for i in pr:
+		print (i)
 	return HttpResponse('')
 
 @login_required(login_url='/chieti/singIn/')
@@ -639,7 +641,6 @@ def myList(request):
 	return render(request, 'chieti/myList.html',c)
 
 def myList2(request):
-	
 	array=request.POST.get("array")
 	jsonArray=json.loads(array)
 	print (jsonArray)

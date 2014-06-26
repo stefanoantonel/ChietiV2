@@ -29,7 +29,7 @@
 	{% endfor %}
 </select>
 <input type="submit" id="ready" value="Guardar">
-
+{% csrf_token %}
 
 <br><br>
 <section hidden='hidden' id='changeQuant'></section>
@@ -74,11 +74,13 @@
 	$('#ready').click(function(){
 		arrayIds=[];
 		$('#productsInCombo').find('option').each(function(){
-			a={'id':$(this).val()}
+			a=$(this).val()
 			arrayIds.push(a);
 		});
-		console.log(arrayIds);
-		$.get("/chieti/changePromo3/ ",{ array:arrayIds})
+		
+		var csrf=$('input[name="csrfmiddlewaretoken"]').val();
+		var array = JSON.stringify(arrayIds);
+		$.post("/chieti/changePromo3/ ",{ "array":array,"csrfmiddlewaretoken":csrf})
 	});
 </script>
 
