@@ -281,10 +281,17 @@ function recargar(){
 			offTop=eleOffset.top-30;
 			//console.log("offTop",offTop);
 			//console.log("eleOffset.top",eleOffset.top);
-			$(this).find(".productTT").fadeIn("fast").css({
+			productTT=$(this).find(".productTT")
+			$(productTT).fadeIn("fast").css({
 				left: eleOffset.left,
 				top: offTop
 			});
+			$(productTT).click(function(){
+				id=$(this).attr('name');
+				console.log(this);
+				findProductById(id);
+			});
+			//$(productTT).delay(10000).fadeOut();
 		}, 
 		function(){
 		    $(this).find(".productTT").delay(10).fadeOut();
