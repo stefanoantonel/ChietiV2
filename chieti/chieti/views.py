@@ -1,5 +1,3 @@
-
-
 from _elementtree import tostring
 from decimal import *
 import json
@@ -19,17 +17,12 @@ from django.template.loader import render_to_string
 
 from chieti.models import product, orderManager, order, user, item, category, itemPromo
 
-
-# Create your tests here.
 def home(request):
-		
 	return render(request, 'chieti/homePage2.html')
+
 def homa(request):
-	
 	return render(request, 'chieti/homePage.html')
-	
-	#return HttpResponse(html)
-	
+
 def quienes(request):
 	return render(request, 'chieti/quienesSomos.html')
  
@@ -37,23 +30,16 @@ def comoComprar(request):
 	return render(request, 'chieti/comoComprar.html')
 	
 def init(request):
-	
-	om=orderManager()
-	om.save()
-	
-	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	
+	#om=orderManager()
+	#om.save()
 	return HttpResponse('Order Manager OK')
+
 def test(request):
-	#logout(request)
-	#return render(request, 'chieti/homePage2.html')
-	#from django.http import HttpResponse 
 	p = request.GET.get('p')
 	if p is not None:
 		return HttpResponse(p)
 	else:
 		return HttpResponse("No hay p")
-
 
 def test1(request):
 	fp = open('./chieti/test1.html')
@@ -65,15 +51,12 @@ def test1(request):
 def mainHead(request):
 	return render(request, 'chieti/mainHead.html')
 	
-
 def auto(request):
 	return render(request, 'chieti/autocomplete.html')
 	
 def complete(request):
-
 	term=request.GET.get('term')
 	prod = product.objects.filter(name__icontains=term)
-
 	productArray=[]
 	lista=[]
 	for p in prod:
@@ -81,15 +64,11 @@ def complete(request):
 		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit, "saleP" : saleP}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
-
 	return HttpResponse(lJson)
 
-
 def compCategory(request):
-	
 	term=request.GET.get('term')
 	cat = category.objects.filter(description__icontains=term)
-	
 	productArray=[]
 	lista=[]
 	for c in cat:
@@ -270,29 +249,21 @@ def removeItem(request):
 	itemId = request.GET.get("itemId")	
 	ordId = request.session["order"]
 	c = order.objects.get(id=ordId).removeItem(itemId)
-	
-	
 	return HttpResponse(c)
 
 @staff_member_required
 def summaryBuy(request):
-	
-	
 	summary = orderManager.objects.get(id=1).getSummaryBuy()
-	
 	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
-	
-	
 	orderMan = orderManager.objects.get(id=1)
 	summary = orderMan.getSummarySell()
 	return render(request, 'chieti/printOrders.html',{'orderManagerArray':summary})
 
 @staff_member_required
 def cancelProduct(request):
-	
 	products = product.objects.all()
 	return render(request, 'chieti/cancelProduct.html',{'todos':products})
 	
@@ -408,8 +379,6 @@ def singUp2Fake(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		
-		
 		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
 		if lastNameT:
 			u1.last_name=lastNameT
@@ -441,9 +410,6 @@ def singUp3(request):
 	mailT2 = str(request.GET.get('email'))
 	nameT2 = str(request.GET.get('name'))
 	
-	
-	
-	
 	u=User.objects.get(username=nameT2)
 	temp=user.objects.get(userDj=u)
 	
@@ -469,8 +435,6 @@ def singUp3(request):
 
 @staff_member_required
 def changeUser(request):
-	
-	
 	todo = user.objects.all()
 	return render(request, 'chieti/changeUser.html',{'todos':todo})
 	
@@ -493,7 +457,6 @@ def singIn(request):
 
 def bienvenido(request):
 	return render(request, 'chieti/bienvenido.html')
-
 
 def singIn2(request):
 	username = request.POST['username']
@@ -518,8 +481,6 @@ def singIn2(request):
 		else:
 			# Return a 'disabled account' error message
 			return render(request, 'chieti/singIn.html',{'error':'No activado. Revise su email'})
-			
-			
 	else:
 		# Return an 'invalid login' error message
 		return render(request, 'chieti/singIn.html',{'error':'Usuario o clave incorrecta'})
@@ -540,7 +501,6 @@ def checkOrderExist(us):
 		om=orderManager.objects.get(id=1)
 		b=order(userFK=us,orderManagerFK=om)
 		b.save()
-
 
 @staff_member_required
 def changeProduct(request):
@@ -565,7 +525,6 @@ def changeProduct2(request):
 
 	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele,isDiscontinued=delet) 
 	return HttpResponse("Todo ok Change PRod")
-
 
 def usernameExist(request):
 	param=request.POST.get('name')

@@ -5,12 +5,6 @@ function popUp(id) {
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
 	findProductById(id);
-	//var pos = $("#img"+id).position();
-	   //$( "#div"+id ).css({ position: "absolute",
-	   //     marginLeft: 0, marginTop: 0,
-	   //     top: pos.top, left: pos.left });
-	//$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
-	//$("#div"+id).css("display","");
 }
 
 function findProductById(id){
@@ -93,13 +87,7 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 			$(".divActual").remove();
 		}
 	});
-	/*  $('.quantity').change(function(){
-	  if(!checkQuantOk($(this))){
-		  //chequear aveces no lo llama
-		  alert("Cantidad incorrecta");
-			$(this).focus();
-	  }
-	}); */
+	
 	$(template).find('.quantity').focus();
 }
 
@@ -109,43 +97,13 @@ function Desaparecer(id){
 
 $(document).ready(function() {
 
-	/* $('html').click(function() {
-		console.log($(".divInvisible[value='visible']"));
-		$(".divInvisible[value='visible']").remove();
-	}); */
-
+	
 
 	$('.divImg').click(function(event){
 		//event.stopPropagation();
 	});	
 
-	/*
-	$(".divImg").mouseover(function(){
-	eleOffset = $(this).find(".productImg").offset();
-				//console.log("eleOffset",eleOffset);
-				//Revisar
-				offTop=eleOffset.top-30;
-				//console.log("offTop",offTop);
-				//console.log("eleOffset.top",eleOffset.top);
-				$(this).find(".productTT").fadeIn("fast").css({
-
-					left: eleOffset.left,
-					top: offTop
-
-				}).delay(500).fadeOut();
-			})
-			
-			//.mouseout(function(){
-			//	$(this).find(".productTT").hide();
-			//});
-	*/
-
-	//tooltip! 
-	// Calling $( selector ).hover( handlerIn, handlerOut ) is shorthand for:
-	//$( selector ).mouseenter( handlerIn ).mouseleave( handlerOut );
-
-			
-	//$('input[name=quantity]').change(function(){
+	
 	setQuantity();
 	
 		
@@ -300,12 +258,6 @@ function recargar(){
 				
 		//$('input[name=quantity]').change(function(){
 		
-		
-		
-		
-		
-		
-		
 	//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
 	
 	$('img.productImg').lazyload({
@@ -319,11 +271,7 @@ function reloadTotalPrice(){
 	
 	$.ajax({
 		url: '/chieti/getTotalPriceOrder/',
-		type: 'get', 
-		data: {
-			
-		},
-		
+		type: 'get',
 		success: function(data) {		
 			$('#totalPrice').html(data);
 		}	
