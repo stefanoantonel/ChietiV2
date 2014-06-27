@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% include 'chieti/mainHead.html' %}
+	<title>Modificacion de Promo</title>
+
+<script type="application/javascript">
+	$(document).ready(function(){
+
+		$('#comboContainer').change(function(){
+			var id=parseInt($(this).val());
+			$('#allProducts').removeAttr('hidden')
+			
+			$.ajax({
+	            url: '/chieti/changePromo2/',
+	            type: 'get',
+	            data: { 'id': id,},
+	            success: function(data) {
+	            	prod=JSON.parse(data);
+	            	$('#productsInCombo').html('')
+	            	$(prod).each(function(){
+	            		//$(container).html('')
+	            		container=$('#templateProdInCombo').clone();
+	            		$(container).removeAttr('style')
+	            		//container=$(container).clone();
+	            		label=$(container).find('.nameItem');
+	            		input=$(container).find('input');
+	            		mu=$(container).find('.mu');
+	            		$(label).attr('id',this.id);
+	            		$(label).html(this.name);
+	            		//$(label).attr('value',this.quantity);
+	            		$(input).val(this.quantity)	
+	            		$(mu).html(this.mu)
+	            		
+	            		$('#productsInCombo').append(container);
+	            		addRemove();
+	            	});
+	            }
+	        });
+		});
+
+		function addRemove(){
+			$('.remove').click(function(){
+				$(this).parent('#templateProdInCombo').remove();
+			
+
+			});	
+		}
+		
+
+		$('#ready').click(function(){
+			arrayIds=[];
+			$('#productsInCombo').find('#templateProdInCombo').each(function(){
+				id=$(this).find('.nameItem').attr('id');
+				quant=$(this).find('.quant').val();
+				a={'id':id,'quant':quant};
+				arrayIds.push(a);
+			});
+			numPromo=$('option:selected').val();
+			js={'promo':numPromo,'items':arrayIds};
+			var csrf=$('input[name="csrfmiddlewaretoken"]').val();
+			var array = JSON.stringify(js);
+			$.ajax({
+	            url: '/chieti/changePromo3/',
+	            type: 'post',
+	            data: { "array":array,"csrfmiddlewaretoken":csrf},
+	            success: function(data) {
+	          		console.log(data);  	
+	            	
+	            }
+	        });
+			//$.post("/chieti/changePromo3/ ",{ "array":array,"csrfmiddlewaretoken":csrf})
+		});
+
+		$( "#tags" ).autocomplete({
+			source:"/chieti/complete/",
+			minLength:2,
+			select: function( event, data ) {
+			
+				//popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
+	
+        		container=$('#templateProdInCombo').clone();
+        		
+        		//container=$(container).clone();
+        		label=$(container).find('.nameItem');
+        		input=$(container).find('input');
+        		mu=$(container).find('.mu');
+        		$(label).html(data.item.name);
+        		//$(label).attr('value',this.quantity);
+        		//$(input).val(this.quantity)	
+        		$(label).attr('id',data.item.id);	
+        		$(mu).html(data.item.um)
+        	
+        		$(container).removeAttr('style')
+        		$('#productsInCombo').append(container);
+        		addRemove();
+        	}
+        });
+	});
+
+</script>
+</head>
+<body>
+
+<select id="comboContainer" multiple size="10">
+	{% for prod in combos %}
+		<option value="{{prod.id}}">{{prod.name}}</option>
+	{% endfor %}
+</select>
+
+<div id="templateProdInCombo" style="display:none">
+	<label value="" class="nameItem"></label>
+	<input class="quant">
+	<button class="button red remove">x</button>
+	<label class="mu"></label>
+</div>
+
+<div id="divAutoComplete" style="margin-left:20%;margin-top:2%;z-index:3;">
+	<div id="subProd" class="ui-widget">
+		<label for="tags">Buscar Producto: </label>
+		<input id="tags">
+	</div>
+	<br>	    
+</div>
+<section id="productsInCombo" multiple size="10">
+	
+</section>
+
+<input type="submit" id="ready" value="Guardar">
+{% csrf_token %}
+
+<br><br>
+<section hidden='hidden' id='changeQuant'></section>
+
+</body>
+
+
+
+</html>

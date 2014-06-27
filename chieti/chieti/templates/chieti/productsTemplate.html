@@ -35,26 +35,23 @@
 <br/><br/>
 <div id="divLeft" class="divLeft">
 	<img id="carrito"  class="carrito" alt="Mi compra">
+	<br>
+	<label style="margin:20%">Total: $ <label id="totalPrice"></label>
+	</label>	
 </div>
 
 <br/>
 
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <section>
-	<div class="allProducts">
-	{% for prod in todos %}
-		<div class="divImg">
-			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
-			<div class="tooltip productTT">{{prod.name}}
-				{% for i in prod.items.all %}
-					<br/>
-					{{i.promoQuantity}} {{i.productFK.name}}
-				{% endfor %}
-			</div>
-		</div>
-	{% endfor %}    
+	{% if promo %}
+		{% include 'chieti/getSales.html' %}
+	{% else %}
+		{% include 'chieti/getProducts.html' %} 
+	{% endif %}
+	
 	</div>
-</section>>
+</section>
 
 <div style="display:none;" class="divInvisible divAuto"  align="center">
 <button id="close" style="position:absolute; left:10px;top:5px;" class="button red">x</button>
@@ -62,6 +59,7 @@
 		<input id="id1" name="ids" class="ids" hidden="hidden"></input>
 		<br/>
 		<label name='name' class="product" ></label>
+		<label id="itemPromo"></label>
 		<br/>
 		<label id="labQuantity" for='quantity'>Cant:</label>
 		<input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
@@ -74,7 +72,8 @@
 		<br/><br/>
 	</section>
 </div>
-
+{%csrf_token%}
+{% include 'chieti/mainFoot.html' %}
 </body>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </html>

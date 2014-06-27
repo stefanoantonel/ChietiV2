@@ -4,6 +4,18 @@
 <meta charset="ISO-8859-1">
 <title>Cambio de Producto</title>
 {% include 'chieti/mainHead.html' %}
+<style type="text/css">
+	.canceled{
+		margin-right: 70px;
+		margin-left: 70px;
+
+	}
+	.delete{
+		margin-right: 70px;
+		margin-left: 70px;
+	}
+	
+</style>
 <script type="application/javascript">
 
 	$(document).ready(function(){
@@ -20,7 +32,7 @@
 			
 			var parameterName=$(this).attr('name');
 			var parameterValue=$(this).val();
-			console.log(buyPrice,salePrice);
+			//console.log(buyPrice,salePrice);
 			$.ajax({
                 url: '/chieti/changeProduct2/',
                 type: 'get', 
@@ -37,9 +49,18 @@
 				$(this).prop('checked', true)
 			}
 		})
+		$('.delete').each(function (){
+			//put checked if is canceled from DB
+			del=$(this).attr('value')
+			if(del == 1){
+				$(this).prop('checked', true)
+			}
+		})
 	});
 
 </script>
+
+
 </head>
 <body>
 	<div>
@@ -61,7 +82,7 @@
 					<input name="category" class ='category' value="{{prod.category.id}}" />
 					<input name="measureUnit" class ='measureUnit' value="{{prod.measureUnit}}"/>
 					<input name="canceled" class ='canceled' type="checkbox"  value="{{prod.canceled}}" />
-					<input name="delete" class ='delete' type="checkbox" />
+					<input name="delete" class ='delete' type="checkbox" value="{{prod.isDiscontinued}}"/>
 					<br>
 			</section>
 		{% endfor %}    

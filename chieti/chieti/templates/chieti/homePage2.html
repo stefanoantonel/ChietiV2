@@ -4,6 +4,11 @@
 {% load staticfiles %}
 <meta charset="ISO-8859-1">
 {% include 'chieti/mainHead.html' %}
+
+<!-- Asi es para distinguir celular de compu 
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}"  media="screen" />
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/phoneStyle.css' %}" media="handheld"/>
+-->
 	<title>Chieti</title>
 	
 	<script type="text/javascript">
@@ -51,7 +56,7 @@
 {% endif %}
 <section class="mainHome">	
 	<section class="textSeg">Una nueva forma de hacer tus compras</section>
-	<section class="textPrim">Ahorra plata y tiempo</section>
+	<section class="textSeg">Ahorra plata y tiempo</section>
 	<section class="textTer">
 			<span class="textPrim" style="color:#FF8C00">1.</span> Elegi tus productos
 			<br/>
@@ -64,18 +69,23 @@
 	</section>
 </section>
 <section class="sectionBotones">
+		<a class="botonsales" href="/chieti/sales"></a>
+</section>
+
+<!-- <embed src= "/static/chieti/video/tutorial.wmv" type="video/quicktime" autostart="True" width="165" height="140"> -->
+<!-- section class="sectionBotones">
 	<section>
 			<a class="prod2 botonMenu2" href="/chieti/product"> </a>
 	</section>
 	<section>
 			<a class="botonMenu2 sale2" href="/chieti/sales"></a>
 
-			<!-- <embed src= "/static/chieti/video/tutorial.wmv" type="video/quicktime" autostart="True" width="165" height="140"> -->
+			
 	</section>
 	<section>
 			<a class="botonMenu2 order2" href="/chieti/changeOrder"></a>
 	</section>
-</section>	
+</section> -->	
 
 </body>
 </html>

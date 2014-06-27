@@ -15,19 +15,15 @@ from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
 
-from chieti.models import product, orderManager, order, user, item, category, itemPromo
 
+from chieti.models import product, orderManager, order, user, item, category, itemPromo,stock
 
-# Create your tests here.
 def home(request):
-		
 	return render(request, 'chieti/homePage2.html')
+
 def homa(request):
-	
 	return render(request, 'chieti/homePage.html')
-	
-	#return HttpResponse(html)
-	
+
 def quienes(request):
 	return render(request, 'chieti/quienesSomos.html')
  
@@ -35,23 +31,13 @@ def comoComprar(request):
 	return render(request, 'chieti/comoComprar.html')
 	
 def init(request):
-	
-	om=orderManager()
-	om.save()
-	
-	# u=user(name="Florencia",lastName="Bon",adress="Libertad 1833",phone="3133312212",email="122@hotmail.com",password="12")
-	
+	#om=orderManager()
+	#om.save()
 	return HttpResponse('Order Manager OK')
-def test(request):
-	#logout(request)
-	#return render(request, 'chieti/homePage2.html')
-	#from django.http import HttpResponse 
-	p = request.GET.get('p')
-	if p is not None:
-		return HttpResponse(p)
-	else:
-		return HttpResponse("No hay p")
 
+def test(request):
+	
+	return HttpResponse('')
 
 def test1(request):
 	fp = open('./chieti/test1.html')
@@ -63,15 +49,12 @@ def test1(request):
 def mainHead(request):
 	return render(request, 'chieti/mainHead.html')
 	
-
 def auto(request):
 	return render(request, 'chieti/autocomplete.html')
 	
 def complete(request):
-
 	term=request.GET.get('term')
 	prod = product.objects.filter(name__icontains=term)
-
 	productArray=[]
 	lista=[]
 	for p in prod:
@@ -79,15 +62,11 @@ def complete(request):
 		ppp={"label" : p.name,"name" : p.name, "id" : p.id, "um":p.measureUnit, "saleP" : saleP}
 		lista.append(ppp)
 	lJson=json.dumps(lista)
-
 	return HttpResponse(lJson)
 
-
 def compCategory(request):
-	
 	term=request.GET.get('term')
 	cat = category.objects.filter(description__icontains=term)
-	
 	productArray=[]
 	lista=[]
 	for c in cat:
@@ -146,25 +125,35 @@ def addProd2(request):
 
 #@login_required(login_url='/chieti/singIn/')
 def showProduct(request):
+	url='chieti/productsTemplate.html'
+	a=showProduct2(request,url)
+	return HttpResponse(a)
+
+def showProduct2(request,url):
 	cat=request.GET.get("id")
 	if(cat==None): 
-		todo = product.objects.filter(category=1)
+		todo = product.objects.filter(category=1).filter(isPromo="false")
 	elif(cat=='4'): 
-		todo = product.objects.all()
+		todo = product.objects.all().filter(isPromo="false")
 	else:
-		todo = product.objects.filter(category=cat)
+		todo = product.objects.filter(category=cat).filter(isPromo="false")
 	#print todo.query
 	#c = Context({'todos':todo})
-	
-	return render(request, 'chieti/productsTemplate.html',{'todos':todo})
-	
+	c={'todos':todo}
+	c.update(csrf(request))
+	return render(request, url,c)
 
 def showSalesFake(request):
 	return render(request, 'chieti/sales2.html')
 
 def showSales(request):
 	todasPromos = product.objects.filter(isPromo="true")
-	return render(request, 'chieti/sales.html',{'todos':todasPromos})
+	c={'todos':todasPromos,'promo':'productImgSale'}
+	c.update(csrf(request))
+	return render(request, 'chieti/productsTemplate.html',c)
+	#Asi manda a al sales
+	#return render(request, 'chieti/sales.html',{'todos':todasPromos})
+	#return render(request, 'chieti/productsTemplate.html',{'todos':todasPromos,'promo':'productImgSale'})
 	
 @staff_member_required
 def changePrice(request):
@@ -194,16 +183,17 @@ def changePrice2(request):
 def addToOrder(request):
 	ids = request.GET.get('ids')
 	quant = request.GET.get('quantity')
-	if float(quant):
-		# p=product.object.get(id=ids) 
-		# q=quant
-		# o=order.objects.filter(id=1)
-		
-		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=request.session["order"]))
-		i.save()
-		return HttpResponse('true')
-	return HttpResponse('false')
+	orderId=request.session.get('order')
+	print (ids,quant,orderId)
+	return addToOrder2(ids,quant,orderId)
+	#if float(quant):
+	#	i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
+	#	i.save()
+	#	return HttpResponse('true')
+	#return HttpResponse('false')
 
+
+	
 @login_required(login_url='/chieti/singIn/')
 def changeOrder(request):
 	
@@ -256,29 +246,21 @@ def removeItem(request):
 	itemId = request.GET.get("itemId")	
 	ordId = request.session["order"]
 	c = order.objects.get(id=ordId).removeItem(itemId)
-	
-	
 	return HttpResponse(c)
 
 @staff_member_required
 def summaryBuy(request):
-	
-	
 	summary = orderManager.objects.get(id=1).getSummaryBuy()
-	
 	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
-	
-	
 	orderMan = orderManager.objects.get(id=1)
 	summary = orderMan.getSummarySell()
 	return render(request, 'chieti/printOrders.html',{'orderManagerArray':summary})
 
 @staff_member_required
 def cancelProduct(request):
-	
 	products = product.objects.all()
 	return render(request, 'chieti/cancelProduct.html',{'todos':products})
 	
@@ -394,8 +376,6 @@ def singUp2Fake(request):
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
 		
-		
-		
 		u1 = User.objects.create_user(username=nameT,  email=emailT, password=pass1)
 		if lastNameT:
 			u1.last_name=lastNameT
@@ -427,9 +407,6 @@ def singUp3(request):
 	mailT2 = str(request.GET.get('email'))
 	nameT2 = str(request.GET.get('name'))
 	
-	
-	
-	
 	u=User.objects.get(username=nameT2)
 	temp=user.objects.get(userDj=u)
 	
@@ -455,8 +432,6 @@ def singUp3(request):
 
 @staff_member_required
 def changeUser(request):
-	
-	
 	todo = user.objects.all()
 	return render(request, 'chieti/changeUser.html',{'todos':todo})
 	
@@ -479,7 +454,6 @@ def singIn(request):
 
 def bienvenido(request):
 	return render(request, 'chieti/bienvenido.html')
-
 
 def singIn2(request):
 	username = request.POST['username']
@@ -504,8 +478,6 @@ def singIn2(request):
 		else:
 			# Return a 'disabled account' error message
 			return render(request, 'chieti/singIn.html',{'error':'No activado. Revise su email'})
-			
-			
 	else:
 		# Return an 'invalid login' error message
 		return render(request, 'chieti/singIn.html',{'error':'Usuario o clave incorrecta'})
@@ -527,7 +499,6 @@ def checkOrderExist(us):
 		b=order(userFK=us,orderManagerFK=om)
 		b.save()
 
-
 @staff_member_required
 def changeProduct(request):
 	todos = product.objects.all() 
@@ -545,13 +516,12 @@ def changeProduct2(request):
 	categor=request.GET.get('category')
 	measureUni=request.GET.get('measureUnit')
 	delet=request.GET.get('delete')
+	delet = int('true' == delet)
+	print (delet)
 	cancele=request.GET.get('canceled','false')
 
-	if(delet =='true'):
-		product.objects.filter(id=prodId).delete()
-	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele) 
+	product.objects.filter(id=prodId).update(name=nam,buyPrice=buyPric, salePrice=salePric, category=categor, measureUnit=measureUni, canceled =cancele,isDiscontinued=delet) 
 	return HttpResponse("Todo ok Change PRod")
-
 
 def usernameExist(request):
 	param=request.POST.get('name')
@@ -565,8 +535,11 @@ def usernameExist(request):
 	print('si esta')
 	return HttpResponse("MAL")
 
+@login_required(login_url='/chieti/singIn/')
 def changeUserData(request):
-	u=user.objects.get(id=request.session['user'])
+	idU=request.session.get('user')
+	u=user.objects.get(id=idU)
+	
 	return render(request, 'chieti/changeUserData.html',{'us':u})
 	pass
 
@@ -593,7 +566,15 @@ def findProductById(request):
 	prod = product.objects.get(id=prodId)
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
+	#---------------------------
+	# items=[]
+	# for i in prod.items.all():
+	# 	item={"prod":i.productFK.name,"quantity":str(i.promoQuantity),"mu":i.productFK.measureUnit}
+	# 	items.append(item)
+	# rta={"prod":p,"items":items}
+	#---------------------
 	pJson=json.dumps(p)
+	#pJson=json.dumps(rta)
 	return HttpResponse(pJson)
 
 @staff_member_required
@@ -616,14 +597,69 @@ def deleteOldUser(request):
 	return render(request, 'chieti/homePage2.html')
 
 def getProducts(request):
-	cat=request.GET.get("id")
-	if(cat==None): 
-		todo = product.objects.filter(category=1)
-	elif(cat=='4'): 
-		todo = product.objects.all()
-	else:
-		todo = product.objects.filter(category=cat)
-	#print todo.query
-	#c = Context({'todos':todo})
-	
-	return render(request, 'chieti/getProducts.html',{'todos':todo})
+	url='chieti/getProducts.html'
+	a=showProduct2(request,url)
+	return HttpResponse(a)
+
+def getTotalPriceOrder(request):
+	o1=request.session['order']
+	o2=order.objects.get(id=o1)
+	total=o2.getTotal()
+	return HttpResponse(total)
+
+def changePromo(request):
+	combos = product.objects.filter(isPromo="true")
+	todos = product.objects.all()
+	c={'todos':todos,'combos':combos}
+	c.update(csrf(request))
+	return render(request, 'chieti/changePromo.html',c)
+
+def changePromo2(request):
+	pr=request.GET.get("id")
+	prodInCombo = itemPromo.objects.filter(promoFK=pr)
+	lista=[]
+	for p in prodInCombo:
+		d1={'id':p.productFK.id,'name':p.productFK.name,'quantity':str(p.promoQuantity),'mu':p.productFK.measureUnit}
+		lista.append(d1)
+	js=json.dumps(lista)
+	return HttpResponse(js)
+
+def changePromo3(request):
+	pr=request.POST.get("array")
+	jsonArray=json.loads(pr)
+	print(jsonArray["promo"])
+	#print (jsonArray["items"])
+	promoId= jsonArray["promo"]
+	itemPromo.objects.filter(promoFK_id=promoId).delete()
+	for item in jsonArray["items"]:
+		it=itemPromo(promoFK_id=promoId,productFK_id=item["id"],promoQuantity=item["quant"])
+		it.save()
+	return HttpResponse(promoId)
+
+@login_required(login_url='/chieti/singIn/')
+def myList(request):
+	c={}
+	c.update(csrf(request))	
+	return render(request, 'chieti/myList.html',c)
+
+def myList2(request):
+	array=request.POST.get("array")
+	jsonArray=json.loads(array)
+	print (jsonArray)
+	for prod in jsonArray:
+
+		ids=prod['id']
+		quantity=prod['quant']
+		orderId=request.session["order"]
+		print (ids,quantity,orderId)
+		#,{ids=prod['id'],quantity=prod['quant']}
+		#redirect(addToOrder,{ "ids":ids ,"quantity":quantity} )
+		addToOrder2(ids,quantity,orderId)
+	return redirect(showProduct)
+
+def addToOrder2(ids,quant,orderId):
+	if float(quant):
+		i = item(productFK=product.objects.get(id=ids),quantity=quant,orderFK=order.objects.get(id=orderId))
+		i.save()
+		return HttpResponse('true')
+	return HttpResponse('false')

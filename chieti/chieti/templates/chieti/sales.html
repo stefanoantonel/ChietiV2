@@ -5,7 +5,9 @@
 <title>Chieti</title>
 {% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">-->
+<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 <script type="text/javascript">
 
 var prevID;
@@ -288,6 +290,8 @@ function setQuantity(){
 				<br/>
 				{{i.promoQuantity}} {{i.productFK.name}}
 			{% endfor %}
+			<br>
+			{{prod.salePrice}}
 		</div>
 		
 	</div>

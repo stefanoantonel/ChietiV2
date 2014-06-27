@@ -5,6 +5,12 @@ function popUp(id) {
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
 	findProductById(id);
+	var pos = $("#img"+id).position();
+	//$( "#div"+id ).css({ position: "absolute",
+	//     marginLeft: 0, marginTop: 0,
+	//     top: pos.top, left: pos.left });
+	$( "#div"+id ).css({  position: "absolute", top: 0, left: 300});
+	$("#div"+id).css("display","");
 }
 
 function findProductById(id){
@@ -16,22 +22,14 @@ function findProductById(id){
 		},
 		dataType: 'json',
 		success: function(data) {		
-			
 			//popUpAutoComplete(id,data.name,data.um,data.saleP);
-			//----------------------
-			//prod=data.prod;
-			//items=$('#img'+id).find('.prodItems').removeAttr('style');
-			items=$('#img'+id+'').parent('.divImg').find('.prodItems').clone();
-			$(items).removeAttr('style');
-			console.log(items);
-			//popUpAutoComplete(id,prod.name,prod.um,prod.saleP,items);
-			popUpAutoComplete(id,data.name,data.um,data.saleP,items);
-			//-------------------
+			popUpAutoComplete(id,data[1].name,data[1].um,data[1].saleP);
+			alert(data[2]);
 		}	
 	});
 }
 
-function popUpAutoComplete(id,nameProd,um,saleP,items) {
+function popUpAutoComplete(id,nameProd,um,saleP) {
 
 	if(prevID!=undefined){Desaparecer(prevID);}
 	prevID=id;	
@@ -41,7 +39,6 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 	$(template).prepend("<img  src='/static/chieti/productImages/"+id+".png'  class='productImg2'>");
 	$(template).attr("id","div"+id);
 	$(template).attr("name",id);
-	name=$(template).attr("name");
 	$(template).attr("value","visible");
 	ids= $(template).find("input[name='ids']");
 	$(ids).attr("id",id);
@@ -54,17 +51,6 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 	$(pr).html(saleP);
 	$(pr).attr("title",saleP);
 
-	//--------------------------
-
-	labelProdPromos=$(template).find("#itemPromo").append(items);
-	/*
-	for(i=0;i<items.length;i++){
-		$(labelProdPromos).append('<br>',items[i].prod,' ',items[i].quantity,' ',items[i].mu);
-	}
-	*/
-
-	//---------------------------
-	
 	//CENTRAR
 	//$(template).css({position: "absolute",top:'30%',left:'35%'});
 	$(template).css("display","");
@@ -87,7 +73,13 @@ function popUpAutoComplete(id,nameProd,um,saleP,items) {
 			$(".divActual").remove();
 		}
 	});
-	
+	/*  $('.quantity').change(function(){
+	  if(!checkQuantOk($(this))){
+		  //chequear aveces no lo llama
+		  alert("Cantidad incorrecta");
+			$(this).focus();
+	  }
+	}); */
 	$(template).find('.quantity').focus();
 }
 
@@ -97,13 +89,43 @@ function Desaparecer(id){
 
 $(document).ready(function() {
 
-	
+	/* $('html').click(function() {
+		console.log($(".divInvisible[value='visible']"));
+		$(".divInvisible[value='visible']").remove();
+	}); */
+
 
 	$('.divImg').click(function(event){
 		//event.stopPropagation();
 	});	
 
-	
+	/*
+	$(".divImg").mouseover(function(){
+	eleOffset = $(this).find(".productImg").offset();
+				//console.log("eleOffset",eleOffset);
+				//Revisar
+				offTop=eleOffset.top-30;
+				//console.log("offTop",offTop);
+				//console.log("eleOffset.top",eleOffset.top);
+				$(this).find(".productTT").fadeIn("fast").css({
+
+					left: eleOffset.left,
+					top: offTop
+
+				}).delay(500).fadeOut();
+			})
+			
+			//.mouseout(function(){
+			//	$(this).find(".productTT").hide();
+			//});
+	*/
+
+	//tooltip! 
+	// Calling $( selector ).hover( handlerIn, handlerOut ) is shorthand for:
+	//$( selector ).mouseenter( handlerIn ).mouseleave( handlerOut );
+
+			
+	//$('input[name=quantity]').change(function(){
 	setQuantity();
 	
 		
@@ -147,7 +169,6 @@ $(document).ready(function() {
 
 
 	recargar();
-	reloadTotalPrice();
 });
 
 function checkQuantOk(quant){
@@ -239,17 +260,10 @@ function recargar(){
 			offTop=eleOffset.top-30;
 			//console.log("offTop",offTop);
 			//console.log("eleOffset.top",eleOffset.top);
-			productTT=$(this).find(".productTT")
-			$(productTT).fadeIn("fast").css({
+			$(this).find(".productTT").fadeIn("fast").css({
 				left: eleOffset.left,
 				top: offTop
 			});
-			$(productTT).click(function(){
-				id=$(this).attr('name');
-				console.log(this);
-				findProductById(id);
-			});
-			//$(productTT).delay(10000).fadeOut();
 		}, 
 		function(){
 		    $(this).find(".productTT").delay(10).fadeOut();
@@ -257,6 +271,12 @@ function recargar(){
 	);		
 				
 		//$('input[name=quantity]').change(function(){
+		
+		
+		
+		
+		
+		
 		
 	//  $( ".productImg" ).unbind('click').bind('click', popUp($(this).attr("name")));
 	
@@ -271,7 +291,11 @@ function reloadTotalPrice(){
 	
 	$.ajax({
 		url: '/chieti/getTotalPriceOrder/',
-		type: 'get',
+		type: 'get', 
+		data: {
+			
+		},
+		
 		success: function(data) {		
 			$('#totalPrice').html(data);
 		}	
