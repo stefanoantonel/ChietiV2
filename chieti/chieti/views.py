@@ -132,11 +132,11 @@ def showProduct(request):
 def showProduct2(request,url):
 	cat=request.GET.get("id")
 	if(cat==None): 
-		todo = product.objects.filter(category=1).filter(isPromo="false")
+		todo = product.objects.filter(category=1,canceled='false',isPromo="false")
 	elif(cat=='4'): 
-		todo = product.objects.all().filter(isPromo="false")
+		todo = product.objects.filter(canceled='false',isPromo="false")
 	else:
-		todo = product.objects.filter(category=cat).filter(isPromo="false")
+		todo = product.objects.filter(category=cat,isPromo="false",canceled='false')
 	#print todo.query
 	#c = Context({'todos':todo})
 	c={'todos':todo}
@@ -501,7 +501,7 @@ def checkOrderExist(us):
 
 @staff_member_required
 def changeProduct(request):
-	todos = product.objects.all() 
+	todos = product.objects.filter(isDiscontinued=0)
 	cate=category.objects.all() 
 	return render(request, 'chieti/changeProduct.html',{'todos':todos,'categ':cate})
 

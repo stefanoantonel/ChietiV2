@@ -49,7 +49,7 @@ class orderManager(models.Model):
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
 		prod=product.objects.filter(isPromo='true')
 		itP=it.filter(productFK=prod)
-		
+
 		vector=[]
 		for i in it:
 			prod=product.objects.get(id=i["productFK"]).name
