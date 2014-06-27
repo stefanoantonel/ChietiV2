@@ -70,7 +70,13 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS=['chietionline.webfactional.com','ex.chietionline.webfactional.com']
+ALLOWED_HOSTS=[
+    'chietionline.webfactional.com',
+    'ex.chietionline.webfactional.com',
+    'www.chieticompras.com',
+    'chieticompras.com',
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
