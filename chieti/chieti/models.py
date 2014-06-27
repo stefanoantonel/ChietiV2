@@ -150,3 +150,8 @@ class itemPromo(models.Model):
 	promoQuantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))])
 	def getPromo(self):
 		return self.promoFK.primary_key;
+
+class stock(models.Model):
+	productFK=models.ForeignKey(product, related_name='products')
+	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))] )
+	pub_date = models.DateTimeField(auto_now=True)

@@ -15,7 +15,8 @@ from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
 
-from chieti.models import product, orderManager, order, user, item, category, itemPromo
+
+from chieti.models import product, orderManager, order, user, item, category, itemPromo,stock
 
 def home(request):
 	return render(request, 'chieti/homePage2.html')
@@ -35,11 +36,8 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 
 def test(request):
-	p = request.GET.get('p')
-	if p is not None:
-		return HttpResponse(p)
-	else:
-		return HttpResponse("No hay p")
+	
+	return HttpResponse('')
 
 def test1(request):
 	fp = open('./chieti/test1.html')
