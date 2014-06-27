@@ -183,7 +183,6 @@ def changePrice2(request):
 
 @login_required(login_url='/chieti/singIn/')
 def addToOrder(request):
-	
 	ids = request.GET.get('ids')
 	quant = request.GET.get('quantity')
 	orderId=request.session.get('order')
@@ -622,17 +621,22 @@ def changePromo2(request):
 	prodInCombo = itemPromo.objects.filter(promoFK=pr)
 	lista=[]
 	for p in prodInCombo:
-		d1={'id':p.productFK.id,'name':p.productFK.name}
+		d1={'id':p.productFK.id,'name':p.productFK.name,'quantity':str(p.promoQuantity),'mu':p.productFK.measureUnit}
 		lista.append(d1)
 	js=json.dumps(lista)
 	return HttpResponse(js)
 
 def changePromo3(request):
 	pr=request.POST.get("array")
-	print(pr)
-	for i in pr:
-		print (i)
-	return HttpResponse('')
+	jsonArray=json.loads(pr)
+	print(jsonArray["promo"])
+	#print (jsonArray["items"])
+	promoId= jsonArray["promo"]
+	itemPromo.objects.filter(promoFK_id=promoId).delete()
+	for item in jsonArray["items"]:
+		it=itemPromo(promoFK_id=promoId,productFK_id=item["id"],promoQuantity=item["quant"])
+		it.save()
+	return HttpResponse(promoId)
 
 @login_required(login_url='/chieti/singIn/')
 def myList(request):
