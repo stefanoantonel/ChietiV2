@@ -317,11 +317,11 @@ border: 1px solid black;
 }
 
 .formLogin { 
-   padding:8px; 
-   background-color: #F8F8F8; 
-   width: 200px; 
-   border: 1px solid #999999; 
-   width: 350px;
+	padding:8px; 
+	background-color: #F8F8F8; 
+	width: 200px; 
+	border: 1px solid #999999; 
+	width: 350px;
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 10px;
