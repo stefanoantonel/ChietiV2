@@ -1,9 +1,8 @@
 *.pyc
-
+manage.py
 *.sqlite3
 wsgi.py
 *.pydevproject
-
 db.sqlite3
 *.metadata
-manage.py
+
