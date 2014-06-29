@@ -1,11 +1,7 @@
 *.pyc
-manage.py
+chieti/manage.py
 *.sqlite3
 wsgi.py
 *.pydevproject
 db.sqlite3
 *.metadata
-
-chieti/manage.py
-chieti/manage.py
-chieti/manage.py
