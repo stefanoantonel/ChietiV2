@@ -96,6 +96,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 #STATIC_DIR = '/home/webapps/static_media'
+
 STATIC_ROOT = '/home/chietionline/webapps/static_media/'
 
 #LOGIN FACEBOOK
