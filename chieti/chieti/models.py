@@ -49,7 +49,7 @@ class orderManager(models.Model):
 		orderNotDelivered = order.objects.filter(delivered='false',confirm='true')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
 		prod=product.objects.filter(isPromo='true')
-		itP=it.filter(productFK=prod)
+		itP=it.filter(productFK__in=prod)
 		print(itP.query)
 
 		vector=[]
@@ -60,7 +60,8 @@ class orderManager(models.Model):
 			mu=product.objects.get(id=i["productFK"]).measureUnit
 			a={"product":prod,"quantity":quant, "measureUnit":mu}
 			vector.append(a)
-			
+		
+		#print(itP[0])	
 		for a in itP:
 			result=product.objects.get(id=a.get("productFK")).multItemPromo(a.get('quantity'))
 			for prodItem in result:
