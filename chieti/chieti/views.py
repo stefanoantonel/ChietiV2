@@ -36,7 +36,10 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 
 def test(request):
-	#stock(productFK_id=1,quantity=20).save()
+	p=product.objects.all()
+	for i in p:
+		#stock(productFK=i).save()
+		pass
 	return HttpResponse('')
 
 def test1(request):
@@ -113,6 +116,7 @@ def addProd2(request):
 	cat=category.objects.get(id=c)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=cat,buyPrice=buyP)
 	pr.save()
+	stock(productFK=pr).save()
 	
 	jsonItemsPromo=request.POST.get('jsonItemPromo')
 	j=json.loads(jsonItemsPromo)
@@ -254,7 +258,7 @@ def summaryBuy(request):
 	om = orderManager.objects.get(id=1)
 	summary=om.getSummaryBuy()
 	final=om.reduceStock(summary)
-	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
+	return render(request, 'chieti/summaryBuy.html',{'todos':final})
 
 @staff_member_required
 def printOrders(request):
