@@ -36,7 +36,7 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 
 def test(request):
-	
+	#stock(productFK_id=1,quantity=20).save()
 	return HttpResponse('')
 
 def test1(request):
@@ -250,13 +250,16 @@ def removeItem(request):
 
 @staff_member_required
 def summaryBuy(request):
-	summary = orderManager.objects.get(id=1).getSummaryBuy()
+	om = orderManager.objects.get(id=1)
+	summary=om.getSummaryBuy()
+	final=om.reduceStock(summary)
 	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
 	orderMan = orderManager.objects.get(id=1)
 	summary = orderMan.getSummarySell()
+
 	return render(request, 'chieti/printOrders.html',{'orderManagerArray':summary})
 
 @staff_member_required
