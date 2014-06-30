@@ -1,7 +1,8 @@
 <div class="allProducts">
 	{% for prod in todos %}
 		<div class="divImg">
-			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
+		<!-- Agrego {promo} para poner la clase: productImgSale -->
+			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
 			<div class="tooltip productTT" name="{{ prod.id }}">
 				<label >{{prod.name}}</label>
 				<br>
