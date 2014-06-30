@@ -8,10 +8,11 @@
 }
 
 .alertMnj.green { /* clase general */
+	font: bold 25px/25px HelveticaNeue, Arial;
   	display: block;
   	padding: 15px;
 	text-decoration: none;
-	color:#EBFFE0;
+	color:black;
   background: 	#8AE65C;
   border-color: #7ACC52 #C2FFA3 #d3d3d3;
 }

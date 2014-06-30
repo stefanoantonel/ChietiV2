@@ -30,6 +30,9 @@
 	
 </head>
 <body>
+{% if mnjEmail %}
+    <a type="button" class="alertMnj green" align="center" href="/chieti/logOut"> {{mnjEmail}}</a>
+{% endif %}		
 <div>
 			<a style="float:left;margin-left: 20%;display:block; color:gray; font-weight: bold " href="/chieti/quienes">Quienes Somos</a>
 			<a style="float:left;margin-left: 18%;display:block; color:gray;font-weight: bold " href="/chieti/product">Que ofrecemos</a>

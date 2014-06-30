@@ -567,14 +567,15 @@ def findProductById(request):
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
 	#---------------------------
-	# items=[]
-	# for i in prod.items.all():
-	# 	item={"prod":i.productFK.name,"quantity":str(i.promoQuantity),"mu":i.productFK.measureUnit}
-	# 	items.append(item)
-	# rta={"prod":p,"items":items}
+	items=[]
+	if(prod.isPromo=='true'):		
+
+		for i in prod.items.all():
+			item={"prod":i.productFK.name,"quantity":str(i.promoQuantity),"mu":i.productFK.measureUnit}
+			items.append(item)
 	#---------------------
-	pJson=json.dumps(p)
-	#pJson=json.dumps(rta)
+	rta={"prod":p,"items":items}
+	pJson=json.dumps(rta)	
 	return HttpResponse(pJson)
 
 @staff_member_required

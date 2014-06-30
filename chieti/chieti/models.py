@@ -27,7 +27,8 @@ class product(models.Model):
 		for itPromo in self.items.all():
 			c=itPromo.promoQuantity*cant
 			p=itPromo.productFK.name
-			itemsMult.append({"prod":p,"cant":c})
+			mu=itPromo.productFK.measureUnit
+			itemsMult.append({"prod":p,"cant":c,"mu":mu})
 		return itemsMult
 
 
@@ -49,6 +50,7 @@ class orderManager(models.Model):
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
 		prod=product.objects.filter(isPromo='true')
 		itP=it.filter(productFK=prod)
+		print(itP.query)
 
 		vector=[]
 		for i in it:
@@ -65,13 +67,14 @@ class orderManager(models.Model):
 				quant=prodItem.get('cant')
 				quant=round(quant,2)
 				prod=prodItem.get('prod')
+				mu=prodItem.get('mu')
 				a=0
 				for element in vector:
 					 if element['product'] == prod:
 					 	element['quantity']=element['quantity']+quant;
 					 	a=1;
 				if a==0:	 		
-					a={"product":prod,"quantity":quant, "measureUnit":'Unidad'}
+					a={"product":prod,"quantity":quant, "measureUnit":mu}
 					vector.append(a)
 		v=sorted(vector)	
 		return v
