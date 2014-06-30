@@ -347,6 +347,7 @@ def singUp2(request):
 		firstNameT = request.POST.get('firstName')
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
+		phoneT = request.POST.get('phone')
 		uExist=User.objects.filter(username=nameT)
 		if not uExist:
 			request.session['userNameTemp']=nameT
@@ -358,7 +359,7 @@ def singUp2(request):
 			u1.first_name=firstNameT
 			u1.is_active=0
 			u1.save()
-			u=user(userDj=u1,address=addressT, phone='',)
+			u=user(userDj=u1,address=addressT, phone=phoneT)
 			u.save()
 			return redirect(sendMail)
 		else:
