@@ -348,14 +348,14 @@ border: 1px solid black;
 		}
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 500px) {
 		.barMenu{
-			position: absolute;
+			
 			left:2%;
-			display:inblock;
+			display:block;
+			width: 100%;
 		}
 }
-
 
 
 .inputStyle{
