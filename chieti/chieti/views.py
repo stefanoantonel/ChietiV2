@@ -212,11 +212,11 @@ def changeOrder(request):
 
 
 def confirmOrder(request):
-	if(request.GET.get("confirm")):						
-		a=order.objects.get(id=request.session["order"])
-		a.confirm='true'
-		a.save()
-	return redirect(showProduct)
+	#if(request.GET.get("confirm")):						
+	a=order.objects.get(id=request.session["order"])
+	a.confirm='true'
+	a.save()
+	return HttpResponse("")
 
 @login_required(login_url='/chieti/singIn/')
 def changeOrder2(request):

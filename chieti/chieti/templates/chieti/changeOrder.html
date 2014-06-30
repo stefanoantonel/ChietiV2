@@ -5,7 +5,7 @@
 <title>Cambiar Orden</title>
 {% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
 <script type="text/javascript">
 	
 
@@ -17,12 +17,17 @@
                 type: 'get', 
                 data: {
                     "confirm":"true"          
-                  }
+                  },
+				success: function(data) {
+					$('#cartel').css("display","")
+				}
             });
 			
-			alert("Podes seguir modificando tu compra hasta el domingo!");
 		});
 		
+		$('#cartel').click(function(){
+			$(this).css("display","none")	
+		});
 		
 	  	//console.log( "ready prod!" ) 		
 		$('.quantity').change(function(){
@@ -129,6 +134,13 @@
 
 <div align="center">
 <label class="textTer">Mi Compra</label> 
+
+<div style="display:none;" id="cartel" class="alertMnj confirm"  align="center">
+<label>Gracias por su compra!!</label>
+<br/>
+<label>puede seguir comprando hasta el domingo</label>	
+</div>
+
 <form action="/chieti/changeOrder2/" method="post">
 <table>
     {% for item in todos %} <!-- OJO is a vector of jsons -->
@@ -165,6 +177,10 @@
 </div>
 
 </div>
+
+
+
+
 
 </body>
 </html>

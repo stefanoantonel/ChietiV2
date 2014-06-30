@@ -28,6 +28,19 @@
   border-color: #7ACC52 #C2FFA3 #d3d3d3;
 }
 
+.alertMnj.confirm { /* clase general */
+	padding:30px; 
+	background-color: #CCF5CC; 
+	border: 1px solid #999999; 
+	z-index:2;
+	left: calc(50% - 50mm);
+	top: calc(30% - 20mm);
+	width: 350px;
+	border-radius: 10px;
+	position: fixed;
+}
+
+
 
 .button { /* clase general */
   border: 1px solid #dedede;
