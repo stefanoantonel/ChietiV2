@@ -2,8 +2,8 @@
   border: 1px solid #dedede;
   border-radius: 10px;
   /*color: #555;*/
-  /*display: block;*/
-  font: bold 18px/18px HelveticaNeue, Arial;
+  /*display: block;
+  font: bold 18px/18px Verdana, Arial;*/
   padding: 8px 11px;
 }
 
@@ -35,7 +35,7 @@
 	z-index:2;
 	left: calc(50% - 50mm);
 	top: calc(30% - 20mm);
-	width: 350px;
+	width: 400px;
 	border-radius: 10px;
 	position: fixed;
 }

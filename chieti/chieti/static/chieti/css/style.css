@@ -376,3 +376,14 @@ border: 1px solid black;
     right: 0px;
     width: 300px;
 }
+
+
+.textNormal{
+	font-size: 1em;
+	font-family: "Verdana";	
+}
+
+.textMediano{
+	font-size: 2em;
+	font-family: "Verdana";	
+}
