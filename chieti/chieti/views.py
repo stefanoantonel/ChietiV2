@@ -259,6 +259,7 @@ def summaryBuy(request):
 	summary=om.getSummaryBuy()
 	final=om.reduceStock(summary)
 	return render(request, 'chieti/summaryBuy.html',{'todos':final})
+	#return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
@@ -673,3 +674,22 @@ def addToOrder2(ids,quant,orderId):
 		i.save()
 		return HttpResponse('true')
 	return HttpResponse('false')
+
+@staff_member_required
+def changeStock(request):
+	todo=stock.objects.filter(isDeleted=0)
+	c={'todos':todo}
+	c.update(csrf(request))	
+	return render(request, 'chieti/changeStock.html',c)
+
+def changeStock2(request):
+	array=request.POST.get('array')
+	jsonArray=json.loads(array)
+	ids=[]
+	for item in jsonArray:
+		ids.append(item['id'])
+	s=stock.objects.filter(productFK_id__in=ids,isDeleted=0)
+	for i in range(len(ids)):
+		s.filter(productFK_id=ids[i]).update(quantity=jsonArray[i]['quant'])
+	return redirect(showProduct)
+	

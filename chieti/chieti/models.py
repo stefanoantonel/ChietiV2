@@ -122,21 +122,21 @@ class orderManager(models.Model):
 			#recorro para obtener todos los IDS y consultar respecto a estos
 			ids.append(i['id'])
 		s=stock.objects.filter(productFK__in=ids,isDeleted=0)
-		print(s)
+		#print(s)
 		for i in range(len(s)):
 			#lo que necesito - lo que tengo en stock
 			rest=float(s[i].quantity)-float(vector[i]['quantity'])
-			rest=abs(rest)
-			print (rest,vector[i]['id'])
+			restAbs=abs(rest)
 			stock.objects.filter(id=s[i].id).update(isDeleted=1)
 			if(rest<=0):
-				vector[i]['quantity']=0
-				#use todo el stock
+				#tenes que comprar la resta
+				vector[i]['quantity']=restAbs
+				#no me alcanza con el stock pero uso todo el stock 
 				stock(productFK=s[i].productFK,quantity=0).save()
 			else:
-				vector[i]['quantity']=rest
+				vector[i]['quantity']=0
 				#creo el nuevo stock restado para historial
-				stock(productFK=s[i].productFK,quantity=rest).save()
+				stock(productFK=s[i].productFK,quantity=restAbs).save()
 		return vector
 
 class order(models.Model):
