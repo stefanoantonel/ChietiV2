@@ -40,6 +40,8 @@ def test(request):
 	for i in p:
 		#stock(productFK=i).save()
 		pass
+	#deleteOldUser(request)
+
 	return HttpResponse('')
 
 def test1(request):
@@ -499,6 +501,7 @@ def markDelivered(request):
 	om=orderManager.objects.get(id=1)
 	om.markDelivered()
 	product.objects.filter().update(canceled='false')
+	deleteOldUser(request)
 	return redirect(showProduct)
 	pass
 
