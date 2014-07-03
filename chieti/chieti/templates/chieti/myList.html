@@ -4,7 +4,26 @@
 	<title>Mi Lista</title>
 	{% include 'chieti/mainHead.html' %}
 	<script type="text/javascript">
+		
+		function checkQuantOk(quant,mu){
+			console.log(quant,mu);
+			num=quant;
+			um=mu;
+			if(!$.isNumeric(num)){
+				return false;
+			}
+			if(num < 0.1)
+				return false;
+			if (um=="Un"){
+				if(!(num % 1 === 0)){
+					return false
+				}
+			}
+			return true;
+		}
+
 		$(document).ready(function(){
+			/*
 			$( "#tags" ).autocomplete({
 				source:"/chieti/complete/",
 				minLength:2,
@@ -24,49 +43,79 @@
 					deleteButton();
 				}
 			});
-			$('#ready').click(function(){
-				//saco la lista y pongo la nueva
-				$('#result').attr('hidden','hidden');
-				$('#ready').attr('hidden','hidden');
+			*/
+			
+			$( "#tags" ).autocomplete({
+				source:"/chieti/complete/",
+				minLength:2,
+				select: function( event, data ) {
+				
+					//popUpAutoComplete(data.item.id,data.item.name,data.item.um,data.item.saleP);
+		
+	        		container=$('.template').clone();
+	        		$(container).attr('class','product')
+	        		//container=$(container).clone();
+	        		label=$(container).find('.nameItem');
+	        		input=$(container).find('input');
+	        		$(input).attr("id",data.item.id);
+	        		mu=$(container).find('.mu');
+	        		$(label).html(data.item.name);
+	        		//$(label).attr('value',this.quantity);
+	        		//$(input).val(this.quantity)	
+	        		$(label).attr('id',data.item.id);	
+	        		$(mu).html(data.item.um);
 
-				$('#finish').removeAttr('style');
-				$('.product').each(function(){
-					
-					l1="<label>"+$(this).find('.name').html()+"</label>"
-					i="<input id="+$(this).attr('id') +" />"
-					l2="<label>"+$(this).attr('mu')+"</label><br>"
-					$('#quantities').append(l1+i+l2);
-					
-				});
-			});
+	        		$(container).removeAttr('style');
+	        		$('#productsInList').append(container);
+	        		addRemove();
+	        		changeQuant();
+	        		$('#finish').removeAttr('style');
+	        	}
+	        });
+
+	        function addRemove(){
+
+				$('.remove').click(function(){
+
+					$(this).parents('.product').remove();
+				});	
+			}
+
 			$('#finish').click(function(){
 				a=[];
-				$('#quantities input').each(function(){
+				$('input.quant').each(function(){
 					quant=$(this).val();
 					
 					id=$(this).attr('id');
 					
-					b={'quant':quant,'id':id};
+					b={"quant":quant,"id":id};
 					a.push(b);
 				});
 				a=JSON.stringify(a);
 				console.log(a);
 				$('form').append("<input name="+'array'+" value="+a+" hidden='hidden'>");
 			});
+
+
+
+			
 		});
-		function deleteButton(){
-			$('.button').click(function(){
-				console.log('click')
-				console.log($(this));
-				$(this).parent('.product').remove();
-			});
-		}
+
+	function changeQuant(){
+		$('.quant').change(function(){
+			console.log('change')
+			mu=$(this).parents('.product').find('.mu').html();
+
+			quant=$(this).val();
+			if( checkQuantOk(quant,mu) == false){
+				$(this).val(0);
+			}
+		});
+	}
+		
 	</script>
 	<style type="text/css">
-		.product{
-			font-size: 50px;
-			display: inline;
-		}
+		
 		#left{
 			max-width: 30%;
 			margin-right: 10%;
@@ -78,39 +127,37 @@
 			margin-left: 10%;
 			display: inline;
 		}
+		#productsInList{
+			font-size: 30px;
+		}
 
 	</style>
 
 </head>
 <body>
-	<div id="divAutoComplete" style="margin-left:20%;margin-top:2%;z-index:3;">
+	<div id="divAutoComplete" style="margin-left:30%;margin-top:2%;z-index:3;">
 		<div id="subProd" class="ui-widget">
 		     <label for="tags">Buscar Producto: </label>
 			 <input id="tags">
 		</div>
 		<br>	    
 	</div>
-	<section id='left'>
-		<div id="result">
-			<div id='template' style="display: none" mu=''>
-				<label class='name'></label>
-				<button class="button red">x</button>
-				<br>
-			</div>
-		</div>
-		<br>
-		<button id="ready" style="display:none">Continuar</button>
-	</section>
 
-	<section id='rigth'>
-		<div id="quantities">
-			
-		</div>
-		<form action="/chieti/myList2/" method="post">{% csrf_token %}
-			<button id="finish" style="display:none">Finalizar</button>
-		</form>
+	<section id='productsInList' align="center">
 
 	</section>
+
+	<form action="/chieti/myList2/" method="post">{% csrf_token %}
+		<button id="finish" style="display:none">Finalizar</button>
+	</form>
+
+
+	<div class="template" style="display:none; ">
+		<label value="" class="nameItem"></label>
+		<input class="quant">
+		<button class="button red remove">x</button>
+		<label class="mu"></label>
+	</div>
 
 </body>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">

@@ -57,7 +57,7 @@ $(document).ready(function() {
 		<form action="/chieti/singIn2/" method="post" align="middle">{% csrf_token %}
 			<label>Iniciar Sesion</label>
 			<br><br>
-			<input type="text" class="alertMnj" name='username' placeholder="Usuario" value='{{username}}' autofocus>
+			<input type="text" class="alertMnj" name='username' placeholder="Usuario" value='{{username}}' autofocus><br>
 			<input type="password" class="alertMnj" name='password' placeholder="Clave">
 			<input class="button white singIn" type="submit" value="Ingresar">
 			<input type="hidden" value="{{isVentana}}" name="isVentana">

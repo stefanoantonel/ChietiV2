@@ -552,8 +552,9 @@ def usernameExist(request):
 def changeUserData(request):
 	idU=request.session.get('user')
 	u=user.objects.get(id=idU)
-	
-	return render(request, 'chieti/changeUserData.html',{'us':u})
+	c={'us':u}
+	c.update(csrf(request))
+	return render(request, 'chieti/changeUserData.html',c)
 	pass
 
 def changeUserData2(request):
@@ -563,8 +564,9 @@ def changeUserData2(request):
 	addr=request.POST.get('direccion')
 	first=request.POST.get('firstName')
 	last=request.POST.get('lastName')
+	phon=request.POST.get('phone')
 	u=User.objects.filter(id=ids).update(first_name=first,last_name=last)
-	user.objects.filter(userDj_id=ids).update(address=addr)
+	user.objects.filter(userDj_id=ids).update(address=addr,phone=phon)
 	#user.objects.filter(id=ids).update(address=addr)
 	#u.update(userDj.first_name=first,userDj.last_name=last)
 	return render(request, 'chieti/homePage2.html')

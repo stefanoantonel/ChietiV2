@@ -109,8 +109,8 @@ $(document).ready(function() {
 		
 	$(".l").click(function() {
 		$.ajax({
+			url: '/chieti/getProducts/',
 			//url: '/chieti/getproducts/',
-			url: '/chieti/getproducts/',
 			type: 'get', 
 			data: {
 				'id': $(this).attr("id"),
