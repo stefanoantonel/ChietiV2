@@ -27,7 +27,9 @@ class product(models.Model):
 		for itPromo in self.items.all():
 			c=itPromo.promoQuantity*cant
 			p=itPromo.productFK.name
-			itemsMult.append({"prod":p,"cant":c})
+			mu=itPromo.productFK.measureUnit
+			id=itPromo.productFK.id
+			itemsMult.append({"prod":p,"cant":c,"mu":mu,"id":id})
 		return itemsMult
 
 
@@ -48,7 +50,8 @@ class orderManager(models.Model):
 		orderNotDelivered = order.objects.filter(delivered='false',confirm='true')
 		it=item.objects.filter(orderFK__in=orderNotDelivered).values("productFK").annotate(quantity=models.Sum('quantity'))
 		prod=product.objects.filter(isPromo='true')
-		itP=it.filter(productFK=prod)
+		itP=it.filter(productFK__in=prod)
+		
 
 		vector=[]
 		for i in it:
@@ -56,22 +59,25 @@ class orderManager(models.Model):
 			quant=i["quantity"]
 			quant=round(quant,2)
 			mu=product.objects.get(id=i["productFK"]).measureUnit
-			a={"product":prod,"quantity":quant, "measureUnit":mu}
+			a={"product":prod,"quantity":quant, "measureUnit":mu,"id":i["productFK"]}
 			vector.append(a)
-			
+		
+		#print(itP[0])	
 		for a in itP:
 			result=product.objects.get(id=a.get("productFK")).multItemPromo(a.get('quantity'))
 			for prodItem in result:
 				quant=prodItem.get('cant')
 				quant=round(quant,2)
 				prod=prodItem.get('prod')
+				mu=prodItem.get('mu')
+				id=prodItem.get('id')
 				a=0
 				for element in vector:
 					 if element['product'] == prod:
 					 	element['quantity']=element['quantity']+quant;
 					 	a=1;
 				if a==0:	 		
-					a={"product":prod,"quantity":quant, "measureUnit":'Unidad'}
+					a={"product":prod,"quantity":quant, "measureUnit":mu,"id":id}
 					vector.append(a)
 		v=sorted(vector)	
 		return v
@@ -107,11 +113,31 @@ class orderManager(models.Model):
 	def printOrders(self):
 		pass
 	def markDelivered(self):
-		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered__isnull=True)
-		
+		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered__isnull=True)		
 		ordersNoDelivered.update(delivered='true')
-		
-		
+
+	def reduceStock(self,vector):
+		ids=[]
+		for i in vector:
+			#recorro para obtener todos los IDS y consultar respecto a estos
+			ids.append(i['id'])
+		s=stock.objects.filter(productFK__in=ids,isDeleted=0)
+		#print(s)
+		for i in range(len(s)):
+			#lo que necesito - lo que tengo en stock
+			rest=float(s[i].quantity)-float(vector[i]['quantity'])
+			restAbs=abs(rest)
+			stock.objects.filter(id=s[i].id).update(isDeleted=1)
+			if(rest<=0):
+				#tenes que comprar la resta
+				vector[i]['quantity']=restAbs
+				#no me alcanza con el stock pero uso todo el stock 
+				stock(productFK=s[i].productFK,quantity=0).save()
+			else:
+				vector[i]['quantity']=0
+				#creo el nuevo stock restado para historial
+				stock(productFK=s[i].productFK,quantity=restAbs).save()
+		return vector
 
 class order(models.Model):
 	userFK=models.ForeignKey(user)
@@ -153,5 +179,7 @@ class itemPromo(models.Model):
 
 class stock(models.Model):
 	productFK=models.ForeignKey(product, related_name='products')
-	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))] )
+	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))] ,default=0)
 	pub_date = models.DateTimeField(auto_now=True)
+	isDeleted=models.IntegerField(default=0)
+	

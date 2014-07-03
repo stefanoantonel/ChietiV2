@@ -48,7 +48,8 @@ li a {
 	display: block;
     margin-left: auto;
     margin-right: auto;
-    height:50%;  
+    height:200px;
+    /*height:50%;*/  
 
 }
 /* .linkTipo{
@@ -99,9 +100,9 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 	background-color: white;
 	/*width:400px;
 	height: 400px;
-	position: absolute;*/
+	position: absolute;
 	width:100mm;
-	height:100mm;
+	height:100mm;*/
 	z-index:2;
 	
 	left: calc(50% - 50mm);
@@ -160,7 +161,8 @@ border: 1px solid black;
 
 .remBoreder{
 	border: solid;
-	display:inline-block;
+	/*display:inline-block;*/
+	float:left;
 }
 
 .remTitle{
@@ -348,14 +350,14 @@ border: 1px solid black;
 		}
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 500px) {
 		.barMenu{
-			position: absolute;
+			
 			left:2%;
-			display:inblock;
+			display:block;
+			width: 100%;
 		}
 }
-
 
 
 .inputStyle{
@@ -373,4 +375,15 @@ border: 1px solid black;
     position: absolute;
     right: 0px;
     width: 300px;
+}
+
+
+.textNormal{
+	font-size: 1em;
+	font-family: "Verdana";	
+}
+
+.textMediano{
+	font-size: 2em;
+	font-family: "Verdana";	
 }

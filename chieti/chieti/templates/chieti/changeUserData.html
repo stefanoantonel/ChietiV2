@@ -10,13 +10,14 @@
 
 	<div>	
 		
-		<form action="/chieti/changeUserData2/" method="post" align='center'> 
+		<form action="/chieti/changeUserData2/" method="post" align='center'>{% csrf_token %}
 			<br><h3>Cambiar datos de usuario</h3> <br>
 				<input name="ids" class ='prodId' hidden="hidden" value="{{us.userDj.id}}"/>
 				<!-- Nombre <input name="username" value="{{us.userDj.username}}"/> <br>  -->
 				Direccion <input name="direccion" value="{{us.address}}"/> <br>
 				Nombre <input name="firstName" value="{{us.userDj.first_name}}"/> <br>
 				Apellido <input name="lastName" value="{{us.userDj.last_name}}"/> <br>
+				Telefono <input name="phone" value="{{us.phone}}"/> <br>
 				<input type="submit">
 				
 		

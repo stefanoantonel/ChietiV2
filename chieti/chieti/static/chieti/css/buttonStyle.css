@@ -2,16 +2,17 @@
   border: 1px solid #dedede;
   border-radius: 10px;
   /*color: #555;*/
-  /*display: block;*/
-  font: bold 18px/18px HelveticaNeue, Arial;
+  /*display: block;
+  font: bold 18px/18px Verdana, Arial;*/
   padding: 8px 11px;
 }
 
 .alertMnj.green { /* clase general */
+	font: bold 25px/25px HelveticaNeue, Arial;
   	display: block;
   	padding: 15px;
 	text-decoration: none;
-	color:#EBFFE0;
+	color:black;
   background: 	#8AE65C;
   border-color: #7ACC52 #C2FFA3 #d3d3d3;
 }
@@ -26,6 +27,19 @@
   background: 	#8AE65C;
   border-color: #7ACC52 #C2FFA3 #d3d3d3;
 }
+
+.alertMnj.confirm { /* clase general */
+	padding:30px; 
+	background-color: #CCF5CC; 
+	border: 1px solid #999999; 
+	z-index:2;
+	left: calc(50% - 50mm);
+	top: calc(30% - 20mm);
+	width: 400px;
+	border-radius: 10px;
+	position: fixed;
+}
+
 
 
 .button { /* clase general */

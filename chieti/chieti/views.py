@@ -36,7 +36,12 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 
 def test(request):
-	
+	p=product.objects.all()
+	for i in p:
+		#stock(productFK=i).save()
+		pass
+	#deleteOldUser(request)
+
 	return HttpResponse('')
 
 def test1(request):
@@ -113,6 +118,7 @@ def addProd2(request):
 	cat=category.objects.get(id=c)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=cat,buyPrice=buyP)
 	pr.save()
+	stock(productFK=pr).save()
 	
 	jsonItemsPromo=request.POST.get('jsonItemPromo')
 	j=json.loads(jsonItemsPromo)
@@ -148,6 +154,7 @@ def showSalesFake(request):
 
 def showSales(request):
 	todasPromos = product.objects.filter(isPromo="true")
+	#productImgSale : esta clase es para las promos
 	c={'todos':todasPromos,'promo':'productImgSale'}
 	c.update(csrf(request))
 	return render(request, 'chieti/productsTemplate.html',c)
@@ -207,11 +214,11 @@ def changeOrder(request):
 
 
 def confirmOrder(request):
-	if(request.GET.get("confirm")):						
-		a=order.objects.get(id=request.session["order"])
-		a.confirm='true'
-		a.save()
-	return redirect(showProduct)
+	#if(request.GET.get("confirm")):						
+	a=order.objects.get(id=request.session["order"])
+	a.confirm='true'
+	a.save()
+	return HttpResponse("")
 
 @login_required(login_url='/chieti/singIn/')
 def changeOrder2(request):
@@ -250,13 +257,17 @@ def removeItem(request):
 
 @staff_member_required
 def summaryBuy(request):
-	summary = orderManager.objects.get(id=1).getSummaryBuy()
-	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
+	om = orderManager.objects.get(id=1)
+	summary=om.getSummaryBuy()
+	final=om.reduceStock(summary)
+	return render(request, 'chieti/summaryBuy.html',{'todos':final})
+	#return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
 	orderMan = orderManager.objects.get(id=1)
 	summary = orderMan.getSummarySell()
+
 	return render(request, 'chieti/printOrders.html',{'orderManagerArray':summary})
 
 @staff_member_required
@@ -347,6 +358,7 @@ def singUp2(request):
 		firstNameT = request.POST.get('firstName')
 		emailT = request.POST.get('email')
 		addressT = request.POST.get('address')
+		phoneT = request.POST.get('phone')
 		uExist=User.objects.filter(username=nameT)
 		if not uExist:
 			request.session['userNameTemp']=nameT
@@ -358,7 +370,7 @@ def singUp2(request):
 			u1.first_name=firstNameT
 			u1.is_active=0
 			u1.save()
-			u=user(userDj=u1,address=addressT, phone='',)
+			u=user(userDj=u1,address=addressT, phone=phoneT)
 			u.save()
 			return redirect(sendMail)
 		else:
@@ -489,6 +501,7 @@ def markDelivered(request):
 	om=orderManager.objects.get(id=1)
 	om.markDelivered()
 	product.objects.filter().update(canceled='false')
+	deleteOldUser(request)
 	return redirect(showProduct)
 	pass
 
@@ -539,8 +552,9 @@ def usernameExist(request):
 def changeUserData(request):
 	idU=request.session.get('user')
 	u=user.objects.get(id=idU)
-	
-	return render(request, 'chieti/changeUserData.html',{'us':u})
+	c={'us':u}
+	c.update(csrf(request))
+	return render(request, 'chieti/changeUserData.html',c)
 	pass
 
 def changeUserData2(request):
@@ -550,8 +564,9 @@ def changeUserData2(request):
 	addr=request.POST.get('direccion')
 	first=request.POST.get('firstName')
 	last=request.POST.get('lastName')
+	phon=request.POST.get('phone')
 	u=User.objects.filter(id=ids).update(first_name=first,last_name=last)
-	user.objects.filter(userDj_id=ids).update(address=addr)
+	user.objects.filter(userDj_id=ids).update(address=addr,phone=phon)
 	#user.objects.filter(id=ids).update(address=addr)
 	#u.update(userDj.first_name=first,userDj.last_name=last)
 	return render(request, 'chieti/homePage2.html')
@@ -567,14 +582,15 @@ def findProductById(request):
 	saleP=str(prod.salePrice);
 	p={"name" : prod.name,"um":prod.measureUnit, "saleP" : saleP}
 	#---------------------------
-	# items=[]
-	# for i in prod.items.all():
-	# 	item={"prod":i.productFK.name,"quantity":str(i.promoQuantity),"mu":i.productFK.measureUnit}
-	# 	items.append(item)
-	# rta={"prod":p,"items":items}
+	items=[]
+	if(prod.isPromo=='true'):		
+
+		for i in prod.items.all():
+			item={"prod":i.productFK.name,"quantity":str(i.promoQuantity),"mu":i.productFK.measureUnit}
+			items.append(item)
 	#---------------------
-	pJson=json.dumps(p)
-	#pJson=json.dumps(rta)
+	rta={"prod":p,"items":items}
+	pJson=json.dumps(rta)	
 	return HttpResponse(pJson)
 
 @staff_member_required
@@ -663,3 +679,22 @@ def addToOrder2(ids,quant,orderId):
 		i.save()
 		return HttpResponse('true')
 	return HttpResponse('false')
+
+@staff_member_required
+def changeStock(request):
+	todo=stock.objects.filter(isDeleted=0)
+	c={'todos':todo}
+	c.update(csrf(request))	
+	return render(request, 'chieti/changeStock.html',c)
+
+def changeStock2(request):
+	array=request.POST.get('array')
+	jsonArray=json.loads(array)
+	ids=[]
+	for item in jsonArray:
+		ids.append(item['id'])
+	s=stock.objects.filter(productFK_id__in=ids,isDeleted=0)
+	for i in range(len(ids)):
+		s.filter(productFK_id=ids[i]).update(quantity=jsonArray[i]['quant'])
+	return redirect(showProduct)
+	

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Cambios de Stock</title>
+{% include 'chieti/mainHead.html' %}
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var arrayChange=[];
+		var arrayReady=[];
+		$('#ready').click(function(){
+			$(arrayChange).each(function(){
+				id=$(this).find('.product').attr('name');
+				quant=$(this).find('.quantity').val();
+				
+				arrayReady.push({"id":id,"quant":quant});
+			});
+			a=JSON.stringify(arrayReady);
+			$('#array').val(a);
+			
+		});
+		$('input').change(function(){
+			//saves only input that changed
+			arrayChange.push($(this).parents('tr'));
+		});
+	});
+</script>
+
+
+</head>
+<body>
+<form action="/chieti/changeStock2/" method="post">{%csrf_token%} 
+<!-- -->
+<table align="center">
+	{% for each in todos %}
+		<tr>
+		    <td><label name= "{{each.productFK.id}}" class="product">{{ each.productFK.name }} </label></td>
+		    <td><input type="text" name="newPrice" class="quantity" value="{{each.quantity}}" /></td>
+		    <td><label class="mu">{{ each.productFK.measureUnit }} </label></td>
+		    <td><br/></td>
+	    </tr>
+	{% endfor %}
+</table>
+<input type="hidden" name="array" id="array">
+<input type="submit" value="Guardar Cambios " id="ready"/>
+</form>
+
+</body>
+</html>

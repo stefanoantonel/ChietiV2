@@ -36,21 +36,21 @@
 <div id="divLeft" class="divLeft">
 	<img id="carrito"  class="carrito" alt="Mi compra">
 	<br>
-	<label style="margin:20%">Total: $ <label id="totalPrice"></label>
-	</label>	
+	<label style="margin:20%">Total: $ 
+		<label id="totalPrice"></label>
+
+	</label><br>
+
+	<a class="button white" style="position:absolute;margin:10%;" href="/chieti/myList/">Hacer Mi Lista de Super!</a>	
 </div>
 
 <br/>
 
 <!-- img id="img10" alt="" src="/static/chieti/productImages/1.jpg" style="position:absolute; top:81px;> -->
 <section>
-	{% if promo %}
-		{% include 'chieti/getSales.html' %}
-	{% else %}
-		{% include 'chieti/getProducts.html' %} 
-	{% endif %}
+	{% include 'chieti/getProducts.html' %} 
+
 	
-	</div>
 </section>
 
 <div style="display:none;" class="divInvisible divAuto formLogin"  align="center">
