@@ -57,6 +57,7 @@
 	        		//container=$(container).clone();
 	        		label=$(container).find('.nameItem');
 	        		input=$(container).find('input');
+	        		$(input).addClass('quant');
 	        		$(input).attr("id",data.item.id);
 	        		mu=$(container).find('.mu');
 	        		$(label).html(data.item.name);
@@ -154,7 +155,7 @@
 
 	<div class="template" style="display:none; ">
 		<label value="" class="nameItem"></label>
-		<input class="quant">
+		<input>
 		<button class="button red remove">x</button>
 		<label class="mu"></label>
 	</div>
