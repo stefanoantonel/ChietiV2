@@ -65,8 +65,8 @@
 	            type: 'post',
 	            data: { "array":array,"csrfmiddlewaretoken":csrf},
 	            success: function(data) {
-	          		console.log(data);  	
-	            	
+	          		//console.log(data);  	
+	            	$('#productsInCombo').html('');
 	            }
 	        });
 			//$.post("/chieti/changePromo3/ ",{ "array":array,"csrfmiddlewaretoken":csrf})
