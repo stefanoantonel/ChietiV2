@@ -20,11 +20,35 @@
 	  });
 	});
 	</script>
+<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 	
 </head>
 <body>
+
+<label>Nuestras promociones</label>
+
+<div class="allProducts">
+	{% for prod in todos %}
+		<div class="divImgSale">
+		<!-- Agrego {promo} para poner la clase: productImgSale -->
+			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
+			
+			{% for i in prod.items.all %}
+					<label>{{i.productFK.name}}</label>
+				{% endfor %}
+			<div name="{{ prod.id }}">
+				<label >{{prod.name}}</label>
+				<br>
+				<label class='prodItems' style="display:none"></label>
+				<label>${{prod.salePrice }} {{prod.measureUnit}} </label>
+			</div>
+		</div>
+	{% endfor %}    
+</div>
+
 	
-	<div class="contenedorBotones">
+	<!-- div class="contenedorBotones">
 		
 		<div>	
 			<a class="prod botonMenu" href="/chieti/product"></a>
@@ -33,6 +57,7 @@
 		</div>	
 		
 	</div>
+	 -->
 
 </body>
 </html>

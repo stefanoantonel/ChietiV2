@@ -22,7 +22,10 @@ def home(request):
 	return render(request, 'chieti/homePage2.html')
 
 def homa(request):
-	return render(request, 'chieti/homePage.html')
+	todasPromos = product.objects.filter(isPromo="true")
+	c={'todos':todasPromos,'promo':'productImgSale'}
+	c.update(csrf(request))
+	return render(request, 'chieti/homePage.html',c)
 
 def quienes(request):
 	return render(request, 'chieti/quienesSomos.html')
