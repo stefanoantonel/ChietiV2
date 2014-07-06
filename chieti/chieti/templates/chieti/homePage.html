@@ -9,16 +9,6 @@
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
 	<script type="text/javascript">
-	$(document).ready(function() {
-	  $.ajaxSetup({ cache: true });
-	  $.getScript('//connect.facebook.net/es_ES/all.js', function(){
-	    FB.init({
-	      appId: '1423912961192227',
-	    });     
-	    $('#loginbutton,#feedbutton').removeAttr('disabled');
-	    FB.getLoginStatus(updateStatusCallback);
-	  });
-	});
 	</script>
 <script src="{% static 'chieti/js/productTemplate.js' %}"></script>
 <script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
@@ -27,21 +17,22 @@
 <body>
 
 <label>Nuestras promociones</label>
-
+<br/>
 <div class="allProducts">
 	{% for prod in todos %}
-		<div class="divImgSale">
+		<div class="divImghome">
+		<label >{{prod.name}}</label>
 		<!-- Agrego {promo} para poner la clase: productImgSale -->
 			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
 			
 			{% for i in prod.items.all %}
-					<label>{{i.productFK.name}}</label>
+					<label>{{i.promoQuantity}}{{i.productFK.name}}</label>
+					<br/>
 				{% endfor %}
 			<div name="{{ prod.id }}">
-				<label >{{prod.name}}</label>
 				<br>
 				<label class='prodItems' style="display:none"></label>
-				<label>${{prod.salePrice }} {{prod.measureUnit}} </label>
+				<label>${{prod.salePrice }}</label>
 			</div>
 		</div>
 	{% endfor %}    

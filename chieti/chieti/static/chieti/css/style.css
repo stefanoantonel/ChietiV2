@@ -25,7 +25,19 @@ li a {
 	margin-top:50px;
 }
 
+.divImghome{
+	float:left;
+	width:200px;
+	height:150px;
+	display:block;
+	margin-right:100px;
+	margin-top:50px;
+}
 
+
+.tuerca{background-image:url('/static/chieti/images/tuerca.png');
+background-repeat: no-repeat;
+}
 
 .productImg{
 	/*width:100%;*/
