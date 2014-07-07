@@ -9,30 +9,71 @@
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
 	<script type="text/javascript">
+	
 	$(document).ready(function() {
-	  $.ajaxSetup({ cache: true });
-	  $.getScript('//connect.facebook.net/es_ES/all.js', function(){
-	    FB.init({
-	      appId: '1423912961192227',
-	    });     
-	    $('#loginbutton,#feedbutton').removeAttr('disabled');
-	    FB.getLoginStatus(updateStatusCallback);
-	  });
+
+		setQuantity();
+		$('.add').click(function {addClick(this);});
+		
+		$('img.productImg').lazyload({
+			threshold : 200,
+			effect : "fadeIn"
+			
+		});
 	});
+	
+	
+	
+	
+		
 	</script>
+
+<script src="{% static 'chieti/js/funciones.js' %}"></script>
+<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 	
 </head>
 <body>
-	
-	<div class="contenedorBotones">
-		
-		<div>	
-			<a class="prod botonMenu" href="/chieti/product"></a>
-			<a class="botonMenu sale" href="/chieti/sales"></a>
-			<a class="botonMenu order" href="/chieti/changeOrder"></a>
-		</div>	
-		
-	</div>
+
+<section class="mainHome">	
+	<section class="textSeg">Una nueva forma de hacer tus compras</section>
+	<section class="textSeg">Ahorra plata y tiempo</section>
+	<section class="textTer">
+			<span class="textSeg" style="color:#FF8C00">1.</span> Elegi tus productos
+			<br/>
+			<span class="textSeg" style="color:#FF8C00">2.</span> Te lo llevamos a domicilio
+			<br/>
+			<span class="textSeg" style="color:#FF8C00">3.</span> Abonas a la entrega
+	</section>
+</section>
+<section class="empezar">
+			<a type="button" class="btnNaranja grande"  href="/chieti/product">Empeza a Comprar! ></a>
+</section>
+<br/>
+<br/>
+<br/>
+
+<div class="allProducts">
+	{% for prod in todos %}
+		<div class="divImghome divImg formNaranja">
+		<label class="textTer">{{prod.name}}</label>
+		<!-- Agrego {promo} para poner la clase: productImgSale -->
+			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
+			{% for i in prod.items.all %}
+					<label>{{i.promoQuantity}}{{i.productFK.name}}</label><br/>
+				{% endfor %}
+			<div name="{{ prod.id }}">
+				<br>
+				<label class='prodItems' style="display:none"></label>
+				<label  name='price' class="price" title="{{prod.salePrice }}">${{prod.salePrice }}</label>
+				<label id="um" name='UnidadMedida'>Un</label>
+				<br/>
+				<label id="labQuantity" for='quantity'>Cant:</label>
+				<input id='quantity' name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:20%" autofocus>
+				<button class="add btnNaranja chico centrar" >Comprar</button>
+			</div>
+		</div>
+	{% endfor %}    
+</div>
 
 </body>
 </html>

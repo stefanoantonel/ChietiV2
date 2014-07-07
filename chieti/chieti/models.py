@@ -122,21 +122,21 @@ class orderManager(models.Model):
 			#recorro para obtener todos los IDS y consultar respecto a estos
 			ids.append(i['id'])
 		s=stock.objects.filter(productFK__in=ids,isDeleted=0)
-		#print(s)
+		print(s)
 		for i in range(len(s)):
 			#lo que necesito - lo que tengo en stock
 			rest=float(s[i].quantity)-float(vector[i]['quantity'])
-			restAbs=abs(rest)
+			rest=abs(rest)
+			print (rest,vector[i]['id'])
 			stock.objects.filter(id=s[i].id).update(isDeleted=1)
 			if(rest<=0):
-				#tenes que comprar la resta
-				vector[i]['quantity']=restAbs
-				#no me alcanza con el stock pero uso todo el stock 
+				vector[i]['quantity']=0
+				#use todo el stock
 				stock(productFK=s[i].productFK,quantity=0).save()
 			else:
-				vector[i]['quantity']=0
+				vector[i]['quantity']=rest
 				#creo el nuevo stock restado para historial
-				stock(productFK=s[i].productFK,quantity=restAbs).save()
+				stock(productFK=s[i].productFK,quantity=rest).save()
 		return vector
 
 class order(models.Model):
@@ -169,6 +169,7 @@ class item(models.Model):
 	def getSubtotal(self):
 		return round(self.productFK.salePrice*self.quantity,2)
 		pass
+
 
 class itemPromo(models.Model):
 	productFK=models.ForeignKey(product, related_name='product') #que soy 
