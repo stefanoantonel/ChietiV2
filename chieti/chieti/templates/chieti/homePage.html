@@ -9,8 +9,26 @@
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
 	<script type="text/javascript">
+	
+	$(document).ready(function() {
+
+		setQuantity();
+		$('.add').click(function {addClick(this);});
+		
+		$('img.productImg').lazyload({
+			threshold : 200,
+			effect : "fadeIn"
+			
+		});
+	});
+	
+	
+	
+	
+		
 	</script>
-<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+
+<script src="{% static 'chieti/js/funciones.js' %}"></script>
 <script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 	
 </head>
@@ -46,10 +64,11 @@
 			<div name="{{ prod.id }}">
 				<br>
 				<label class='prodItems' style="display:none"></label>
-				<label>${{prod.salePrice }}</label>
+				<label  name='price' class="price" title="{{prod.salePrice }}">${{prod.salePrice }}</label>
+				<label id="um" name='UnidadMedida'>Un</label>
 				<br/>
 				<label id="labQuantity" for='quantity'>Cant:</label>
-				<input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:20%" autofocus>
+				<input id='quantity' name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:20%" autofocus>
 				<button class="add btnNaranja chico centrar" >Comprar</button>
 			</div>
 		</div>
