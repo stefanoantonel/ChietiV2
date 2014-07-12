@@ -1,0 +1,47 @@
+@media screen and (max-width:1200px){  
+	body {
+		
+	}
+	.sectionBotones{
+		position: relative;
+	}
+	.barMenu{
+		position: relative;
+	}
+	.mainHome{
+		position: relative;
+		margin-left: 25%;
+	}
+	.empezar{
+		position: relative;
+	}
+	.botonsales{
+		margin-left: 200%;
+	}
+	
+	.l{
+		font-size: 30px;
+		/*
+		position: relative;
+		margin-left: 40%;
+		*/
+	}
+	#divAutoComplete{
+		font-size: 37px;
+		/* 
+		\margin-top: 5%; 
+		text-align: center;
+		*/
+	}
+	.productImg{
+		max-width: 120%;
+		max-height: 120%;
+	}
+	.divImg{
+		width: 150px;
+		height: 150px;
+	}
+	input{
+		font-size: 37px;
+	}
+}
