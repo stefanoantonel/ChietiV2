@@ -427,3 +427,14 @@ border: 1px solid black;
 	font-size: 2em;
 	font-family: "Verdana";	
 }
+
+#divAutoComplete{
+	margin-left: 20%;
+	margin-top: 2%;
+	z-index: 3;
+}
+
+div#tipo a{
+	font-size: 20px;
+	margin-left: 10%;
+}
