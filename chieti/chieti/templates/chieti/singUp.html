@@ -2,49 +2,13 @@
 <html>
 <head>
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/buttonStyle.css' %}" />
-<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>
+	{% include 'chieti/mainHead.html' %}
 <title>Sing Up</title>
-<script>
-var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
-i = 0,
-// $swap = $("#swap");
-swapper=0;
-	
-function swapImg(){
-  i = i % images.length;
-  $("#swap").attr("src",images[i]);        
-  i++;
-}
 
-$(document).ready(function() {
-		$("#swap").hover(function(){
-			console.log("in!");
-			swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
-			},function(){
-			    clearInterval(swapper);
-				});
-				
-		$('#swap').bind('mouseleave', function(e) {
-			$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
-		});
- 
-		$('#swap').click(function(){
-			window.location="/chieti/home";
-		})
-		$('#submit').click(function(){
-		//	$('body').append('<h2><b>Agruarde un momento por favor!</b></h2>')
-		});
-}); 
-
-</script>
 
 </head>
 <body>
-<div name="titulo" align="center">
-		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:150px;height:150px;" alt=""/>			 
-</div>
+
 {{error}}
 <div class="formLogin fuenteComun">
 <form action="/chieti/singUp2/" method="post" align="middle">{% csrf_token %}
@@ -112,36 +76,41 @@ $(document).ready(function() {
 
 
 </body>
+<footer>
 
-<script type="application/javascript">
-$(document).ready(function(){
-	$('.username').change(function(){
-		console.log('cambio!');
-		name=$(this).val();
-		
-		
-		$.ajax({
-            url: '/chieti/usernameExist/',
-            type: 'post', 
-            data: {
-                'name':name,
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-            },
-            success: function(data) {
-               
-                if(data){
-                	$('.exist').html("<img id='wrong' src='/static/chieti/images/wrong.png'>");}
-                else{
-                	$('.exist').html("<img id='fine' src='/static/chieti/images/fine.png'>");}
-					
-            }
-        });
+	{% include 'chieti/mainFoot.html' %}
+
+	<script type="application/javascript">
+		$(document).ready(function(){
+			$('.username').change(function(){
+				console.log('cambio!');
+				name=$(this).val();
+				
+				
+				$.ajax({
+		            url: '/chieti/usernameExist/',
+		            type: 'post', 
+		            data: {
+		                'name':name,
+		                'csrfmiddlewaretoken': '{{ csrf_token }}',
+		            },
+		            success: function(data) {
+		               
+		                if(data){
+		                	$('.exist').html("<img id='wrong' src='/static/chieti/images/wrong.png'>");}
+		                else{
+		                	$('.exist').html("<img id='fine' src='/static/chieti/images/fine.png'>");}
+							
+		            }
+		        });
 
 
-	});
-});
+			});
+		});
 
-</script>
+		</script>
+
+</footer>
 </html>
 
 

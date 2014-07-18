@@ -6,9 +6,7 @@
 {% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
 
-<script src="{% static 'chieti/js/funciones.js' %}"></script>
-<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
-<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+
 <script type="text/javascript">
 
 </script>
@@ -75,7 +73,12 @@
 	</section>
 </div>
 {%csrf_token%}
-{% include 'chieti/mainFoot.html' %}
+<b>Las imagenes son solo a modo ilustrativo</b>
 </body>
-
+<footer>
+	{% include 'chieti/mainFoot.html' %}
+	<script src="{% static 'chieti/js/funciones.js' %}"></script>
+	<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+	<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+</footer>
 </html>

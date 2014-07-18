@@ -5,126 +5,7 @@
 <title>Cambiar Orden</title>
 {% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
-   <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
-<script type="text/javascript">
-	
-
-	$(document).ready(function() { 
-		
-		$('#confirm').click(function(){
-			$.ajax({
-                url: '/chieti/confirmOrder/',
-                type: 'get', 
-                data: {
-                    "confirm":"true"          
-                  },
-				success: function(data) {
-					$('#cartel').css("display","")
-				}
-            });
-			
-		});
-		
-		$('#cartel').click(function(){
-			$(this).css("display","none")	
-		});
-		
-	  	//console.log( "ready prod!" ) 		
-		$('.quantity').change(function(){
-			//recalc the price when change quantity
-			if(checkQuantOk($(this))){
-				var ant=$(this).parents('.table').find('.price').attr("title");
-				var cant=$(this).val();            
-				var dsp=(ant*cant).toFixed(2);
-				
-				$(this).parents('.table').find('.price').html(dsp);
-				calTotalPrice();
-
-				itemId=$(this).parents('.table').find('.idItem').val();
-				
-				
-				$.ajax({
-	                url: '/chieti/changeOrder3/',
-	                type: 'get', 
-	                data: {
-	                    "itemId":itemId,
-	                    "quantity":cant,
-
-	                },
-	                success: function(data) {
-	                    
-	                    //console.log(data)
-	                }
-	            });
-
-	            		
-			}
-			else{
-		    	alert("Cantidad incorrecta");
-		    	$(this).focus();
-		    }
-            
-		});
-		$('label[name=price]').each(function(){
-			//calc the subTotal price
-			pr=$(this).attr("title");
-			console.log('pr',pr);
-	  		qu=$(this).parent().parent().find("input[name=quantity]").val();
-	  		multip=(pr*qu).toFixed(2);
-	  		//console.log('mult',multip.toFixed(2));
-	  		$(this).html(multip);
-		});
-		$("label.remove").click(function(){
-			//remove the item from de DB and DOM
-			item=$(this).parent().parent().find("input[name=itemId]").val()
-			console.log("item",item)
-			$.ajax({
-                url: '/chieti/removeItem/',
-                type: 'get', 
-                data: {
-                    "itemId":item,
-                },
-                success: function(data) {
-                    console.log("todo ok! AJAX")
-                    console.log(data)
-                }
-            });
-			$(this).parent().parent().remove()
-			//console.log("paren tr",$(this).parent().parent());
-			calTotalPrice();
-		})
-		
-		calTotalPrice()  	
-		
-		$("#recordatorio").click(function(){
-			$(this).remove();
-		});
-		
-	});
-	function calTotalPrice(){
-		var sumTotal=0;
-		$('.price').each(function(){
-			//calc the total price
-			sumTotal=sumTotal+parseFloat($(this).text());	
-		})
-		$('label[title=total]').html(sumTotal.toFixed(2));
-	}
-	function checkQuantOk(quant){
-		num=$(quant).val()
-		um=$(quant).siblings("#um").html();
-		console.log("um----:",um);
-		if(!$.isNumeric(num))
-			{return false;}
-	    if(num < 0.1)
-	    	return false;
-	    if (um=="Unidad"){
-	    	if(!(num % 1 === 0))
-	    		{return false}
-	    	}
-	    return true;
-	}
-
-</script>
+  
 </head>
 <body>
 <b id="recordatorio" style="align='left'" class="alertMnj green2">
@@ -178,9 +59,116 @@
 
 </div>
 
-
-
-
-
 </body>
+
+<footer>
+	{% include 'chieti/mainFoot.html' %}
+	 <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
+	<script type="text/javascript">
+		$(document).ready(function() { 			
+			$('#confirm').click(function(){
+				$.ajax({
+	                url: '/chieti/confirmOrder/',
+	                type: 'get', 
+	                data: {
+	                    "confirm":"true"          
+	                  },
+					success: function(data) {
+						$('#cartel').css("display","")
+					}
+	            });
+			});
+			
+			$('#cartel').click(function(){
+				$(this).css("display","none")	
+			});
+			
+		  	//console.log( "ready prod!" ) 		
+			$('.quantity').change(function(){
+				//recalc the price when change quantity
+				if(checkQuantOk($(this))){
+					var ant=$(this).parents('.table').find('.price').attr("title");
+					var cant=$(this).val();            
+					var dsp=(ant*cant).toFixed(2);
+					$(this).parents('.table').find('.price').html(dsp);
+					calTotalPrice();
+					itemId=$(this).parents('.table').find('.idItem').val();
+					$.ajax({
+		                url: '/chieti/changeOrder3/',
+		                type: 'get', 
+		                data: {
+		                    "itemId":itemId,
+		                    "quantity":cant,
+
+		                },
+		                success: function(data) {
+						}
+		            });
+				}
+				else{
+			    	alert("Cantidad incorrecta");
+			    	$(this).focus();
+			    }
+			});
+			
+			$('label[name=price]').each(function(){
+				//calc the subTotal price
+				pr=$(this).attr("title");
+				console.log('pr',pr);
+		  		qu=$(this).parent().parent().find("input[name=quantity]").val();
+		  		multip=(pr*qu).toFixed(2);
+		  		//console.log('mult',multip.toFixed(2));
+		  		$(this).html(multip);
+			});
+
+			$("label.remove").click(function(){
+				//remove the item from de DB and DOM
+				item=$(this).parent().parent().find("input[name=itemId]").val()
+				console.log("item",item)
+				$.ajax({
+	                url: '/chieti/removeItem/',
+	                type: 'get', 
+	                data: {
+	                    "itemId":item,
+	                },
+	                success: function(data) {
+	                    console.log("todo ok! AJAX")
+	                    console.log(data)
+	                }
+	            });
+				$(this).parent().parent().remove()
+				//console.log("paren tr",$(this).parent().parent());
+				calTotalPrice();
+			})
+			calTotalPrice();  	
+			
+			$("#recordatorio").click(function(){
+				$(this).remove();
+			});
+			
+		});
+
+		function calTotalPrice(){
+			var sumTotal=0;
+			$('.price').each(function(){
+				//calc the total price
+				sumTotal=sumTotal+parseFloat($(this).text());	
+			})
+			$('label[title=total]').html(sumTotal.toFixed(2));
+		}
+
+		function checkQuantOk(quant){
+			num=$(quant).val()
+			um=$(quant).siblings("#um").html();
+			console.log("um----:",um);
+			if(!$.isNumeric(num)) {return false;}
+		    if(num < 0.1) return false;
+		    if (um=="Unidad"){
+		    	if(!(num % 1 === 0))
+		    		{return false}
+		    	}
+		    return true;
+		}
+	</script>	
+</footer>
 </html>
