@@ -1,33 +1,24 @@
-<script type="text/javascript">// <![CDATA[
-            $(document).ready(function() {
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>event.preventDefault demo</title>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
  
-					  $("#tooltip1").mouseover(function(){
-						 eleOffset = $(this).offset();
+<a href="http://www.google.com">default click action is prevented</a>
+<div id="log"></div>
+<div id="pp">pepepepe</div>
  
-						$(this).next().fadeIn("fast").css({
+<script>
+$( "a" ).click(function( event ) {
+  event.preventDefault();
+  $( "<div>" )
+    .append( "default " + event.type + " prevented" )
+    .appendTo( "#log" );
+});
+</script>
  
-									left: eleOffset.left + $(this).outerWidth(),
-									top: eleOffset.top
- 
-								});
-						}).mouseout(function(){
-							$(this).next().hide();
-						});
- 
-						$("#tooltip2").mouseover(function(){
-							$("#tooltip2").mousemove(function(e){
-								 $(this).next().css({left : e.pageX , top: e.pageY});
-							  });
-							eleOffset = $(this).offset();
-							$(this).next().fadeIn("fast").css({
- 
-									left: eleOffset.left + $(this).outerWidth(),
-									top: eleOffset.top
- 
-								});
-						}).mouseout(function(){
-							$(this).next().fadeOut("fast");
-						});
- 
-			});		
-// ]]></script>
+</body>
+</html>

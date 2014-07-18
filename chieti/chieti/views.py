@@ -48,11 +48,7 @@ def test(request):
 	return HttpResponse('')
 
 def test1(request):
-	fp = open('./chieti/test1.html')
-	t = Template(fp.read())
-	fp.close()
-	html = t.render(Context())
-	return HttpResponse(html)
+	return render(request, 'chieti/test.html')
 
 def mainHead(request):
 	return render(request, 'chieti/mainHead.html')
