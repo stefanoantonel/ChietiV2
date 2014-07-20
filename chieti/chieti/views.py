@@ -258,9 +258,9 @@ def removeItem(request):
 def summaryBuy(request):
 	om = orderManager.objects.get(id=1)
 	summary=om.getSummaryBuy()
-	final=om.reduceStock(summary)
-	return render(request, 'chieti/summaryBuy.html',{'todos':final})
-	#return render(request, 'chieti/summaryBuy.html',{'todos':summary})
+	#final=om.reduceStock(summary)
+	#return render(request, 'chieti/summaryBuy.html',{'todos':final})
+	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
