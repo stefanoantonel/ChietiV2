@@ -48,11 +48,7 @@ def test(request):
 	return HttpResponse('')
 
 def test1(request):
-	fp = open('./chieti/test1.html')
-	t = Template(fp.read())
-	fp.close()
-	html = t.render(Context())
-	return HttpResponse(html)
+	return render(request, 'chieti/test.html')
 
 def mainHead(request):
 	return render(request, 'chieti/mainHead.html')
@@ -262,9 +258,9 @@ def removeItem(request):
 def summaryBuy(request):
 	om = orderManager.objects.get(id=1)
 	summary=om.getSummaryBuy()
-	final=om.reduceStock(summary)
-	return render(request, 'chieti/summaryBuy.html',{'todos':final})
-	#return render(request, 'chieti/summaryBuy.html',{'todos':summary})
+	#final=om.reduceStock(summary)
+	#return render(request, 'chieti/summaryBuy.html',{'todos':final})
+	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
@@ -286,9 +282,10 @@ def cancelProduct2(request):
 	return HttpResponse(checked)
 
 def sendMail(request):
-	subject, from_email, to = 'Welcome Chieti Online' , 'chietionline@gmail.com', request.session['emailTemp']
-	text_content = 'This is an important message.'
-	
+	subject='Bienvenido a Chieti-Compras'  
+	from_email='ChietiCompras'
+	to = request.session['emailTemp']
+	text_content=''
 	# html_content='<a href="localhost:8000/chieti/singUp3/?email='+request.session['emailTemp']+'>Presione aqui para confirmar su registracion</a>'
 	
 	html_content = render_to_string('chieti/email.html', {'mail': request.session['emailTemp'], 'name':request.session['userNameTemp']})

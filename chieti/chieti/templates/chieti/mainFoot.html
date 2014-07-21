@@ -1,5 +1,49 @@
 <p class="right linkTipo">
 	<b>
-	Las imagenes son solo a modo ilustrativo
+	
 	</b>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/buttonStyle.css' %}" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<!--<script src="{% static 'chieti/js/jquery-1.11.0.min.js' %}"></script>-->
+	<script src="{% static 'chieti/js/jquery.min.js' %}"></script>
+  	<script src="{% static 'chieti/js/jquery-ui-1.10.4.min.js' %}"></script>
+	<script type="text/javascript"></script>
+	<link rel="shortcut icon" href="{% static 'chieti/images/favicon.ico' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/mediaQuery.css' %}" />
+		
+	<script>
+	var images = ["{% static 'chieti/images/fruit.png' %}","{% static 'chieti/images/manzana.jpg' %}","{% static 'chieti/images/sale.png' %}"];
+	i = 0,
+	// $swap = $("#swap");
+	swapper=0;
+		
+	function swapImg(){
+	  i = i % images.length;
+	  $("#swap").attr("src",images[i]);        
+	  i++;
+	}
+
+	$(document).ready(function() {
+			$("#swap").hover(function(){
+				console.log("in!");
+				swapper = setInterval(swapImg,1000); //cambia cada 1 segundo
+				},function(){
+				    clearInterval(swapper);
+					});
+					
+			$('#swap').bind('mouseleave', function(e) {
+				$("#swap").attr("src","{% static 'chieti/images/logo.jpg' %}");
+					});
+			 
+			 
+			$('#swap').click(function(){
+					window.location="/chieti/home";
+					})
+	}); 
+
+	</script>
+
+	
 </p>

@@ -3,6 +3,37 @@
 <head>
 	<title>Mi Lista</title>
 	{% include 'chieti/mainHead.html' %}
+
+</head>
+<body>
+	<div id="divAutoComplete" style="margin-left:30%;margin-top:2%;z-index:3;">
+		<div id="subProd" class="ui-widget">
+		     <label for="tags">Buscar Producto: </label>
+			 <input id="tags">
+		</div>
+		<br>	    
+	</div>
+
+	<section id='productsInList' align="center">
+
+	</section>
+
+	<form action="/chieti/myList2/" method="post">{% csrf_token %}
+		<button id="finish" style="display:none">Finalizar</button>
+	</form>
+
+
+	<div class="template" style="display:none; ">
+		<label value="" class="nameItem"></label>
+		<input>
+		<button class="button red remove">x</button>
+		<label class="mu"></label>
+	</div>
+
+</body>
+<footer>
+	{% include 'chieti/mainFoot.html' %}
+	
 	<script type="text/javascript">
 		
 		function checkQuantOk(quant,mu){
@@ -134,32 +165,6 @@
 
 	</style>
 
-</head>
-<body>
-	<div id="divAutoComplete" style="margin-left:30%;margin-top:2%;z-index:3;">
-		<div id="subProd" class="ui-widget">
-		     <label for="tags">Buscar Producto: </label>
-			 <input id="tags">
-		</div>
-		<br>	    
-	</div>
+</footer>
 
-	<section id='productsInList' align="center">
-
-	</section>
-
-	<form action="/chieti/myList2/" method="post">{% csrf_token %}
-		<button id="finish" style="display:none">Finalizar</button>
-	</form>
-
-
-	<div class="template" style="display:none; ">
-		<label value="" class="nameItem"></label>
-		<input>
-		<button class="button red remove">x</button>
-		<label class="mu"></label>
-	</div>
-
-</body>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </html>
