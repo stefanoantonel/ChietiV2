@@ -13,7 +13,7 @@
 	$(document).ready(function() {
 
 		setQuantity();
-		$('.add').click(function {addClick(this);});
+		$('.add').click(function() {addClick(this);});
 		
 		$('img.productImg').lazyload({
 			threshold : 200,
@@ -27,9 +27,6 @@
 	
 		
 	</script>
-
-<script src="{% static 'chieti/js/funciones.js' %}"></script>
-<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 	
 </head>
 <body>
@@ -75,5 +72,15 @@
 	{% endfor %}    
 </div>
 
+<!--  -------------
+
+
+---------------- -->
+ <footer>
+	{% include 'chieti/mainFoot.html' %}
+	<script src="{% static 'chieti/js/funciones.js' %}"></script>
+	<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+	<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+</footer>
 </body>
 </html>
