@@ -8,28 +8,14 @@
 
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
-	<script type="text/javascript">
-	
-	$(document).ready(function() {
-
-		setQuantity();
-		$('.add').click(function() {addClick(this);});
 		
-		$('img.productImg').lazyload({
-			threshold : 200,
-			effect : "fadeIn"
-			
-		});
-	});
-	
-	
-	
-	
-		
-	</script>
-	
 </head>
 <body>
+{% if user.is_staff %}
+	<section class="barMenu">
+		{% include 'chieti/adm.html' %}
+	</section>
+{% endif %}
 
 <section class="mainHome">	
 	<section class="textSeg">Una nueva forma de hacer tus compras</section>
@@ -51,14 +37,15 @@
 
 <div class="allProducts">
 	{% for prod in todos %}
-		<div class="divImghome divImg formNaranja">
+		<div class="divImghome formNaranja divAuto prodContainer">
 		<label class="textTer">{{prod.name}}</label>
 		<!-- Agrego {promo} para poner la clase: productImgSale -->
-			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
-			{% for i in prod.items.all %}
-					<label>{{i.promoQuantity}}{{i.productFK.name}}</label><br/>
-				{% endfor %}
-			<div name="{{ prod.id }}">
+				<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
+				<input id="{{ prod.id }}" name="ids" class="ids" hidden="hidden"></input>
+				{% for i in prod.items.all %}
+						<label>{{i.promoQuantity}}{{i.productFK.name}}</label><br/>
+					{% endfor %}
+				<div name="{{ prod.id }}">
 				<br>
 				<label class='prodItems' style="display:none"></label>
 				<label  name='price' class="price" title="{{prod.salePrice }}">${{prod.salePrice }}</label>
@@ -73,6 +60,25 @@
 </div>
 
 <!--  -------------
+<div style="display:none;" class="divInvisible divAuto formLogin prodContainer"  align="center">
+	<button id="close" style="position:absolute; left:10px;top:5px;" class="button red">x</button>
+	<section >
+		<input id="id1" name="ids" class="ids" hidden="hidden"></input>
+		<br/>
+		<label name='name' class="product" ></label>
+		<label id="itemPromo"></label>
+		<br/>
+		<label id="labQuantity" for='quantity'>Cant:</label>
+		<input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
+		<label id="um" name='UnidadMedida'></label>
+		<br/>
+		<label>Precio: $</label>
+		<label name='price' class="price"></label>
+		<br/>
+		<button class="add btnNaranja chico">Agregar</button>
+		
+	</section>
+</div>
 
 
 ---------------- -->
@@ -81,6 +87,21 @@
 	<script src="{% static 'chieti/js/funciones.js' %}"></script>
 	<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
 	<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+
+		setQuantity();
+		$('.add').click(function() {addClick(this);});
+		
+		$('img.productImg').lazyload({
+			threshold : 200,
+			effect : "fadeIn"
+			
+		});
+	});	
+	</script>
+	
 </footer>
 </body>
 </html>

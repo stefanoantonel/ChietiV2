@@ -14,17 +14,6 @@ li a {
 	margin-right:50px;
 	margin-top:50px;
 }
-
-
-.divImgSale{
-	float:left;
-	width:150px;
-	height:150px;
-	display:block;
-	margin-right:100px;
-	margin-top:50px;
-}
-
 .divImghome{
 	float:left;
 	/*width:200px;
@@ -36,6 +25,17 @@ li a {
 	margin-top:50px;
 	text-align: center;
 }
+
+.divImgSale{
+	float:left;
+	width:150px;
+	height:150px;
+	display:block;
+	margin-right:100px;
+	margin-top:50px;
+}
+
+
 
 
 .tuerca{background-image:url('/static/chieti/images/tuerca.png');
@@ -238,11 +238,23 @@ border: 1px solid black;
 	margin-top: 3%;
 	*/
 	display:inline-block;
-	margin-left: 15%;
-	
+	margin-left: 5%;
+	min-width:200px;
 	background-color: white;
 }
 
+.empezar{
+	/*padding-left:55%;
+	margin-top:5%;*/
+	margin-top:10%;
+	display:inline-block;
+	
+}
+
+.barMenu{
+	left:2%;
+	display:inline-block;
+}
 
 .sectionBotones{
 	/*padding-left:55%;
@@ -251,13 +263,7 @@ border: 1px solid black;
 	position:absolute;
 }
 
-.empezar{
-	/*padding-left:55%;
-	margin-top:5%;*/
-	margin-top:10%;
-	display:inline-block;
-	position:absolute;
-}
+
 
 .divLeft{
 	position:absolute;
@@ -382,22 +388,7 @@ border: 1px solid black;
 	background-color: #ff934f;
 }
 
-@media screen and (min-width: 800px) {
-		.barMenu{
-			position: absolute;
-			left:2%;
-			display:inline-block;
-		}
-}
 
-@media screen and (max-width: 500px) {
-		.barMenu{
-			
-			left:2%;
-			display:block;
-			width: 100%;
-		}
-}
 
 
 .inputStyle{

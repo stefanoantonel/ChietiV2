@@ -7,3 +7,12 @@
 	
 	background-color: white;
 }
+
+{
+		.barMenu{
+			
+			left:2%;
+			display:block;
+			width: 100%;
+		}
+}

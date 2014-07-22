@@ -4,7 +4,8 @@
 
 function checkQuantOk(quant){
 	num=$(quant).val();
-	um=$(quant).siblings("#um").html().replace(/\s/g, "");
+	console.log("num:",quant);
+	um=$(quant).siblings("#um").html().replace("/\s/g", "");
 	console.log("num:",num);
 	console.log("um:",um);
 	if(!$.isNumeric(num)){
@@ -23,25 +24,30 @@ function checkQuantOk(quant){
 
 function addClick(contexto){
 	//console.log('çlick')
-	quant= $(contexto).siblings('input[name=quantity]');
+	//quant= $(contexto).siblings('input[name=quantity]');
+	
+	quant= $(contexto).parents(".prodContainer").find(".quantity");
+	
 	if(!checkQuantOk(quant)){
 		  //chequear aveces no lo llama
 		alert("Cantidad incorrecta");
 		$(contexto).focus();
 		return;
 	}
-	var ids= $(contexto).siblings("input[name=ids]").attr("id");
+	var ids= $(contexto).parents(".prodContainer").find(".ids").attr("id");
 	
-	var quant= $(contexto).siblings('input[name=quantity]').val()
-	var quantAcheck= $(contexto).siblings('input[name=quantity]')
+	console.log("id",ids)
+	var quantVal= quant.val();
+	//var quantAcheck= $(contexto).parents(".divAuto").find(".quantity");
+	
 	divActual=$(contexto);
-	if(checkQuantOk(quantAcheck)==true){
+	if(checkQuantOk(quant)==true){
 		$.ajax({
 			url: '/chieti/addToOrder/',
 			type: 'get', 
 			data: {
 				'ids':ids,
-				'quantity':quant,
+				'quantity':quantVal,
 				//'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
 			},
 			success: function(data) {
