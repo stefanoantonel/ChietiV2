@@ -116,7 +116,6 @@ def addProd2(request):
 	cat=category.objects.get(id=c)
 	pr = product(measureUnit=meas, salePrice=pri, name=nam,isPromo=isP,category=cat,buyPrice=buyP)
 	pr.save()
-	stock(productFK=pr).save()
 	
 	jsonItemsPromo=request.POST.get('jsonItemPromo')
 	j=json.loads(jsonItemsPromo)
