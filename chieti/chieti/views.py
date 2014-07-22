@@ -1,6 +1,7 @@
 from _elementtree import tostring
 from decimal import *
 import json
+import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
@@ -14,6 +15,7 @@ from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
+
 
 
 from chieti.models import product, orderManager, order, user, item, category, itemPromo,stock
@@ -258,9 +260,9 @@ def removeItem(request):
 def summaryBuy(request):
 	om = orderManager.objects.get(id=1)
 	summary=om.getSummaryBuy()
-	#final=om.reduceStock(summary)
-	#return render(request, 'chieti/summaryBuy.html',{'todos':final})
-	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
+	final=om.minusStock(summary)
+	return render(request, 'chieti/summaryBuy.html',{'todos':final})
+	#return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
@@ -499,6 +501,8 @@ def singIn2(request):
 def markDelivered(request):
 #	om=request.session["orderManager"]
 	om=orderManager.objects.get(id=1)
+	
+	#om.reduceStock(om.getSummaryBuy(),request.user)
 	om.markDelivered()
 	product.objects.filter().update(canceled='false')
 	deleteOldUser(request)
@@ -682,19 +686,23 @@ def addToOrder2(ids,quant,orderId):
 
 @staff_member_required
 def changeStock(request):
-	todo=stock.objects.filter(isDeleted=0)
+	todo=stock.objects.filter(quantity__gt=0,isDeleted=0)
 	c={'todos':todo}
 	c.update(csrf(request))	
 	return render(request, 'chieti/changeStock.html',c)
 
+from django.utils import timezone
+
 def changeStock2(request):
 	array=request.POST.get('array')
 	jsonArray=json.loads(array)
-	ids=[]
+	i=0
+	print(jsonArray)
 	for item in jsonArray:
-		ids.append(item['id'])
-	s=stock.objects.filter(productFK_id__in=ids,isDeleted=0)
-	for i in range(len(ids)):
-		s.filter(productFK_id=ids[i]).update(quantity=jsonArray[i]['quant'])
-	return redirect(showProduct)
-	
+		product=stock.objects.filter(productFK_id=jsonArray[i]['id'])
+		if product.exists():
+			product.update(quantity=jsonArray[i]['quant'],userChange=request.user,what="change",pub_date=timezone.now())	
+		else:
+			stock(productFK_id=jsonArray[i]['id'],quantity=jsonArray[i]['quant'],userChange=request.user,what="change").save()
+		i=i+1	
+	return redirect(changeStock)	

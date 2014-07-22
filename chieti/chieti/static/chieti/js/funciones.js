@@ -4,7 +4,7 @@
 
 function checkQuantOk(quant){
 	num=$(quant).val();
-	um=$(quant).siblings("#um").html();
+	um=$(quant).siblings("#um").html().replace(/\s/g, "");
 	console.log("num:",num);
 	console.log("um:",um);
 	if(!$.isNumeric(num)){
