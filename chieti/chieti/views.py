@@ -21,10 +21,10 @@ from django.contrib.sessions.models import Session
 
 from chieti.models import product, orderManager, order, user, item, category, itemPromo,stock
 
-def home(request):
-	return render(request, 'chieti/homePage2.html')
+#def home(request):
+#	return render(request, 'chieti/homePage2.html')
 
-def homa(request):
+def home(request):
 	todasPromos = product.objects.filter(isPromo="true")
 	c={'todos':todasPromos,'promo':'productImgSale'}
 	c.update(csrf(request))
