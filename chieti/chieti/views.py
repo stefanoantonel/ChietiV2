@@ -260,9 +260,9 @@ def removeItem(request):
 def summaryBuy(request):
 	om = orderManager.objects.get(id=1)
 	summary=om.getSummaryBuy()
-	final=om.minusStock(summary)
-	return render(request, 'chieti/summaryBuy.html',{'todos':final})
-	#return render(request, 'chieti/summaryBuy.html',{'todos':summary})
+	#final=om.minusStock(summary)
+	#return render(request, 'chieti/summaryBuy.html',{'todos':final})
+	return render(request, 'chieti/summaryBuy.html',{'todos':summary})
 
 @staff_member_required
 def printOrders(request):
@@ -499,9 +499,7 @@ def singIn2(request):
 
 @staff_member_required
 def markDelivered(request):
-#	om=request.session["orderManager"]
-	om=orderManager.objects.get(id=1)
-	
+	om=orderManager.objects.get(id=1)	
 	#om.reduceStock(om.getSummaryBuy(),request.user)
 	om.markDelivered()
 	product.objects.filter().update(canceled='false')
