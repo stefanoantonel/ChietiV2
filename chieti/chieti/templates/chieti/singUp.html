@@ -104,7 +104,7 @@
 
 			$("#submit").submit(function(e){
 				if($('form')[0].checkValidity()==true){
-					$("input[type=submit]").prop("disabled", true);
+					$("input[type=submit]").attr("hidden", "hidden");
 					//return true;
 				}
 				//$("input[type=submit]").attr("disabled", true);

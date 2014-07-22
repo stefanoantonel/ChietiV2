@@ -15,6 +15,7 @@ from django.shortcuts import redirect, render
 from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import render_to_string
+from django.contrib.sessions.models import Session
 
 
 
@@ -41,13 +42,9 @@ def init(request):
 	return HttpResponse('Order Manager OK')
 
 def test(request):
-	p=product.objects.all()
-	for i in p:
-		#stock(productFK=i).save()
-		pass
-	#deleteOldUser(request)
-
-	return HttpResponse('')
+	#a=request.session.get_expiry_date()
+	a='aa'
+	return HttpResponse(a)
 
 def test1(request):
 	return render(request, 'chieti/test.html')
@@ -504,6 +501,7 @@ def markDelivered(request):
 	om.markDelivered()
 	product.objects.filter().update(canceled='false')
 	deleteOldUser(request)
+	Session.objects.all().delete() #delete current sesssions 
 	return redirect(showProduct)
 	pass
 
