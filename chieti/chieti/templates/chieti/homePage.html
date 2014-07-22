@@ -4,7 +4,8 @@
 {% load staticfiles %}
 
 
-<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+<link rel="stylesheet" type="text/css" media="(min-width: 800px)" href="{% static 'chieti/css/style.css' %}" />
+<link rel="stylesheet" type="text/css" media="(max-width: 800px)" href="{% static 'chieti/css/smallStyle.css' %}" />
 
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
@@ -17,9 +18,11 @@
 	</section>
 {% endif %}
 
+<div class="container">
+
 <section class="mainHome">	
-	<section class="textSeg">Una nueva forma de hacer tus compras</section>
-	<section class="textSeg">Ahorra plata y tiempo</section>
+	<!--  section class="textSeg">Una nueva forma de hacer tus compras</section>-->
+	<p class="textSeg">Ahorra plata y tiempo</p>
 	<section class="textTer">
 			<span class="textSeg" style="color:#FF8C00">1.</span> Elegi tus productos
 			<br/>
@@ -31,9 +34,6 @@
 <section class="empezar">
 			<a type="button" class="btnNaranja grande"  href="/chieti/product">Empeza a Comprar! ></a>
 </section>
-<br/>
-<br/>
-<br/>
 
 <div class="allProducts">
 	{% for prod in todos %}
@@ -59,29 +59,6 @@
 	{% endfor %}    
 </div>
 
-<!--  -------------
-<div style="display:none;" class="divInvisible divAuto formLogin prodContainer"  align="center">
-	<button id="close" style="position:absolute; left:10px;top:5px;" class="button red">x</button>
-	<section >
-		<input id="id1" name="ids" class="ids" hidden="hidden"></input>
-		<br/>
-		<label name='name' class="product" ></label>
-		<label id="itemPromo"></label>
-		<br/>
-		<label id="labQuantity" for='quantity'>Cant:</label>
-		<input name='quantity' type="number" class="quantity" min=0.0 step="0.5" value="" pattern="[0-9]{10}" required="required" style="width:50%" autofocus>
-		<label id="um" name='UnidadMedida'></label>
-		<br/>
-		<label>Precio: $</label>
-		<label name='price' class="price"></label>
-		<br/>
-		<button class="add btnNaranja chico">Agregar</button>
-		
-	</section>
-</div>
-
-
----------------- -->
  <footer>
 	{% include 'chieti/mainFoot.html' %}
 	<script src="{% static 'chieti/js/funciones.js' %}"></script>
@@ -103,5 +80,7 @@
 	</script>
 	
 </footer>
+
+</div>
 </body>
 </html>

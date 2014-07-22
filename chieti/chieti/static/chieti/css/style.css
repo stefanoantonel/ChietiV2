@@ -1,3 +1,7 @@
+*{
+	box-sizing: border-box;
+}
+
 li a {
     color: green;
 }
@@ -21,8 +25,8 @@ li a {
 	width:200px;
 	height: auto;
 	display:block;
-	margin-right:100px;
-	margin-top:50px;
+	margin-right:50px;
+	margin-top:3%;
 	text-align: center;
 }
 
@@ -110,11 +114,15 @@ background-image:url('/static/chieti/images/miCompra.jpg');
 }*/
 
 .allProducts{
-	display:inline-block;
-	/*left:20%;*/
+	clear: both;
+	display:block;
+	float:left;
+	margin-left:5%;
+	/*left:20%;
 	margin-right:5%;
 	margin-left:20%;
 	margin-top: -5%;
+	*/
 }
 
 .divInvisible{
@@ -237,6 +245,7 @@ border: 1px solid black;
 	/*float:left;
 	margin-top: 3%;
 	*/
+	float:left;
 	display:inline-block;
 	margin-left: 5%;
 	min-width:200px;
@@ -244,14 +253,17 @@ border: 1px solid black;
 }
 
 .empezar{
+	float:left;
 	/*padding-left:55%;
 	margin-top:5%;*/
 	margin-top:10%;
+	margin-left:5%;
 	display:inline-block;
 	
 }
 
 .barMenu{
+	float:left;
 	left:2%;
 	display:inline-block;
 }
@@ -428,4 +440,10 @@ border: 1px solid black;
 div#tipo a{
 	font-size: 20px;
 	margin-left: 10%;
+}
+
+.container{
+	width:70%;
+	margin:auto;
+	overflow:auto;
 }

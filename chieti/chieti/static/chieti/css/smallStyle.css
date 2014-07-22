@@ -1,0 +1,45 @@
+*{
+	box-sizing: border-box;
+}
+
+.barMenu{
+	
+	left:2%;
+	display:block;
+	width: 100%;
+}
+
+.mainHome{
+	display:inblock;
+}
+
+.textPrim{
+	/*font-size: 30px;*/
+	font-size: 3em;
+	font-family: "Verdana";
+	margin-top: 5%;
+}
+
+.textSeg{
+	/*font-size: 25px;*/
+	font-size: 2em;
+	font-family: "Verdana";
+	margin-top: 3%;
+}
+
+.textTer{
+	/*font-size: 20px;*/
+	font-size: 1.5em;
+	font-family: "Verdana";
+	margin-top: 2%;
+}
+
+.divImghome{
+	float:left;
+	width:300px;
+	height: auto;
+	display:block;
+	margin-top:3%;
+	text-align: center;
+	color:red;
+}
