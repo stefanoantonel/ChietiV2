@@ -116,27 +116,51 @@ class orderManager(models.Model):
 		ordersNoDelivered=order.objects.filter( delivered='false') | order.objects.filter( delivered__isnull=True)		
 		ordersNoDelivered.update(delivered='true')
 
-	def reduceStock(self,vector):
+	def minusStock(self,vector):
 		ids=[]
 		for i in vector:
 			#recorro para obtener todos los IDS y consultar respecto a estos
 			ids.append(i['id'])
 		s=stock.objects.filter(productFK__in=ids,isDeleted=0)
-		print(s)
+		#print(s)
 		for i in range(len(s)):
-			#lo que necesito - lo que tengo en stock
-			rest=float(s[i].quantity)-float(vector[i]['quantity'])
-			rest=abs(rest)
-			print (rest,vector[i]['id'])
-			stock.objects.filter(id=s[i].id).update(isDeleted=1)
+			# lo que necesito - lo que tengo en stock  
+			print ( ' nec',float(vector[i]['quantity']), 'teng ',float(s[i].quantity) )
+			rest=float(vector[i]['quantity']) - float(s[i].quantity)
+			
+			
+			#stock.objects.filter(id=s[i].id).update(isDeleted=1,userChange=request.user,what="reduce")
 			if(rest<=0):
 				vector[i]['quantity']=0
 				#use todo el stock
-				stock(productFK=s[i].productFK,quantity=0).save()
+			#	stock(productFK=s[i].productFK,quantity=0,userChange=request.user,what="reduce").save()
 			else:
 				vector[i]['quantity']=rest
 				#creo el nuevo stock restado para historial
-				stock(productFK=s[i].productFK,quantity=rest).save()
+			#	stock(productFK=s[i].productFK,quantity=rest,userChange=request.user,what="reduce").save()
+		return vector
+
+	def reduceStock(self,vector,us):
+		ids=[]
+		for i in vector:
+			#recorro para obtener todos los IDS y consultar respecto a estos
+			ids.append(i['id'])
+		s=stock.objects.filter(productFK__in=ids,isDeleted=0)
+	
+		for i in range(len(s)):
+			#lo que necesito - lo que tengo en stock
+			rest=float(vector[i]['quantity']) - float(s[i].quantity)
+			
+			
+			stock.objects.filter(id=s[i].id).update(isDeleted=1,userChange=us,what="reduce")
+			if(rest<=0):
+				vector[i]['quantity']=0
+				#use todo el stock
+				stock(productFK=s[i].productFK,quantity=abs(rest),userChange=us,what="reduce").save()
+			else:
+				vector[i]['quantity']=rest
+				#creo el nuevo stock restado para historial
+				stock(productFK=s[i].productFK,quantity=0,userChange=us,what="reduce").save()
 		return vector
 
 class order(models.Model):
@@ -183,4 +207,5 @@ class stock(models.Model):
 	quantity=models.DecimalField(max_digits=7, decimal_places=2,validators=[(Decimal('0.1'))] ,default=0)
 	pub_date = models.DateTimeField(auto_now=True)
 	isDeleted=models.IntegerField(default=0)
-	
+	userChange=models.ForeignKey(User)
+	what=models.CharField(max_length=10,default='')

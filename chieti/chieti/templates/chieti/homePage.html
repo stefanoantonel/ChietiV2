@@ -4,39 +4,25 @@
 {% load staticfiles %}
 
 
-<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/style.css' %}" />
+<link rel="stylesheet" type="text/css" media="(min-width: 800px)" href="{% static 'chieti/css/style.css' %}" />
+<link rel="stylesheet" type="text/css" media="(max-width: 800px)" href="{% static 'chieti/css/smallStyle.css' %}" />
 
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
-	<script type="text/javascript">
-	
-	$(document).ready(function() {
-
-		setQuantity();
-		$('.add').click(function {addClick(this);});
 		
-		$('img.productImg').lazyload({
-			threshold : 200,
-			effect : "fadeIn"
-			
-		});
-	});
-	
-	
-	
-	
-		
-	</script>
-
-<script src="{% static 'chieti/js/funciones.js' %}"></script>
-<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
-	
 </head>
 <body>
+{% if user.is_staff %}
+	<section class="barMenu">
+		{% include 'chieti/adm.html' %}
+	</section>
+{% endif %}
+
+<div class="container">
 
 <section class="mainHome">	
-	<section class="textSeg">Una nueva forma de hacer tus compras</section>
-	<section class="textSeg">Ahorra plata y tiempo</section>
+	<!--  section class="textSeg">Una nueva forma de hacer tus compras</section>-->
+	<p class="textSeg">Ahorra plata y tiempo</p>
 	<section class="textTer">
 			<span class="textSeg" style="color:#FF8C00">1.</span> Elegi tus productos
 			<br/>
@@ -48,20 +34,18 @@
 <section class="empezar">
 			<a type="button" class="btnNaranja grande"  href="/chieti/product">Empeza a Comprar! ></a>
 </section>
-<br/>
-<br/>
-<br/>
 
 <div class="allProducts">
 	{% for prod in todos %}
-		<div class="divImghome divImg formNaranja">
+		<div class="divImghome formNaranja divAuto prodContainer">
 		<label class="textTer">{{prod.name}}</label>
 		<!-- Agrego {promo} para poner la clase: productImgSale -->
-			<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
-			{% for i in prod.items.all %}
-					<label>{{i.promoQuantity}}{{i.productFK.name}}</label><br/>
-				{% endfor %}
-			<div name="{{ prod.id }}">
+				<img id="img{{ prod.id }}" alt="" data-original="/static/chieti/productImages/{{ prod.id }}.png" class="productImg {{promo}}" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});" src="/static/chieti/images/white.png" />
+				<input id="{{ prod.id }}" name="ids" class="ids" hidden="hidden"></input>
+				{% for i in prod.items.all %}
+						<label>{{i.promoQuantity}}{{i.productFK.name}}</label><br/>
+					{% endfor %}
+				<div name="{{ prod.id }}">
 				<br>
 				<label class='prodItems' style="display:none"></label>
 				<label  name='price' class="price" title="{{prod.salePrice }}">${{prod.salePrice }}</label>
@@ -75,5 +59,28 @@
 	{% endfor %}    
 </div>
 
+ <footer>
+	{% include 'chieti/mainFoot.html' %}
+	<script src="{% static 'chieti/js/funciones.js' %}"></script>
+	<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
+	<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+
+		setQuantity();
+		$('.add').click(function() {addClick(this);});
+		
+		$('img.productImg').lazyload({
+			threshold : 200,
+			effect : "fadeIn"
+			
+		});
+	});	
+	</script>
+	
+</footer>
+
+</div>
 </body>
 </html>
