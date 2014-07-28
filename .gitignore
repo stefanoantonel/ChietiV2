@@ -7,3 +7,4 @@ wsgi.py
 db.sqlite3
 *.metadata
 chieti/manage.py
+chieti/manage.py
