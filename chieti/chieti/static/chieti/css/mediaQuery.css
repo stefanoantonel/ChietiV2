@@ -118,8 +118,47 @@
 	}
 	
 	.divImghome{
-	width:100%;
-	
+		width:100%;
 	}
 	
+	.formLogin { 
+		width:90%;
+		margin:auto;
+		margin-top:5%;
+	}
+	
+	.alertMnj{
+		font-size: 1.01em;
+		width: 90%;
+	}
+	
+	.button.white.singIn{
+		font-size: 1.01em;
+	}
+	
+	.fuenteComun{
+		font-size: 0.8em;
+	}
+	
+	
+	td{
+		font-size: 1.5em;
+	}
+	.inputStyle{
+		width:100%;
+	}
+	
+	
+	
+	.allProducts{
+	margin-left:35%;
+	}
+	.divImg{
+		margin-top:5%;
+		margin-right:5%;
+	}
+	
+	.btn-sesion{
+		width: 26%;
+	}
 }
