@@ -3,9 +3,10 @@
 <head>
 {% load staticfiles %}
 
-
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <link rel="stylesheet" type="text/css" media="(min-width: 800px)" href="{% static 'chieti/css/style.css' %}" />
-<link rel="stylesheet" type="text/css" media="(max-width: 800px)" href="{% static 'chieti/css/smallStyle.css' %}" />
+<link rel="stylesheet" type="text/css" media="(min-width: 800px)" href="{% static 'chieti/css/mediaQuery.css' %}" />
+<!-- link rel="stylesheet" type="text/css" media="(max-width: 800px)" href="{% static 'chieti/css/smallStyle.css' %}" /> -->
 
 {% include 'chieti/mainHead.html' %}
 	<title>Chieti</title>
@@ -35,7 +36,7 @@
 			<a type="button" class="btnNaranja grande"  href="/chieti/product">Empeza a Comprar! ></a>
 </section>
 
-<div class="allProducts">
+<div class="allProductsHome">
 	{% for prod in todos %}
 		<div class="divImghome formNaranja divAuto prodContainer">
 		<label class="textTer">{{prod.name}}</label>

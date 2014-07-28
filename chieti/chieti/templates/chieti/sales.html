@@ -284,7 +284,7 @@ function setQuantity(){
 {% for prod in todos %}
 	<div class="divImgSale">
 	
-		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImgSale" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
+		<img id="img{{ prod.id }}" alt="" src="/static/chieti/productImages/{{ prod.id }}.png" class="productImg" name="{{ prod.id }}" onClick="event.stopPropagation(); popUp({{prod.id}});">
 		<div class="tooltip productTT">{{prod.name}}
 			{% for i in prod.items.all %}
 				<br/>

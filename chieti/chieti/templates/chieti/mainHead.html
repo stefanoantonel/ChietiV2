@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- meta name="viewport" content="width=device-width, user-scalable=no"> -->
 	{% load staticfiles %}
 	
 		
@@ -12,7 +13,7 @@
 		<img id="swap" src="{% static 'chieti/images/logo.jpg' %}" style="width:100px;height:100px;" alt=""/>			 
 </div>
 		
-<div style="position:absolute;top: 20px; right: 5%;">
+<div class="btn-sesion">
 {% if user.is_authenticated %}
     <a type="button" class="button white"  href="/chieti/logOut"> Cerrar Sesion</a>
     
