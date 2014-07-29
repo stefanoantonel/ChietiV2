@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load staticfiles %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
+<!-- 
+<script src="{% static 'chieti/js/jquery.min.js' %}"></script>
+<script src="{% static 'chieti/js/bootstrap.min.js' %}"></script>
+ -->
+ <script src="http://librosweb.es/ejemplos/bootstrap_3/js/jquery.min.js"></script>
+  <script src="http://librosweb.es/ejemplos/bootstrap_3/js/bootstrap.min.js"></script>
+
+<title>Insert title here</title>
+</head>
+<body>
+
+<div class="container menuResponsive" style="padding-top: 1em;">
+  <nav class="navbar navbar-default" role="navigation">
+    <!-- El logotipo y el icono que despliega el menú se agrupan
+         para mostrarlos mejor en los dispositivos móviles -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse"
+              data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Desplegar navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+  
+    <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+         otro elemento que se pueda ocultar al minimizar la barra -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <li id="1" class="l active"><a href="#">Fruta</a></li>
+        <li><a id="2" href="#" class="l">Verdura</a></li>
+        <li><a id="5" href="#" class="l">Bebida</a></li>
+        <li><a id="3" href="#" class="l">Otros</a></li>
+        <li><a id="4" href="#" class="l">Todo</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+</body>
+</html>

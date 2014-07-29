@@ -374,7 +374,7 @@ border: 1px solid black;
 }
 
 .fuenteComunGrande{
-	font-size: 30px;
+	font-size: 1.8em;
 	font-family: "Verdana";
 }
 
@@ -387,6 +387,7 @@ border: 1px solid black;
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 10px;
+	padding-bottom: 10%;
 }
 
 
@@ -450,13 +451,29 @@ border: 1px solid black;
 	z-index: 3;
 }
 
-div#tipo a{
+/*div#tipo a{
 	font-size: 20px;
 	margin-left: 10%;
-}
+}*/
 
 .container{
 	width:70%;
 	margin:auto;
 	overflow:auto;
+}
+
+.div-cont{
+	margin-left:20%;
+	margin-rigth:20%;
+}
+
+
+
+.container.menuResponsive{
+	width:100%;
+}
+
+
+a.l{
+	font-size:1em;	
 }

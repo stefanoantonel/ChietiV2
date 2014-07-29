@@ -161,4 +161,16 @@
 	.btn-sesion{
 		width: 26%;
 	}
+	
+	.menuResponsive.container{
+		width:50%;
+	}
+}
+
+
+@media screen and (min-width:700px){
+	nav.navbar.navbar-default{
+		width:380px;
+		margin:auto;	
+	}
 }
