@@ -5,8 +5,7 @@
 <title>Chieti</title>
 {% include 'chieti/mainHead.html' %}
 {% load staticfiles %}
-
-
+<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
 <script type="text/javascript">
 
 </script>
@@ -15,13 +14,17 @@
 
 </head>
 <body class="prodBody" >
-<div id="tipo" style="margin-left:20%;margin-rigth:20% ">
+<div>
+<!-- menuResponsive -->
+{% include 'chieti/menuResponsive.html' %}
+
+	<!--
 	<a id="1" href="#"  class="l linkTipo">Frutas</a>
 	<a id="2" href="#" class="l linkTipo">Verduras</a>
 	<a id="5" href="#"  class="l linkTipo">Bebidas</a>
 	<a id="3" href="#"  class="l linkTipo">Otros</a>
 	<a id="4" href="#" class="l linkTipo">Todos</a>
-	<!--style="margin-left:0% " style="margin-left:15%"  style="margin-left:15%" style="margin-left:15%"   style="margin-left:15%"-->
+	style="margin-left:0% " style="margin-left:15%"  style="margin-left:15%" style="margin-left:15%"   style="margin-left:15%"-->
 </div>
 <br/><br>
 
@@ -79,5 +82,7 @@
 	<script src="{% static 'chieti/js/funciones.js' %}"></script>
 	<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
 	<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+	<script src="{% static 'chieti/js/bootstrap.min.js' %}"></script>
+	
 </footer>
 </html>

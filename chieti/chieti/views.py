@@ -24,6 +24,10 @@ from chieti.models import product, orderManager, order, user, item, category, it
 #def home(request):
 #	return render(request, 'chieti/homePage2.html')
 
+def prueba(request):
+	return render(request, 'chieti/prueba.html')
+
+
 def home(request):
 	todasPromos = product.objects.filter(isPromo="true")
 	c={'todos':todasPromos,'promo':'productImgSale'}

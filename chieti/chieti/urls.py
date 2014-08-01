@@ -1,6 +1,9 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
+                       
+    url(r'prueba/', 'chieti.views.prueba', name='addProd'),
+                       
     # Examples:
     #url(r'^$', 'chieti.views.home', name='home'),
     #url('','chieti.views.home'),
