@@ -16,8 +16,7 @@
 <body class="prodBody" >
 <div>
 <!-- menuResponsive -->
-{% include 'chieti/menuResponsive.html' %}
-
+	{% include 'chieti/prueba.html' %}
 	<!--
 	<a id="1" href="#"  class="l linkTipo">Frutas</a>
 	<a id="2" href="#" class="l linkTipo">Verduras</a>
@@ -78,11 +77,13 @@
 <b class="aclaracion">Las imagenes son solo a modo ilustrativo</b>
 </body>
 <footer>
+<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
 	{% include 'chieti/mainFoot.html' %}
 	<script src="{% static 'chieti/js/funciones.js' %}"></script>
 	<script src="{% static 'chieti/js/productTemplate.js' %}"></script>
-	<script src="{% static 'chieti/js/jquery.lazyload.min.js' %}"></script>
+	
 	<script src="{% static 'chieti/js/bootstrap.min.js' %}"></script>
+
 	
 </footer>
 </html>
