@@ -99,7 +99,13 @@ function Desaparecer(id){
 
 $(document).ready(function() {
 
-	
+	$(document).on('click','.navbar-collapse.in',function(e) {
+		console.log(this);
+	    if( $(e.target).is('a') ) {
+	        $(this).collapse('hide');
+	        console.log(this);
+	    }
+	});
 
 	$('.divImg').click(function(event){
 		//event.stopPropagation();

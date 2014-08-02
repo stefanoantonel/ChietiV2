@@ -4,15 +4,25 @@
 {% load staticfiles %}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
 <!-- 
 <script src="{% static 'chieti/js/jquery.min.js' %}"></script>
 <script src="{% static 'chieti/js/bootstrap.min.js' %}"></script>
  -->
  <script src="http://librosweb.es/ejemplos/bootstrap_3/js/jquery.min.js"></script>
   <script src="http://librosweb.es/ejemplos/bootstrap_3/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'chieti/css/bootstrap.min.css' %}" />
 
-<title>Insert title here</title>
+<script  type="text/javascript">
+$(document).on('click','.navbar-collapse.in',function(e) {
+	console.log(this);
+    if( $(e.target).is('a') ) {
+        $(this).collapse('hide');
+        console.log(this);
+    }
+});
+</script>
+
+<title>Prueba</title>
 </head>
 <body>
 
