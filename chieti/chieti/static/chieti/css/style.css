@@ -483,3 +483,9 @@ a.l{
 	clear: both;
 	float: right;
 }
+
+.form-control{
+	width: 30%;
+	min-width: 200px;
+	margin-bottom: 20px;
+}
