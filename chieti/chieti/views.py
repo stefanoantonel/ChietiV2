@@ -705,3 +705,14 @@ def changeStock2(request):
 			stock(productFK_id=jsonArray[i]['id'],quantity=jsonArray[i]['quant'],userChange=request.user,what="change").save()
 		i=i+1	
 	return redirect(changeStock)	
+
+def listOfEmails(request):
+	# u=user.objects.all()
+	# emails=[]
+	# for us in u:
+	# 	print us__userDJ.email
+	# 	a=emails.append(us__userDJ.email)
+	todo=User.objects.all().values('email').distinct()
+	c={'todos':todo}
+	c.update(csrf(request))	
+	return render(request, 'chieti/listOfEmails.html',c)

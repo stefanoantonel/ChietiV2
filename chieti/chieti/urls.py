@@ -87,5 +87,7 @@ urlpatterns = patterns('',
     url(r'myList2/','chieti.views.myList2'),
     url(r'changeStock/','chieti.views.changeStock'),
     url(r'changeStock2/','chieti.views.changeStock2'),
+    url(r'listOfEmails/','chieti.views.listOfEmails'),
+    
 	
 )
