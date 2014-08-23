@@ -295,7 +295,7 @@ def sendMail(request):
 	msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 	msg.attach_alternative(html_content, "text/html")
 	msg.send()
-	return render(request, 'chieti/homePage2.html',{'mnjEmail':'Se le envio un mail para su confirmacion'})
+	return render(request, 'chieti/homePage2.html',{'mnjEmail':'Se le envio un mail para su confirmacion. Revise SPAM'})
 
 def sendMail2(request,email,context):
 	subject, from_email, to = 'Cambiar Clave ChietiOnline' , 'chietionline@gmail.com', email
@@ -447,7 +447,9 @@ def singUp3(request):
 @staff_member_required
 def changeUser(request):
 	todo = user.objects.all()
-	return render(request, 'chieti/changeUser.html',{'todos':todo})
+	c={'todos':todo}
+	c.update(csrf(request))
+	return render(request, 'chieti/changeUser.html',c)
 	
 @staff_member_required
 def changeUser2(request):

@@ -5,20 +5,24 @@
 <title>Cambio de usuario</title>
 {% include 'chieti/mainHead.html' %}
 {% include 'chieti/mainFoot.html' %}
-<script type="application/javascript">
 
-</script>
 </head>
 <body>
+	<div id="autocomplete">
+		<div class="ui-widget">
+			<label for="tags">Tags: </label>
+			<input id="tags">
+		</div>
+	</div>
 	<div>
 		{% for per in todos %}
-		<form action="/chieti/changeUser2/" method="post">
+		<form action="/chieti/changeUser2/" method="post">{% csrf_token %}
 			<div>
 				<input name="idPer" hidden="hidden" value="{{per.id}}"/>
-				<label>{{per.userDj.firts_name}}</label>
-				<label>{{per.userDj.last_name}}</label>
+				<label class="firtsName">{{per.userDj.firts_name}}</label>
+				<label class="lastName">{{per.userDj.last_name}}</label>
 				-
-				<label>{{per.userDj.username}}</label>
+				<label class="username">{{per.userDj.username}}</label>
 				 - 
 				<label>{{per.address}}</label>
 				<button>Cambiar</button>
@@ -27,6 +31,46 @@
 		</form>
 		{% endfor %}    
 	</div>
+	
 </body>
+<footer>
+	<script type="application/javascript">
+		labels=$('.username');
+		names=[];
+		for (i=0;i<labels.size();i++){
+			names.push($(labels[i]).html());
+		}
+		$(function() {
+			$( "#tags" ).autocomplete({
+				source: names,
+				select: function( event, ui ) {
+					//search form, from text selected in label.
+					f=$("label.username:contains("+ui.item.value+")").parents('form')
+					f.trigger('submit');
+     			}
+			});
+		});
 
+
+		//  $(function() {
+  //   function log( message ) {
+  //     $( "<div>" ).text( message ).prependTo( "#log" );
+  //     $( "#log" ).scrollTop( 0 );
+  //   }
+ 
+  //   $( "#birds" ).autocomplete({
+  //     source: "search.php",
+  //     minLength: 2,
+  //     select: function( event, ui ) {
+  //       log( ui.item ?
+  //         "Selected: " + ui.item.value + " aka " + ui.item.id :
+  //         "Nothing selected, input was " + this.value );
+  //     }
+  //   });
+  // });
+
+//$(this).trigger('submit');
+	</script>	
+
+</footer>
 </html>
